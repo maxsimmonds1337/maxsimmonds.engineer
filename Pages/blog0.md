@@ -26,7 +26,7 @@ What I do need to check, though, is that the firmware is available for the VESC 
 
 #### ESC Firmware
 
-So, looks like all the firmware is [here](https://github.com/vedderb/bldc). The [README](https://github.com/vedderb/bldc/README.md) states that it should work for all board kinds, and to run 'make' to see. I haven't pulled the code (yet!) but I did dig through the MakeFile, which looks really interesting. There's some code that refers to a 'Big Hammer' to build for all boards:
+So, looks like all the firmware is [here](https://github.com/vedderb/bldc). The [README](https://github.com/vedderb/bldc#readme) states that it should work for all board kinds, and to run 'make' to see. I haven't pulled the code (yet!) but I did dig through the MakeFile, which looks really interesting. There's some code that refers to a 'Big Hammer' to build for all boards:
 
 ``` make
 	@echo "   [Big Hammer]"
@@ -41,4 +41,24 @@ There's also some code for getting a list of boards:
 ALL_BOARD_NAMES := $(sort $(subst .h,,$(subst hw_,,$(filter hw_%, $(notdir $(TARGET_PATHS))))))
 ```
 
-Now that's one hell of a make command!
+Now that's one hell of a make command! The ``` TARGET_PATHS ``` comes from a [recursive make function](https://stackoverflow.com/a/18258352). Without running the code, I'm guessing (and from reading the code's comments) takes the header files, strips everything but the board numbers. The README gives some hint as to what these look like:
+
+``` md
+## Supported boards
+
+All of them!
+
+Check the supported boards by typing `make`
+
+
+[Firmware]
+     fw   - Build firmware for default target
+                            supported boards are: 100_250 100_250_no_limits 100_500...
+
+```
+
+So the board names seem to be things like 100_250. hmmmm. I think tomorrow I will pull the code on my Linux machine and run make, and see what happens. I'm feeling pretty confident that there's FW for the VESC 6 IV, enough to go forward now anyway!
+
+#### ESC Hardware
+
+Time to fire up KiCAD! I think that's all for today, tomorrow I'll check out the code some more, and get the KiCAD project set up!
