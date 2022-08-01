@@ -7,7 +7,7 @@ I haven't given much thought in the way I should present/record my progress with
 
 ---
 
-## [Blog Post 0 - day 0](pages/blog0.md)
+## [Blog Post 0 - day 0](blog0.md)
 Posted: 01/08/2022
 
 ---
