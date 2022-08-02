@@ -118,7 +118,7 @@ So, now I'm fairly sure the firmware is available, now I will start the design. 
 ### SBS Repo
 Since KiCAD's files are all text based, and not binaries, it makes integration with Github really good. I have a method I used for my consultancy (www.TEOrobotics.io) where I have a template stored in github for KiCAD projects. I mirror this template (which sets up my enviroment for me) and it also pulls another repo (a submodule, to be precise) which houses my libraries. This was a method I got from a friend (also a consultant!) and I thought it was brilliant. It allows you to continuasly build upon a kicad library, and snapshots of it are stored in the main git repo!
 
-Any way, the repo is [here](github.com/maxsimmonds1337/SBS_hw) and we finally have a project set up:
+Any way, the repo is [here](https://github.com/maxsimmonds1337/SBS_hw) and we finally have a project set up:
 
 ![image](https://user-images.githubusercontent.com/58208872/182481601-a6701adb-e9e4-4a64-b722-5c26a22dcb17.png)
 
