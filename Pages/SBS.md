@@ -16,3 +16,8 @@ Posted: 01/08/2022
 Posted: 02/08/2022
 
 ---
+
+## [Blog Post 2 - Starting the design!](blog2.md)
+Posted: 03/08/2022
+
+---
