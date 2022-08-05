@@ -21,3 +21,8 @@ Posted: 02/08/2022
 Posted: 03/08/2022
 
 ---
+
+## [Blog Post 3 - VESC 6 MK IV Review](blog3.md)
+Posted: 05/08/2022
+
+---
