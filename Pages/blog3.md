@@ -7,6 +7,8 @@ Okay so it's been a busy couply of days (my consultancy has just changed from be
 ## Page 1
 ![image](https://user-images.githubusercontent.com/58208872/183266527-f7274d4c-d317-4844-bf3f-5d96175ed2c8.jpeg)
 
+Okay, so, page 1! There's a lot going on here. The most interesting circuit is in the upper left hand side. This seems to generate an analogue voltage, proportional to the motor drive signal. Where have D8 which rectifies the signal coming from SH_A, which is the source of the high side FET in the 3 phase bridge specifically, phase A. This is the output of phase A. Ordinarily, this is a square wave with varying duty cycle - the duty cycle of course varies sinusodally. 
+
 ## Page 2
 
 ![image](https://user-images.githubusercontent.com/58208872/183266556-f8792c25-be07-48cd-a8ca-73fb76ba5bba.jpeg)
