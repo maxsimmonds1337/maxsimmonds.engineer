@@ -33,7 +33,24 @@ $$circumference = \pi \cdot D$$
 
 where $D$ is the diameter/. This then gives us a diameter of $0.254*\pi = \frac{\pi}{4} \approx 0.79 m$. At a speed of 10MPH or 4.5m/s, we get an RPM of $\frac{4.5}{0.79} = 5.7/s$. That's about 350rpm, which is not a bad speed!
 
-To correctly represent this in the electrical model, we need a voltage source that has a frequency of 6hz. The generated voltage would depend on the motor constant, which I don't have data for.
+To correctly represent this in the electrical model, we need a voltage source that has a frequency of 6hz. The generated voltage would depend on the motor constant, I have the following from the manufacturer:
+
+![image](https://user-images.githubusercontent.com/58208872/184012881-c1455874-284c-4814-87e5-8c90e8d95380.png)
+
+I took two points from the graph, specifically, the voltage at the top given RPM (700RPM) and the voltage at the lowest given RPM (441RPM). The motor constant in particular I am interested in (there's [more that one](https://www.precisionmicrodrives.com/reading-the-motor-constants-from-typical-performance-characteristics) is the electrical motor constant. This tells you how much voltage a motor will produce when acting as a generator, or, as back EMF. I'm not quite sure how, under normal driving conditions, the phase outputs will be in terms of voltage, but this is my best guess for now.
+
+$$ K_e_1 = \frac{70}{700} = 0.1$$
+$$ K_e_2 = \frac{60.32}{441} = 0.14$$
+
+Taking an average, I get 0.17.
+
+Usually, $K_e$ is given in radians per second, but since I already have most things in RPM, I'll keep it like this for now. That means that, at ~350 RPM, the voltage would be $350 \cdot 0.17 = 59.5V$.
+
+## The Simulation
+
+![image](https://user-images.githubusercontent.com/58208872/184019356-7a9c22bf-fdff-463a-9d0f-e3a802587504.png)
+
+Apologies for the poor screenshot, that's the best I can do whilst remote desktopping! But, as we predicted, it's just a peak detector, the zener kicks in and clamps, the 39k is there to limit zener current, and I suppose acts as a low pass filter with the 100n, with a corner frequency of 40Hz. That's an order of magnitude above the drive frequency, but at least 2 orders of magnitude below the PWM switching frequency (somewhere I expect to be around 20Khz, though I haven't checked the code)
 
 ## Page 2
 
