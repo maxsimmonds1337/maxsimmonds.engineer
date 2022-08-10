@@ -11,23 +11,29 @@ Okay, so, page 1! There's a lot going on here. The most interesting circuit is i
 
 ## Modelling the Peak Detector
 
-I'd like to model the above circuit to see if my predictions are true (essentially, a peak detector circuit to give some indication that the motor is moving and it's speed). I'm on a linux machine at the moment, and usually I use LTspice for my modelling (unsupported on linux). I tried QUCS but the learning curve is more than what I want just to test a hypothesis, so I'm using [Circuit JS](https://www.falstad.com/circuit/circuitjs.html) and awesome javascript based simulator, that has a lot of functionality.
+I'd like to model the above circuit to see if my predictions are true (essentially, a peak detector circuit to give some indication that the motor is moving and it's speed). I'm on a linux machine at the moment, and usually I use LTspice for my modelling (unsupported on linux). I tried QUCS but the learning curve is more than what I want just to test a hypothesis, so ~~I'm using [Circuit JS](https://www.falstad.com/circuit/circuitjs.html) and awesome javascript based simulator, that has a lot of functionality.~~ I remoted into my Windows PC to use LTSpice.
 
 ## The Math
 
-I would like this to be fairly representable of the real motor, and so I need an estimated frequency, or angular veloity = of the sine wave I'll be using to drive this thing. the math to get this is pretty simple, and I'll write it here as I will no doubt need it again in the future.
+I would like this to be fairly representable of the real motor, and so I need an estimated frequency of the sine wave I'll be using to drive this thing. The math to get this is pretty simple, and I'll write it here as I will, no doubt, need it again in the future.
 
-According to the pmanufacturer of my wheel](https://www.peipeiscooter.com/10inch-10-inch-10x6-00-5-5-wide-tyre-brushless-gearless-dc-wheel-hub-motor-balance-scooter-hub-motor-hally-motor-phub-188.html) (I still haven't bought it yet, but, I will) the tyre diameter is approximatly 254mm, or 0.254m.
+According to the [manufacturer of my wheel](https://www.peipeiscooter.com/10inch-10-inch-10x6-00-5-5-wide-tyre-brushless-gearless-dc-wheel-hub-motor-balance-scooter-hub-motor-hally-motor-phub-188.html) (I still haven't bought it yet, but, I will) the tyre diameter is approximatly 254mm, or 0.254m.
 
 And knowing that (according to a [youtube video](https://www.youtube.com/watch?v=BV0Z4yyjE4Y&t=119s) I watched recently, 10MPH isn't a bad idea of a top speed of a DIY onewheel. Essentially, we want the number of revolutions per second the wheel is going through, since this is directly proportional to the drive frequency. We're all familiur with the equation speed = distance/time, well, that's true in angular quantities too.
 
-$$v$$ is 10MPH, or $$\approx 4.5m/s$$. We now need to convert distance into number of rotations. For example, with a wheel 1 meter in circumference, to reach a speed of 1 meter per second, the wheel would be rotating once per second. If the wheel was only 0.5m in circumference, then it would need to rotate twice as fast to cover 1m in the same time. Hence:
+$v$ is 10MPH, or $\approx 4.5 m/s$. We now need to convert distance into number of rotations. For example, with a wheel 1 meter in circumference, to reach a speed of 1 meter per second, the wheel would be rotating once per second. If the wheel was only 0.5m in circumference, then it would need to rotate twice as fast to cover 1m in the same time. Hence:
 
 $$ revolutions per second = \frac{velocity}{circumference}
 
-Doing some dimentional analysis shows that this equation is plausible, $$[m \cdot s^-1 ] [m^-1] = [s^-1]$$. Revolutions is a dimentionless quantitiy, and of course, per second is 1/s, so this makes sense. 
+Doing some dimentional analysis shows that this equation is plausible, $[m \cdot s^-1 ] [m^-1] = [s^-1]$. Revolutions is a dimentionless quantitiy, and of course, per second is 1/s, so this makes sense. Plugging in our number of a wheel 0.5m in diameter at a speed of 1m/s, gives 2 revs per second; a good sanity check. 
 
-$$circumference = \pi \cdot D$$ where $$D$$ is the diameter will tell us 
+So, we need the circumference, which, from school we remember is:
+
+$$circumference = \pi \cdot D$$
+
+where $D$ is the diameter/. This then gives us a diameter of $0.254*\pi = \frac{\pi}{4} \approx 0.79 m$. At a speed of 10MPH or 4.5m/s, we get an RPM of $\frac{4.5}{0.79} = 5.7/s$. That's about 350rpm, which is not a bad speed!
+
+To correctly represent this in the electrical model, we need a voltage source that has a frequency of 6hz. The generated voltage would depend on the motor constant, which I don't have data for.
 
 ## Page 2
 
