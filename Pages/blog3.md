@@ -23,7 +23,7 @@ And knowing that (according to a [youtube video](https://www.youtube.com/watch?v
 
 $v$ is 10MPH, or $\approx 4.5 m/s$. We now need to convert distance into number of rotations. For example, with a wheel 1 meter in circumference, to reach a speed of 1 meter per second, the wheel would be rotating once per second. If the wheel was only 0.5m in circumference, then it would need to rotate twice as fast to cover 1m in the same time. Hence:
 
-$$ revolutions per second = \frac{velocity}{circumference}
+$$ revolutions per second = \frac{velocity}{circumference} $$
 
 Doing some dimentional analysis shows that this equation is plausible, $[m \cdot s^-1 ] [m^-1] = [s^-1]$. Revolutions is a dimentionless quantitiy, and of course, per second is 1/s, so this makes sense. Plugging in our number of a wheel 0.5m in diameter at a speed of 1m/s, gives 2 revs per second; a good sanity check. 
 
@@ -39,8 +39,8 @@ To correctly represent this in the electrical model, we need a voltage source th
 
 I took two points from the graph, specifically, the voltage at the top given RPM (700RPM) and the voltage at the lowest given RPM (441RPM). The motor constant in particular I am interested in (there's [more that one](https://www.precisionmicrodrives.com/reading-the-motor-constants-from-typical-performance-characteristics) is the electrical motor constant. This tells you how much voltage a motor will produce when acting as a generator, or, as back EMF. I'm not quite sure how, under normal driving conditions, the phase outputs will be in terms of voltage, but this is my best guess for now.
 
-$$ K_e_1 = \frac{70}{700} = 0.1$$
-$$ K_e_2 = \frac{60.32}{441} = 0.14$$
+$$ K_{{e}_1} = \frac{70}{700} = 0.1$$
+$$ K_{{e}_2} = \frac{60.32}{441} = 0.14$$
 
 Taking an average, I get 0.17.
 
