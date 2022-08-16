@@ -52,6 +52,16 @@ Usually, $K_e$ is given in radians per second, but since I already have most thi
 
 Apologies for the poor screenshot, that's the best I can do whilst remote desktopping! But, as we predicted, it's just a peak detector, the zener kicks in and clamps, the 39k is there to limit zener current, and I suppose acts as a low pass filter with the 100n, with a corner frequency of 40Hz. That's an order of magnitude above the drive frequency, but at least 2 orders of magnitude below the PWM switching frequency (somewhere I expect to be around 20Khz, though I haven't checked the code)
 
+### Motor Simulation
+
+Okay, it's been waaaay too long since I posted here. I got a little carried away with the motor simulation, I wanted to get a more representative voltage for the "SH_A" input, and it evolved too:
+
+![image](https://user-images.githubusercontent.com/58208872/184970418-3f4ba319-a76f-4afe-a242-40c18afa2d9a.png)
+
+And it's half working, half not. I copied it from [stackExchange](https://electronics.stackexchange.com/questions/391240/3-phase-inverter-simulation). Anyway, it's taken up too much time and makes me not want to continue! So, I'm drawing a line under this, and will pick it up if/when I have time. Now, back to the MK IV!
+
+I'm still unsure what's going on with that circuit on the front page, I'll check the code to see if that helps, and may post on the forum failing that. Anyway, for now, I'll keep it in my design and move on!
+
 ## Page 2
 
 ![image](https://user-images.githubusercontent.com/58208872/183266556-f8792c25-be07-48cd-a8ca-73fb76ba5bba.jpeg)
