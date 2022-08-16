@@ -40,6 +40,7 @@ To correctly represent this in the electrical model, we need a voltage source th
 I took two points from the graph, specifically, the voltage at the top given RPM (700RPM) and the voltage at the lowest given RPM (441RPM). The motor constant in particular I am interested in (there's [more that one](https://www.precisionmicrodrives.com/reading-the-motor-constants-from-typical-performance-characteristics) is the electrical motor constant. This tells you how much voltage a motor will produce when acting as a generator, or, as back EMF. I'm not quite sure how, under normal driving conditions, the phase outputs will be in terms of voltage, but this is my best guess for now.
 
 $$ K_{e1} = \frac{70}{700} = 0.1$$
+
 $$ K_{e2} = \frac{60.32}{441} = 0.14$$
 
 Taking an average, I get 0.17.
