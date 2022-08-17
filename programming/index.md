@@ -1,6 +1,6 @@
 # Programming Portfolio
 
-## [Numerically Controlled Oscillator, C](./programming/c/NCO.md)
+## [Numerically Controlled Oscillator, C](./c/NCO.md)
 
 **Start Date:** 01/07/2022
 
