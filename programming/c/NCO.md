@@ -12,6 +12,18 @@ unsigned int sine_full_1[1024] = {6,6,6,6,6,6,6,6,6,6,6,6,6,6,7,7,7,7,7,7,7,7,7,
 
 ```
 
+As you can see, for decent resolution, the length of the LUT get's quite high. Having to have several for different amplitudes is also not great, though, as mentioned, I think that could be changed. Another thing that could be changed to slightly increased coding complexity would be a quarter wave LUT. Since a sine wave is periodic, that is, it repeates, you can utilise this to your advantage. You could repeate every $$ \frac{\pi}}{4} $$ , so long as you initally go through the LUT from the 0th element, up to n, and then go from the nth element down to the 0th, and repeate again, but with negative outputs. This isn't uncommon for applications that are short of memory. Another interesting point is that you can use the same LUT for waves with different phase shifts, by simply having another pointer to the LUT. If you wanted it to be 180 degress out, then you'd place the other pointer in the middle of the LUT. Of course, this phase shift if limited by the length of the LUT. If you only had 4 points, you'd have one coarse sinewave, and only be able to have a minimum phase shift of 90 degrees!
+
+However, given I hadn't done an NCO before, and the fact that it would be easier to adjust the frequency on the fly, along with the peak to peak amplitude, I went with the NCO!
+
 ## Theory
+
+```mermaid
+graph TD;
+    A-->B;
+    A-->C;
+    B-->D;
+    C-->D;
+```
 
 ## C code
