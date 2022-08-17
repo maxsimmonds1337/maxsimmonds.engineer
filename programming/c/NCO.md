@@ -18,6 +18,10 @@ However, given I hadn't done an NCO before, and the fact that it would be easier
 
 ## Theory
 
+To outline how and why this works, let's breakdown the 
+
 ![image](https://user-images.githubusercontent.com/58208872/185100570-939f1f9f-1f90-47bf-a2f4-2cfbf1e0fdc3.png)
+
+The first place to start is 
 
 ## C code
