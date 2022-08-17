@@ -11,3 +11,13 @@ This site hosts my projects, code, and anything else that I think my be worthy o
 This is my current project, a self balancing electric skateboard, commonly known as a OneWheel. 
 
 ---
+
+# [Programming Portfolio](./programming/index.md)
+
+**Start Date:** 17/08/2022
+
+**End Date:** On going
+
+This section outlines some of my programming projects. This is mainly to document my progression. 
+
+---
