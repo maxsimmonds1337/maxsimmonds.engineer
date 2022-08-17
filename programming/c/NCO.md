@@ -18,12 +18,6 @@ However, given I hadn't done an NCO before, and the fact that it would be easier
 
 ## Theory
 
-```mermaid
-graph TD;
-    A-->B;
-    A-->C;
-    B-->D;
-    C-->D;
-```
+![image](https://user-images.githubusercontent.com/58208872/185100570-939f1f9f-1f90-47bf-a2f4-2cfbf1e0fdc3.png)
 
 ## C code
