@@ -18,10 +18,18 @@ However, given I hadn't done an NCO before, and the fact that it would be easier
 
 ## Theory
 
-To outline how and why this works, let's breakdown the 
+To outline how and why this works, let's breakdown the theory. First, we need to understand a little bit about what a phasor is (though, I'm sure you remember from old math lessons!)
 
 ![image](https://user-images.githubusercontent.com/58208872/185100570-939f1f9f-1f90-47bf-a2f4-2cfbf1e0fdc3.png)
 
-The first place to start is 
+The above image shows a phasor of length 1, on what we shall call the complex plane. The x direction are real numbers, and the y are "imaginary". While this may seem a little abstract, it's useful for a whole number of applications, including phasors!
+
+You may have noticed the phasor pointing in a different direction. This is said to have rotated by 90 degrees. In the complex plane, we can say we have multiplied by "i". The explanation for this is as follows. Imagine we have a phasor in the complex plane, x+iy. If x was 1, and y was 0, we would have the graph plotted in the first sequence above. Now, if we are to multiply my 'i' (which has been defined as the square root of minus 1) then we get:
+
+$$ i(x + i \cdot y ) = i \cdot x + i^2 \cdot y $$
+
+We know that $i = \sqrt-1$ so $i^2 = -1$. So, finally, we get:
+
+$$ x \cdot i 
 
 ## C code
