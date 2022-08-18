@@ -67,18 +67,57 @@ I'm still unsure what's going on with that circuit on the front page, I'll check
 
 ![image](https://user-images.githubusercontent.com/58208872/183266556-f8792c25-be07-48cd-a8ca-73fb76ba5bba.jpeg)
 
+Not much going on here! Just a CAN phy which Mouser has good stock of. Moving on!
+
 ## Page 3
 
 ![image](https://user-images.githubusercontent.com/58208872/183266562-0b57c61a-22bd-4749-812b-d9d241a115da.jpeg)
+
+This is just the MCU, when I do the schematic I'll check to see if we need buffers on the ADC inputs, and whether we want/need any filtering. There may be filtering elsewhere in the schematic. The schematic doesn't actually give the full part number for the STM, so I'll see if I can check the cod and see if a compiler flag gives any hints.
 
 ## Page 4
 
 ![image](https://user-images.githubusercontent.com/58208872/183266569-eda4e352-df57-4277-ae18-6fb627f7c2f4.jpeg)
 
+Now this has a little more happening. There seems to be a filter that you can switch in a capacitor to ground, to add a high pass filter to the current measurements on the 3 phase BLDC output. There's a potential divider with gain:
+
+$$ Gain = \frac{R_1}{R_1 + R_2} = \frac{2.2k}{2.2k+39k} = 0.053 $$
+
+Therefore, with a battery input of 60V (which I believe this is rated for, though I have some concerns that I will raise later!), that gives a voltage at "sens_x" of 3.2V. This then goes into the ADC of the MCU. This could be used for sensorless operation, but the code will enlighten me on that. The analogue switch introduces a 100nF capacitor, yeilding a cutoff frequency of:
+
+%% f_c = \frac{1}{2 \cdot \pi R \cdot C} = \frac{1}{2 \cdot \pi 2.2k \cdot 100n} = 723 Hz. That's an order of magnitude below what I would expect the switching frequency to be (about 20k).
+
+There's another circuit on here that tells the MCU when the battery is present. That's Q7 and the two resistors. Again, it's the same gain as before, it's the same resistors, but the MOSFET is there to only be switched on (and therefore connect the two resistors as a potential divider) when the buck converter is online. This buck converter only comes online when the battery is connected. The output of this potential divider goes to the MCU, for reading the battery voltage.
+
+When EN_GATE is low, the driver IC is in low power (20uA). There's a pull down on this page, but isn't required, since the IC has it's own internal 100k pull down. I believe the sequence of turn on is like follows:
+
+1) External switch connects battery power to the DRV8301 IC
+2) EN_GATE is low, since the MCU isn't yet on. Therefore, no switching occurs, and the motor can't move. Current consumption of the IC is low.
+3) The EN_BUCK line is floating (there's no pull down) which means as soon as supply power is available, the buck comes online.
+4) The 5V buck goes into a 3v3 LDO, which powers the MCU. At the same time (and therefore possibly overloading the MCU inputs) the battery sense voltage we discussed previously, is connected to the MCU ADC pin
+5) Finally, I presumme the MCU pulls the EN_GATE pin high, to allow for switching - perhaps when footpads are depressed, or something
+
+I might add a diode in reverse across the LDO for protection, LDO's can die when the output voltage is higher then their inputs. This generally occurs during power down, with large bulk capactitors on the output. Diodes can be reversed biased usually, and then forward biase in the above condition, saving the LDO.
+
 ## Page 5
 
 ![image](https://user-images.githubusercontent.com/58208872/183266574-983707d4-68b3-41c2-a8c5-e91384d477e6.jpeg)
 
+This has just the IMU on it, nothing fancy here. Comms is over I2C.
+
 ## Page 6
 
 ![image](https://user-images.githubusercontent.com/58208872/183266581-b411b38c-3577-4984-babe-ac1a7e2e92fc.jpeg)
+
+Finally we get to the power stuff! Here's the 3 phase BLDC driver, or inverter, circuit. This page also has the current shunts on there. The current shunts are 0.5mOhms, so pretty small! This is good for reducing heat loss (P = I^2R, if R is small then so too is the power loss) but can be bad for noise. There's a filter on the current measurments, with a cut off of 159k (with the analogue switch off) or 9950hz with the switch on.
+
+It looks like the maximum current this circuit can safely measure (without damage to the ADCs) is 330A. The AD8418 current sense ICs have an internal gain of 20V/V, and the resistor gives a gain of 0.0005 V/A. So:
+
+$$ \frac{3.3}{20} = 0.165V $$
+$$ V = I \cdot R = \frac{0.165}{0.0005} = 330A $$
+
+I have no idea if that's good or bad, but seems like nothing bad happened with their design so I will assume that's got some good margin on it!
+
+Lastly, I might add some snubbers to the FETs to help with driving the inductive load.
+
+That's all for now, tomorrow I can finally start capturing this schematic as is, with a couple of mods, and move to layout!
