@@ -114,6 +114,7 @@ Finally we get to the power stuff! Here's the 3 phase BLDC driver, or inverter, 
 It looks like the maximum current this circuit can safely measure (without damage to the ADCs) is 330A. The AD8418 current sense ICs have an internal gain of 20V/V, and the resistor gives a gain of 0.0005 V/A. So:
 
 $$ \frac{3.3}{20} = 0.165V $$
+
 $$ V = I \cdot R = \frac{0.165}{0.0005} = 330A $$
 
 I have no idea if that's good or bad, but seems like nothing bad happened with their design so I will assume that's got some good margin on it!
