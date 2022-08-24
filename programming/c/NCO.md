@@ -65,6 +65,7 @@ $$ phasor_3= i(0 + i) = 0 + i^2 = -1$$
 
 We know it's -1 from the math outlined a bit futher up. We can then plot this on a graph too:
 
-![Plotted with graphPlotter!](/programming/python/images/2a88c8bf23c211ed80eac821587c6744.png)
+0 0 -0.8 0 -> 0.02 0.1
+
 ## C code
 
