@@ -2,15 +2,7 @@
 
 
 
-
-
-
-
 Recently, I came across the need to generate a sine wave with variable frequency and amplitude. My first "go to method!" was a look up table, or LUT. The LUT didn't feel right, the code was long and messy. For each discrete amplitude change, I had another LUT (which I admit, I should have been able to do some math to fix that but when trying to get it to work, it was clipping and all sorts). Any way, here's the LUTs:
-
-
-
-
 
 
 
@@ -42,15 +34,7 @@ unsigned int sine_full_1[1024] = {6,6,6,6,6,6,6,6,6,6,6,6,6,6,7,7,7,7,7,7,7,7,7,
 
 
 
-
-
-
-
 ```
-
-
-
-
 
 
 
@@ -58,15 +42,7 @@ As you can see, for decent resolution, the length of the LUT get's quite high. H
 
 
 
-
-
-
-
 However, given I hadn't done an NCO before, and the fact that it would be easier to adjust the frequency on the fly, along with the peak to peak amplitude, I went with the NCO!
-
-
-
-
 
 
 
@@ -74,15 +50,7 @@ However, given I hadn't done an NCO before, and the fact that it would be easier
 
 
 
-
-
-
-
 To outline how and why this works, let's breakdown the theory. First, we need to understand a little bit about what a phasor is (though, I'm sure you remember from old math lessons!)
-
-
-
-
 
 
 
@@ -90,15 +58,7 @@ To outline how and why this works, let's breakdown the theory. First, we need to
 
 
 
-
-
-
-
 The above image shows a phasor of length 1, on what we shall call the complex plane. The x direction are real numbers, and the y are "imaginary". While this may seem a little abstract, it's useful for a whole number of applications, including phasors!
-
-
-
-
 
 
 
@@ -106,15 +66,7 @@ You may have noticed the phasor pointing in a different direction. This is said 
 
 
 
-
-
-
-
 $$ i(x + i \cdot y ) = i \cdot x + i^2 \cdot y $$
-
-
-
-
 
 
 
@@ -122,15 +74,7 @@ We know that:
 
 
 
-
-
-
-
 $$ i = \sqrt-1 $$
-
-
-
-
 
 
 
@@ -138,27 +82,33 @@ $$ i^2 = -1 $$
 
 
 
-
-
-
-
 So, finally, we get:
 
 
 
+$$ x \cdot i - y$$
 
 
 
-
-$$ x \cdot i $$
-
+This has the affect of _rotating_ a phasor. This is more apparent if we assign values to x and y. Let's say that x is initally 1, and y is 0.:
 
 
 
+$$ phasor_1 = 1 + i \cdot 0 $$
 
 
 
-![Plotted with graphPlotter!](/programming/python/images/ce0ed6f223bf11ed80eac821587c6744.png)
+This is plotted on the graph below:
+
+
+
+![Plotted with graphPlotter!](/programming/python/images/bd82ba5a23c011ed80eac821587c6744.png)
+
+
+If we now multiply by 'i', we get:
+
+
+
 
 
 
