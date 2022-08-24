@@ -76,9 +76,4 @@ if result.stdout.decode("utf8") != "":
         fin = open(os.path.join("./programming/python/" + filename), "wt")
         changes = changes.replace(cmd, link)
         fin.write(changes)
-        fin.close
-
-        result = subprocess.run(["git", "add", "."], stdout=subprocess.PIPE)
-
-        print(result.stdout)
-        print("END")
+        fin.close()
