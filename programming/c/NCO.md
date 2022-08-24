@@ -28,7 +28,7 @@ You may have noticed the phasor pointing in a different direction. This is said 
 
 $$ i(x + i \cdot y ) = i \cdot x + i^2 \cdot y $$
 
-We know that $ i = \sqrt-1$ so $i^2 = -1 $. So, finally, we get:
+We know that $i = \sqrt-1$ so $i^2 = -1$. So, finally, we get:
 
 $$ x \cdot i 
 
