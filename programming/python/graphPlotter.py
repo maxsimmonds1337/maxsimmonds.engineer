@@ -34,7 +34,7 @@ if result.stdout.decode("utf8") != "":
                         graphCmd.append(cmd)
                     changes = changes + line + "\n" 
     
-    pushedFile.close()
+            pushedFile.close()
 
     for cmd in graphCmd:
 
@@ -77,3 +77,5 @@ if result.stdout.decode("utf8") != "":
         changes = changes.replace(cmd, link)
         fin.write(changes)
         fin.close
+
+subprocess.run(["git", "add", ","], stdout=subprocess.PIPE)
