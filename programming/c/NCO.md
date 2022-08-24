@@ -53,7 +53,13 @@ This is plotted on the graph below:
 ![Plotted with graphPlotter!](/programming/python/images/db4d17ec23c011ed80eac821587c6744.png)
 If we now multiply by 'i', we get:
 
+If we now multipy by i:
 
+$$ phasor_2 = i \cdot 1 - 1 $$
+
+This, plotted on a graph, looks like the following:
+
+![Plotted with graphPlotter!](/programming/python/images/4c4fc4b223c111ed80eac821587c6744.png)
 
 ## C code
 
