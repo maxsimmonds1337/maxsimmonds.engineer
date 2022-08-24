@@ -34,7 +34,7 @@ if result.stdout.decode("utf8") != "":
                         line = cmd
                         next(pushedFile) ## this removes the ``` at the end
                         graphCmd.append(cmd)
-                    changes = changes + line + "\n" 
+                    changes = changes + line
     
             pushedFile.close()
 
