@@ -46,20 +46,25 @@ $$ x \cdot i - y$$
 
 This has the affect of _rotating_ a phasor. This is more apparent if we assign values to x and y. Let's say that x is initally 1, and y is 0.:
 
-$$ phasor_1 = 1 + i \cdot 0 $$
+$$ phasor_1 = 1 + i \cdot 0  = 1 $$
 
 This is plotted on the graph below:
 
 ![Plotted with graphPlotter!](/programming/python/images/db4d17ec23c011ed80eac821587c6744.png)
+
 If we now multiply by 'i', we get:
 
-If we now multipy by i:
-
-$$ phasor_2 = i \cdot 1 - 1 $$
+$$ phasor_2 = i(1 + 0i) = 0 + i$$
 
 This, plotted on a graph, looks like the following:
 
-![Plotted with graphPlotter!](/programming/python/images/4c4fc4b223c111ed80eac821587c6744.png)
+![Plotted with graphPlotter!](/programming/python/images/2a88c8be23c211ed80eac821587c6744.png)
+If we did this one more time, multiply by i, we rotate again:
 
+$$ phasor_3= i(0 + i) = 0 + i^2 = -1$$
+
+We know it's -1 from the math outlined a bit futher up. We can then plot this on a graph too:
+
+![Plotted with graphPlotter!](/programming/python/images/2a88c8bf23c211ed80eac821587c6744.png)
 ## C code
 
