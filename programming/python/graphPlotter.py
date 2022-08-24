@@ -73,7 +73,7 @@ if result.stdout.decode("utf8") != "":
 
         link = "![Plotted with graphPlotter!](/programming/python/images/" + imageName + ".png)"  
 
-        fin = open(os.path.join("./programming/python/" + filename), "wt")
+        fin = open(os.path.join(path + filename), "wt")
         changes = changes.replace(cmd, link)
         fin.write(changes)
         fin.close()
