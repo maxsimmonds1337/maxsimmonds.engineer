@@ -30,10 +30,12 @@ $$ i(x + i \cdot y ) = i \cdot x + i^2 \cdot y $$
 
 We know that:
 
-$$ i = \sqrt-1$ so $i^2 = -1 $$
+$$ i = \sqrt-1 $$
+
+$$ i^2 = -1 $$
 
 So, finally, we get:
 
-$$ x \cdot i 
+$$ x \cdot i $$
 
 ## C code
