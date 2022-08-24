@@ -25,7 +25,7 @@ if result.stdout.decode("utf8") != "":
             #if it's a modified markdown file, then let's check for the tag
             #filename = path.split("/")
             #filename = ''.join(filename[-1:]) # get the file name with extension
-            with open(os.path.join(filename), 'rt') as pushedFile:
+            with open(os.path.join(path), 'rt') as pushedFile:
                 for line in pushedFile:
                     if line.startswith("```graphPlotter"):
                         cmd = next(pushedFile)
