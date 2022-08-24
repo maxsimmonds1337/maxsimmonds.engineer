@@ -23,9 +23,9 @@ if result.stdout.decode("utf8") != "":
     for path in paths:
         if path[-3:] == ".md":
             #if it's a modified markdown file, then let's check for the tag
-            filename = path.split("/")
-            filename = ''.join(filename[-1:]) # get the file name with extension
-            with open(os.path.join("./programming/python/" + filename), 'rt') as pushedFile:
+            #filename = path.split("/")
+            #filename = ''.join(filename[-1:]) # get the file name with extension
+            with open(os.path.join(filename), 'rt') as pushedFile:
                 for line in pushedFile:
                     if line.startswith("```graphPlotter"):
                         cmd = next(pushedFile)
