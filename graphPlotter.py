@@ -25,7 +25,9 @@ if result.stdout.decode("utf8") != "":
             #if it's a modified markdown file, then let's check for the tag
             #filename = path.split("/")
             #filename = ''.join(filename[-1:]) # get the file name with extension
-            with open(os.path.join(path), 'rt') as pushedFile:
+            cwd = os.getcwd()
+            file = os.path.join(cwd + "/" + path)
+            with open(file, 'rt') as pushedFile:
                 for line in pushedFile:
                     if line.startswith("```graphPlotter"):
                         cmd = next(pushedFile)
@@ -66,14 +68,12 @@ if result.stdout.decode("utf8") != "":
         # function to show the plot
         imageName = uuid.uuid1().hex
 
-        cwd = os.getcwd()
-
         filepath = os.path.join("./programming/python/images","%s.png" % imageName)
         plt.savefig(filepath)
 
         link = "![Plotted with graphPlotter!](/programming/python/images/" + imageName + ".png)"  
 
-        fin = open(os.path.join(path + filename), "wt")
+        fin = open(file, "wt")
         changes = changes.replace(cmd, link)
         fin.write(changes)
         fin.close()
