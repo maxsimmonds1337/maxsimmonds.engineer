@@ -78,4 +78,7 @@ if result.stdout.decode("utf8") != "":
         fin.write(changes)
         fin.close
 
-subprocess.run(["git", "add", ","], stdout=subprocess.PIPE)
+        result = subprocess.run(["git", "add", "."], stdout=subprocess.PIPE)
+
+        print(result.stdout)
+        print("END")
