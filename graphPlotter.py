@@ -1,4 +1,7 @@
 # importing the required module
+from argparse import ArgumentDefaultsHelpFormatter
+from inspect import ArgInfo
+from click import argument
 import matplotlib.pyplot as plt
 import cmath
 import sys
@@ -41,15 +44,20 @@ if result.stdout.decode("utf8") != "":
     for cmd in graphCmd:
 
         arguments = cmd.split(" ")
-        x1 = float(arguments[0])
-        y1 = float(arguments[1])
-        deltaX = float(arguments[2])
-        deltaY = float(arguments[3])
-
-        style = arguments[4]
-
+        style = arguments[0]
         # plot the data
         if style == "->":
+            ## plots a single arrow on an x/y graph, currently hard coded to a -1 - 1 range
+
+            ## usage :
+            ## -> x_start y_start dx dx line_width arrow_head_width
+            ## example:
+            ## -> 0 0 0.8 0 0.02 0.1
+
+            x1 = float(arguments[1])
+            y1 = float(arguments[2])
+            deltaX = float(arguments[3])
+            deltaY = float(arguments[4])
             width = float(arguments[5])
             header_length = float(arguments[6])
 
@@ -57,13 +65,40 @@ if result.stdout.decode("utf8") != "":
             plt.xlim([-1,1])
             plt.ylim([-1,1])
 
+        if style == "..":
+            ## get the x values, these are a list of numbers
+
+            ## usage :
+            ## .. x data_to_plot y data_to_plot t title
+            ## example:
+            ## .. x 0 1 2 3 y 0 1 2 3 4 t my plot
+
+            xStart = arguments.index("x") + 1   ## get the position of the first x value
+            xEnd = arguments.index("y") - 1     ## get the position of the last x value
+
+            yStart = arguments.index("y") + 1   ## get the position of the first x value
+            yEnd = arguments.index("t") - 1          ## get the position of the last y value
+
+            title = arguments.index("t") + 1
+            title = arguments[title:]           ## this gets the plot name, allowing for spaces. This only works if the plot name is the last thing in the command
+
+            ## call the plt.plot() function
+
+            xData = arguments[xStart:xEnd]
+            yData = arguments[yStart:yEnd]
+
+            plt.plot(xData, yData)
+            #plt.xlim([-1,1])
+            #plt.ylim([-1,1])
+
         # naming the x axis
         plt.xlabel('x')
         # naming the y axis
         plt.ylabel('y')
 
         # giving a title to my graph
-        plt.title('Rotating Phasor')
+        title = " ".join(title) ## merge elements together
+        plt.title(title)
 
         # function to show the plot
         imageName = uuid.uuid1().hex
@@ -71,7 +106,7 @@ if result.stdout.decode("utf8") != "":
         filepath = os.path.join("./programming/python/images","%s.png" % imageName)
         plt.savefig(filepath)
 
-        link = "![Plotted with graphPlotter!](/programming/python/images/" + imageName + ".png)"  
+        link = "![Plotted with graphPlotter!](/programming/python/images/" + imageName + ".png)\n"  
 
         fin = open(file, "wt")
         changes = changes.replace(cmd, link)
