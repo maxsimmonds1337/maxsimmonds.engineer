@@ -85,7 +85,9 @@ if result.stdout.decode("utf8") != "":
             ## call the plt.plot() function
 
             xData = arguments[xStart:xEnd]
+            xData = [float(i) for i in xData]
             yData = arguments[yStart:yEnd]
+            yData = [float(i) for i in yData]
 
             plt.plot(xData, yData)
             #plt.xlim([-1,1])
@@ -106,9 +108,10 @@ if result.stdout.decode("utf8") != "":
         filepath = os.path.join("./programming/python/images","%s.png" % imageName)
         plt.savefig(filepath)
 
-        link = "![Plotted with graphPlotter!](/programming/python/images/" + imageName + ".png)\n"  
+        link = "![Plotted with graphPlotter!](/programming/python/images/" + imageName + ".png)"  
 
         fin = open(file, "wt")
         changes = changes.replace(cmd, link)
+        change = changes + "## " + cmd.join() ## this writes the command as a comment, so that we don't lose the information
         fin.write(changes)
         fin.close()
