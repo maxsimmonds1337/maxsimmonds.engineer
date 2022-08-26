@@ -108,7 +108,7 @@ if result.stdout.decode("utf8") != "":
         filepath = os.path.join("./programming/python/images","%s.png" % imageName)
         plt.savefig(filepath)
 
-        link = "![Plotted with graphPlotter! cmd = " + cmd +  "](/programming/python/images/" + imageName + ".png)"  
+        link = "![Plotted with graphPlotter! cmd = " + cmd.strip("\n") +  "](/programming/python/images/" + imageName + ".png)"  
 
         fin = open(file, "wt")
         changes = changes.replace(cmd, link)

@@ -70,7 +70,6 @@ We know it's -1 from the math outlined a bit futher up. We can then plot this on
 
 So we can now understand how, with complex numbers, we are able to rotate phasors. If we now plot these on a time series graph, that is, after each rotation we plot either it's y (imaginary) or x (real) component against time. Let's plot the imaginary component of the above graphs on a time series graph:
 
-![Plotted with graphPlotter! cmd = .. x 0 1 2 3 4 y 1 0 -1 0 1 t Imaginary vs Time
-](/programming/python/images/45aa102c252e11edbb64c821587c6744.png)
+![Plotted with graphPlotter! cmd = .. x 0 1 2 3 4 y 1 0 -1 0 1 t Imaginary vs Time](/programming/python/images/5f5de49e252e11edbb64c821587c6744.png)
 ## C code
 
