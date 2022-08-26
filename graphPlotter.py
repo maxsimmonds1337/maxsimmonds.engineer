@@ -108,10 +108,9 @@ if result.stdout.decode("utf8") != "":
         filepath = os.path.join("./programming/python/images","%s.png" % imageName)
         plt.savefig(filepath)
 
-        link = "![Plotted with graphPlotter!](/programming/python/images/" + imageName + ".png)"  
+        link = "![Plotted with graphPlotter! cmd = " + cmd +  "](/programming/python/images/" + imageName + ".png)"  
 
         fin = open(file, "wt")
         changes = changes.replace(cmd, link)
-        #changes = changes + "## " + cmd.join() ## this writes the command as a comment, so that we don't lose the information
         fin.write(changes)
         fin.close()
