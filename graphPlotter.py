@@ -112,6 +112,6 @@ if result.stdout.decode("utf8") != "":
 
         fin = open(file, "wt")
         changes = changes.replace(cmd, link)
-        change = changes + "## " + cmd.join() ## this writes the command as a comment, so that we don't lose the information
+        changes = changes + "## " + cmd.join() ## this writes the command as a comment, so that we don't lose the information
         fin.write(changes)
         fin.close()
