@@ -30,7 +30,7 @@ To outline how and why this works, let's breakdown the theory. First, we need to
 
 The above image shows a phasor of length 1, on what we shall call the complex plane. The x direction are real numbers, and the y are "imaginary". While this may seem a little abstract, it's useful for a whole number of applications, including phasors!
 
-You may have noticed the phasor pointing in a different direction. This is said to have rotated by 90 degrees. In the complex plane, we can say we have multiplied by "i". The explanation for this is as follows. Imagine we have a phasor in the complex plane, x+iy. If x was 1, and y was 0, we would have the graph plotted in the first sequence above. Now, if we are to multiply my 'i' (which has been defined as the square root of minus 1) then we get:
+You may have noticed the phasor pointing in a different direction. This is said to have rotated by 90 degrees. In the complex plane, we can say we have multiplied by "i". The explanation for this is as follows. Imagine we have a phasor in the complex plane, x+iy. If x was 1, and y was 0, we would have the graph plotted in the first sequence above. Now, if we are to multiply by 'i' (which has been defined as the square root of minus 1) then we get:
 
 $$ i(x + i \cdot y ) = i \cdot x + i^2 \cdot y $$
 
@@ -67,13 +67,32 @@ We know it's -1 from the math outlined a bit futher up. We can then plot this on
 
 ![Plotted with graphPlotter!](/programming/python/images/391276ac246011edbb64c821587c6744.png)
 
-
-So we can now understand how, with complex numbers, we are able to rotate phasors. If we now plot these on a time series graph, that is, after each rotation we plot either it's y (imaginary) or x (real) component against time. Let's plot the imaginary component of the above graphs on a time series graph:
+So we can now understand how, with complex numbers, we are able to rotate phasors. If we now plot these on a time series graph, that is, after each rotation we plot either it's y (imaginary) or x (real) component against time we can start to see how to get a sinewave output. Let's plot the imaginary component of the above graphs on a time series graph:
 
 ![Plotted with graphPlotter! cmd = .. x 0 1 2 3 4 y 1 0 -1 0 1 t Imaginary vs Time](/programming/python/images/5f5de49e252e11edbb64c821587c6744.png)
 
+It's doesn't yet look sinusoildal, mainly because we are simply jumping from quadrant to quadrant. If we were to add more data points, we might see something interesting come about:
+
+```graphPlotter
+.. x 0 1 2 3 4 5 6 7 8 9 10 11 12 y 0.5	0.866 1 0.866 0.5 0 -0.5 -0.866 -1 -0.866 -0.5 0 t Imaginary Vs Time
+```
+
+Now we're getting somewhere! This is indeed looking like a sine wave, but why, we might ask ourselves? Well, that comes down to some triginometry! If we want to get the y values (imaginary) of each phasor, we can use trignometery, since the phasor makes a right angled triangle with the axes:
 
 
+We can say, then , that if the length of this phasor is simply 1, because we're on the "unit circle", then:
+
+$$ sin(\theta) = \frac{O}{H} $$
+
+The "H", or hypotenus, in this case is 1 (it's a phasor of length 1), and "O", is the y value that we want, so this equation becomes:
+
+$$ 1 \cdot sin(\theta) = y $$
+
+If we plot this for each value of theta as we progress around the circle, we get the graph above, nice!
+
+Linking this together, we know that we can multiply phasors to give a rotation, we know that as we go around the unit cicle in the complex domain, that's the same as a sine wave in the time domain. The last couple of peices to this puzzle are, how do we know what phasor we should multiply by each time, and how often should we do it!?
+
+### Choosing the Phasor
 ## C code
 
 The code for implimenting the NCO is quite simple, and so I will show it all below:
