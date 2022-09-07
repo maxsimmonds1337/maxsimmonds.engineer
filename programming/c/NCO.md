@@ -71,5 +71,273 @@ We know it's -1 from the math outlined a bit futher up. We can then plot this on
 So we can now understand how, with complex numbers, we are able to rotate phasors. If we now plot these on a time series graph, that is, after each rotation we plot either it's y (imaginary) or x (real) component against time. Let's plot the imaginary component of the above graphs on a time series graph:
 
 ![Plotted with graphPlotter! cmd = .. x 0 1 2 3 4 y 1 0 -1 0 1 t Imaginary vs Time](/programming/python/images/5f5de49e252e11edbb64c821587c6744.png)
+
+
+
 ## C code
 
+The code for implimenting the NCO is quite simple, and so I will show it all below:
+
+```C
+#include "NCO.h"		// contains the structs and variable definitions
+
+
+// function to compute the 32 bit complex multiplication
+T_COMPLEX32 Complex_MUT(T_COMPLEX32 a, T_COMPLEX32 b) {
+	T_COMPLEX32 result;
+
+	T_INT64 ar = (T_INT64) a.real;	// declare a variable that's 64 bits long, from the real component of a.
+	T_INT64 ai = (T_INT64) a.imag;	// declare a variable that's 64 bits long, from the real component of a.
+	T_INT64 br = (T_INT64) b.real;	// declare a variable that's 64 bits long, from the real component of a.
+	T_INT64 bi = (T_INT64) b.imag;	// declare a variable that's 64 bits long, from the real component of a.
+ 
+	T_INT64 cr = ar*br - ai*bi;	// compute the real component
+	T_INT64 ci = ar*bi + ai*br;	// compute the imag component
+ 
+//	T_INT64 cr = ar*br - ai*bi;	// compute the real component
+//	T_INT64 ci = ar*bi - ai*br;	// compute the imag component
+
+	result.real = (T_INT32) (cr >> 31);	// truncate the 64 bit value to a 32 bit, and typedef it
+	result.imag = (T_INT32) (ci >> 31);	// truncate the 64 bit value to a 32 bit, and typedef it
+
+	return result;
+}
+```
+
+### NCO
+
+In essence, it is a complex multiplication of the old phasor, with the constant "phasor advance". This is the phasor that rotates the current phasor by a given amount, and affects it's frequency and amplitude. This function is called in an ISR (interupt service routine) that is set to trigger every 100KHz:
+
+```C
+//interrupt service routine for the timer
+void TIM3_IRQHandler(void) {
+
+	GPIOA->ODR |= GPIO_ODR_OD10;
+	
+	signed long tmp,phasor_scaled = 0;
+	int offset = 0;	
+
+	phasor = Complex_MUT(phasor, PHASE_ADVANCE_1000);	// perform the complex MUT
+
+	// // this should stop the amplitude decay
+	// if(counter >= 1000) {
+	// 	counter = 0;
+	// 	T_COMPLEX32 phasor = {.real = -2147483647, .imag = 0}; // reset the phasor, to stop drifting
+	// } else {
+	// 	counter++; //inc counter
+	// }
+
+	// check to see if we have looped the number of times we want to rate limit
+	if(loopCounter >= loopCounterMax) {
+
+		// check to see if there has been a change in setpoint, if not, then no need to rate limit
+		if(pwmGainCurrent != pwmGainSetPoint) pwmGainCurrent = rateLimiter(pwmGainCurrent, pwmGainSetPoint, pwmRateLimit);
+
+		if(freqCurrent != freqSetPoint) freqCurrent = rateLimiter(freqCurrent, freqSetPoint, freqRateLimit);
+		
+		loopCounter = 0; // reset the loop counter
+	} else {
+		// if we're not ready to update the rate, leave as is and inc counter
+		loopCounter++;
+	}
+
+	phasor_scaled = (phasor.real / 100) *  pwmGainCurrent; // scale the phasor, by the current gain
+
+	tmp =(((phasor_scaled)>>9)*500>>23); // we then need to scale the 2^31 val to a number betwee 0 and 500 (the auto reload reg)
+	offset = (((PHASE_ADVANCE_1000.real)>>9)*500>>23); // this adds the DC offset, since we need to be centered about 1.65V
+	DC = (int)tmp+ (offset); // add the DC offset to the AC signal
+
+	int freqChange = freqCurrent % 100; // get the change from 100
+	
+	if( (freqCurrent-100) < 0) {
+		TIM3->ARR = 100 + (100-freqChange); // I will fix this later to convert to frequency
+	} else if ((freqCurrent-100) > 0) {
+		TIM3->ARR = 100-freqChange; // I will fix this later to convert to frequency
+	} else {
+		TIM3->ARR = 100; // otherwise, it must be 100, so set it.
+	}
+
+	TIM1->CCR1 = (DC); //update the capture control register with the phasor
+	TIM3->SR = 0;		// clear the status reg
+
+	GPIOA->ODR &= ~(GPIO_ODR_OD10);
+
+}
+```
+
+Line 9 shows the function call. 
+
+### Rate Limiter
+
+The code below then impliments a rate limiter. This could have been written better, and not use a loop counter (rather, another timer interrupt), but it works. It limits the rate of the frequency changes (IE, if someone wants to go from 100Hz to 150Hz, it doesn't do this in one go, or that might damage the cryo-cooler), as well as the amplitude of the signal, for the same reason. 
+
+There is some initial checking of the of the set point versus the current value, to see if there is a need to call the "rateLimiter" function. If the set point is different to the current value, then we may need to coerce the value before updating the register that handles the frequency or amplitude.
+
+```C
+int rateLimiter(int current, int setPoint, int rateLimit) {
+	// if current != set point
+
+	// check against limit
+	//if negative
+	// if positive
+	// else
+
+	// if rate limit is less that the current gain minus set point, then ...
+	// ... we want to increase the gain, but limitied by the rate ...
+	// ... we change the current value only (which is used to affect the pwm) and the user changes the desired set point
+	if(rateLimit < (current - setPoint)) {
+		current -= rateLimit;
+	} else if(rateLimit > (current - setPoint)) { // if it's greater, then we need to reduce by rateLimit
+		current += rateLimit;
+	} else { // if we're within the rateLimit setting, just set to the desired set point
+		current = setPoint;		
+	}
+
+	return current; // send it back to the caller
+}
+```
+
+The above code is found in [my STM32 drivers repo](https://github.com/maxsimmonds1337/SSC/blob/main/Drivers/Simmo/SSC.c) (at some point, I'll make this library a submodule, and that can be included into my projects). This contains many helper functions that were used on a project, including setting the frequency (which, of course, then results in the calling of the rateLimiter function), setting the amplitude, requesting the frequency and amplitude, setting the rate limiters, and a few others.
+
+The rateLimiter function essentially checks the direction of the change (IE, is the user requesting to go from 100Hz to 80, a negative direction, or are they requesting to go to 120Hz, a positive change). At the same time, it checks to see if the requested change is larger than a variable called "rateLimit". This is set by the user, and allows you to adjust how fast changes happen. If the change in set point is larger than this value, it's coerced to change only by this much. Finally, it returns the new value.
+
+### Scaling
+
+Since the NCO is using 32 bit integers for the multiplication (in an attempt to reduce rounding errors as much as possible) and the registers that are used to control amplitude (or rather duty cycle, but let's not get into that now!) are much smaller than that. In fact, the timers that are used are only 16 bits wide, and since we're running at 50MHZ, and triggering at 100KHz, we're not using much of that width at all. Without digressing too much, the code to setup the timer is below:
+
+```C
+void timer_init_3(void) {
+	
+	RCC->APB1ENR |= RCC_APB1ENR_TIM3EN; // enable the timer
+
+	// set up the timer parameters
+	TIM3->CR1 &= ~(TIM_CR1_CEN); //ensure clock is off
+	TIM3->PSC = 5 - 1;  // incoming clock is 50mhz, so this will scale it to 1mhz
+	TIM3->ARR = 100; // 100 * 0.1us = 10us interrupt (100khz)
+	TIM3->DIER |= TIM_DIER_UIE; //enable timer interrupts
+
+	NVIC_SetPriority(TIM3_IRQn, 0x01); // set priority
+	NVIC_EnableIRQ(TIM3_IRQn); // enable the IRQ
+
+	TIM3->CR1 |= TIM_CR1_CEN; //enable the counter
+}
+```
+
+The comments help in the understanding (since the registers we're affecting obfuscate quite a bit). The PSC, or prescaler, is set to 5, (actually 4 but, you know, 0 indexing), this drops the incoming system clock to 1MHZ. We then set the ARR, or Auto Reload Register, to 100. This means that it will retrigger (and cause an interrupt when it overflows and resets) after 100 ticks of the sys clock, or, 1MHz/100 = 100KHz.
+
+What's important here, and the reasons for the digression is that we're using only <7bit's of the 16 bit timer, and that's why it needs scaling. At least, for the frequency changes that is. The duty cycle has a differnt full scale, and this is set to 500. The duty cycle is run off hardware timer (timer 1) which is a little more advance, and so can do things like PWM (pulse width modulation) with ease. This clock is also many bits wide (either 16 or 32, I can't remember) but since the system clock is running at 50MHz, and there's no prescaler this time (to give more discrete levels of PWM, 500 in fact compared to 100 with the same prescaler). So, the ARR register in this case is set to 500, which meaans that 100% duty cycle is given at DC = 500, and that's the new scaling we need.
+
+A quick bit of math, the reason 500 is 9 bits, is we're using the binary system, so base 2. If we want to know how many bits are required, then we do:
+
+$$ ceil(log_2(500)) = 9 $$
+
+```C
+phasor_scaled = (phasor.real / 100) *  pwmGainCurrent; // scale the phasor, by the current gain
+
+tmp =(((phasor_scaled)>>9)*500>>23); // we then need to scale the 2^31 val to a number betwee 0 and 500 (the auto reload reg)
+	offset = (((PHASE_ADVANCE_1000.real)>>9)*500>>23); // this adds the DC offset, since we need to be centered about 1.65V
+	DC = (int)tmp+ (offset); // add the DC offset to the AC signal
+```
+
+The scaling seems a bit complex at first, but there is a reason for it. "phase_scaled" is the inital 31 bit number, adjusted by a percentage. So if "pwmGainCurren" was 50, then phasor_scaled would be halved, but still a 31 bit number. This can mostly be ignored for the sake of scaling.
+
+tmp takes the phasor, and bit shifts it right 9 times. The reason for that is when we multiply by another number, their respective widths get summed. For Example, here's a snippet of code that does the above:
+
+```C
+#include<stdio.h>
+//#include<math.h>
+
+typedef long T_INT32;
+typedef short T_INT16;
+typedef unsigned short T_UNT32;
+typedef long long T_INT64;
+
+typedef struct {
+    T_INT32 real;
+    T_INT32 imag;
+} complex_32;
+
+int main(void) {
+
+    complex_32 phasor; //declares a phasor
+    complex_32 PHASE_ADVANCE_1000;
+    
+    int pwmGainCurrent = 100; // set this to 100% first
+    int DC; // this is over written so doesn't need initialiseing with a value
+    
+    PHASE_ADVANCE_1000.real = 2147441247;
+    PHASE_ADVANCE_1000.imag = 13492949;
+    
+    phasor.real = pow(2,31);
+    
+    printf("Phasor before scaling %ld, #bits is %d\n", phasor.real, (int)ceil(log2(phasor.real)));
+    
+    T_INT32 phasor_scaled = (phasor.real / 100) *  pwmGainCurrent; // scale the phasor, by the current gain
+    
+    printf("Phasor after scaling %ld, #bits is %d\n", phasor_scaled, (int)ceil(log2(phasor_scaled)));
+
+    T_INT32 tmp =((phasor_scaled)>>9); // we then need to scale the 2^31 val to a number betwee 0 and 500 (the auto reload reg)
+	
+    printf("Tmp after 9 bit shift %ld, #bits is %d\n", tmp, (int)ceil(log2(tmp)));
+
+    tmp *= 500;
+    
+    printf("Tmp after mut with 500 %ld, #bits is %d\n", tmp, (int)ceil(log2(tmp)));
+    
+    tmp = tmp >> 23;
+        
+    printf("Tmp after 23 bit RHS %ld, #bits is %d\n", tmp, (int)ceil(log2(tmp)));
+    
+    T_INT32 offset = (((PHASE_ADVANCE_1000.real)>>9)*500>>23); // this adds the DC offset, since we need to be centered about 1.65V
+    
+	DC = (int)tmp+ (offset); // add the DC offset to the AC signal
+    
+    printf("DC after addition with offset: %ld, #bits is %d\n", DC, (int)ceil(log2(DC)));
+    
+    return 0;
+}
+```
+
+If we run this, we get the following output:
+
+```
+Phasor before scaling 2147483648, #bits is 31
+Phasor after scaling 2147483600, #bits is 31
+Tmp after 9 bit shift 4194303, #bits is 22
+Tmp after mut with 500 2097151500, #bits is 31
+Tmp after 23 bit RHS 249, #bits is 8
+DC after addition with offset: 498, #bits is 9
+```
+
+We can see that, after the 9 bit shift, we get a number that's 22 bits wide, or 31-9. We then multiply it by the full scale, or 500, which is 9 bits wide, and we go back up to a 31 bit wide number. Finally, we right shift by 23, dropping the result to 8 bits.
+
+The last thing we do (which is a nuance of the electronics, so not important here) is to shift the DC up by 50%, or an "offset". This I won't go into, but it's important to understand that here be have essentially added another 9 bit number. Adding is different to multiplying, the widths don't add (you might expect a 18 bit number) but that's not the case. You can think of it, though, by a multiplication of 2 (if offset == tmp). In which case, we'd have a 1 bit number, plus an 8 bit, which gives the 9 bits, which we required.
+
+As can be seen, the output is just less than 500 (due to some rounding) which is what we wanted!
+
+### Updating the Registers
+
+The final part then is to update the registers with the correct values. There's two that need setting, one for the frequency, and one for the duty cycle, which we mentinoed sets the amplitude.
+
+```C
+	int freqChange = freqCurrent % 100; // get the change from 100
+	
+	if( (freqCurrent-100) < 0) {
+		TIM3->ARR = 100 + (100-freqChange); // I will fix this later to convert to frequency
+	} else if ((freqCurrent-100) > 0) {
+		TIM3->ARR = 100-freqChange; // I will fix this later to convert to frequency
+	} else {
+		TIM3->ARR = 100; // otherwise, it must be 100, so set it.
+	}
+
+	TIM1->CCR1 = (DC); //update the capture control register with the phasor
+	TIM3->SR = 0;		// clear the status reg
+
+	GPIOA->ODR &= ~(GPIO_ODR_OD10);
+  ```
+  
+  The code above, an extract from the main one posted above, does just that. We first want to know how much the frequency has changed by (because we use this to scale the auto reload register, and it works inversly to requency, since it's units are essentially seconds, and we're working with per second). We get the percentage change, and then adjust the ARR accordingly.
+  
+  For the duty cycle, it's quite simple now we've done all the scaling, and simply write it to the register.
+  
+  That's all folks!
