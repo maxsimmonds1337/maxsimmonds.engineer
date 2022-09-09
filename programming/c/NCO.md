@@ -1,5 +1,11 @@
 # The Numerically Controlled Oscillator
 
+Most of the code below was written to run on an embedded microcontroller, an STM32f411RE. I got in to detail about that, as it's more interesting, but if you're only interested in the NCO, here's some python code for showing the workings on an NCO:
+
+```python
+
+```
+
 Recently, I came across the need to generate a sine wave with variable frequency and amplitude. My first "go to method!" was a look up table, or LUT. The LUT didn't feel right, the code was long and messy. For each discrete amplitude change, I had another LUT (which I admit, I should have been able to do some math to fix that but when trying to get it to work, it was clipping and all sorts). Any way, here's the LUTs:
 
 ```C
@@ -79,8 +85,11 @@ It's doesn't yet look sinusoildal, mainly because we are simply jumping from qua
 
 Now we're getting somewhere! This is indeed looking like a sine wave, but why, we might ask ourselves? Well, that comes down to some triginometry! If we want to get the y values (imaginary) of each phasor, we can use trignometery, since the phasor makes a right angled triangle with the axes:
 
+```
+image of a set of axes with the right angled triangle
+```
 
-We can say, then , that if the length of this phasor is simply 1, because we're on the "unit circle", then:
+We can say, then, that if the length of this phasor is simply 1, because we're on the "unit circle", then:
 
 $$ sin(\theta) = \frac{O}{H} $$
 
@@ -93,6 +102,10 @@ If we plot this for each value of theta as we progress around the circle, we get
 Linking this together, we know that we can multiply phasors to give a rotation, we know that as we go around the unit cicle in the complex domain, that's the same as a sine wave in the time domain. The last couple of peices to this puzzle are, how do we know what phasor we should multiply by each time, and how often should we do it!?
 
 ### Choosing the Phasor
+
+
+
+
 ## C code
 
 The code for implimenting the NCO is quite simple, and so I will show it all below:
