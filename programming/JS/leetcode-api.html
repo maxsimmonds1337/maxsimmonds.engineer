@@ -29,7 +29,7 @@ const fetchDailyCodingChallenge = async () => {
     }
 
     const response = await fetch(LEETCODE_API_ENDPOINT, init)
-	console.log(response.json());
+	console.log(response.json)
     return response.json();
 
 }
@@ -58,17 +58,6 @@ function display_results(response_json) {
 	<h1>Leetcode stats</h1>
 
 	<body>
-<<<<<<< HEAD
-		<div id = "code">
-
-		</div>
-		<script>
-			data = fetchDailyCodingChallenge();
-			document.getElementById("code").innerHTML = "test";
-		</script>
-	</body>
-</html>
-=======
 		<div id = "username"></div>
 		<div id = "total_submissions"></div>
 		<div id = "easy_completed"></div>
@@ -83,4 +72,3 @@ function display_results(response_json) {
 		</script>
 	</body>
 </html>
->>>>>>> 1939e098ae92c14a8d2abe88d75334b8abbb6dfe
