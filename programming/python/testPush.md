@@ -3,7 +3,14 @@ This is a test!
 Changed!
 
 ```graphPlotter
-0 0 0.8 0 -> 0.02 0.1
+0 0 0.8 0 -> 0.02 0.01
 ```
-
-![Plotted with graphPlotter!](/programming/python/images/1c39670d223011ed999c001a7dda7113.png)
+```graphPlotter
+0 0 0 0.8 -> 0.02 0.01
+```
+```graphPlotter
+0 0 -0.8 0 -> 0.02 0.01
+```
+```graphPlotter
+0 0 0 -0.8 -> 0.02 0.01
+```
