@@ -29,12 +29,27 @@ const fetchDailyCodingChallenge = async () => {
     }
 
     const response = await fetch(LEETCODE_API_ENDPOINT, init)
-    //console.log(response.json());
-    return response.json()
+
+    return response.json();
+
 }
 
-function myFunction(data) {
-	document.getElementById("code").innerHTML = data;
+function display_results(response_json) {
+	const username = response_json.data.matchedUser.username;
+
+	const total_submissions = response_json.data.matchedUser.submitStats.acSubmissionNum[0].count;
+
+	const easy_completed = response_json.data.matchedUser.submitStats.acSubmissionNum[1].count;
+	const medium_completed = response_json.data.matchedUser.submitStats.acSubmissionNum[2].count;
+	const hard_completed = response_json.data.matchedUser.submitStats.acSubmissionNum[3].count;
+
+
+	document.getElementById("username").innerHTML = "User: " + total_submissions;
+	document.getElementById("total_submissions").innerHTML = "Total Submissions: " + total_submissions;
+	document.getElementById("easy_completed").innerHTML = "'Easy' questions completed: " + total_submissions;
+	document.getElementById("medium_completed").innerHTML = "'Medium' questions completed: " + total_submissions;
+	document.getElementById("hard_completed").innerHTML = "'Hard' questions completed: " + total_submissions;
+
 }
 
 </script>
@@ -43,13 +58,15 @@ function myFunction(data) {
 	<h1>Leetcode stats</h1>
 
 	<body>
-		<div id = "code">
+		<div id = "username"></div>
+		<div id = "total_submissions"></div>
+		<div id = "easy_completed"></div>
+		<div id = "medium_completed"></div>
+		<div id = "hard_completed"></div>
 
-		</div>
 		<script>
-			data = fetchDailyCodingChallenge();
-			data.then(myFunction(data));
-			data.catch("err");
+			let data = fetchDailyCodingChallenge();
+			data.then( display_results ); // fetchDailyCoding... returns a promise. We wait on the promise, and then it's forfilled, we call the function for printing
 			//document.getElementById("code").innerHTML = ;
 			//data.catch(document.getElementById("code").innerHTML = "error");
 		</script>
