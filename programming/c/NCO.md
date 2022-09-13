@@ -86,7 +86,7 @@ It's doesn't yet look sinusoildal, mainly because we are simply jumping from qua
 Now we're getting somewhere! This is indeed looking like a sine wave, but why, we might ask ourselves? Well, that comes down to some triginometry! If we want to get the y values (imaginary) of each phasor, we can use trignometery, since the phasor makes a right angled triangle with the axes:
 
 ```
-image of a set of axes with the right angled triangle
+image of a set of axes with the right angled triangle adding in somethig ot make this different
 ```
 
 We can say, then, that if the length of this phasor is simply 1, because we're on the "unit circle", then:
