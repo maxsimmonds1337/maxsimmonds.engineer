@@ -1,7 +1,7 @@
 <script>
   // Just some constants
 const LEETCODE_API_ENDPOINT = 'https://cors-proxy.maxsimmonds1337.workers.dev?https://leetcode.com/graphql'
-const DAILY_CODING_CHALLENGE_QUERY = `
+const GetProgress = `
 query getUserProfile($username: String!) {
   matchedUser(username: $username) {
     username
@@ -14,7 +14,7 @@ query getUserProfile($username: String!) {
     }
   }
 }`
-
+    
 // We can pass the JSON response as an object to our createTodoistTask later.
 const fetchDailyCodingChallenge = async () => {
     console.log(`Fetching daily coding challenge from LeetCode API.`)
@@ -23,13 +23,13 @@ const fetchDailyCodingChallenge = async () => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
-			query: DAILY_CODING_CHALLENGE_QUERY,
+			query: GetProgress,
 			variables: {username : "theengineeringoctopus"}, // this refers to SKU 
 		}),
     }
 
     const response = await fetch(LEETCODE_API_ENDPOINT, init)
-    console.log(response.json());
+    //console.log(response.json());
     return response.json()
 }
 </script>
@@ -43,6 +43,8 @@ const fetchDailyCodingChallenge = async () => {
 		</div>
 		<script>
 			data = fetchDailyCodingChallenge();
+			data.then("done");
+			data.catch("err");
 			//document.getElementById("code").innerHTML = ;
 			//data.catch(document.getElementById("code").innerHTML = "error");
 		</script>
