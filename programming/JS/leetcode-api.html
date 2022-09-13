@@ -53,7 +53,8 @@ const fetchDailyCodingChallenge = async () => {
 		</div>
 		<script>
 			data = fetchDailyCodingChallenge();
-			document.getElementById("code").innerHTML = data;
+			data.then(document.getElementById("code").innerHTML = "success");
+			data.catch(document.getElementById("code").innerHTML = "error");
 		</script>
 	</body>
 </html>
