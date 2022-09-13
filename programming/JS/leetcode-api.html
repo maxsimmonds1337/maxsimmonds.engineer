@@ -43,3 +43,17 @@ const fetchDailyCodingChallenge = async () => {
     //return response.json()
 }
 </script>
+
+<html>
+	<h1>Leetcode stats</h1>
+
+	<body>
+		<div id = "code">
+
+		</div>
+		<script>
+			data = fetchDailyCodingChallenge();
+			document.getElementById("code").innerHTML = "test";
+		</script>
+	</body>
+</html>
