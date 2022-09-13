@@ -29,12 +29,12 @@ const fetchDailyCodingChallenge = async () => {
     }
 
     const response = await fetch(LEETCODE_API_ENDPOINT, init)
-	console.log(response.json)
     return response.json();
 
 }
 
 function display_results(response_json) {
+	console.log(response_json);
 	const username = response_json.data.matchedUser.username;
 
 	const total_submissions = response_json.data.matchedUser.submitStats.acSubmissionNum[0].count;
@@ -44,11 +44,11 @@ function display_results(response_json) {
 	const hard_completed = response_json.data.matchedUser.submitStats.acSubmissionNum[3].count;
 
 
-	document.getElementById("username").innerHTML = "User: " + total_submissions;
+	document.getElementById("username").innerHTML = "User: " + username;
 	document.getElementById("total_submissions").innerHTML = "Total Submissions: " + total_submissions;
-	document.getElementById("easy_completed").innerHTML = "'Easy' questions completed: " + total_submissions;
-	document.getElementById("medium_completed").innerHTML = "'Medium' questions completed: " + total_submissions;
-	document.getElementById("hard_completed").innerHTML = "'Hard' questions completed: " + total_submissions;
+	document.getElementById("easy_completed").innerHTML = "'Easy' questions completed: " + easy_completed;
+	document.getElementById("medium_completed").innerHTML = "'Medium' questions completed: " + medium_completed;
+	document.getElementById("hard_completed").innerHTML = "'Hard' questions completed: " + hard_completed;
 
 }
 
