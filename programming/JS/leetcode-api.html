@@ -1,31 +1,18 @@
 <script>
   // Just some constants
-const LEETCODE_API_ENDPOINT = 'https://leetcode.com/graphql'
+const LEETCODE_API_ENDPOINT = 'https://cors-proxy.maxsimmonds1337.workers.dev?https://leetcode.com/graphql'
 const DAILY_CODING_CHALLENGE_QUERY = `
-query questionOfToday {
-	activeDailyCodingChallengeQuestion {
-		date
-		userStatus
-		link
-		question {
-			acRate
-			difficulty
-			freqBar
-			frontendQuestionId: questionFrontendId
-			isFavor
-			paidOnly: isPaidOnly
-			status
-			title
-			titleSlug
-			hasVideoSolution
-			hasSolution
-			topicTags {
-				name
-				id
-				slug
-			}
-		}
-	}
+query getUserProfile($username: String!) {
+  matchedUser(username: $username) {
+    username
+    submitStats: submitStatsGlobal {
+      acSubmissionNum {
+        difficulty
+        count
+        submissions
+      }
+    }
+  }
 }`
 
 // We can pass the JSON response as an object to our createTodoistTask later.
@@ -35,12 +22,15 @@ const fetchDailyCodingChallenge = async () => {
     const init = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ query: DAILY_CODING_CHALLENGE_QUERY }),
+        body: JSON.stringify({ 
+			query: DAILY_CODING_CHALLENGE_QUERY,
+			variables: {username : "theengineeringoctopus"}, // this refers to SKU 
+		}),
     }
 
     const response = await fetch(LEETCODE_API_ENDPOINT, init)
-    console.log(response);
-    //return response.json()
+    console.log(response.json());
+    return response.json()
 }
 </script>
 
@@ -53,8 +43,8 @@ const fetchDailyCodingChallenge = async () => {
 		</div>
 		<script>
 			data = fetchDailyCodingChallenge();
-			data.then(document.getElementById("code").innerHTML = "success");
-			data.catch(document.getElementById("code").innerHTML = "error");
+			//document.getElementById("code").innerHTML = ;
+			//data.catch(document.getElementById("code").innerHTML = "error");
 		</script>
 	</body>
 </html>
