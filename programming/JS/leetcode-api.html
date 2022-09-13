@@ -1,33 +1,20 @@
 <script>
   // Just some constants
-const LEETCODE_API_ENDPOINT = 'https://leetcode.com/graphql'
-const DAILY_CODING_CHALLENGE_QUERY = `
-query questionOfToday {
-	activeDailyCodingChallengeQuestion {
-		date
-		userStatus
-		link
-		question {
-			acRate
-			difficulty
-			freqBar
-			frontendQuestionId: questionFrontendId
-			isFavor
-			paidOnly: isPaidOnly
-			status
-			title
-			titleSlug
-			hasVideoSolution
-			hasSolution
-			topicTags {
-				name
-				id
-				slug
-			}
-		}
-	}
+const LEETCODE_API_ENDPOINT = 'https://cors-proxy.maxsimmonds1337.workers.dev?https://leetcode.com/graphql'
+const GetProgress = `
+query getUserProfile($username: String!) {
+  matchedUser(username: $username) {
+    username
+    submitStats: submitStatsGlobal {
+      acSubmissionNum {
+        difficulty
+        count
+        submissions
+      }
+    }
+  }
 }`
-
+    
 // We can pass the JSON response as an object to our createTodoistTask later.
 const fetchDailyCodingChallenge = async () => {
     console.log(`Fetching daily coding challenge from LeetCode API.`)
@@ -35,19 +22,43 @@ const fetchDailyCodingChallenge = async () => {
     const init = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ query: DAILY_CODING_CHALLENGE_QUERY }),
+        body: JSON.stringify({ 
+			query: GetProgress,
+			variables: {username : "theengineeringoctopus"}, // this refers to SKU 
+		}),
     }
 
     const response = await fetch(LEETCODE_API_ENDPOINT, init)
-    console.log(response);
-    //return response.json()
+	console.log(response.json());
+    return response.json();
+
 }
+
+function display_results(response_json) {
+	const username = response_json.data.matchedUser.username;
+
+	const total_submissions = response_json.data.matchedUser.submitStats.acSubmissionNum[0].count;
+
+	const easy_completed = response_json.data.matchedUser.submitStats.acSubmissionNum[1].count;
+	const medium_completed = response_json.data.matchedUser.submitStats.acSubmissionNum[2].count;
+	const hard_completed = response_json.data.matchedUser.submitStats.acSubmissionNum[3].count;
+
+
+	document.getElementById("username").innerHTML = "User: " + total_submissions;
+	document.getElementById("total_submissions").innerHTML = "Total Submissions: " + total_submissions;
+	document.getElementById("easy_completed").innerHTML = "'Easy' questions completed: " + total_submissions;
+	document.getElementById("medium_completed").innerHTML = "'Medium' questions completed: " + total_submissions;
+	document.getElementById("hard_completed").innerHTML = "'Hard' questions completed: " + total_submissions;
+
+}
+
 </script>
 
 <html>
 	<h1>Leetcode stats</h1>
 
 	<body>
+<<<<<<< HEAD
 		<div id = "code">
 
 		</div>
@@ -57,3 +68,19 @@ const fetchDailyCodingChallenge = async () => {
 		</script>
 	</body>
 </html>
+=======
+		<div id = "username"></div>
+		<div id = "total_submissions"></div>
+		<div id = "easy_completed"></div>
+		<div id = "medium_completed"></div>
+		<div id = "hard_completed"></div>
+
+		<script>
+			let data = fetchDailyCodingChallenge();
+			data.then( display_results ); // fetchDailyCoding... returns a promise. We wait on the promise, and then it's forfilled, we call the function for printing
+			//document.getElementById("code").innerHTML = ;
+			//data.catch(document.getElementById("code").innerHTML = "error");
+		</script>
+	</body>
+</html>
+>>>>>>> 1939e098ae92c14a8d2abe88d75334b8abbb6dfe
