@@ -34,7 +34,7 @@ const fetchDailyCodingChallenge = async () => {
 }
 
 function display_results(response_json) {
-	console.log(response_json);
+
 	const username = response_json.data.matchedUser.username;
 
 	const total_submissions = response_json.data.matchedUser.submitStats.acSubmissionNum[0].count;
@@ -57,7 +57,7 @@ function display_results(response_json) {
 <html>
 	<h1>Leetcode stats</h1>
 
-	<body>
+	<body id = "body">
 		<div id = "username"></div>
 		<div id = "total_submissions"></div>
 		<div id = "easy_completed"></div>
@@ -66,7 +66,8 @@ function display_results(response_json) {
 
 		<script>
 			let data = fetchDailyCodingChallenge();
-			data.then( display_results ); // fetchDailyCoding... returns a promise. We wait on the promise, and then it's forfilled, we call the function for printing
+			data.then(display_results); // fetchDailyCoding... returns a promise. We wait on the promise, and then it's forfilled, we call the function for printing
+			data.catch(document.getElementById("body").innerHTML = "Error reaching the API, are you sure you're calling from 'maxsimmonds.engineer'?");
 			//document.getElementById("code").innerHTML = ;
 			//data.catch(document.getElementById("code").innerHTML = "error");
 		</script>
