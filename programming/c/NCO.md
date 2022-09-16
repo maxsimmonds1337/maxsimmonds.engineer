@@ -1,10 +1,110 @@
 # The Numerically Controlled Oscillator
 
-Most of the code below was written to run on an embedded microcontroller, an STM32f411RE. I got in to detail about that, as it's more interesting, but if you're only interested in the NCO, here's some python code for showing the workings on an NCO:
+Most of the code below was written to run on an embedded microcontroller, an STM32f411RE. I go in to detail about that, as it's more interesting, but if you're only interested in the NCO, here's some ANSI C code for showing the workings on an NCO (it generates a file "output.txt", which I then use GNU plot to plot:
 
-```python
+```C
+#include <unistd.h> // for sleep function
+#include <stdio.h>
+
+
+// define some variable types
+typedef long T_INT32;
+typedef short T_INT16;
+typedef unsigned short T_UNT32;
+typedef long long T_INT64;
+
+// Define a struct to hold the phasor
+typedef struct {
+    T_INT32 real;
+    T_INT32 imag;
+} T_COMPLEX32;
+
+
+/** function prototypes **/
+
+// function for multiplying complex numbers
+T_COMPLEX32 Complex_MUT(T_COMPLEX32 a, T_COMPLEX32 b);
+
+FILE *fptr;
+
+T_COMPLEX32 phasor = {.real = 2147483647, .imag = 0}; // this holds the phasor 2147483647
+T_COMPLEX32 PHASE_ADVANCE_1000 = {.real=2147441259, .imag=13492949};    // this holds the phasor that's used to advance the phasor
+
+int j = 0;
+
+int main(void) {
+
+    fptr = fopen("output.txt","w+");
+
+
+    while(j < 5) {
+
+        for(int ix=0; ix < 1000; ix++) {
+
+            phasor = Complex_MUT(phasor, PHASE_ADVANCE_1000);
+            printf("%ld \t %ld\n",phasor.real, phasor.imag);
+            fprintf(fptr,"%ld \t %ld\n",phasor.real, phasor.imag);            
+
+        }
+        
+        j++;
+        
+    }
+
+    fclose(fptr);
+
+
+
+}
+
+// function to compute the 32 bit complex multiplication
+T_COMPLEX32 Complex_MUT(T_COMPLEX32 a, T_COMPLEX32 b) {
+    T_COMPLEX32 result;
+
+    T_INT64 ar = (T_INT64) a.real;  // declare a variable that's 64 bits long, from the real component of a.
+    T_INT64 ai = (T_INT64) a.imag;  // declare a variable that's 64 bits long, from the real component of a.
+    T_INT64 br = (T_INT64) b.real;  // declare a variable that's 64 bits long, from the real component of a.
+    T_INT64 bi = (T_INT64) b.imag;  // declare a variable that's 64 bits long, from the real component of a.
+ 
+    T_INT64 cr = ar*br - ai*bi; // compute the real component
+    T_INT64 ci = ar*bi + ai*br; // compute the imag component
+ 
+//  T_INT64 cr = ar*br - ai*bi; // compute the real component
+//  T_INT64 ci = ar*bi - ai*br; // compute the imag component
+
+    result.real = (T_INT32) (cr >> 31); // truncate the 64 bit value to a 32 bit, and typedef it
+    result.imag = (T_INT32) (ci >> 31); // truncate the 64 bit value to a 32 bit, and typedef it
+
+    return result;
+}
 
 ```
+
+```C
+#ifndef NCO_H
+#define NCO_H
+
+// define some variable types
+typedef long T_INT32;
+typedef short T_INT16;
+typedef unsigned short T_UNT32;
+typedef long long T_INT64;
+
+// Define a struct to hold the phasor
+typedef struct {
+    T_INT32 real;
+    T_INT32 imag;
+} T_COMPLEX32;
+
+
+/** function prototypes **/
+
+// function for multiplying complex numbers
+```
+
+The output of the above code is:
+
+![image](https://user-images.githubusercontent.com/58208872/190706005-20eea54c-7e80-41ac-9a03-a0c92d26cf4a.png)
 
 Recently, I came across the need to generate a sine wave with variable frequency and amplitude. My first "go to method!" was a look up table, or LUT. The LUT didn't feel right, the code was long and messy. For each discrete amplitude change, I had another LUT (which I admit, I should have been able to do some math to fix that but when trying to get it to work, it was clipping and all sorts). Any way, here's the LUTs:
 
