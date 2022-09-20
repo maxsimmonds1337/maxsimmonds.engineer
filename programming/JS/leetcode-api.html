@@ -67,7 +67,7 @@ function display_results(response_json) {
 		<script>
 			let data = fetchDailyCodingChallenge();
 			data.then(display_results); // fetchDailyCoding... returns a promise. We wait on the promise, and then it's forfilled, we call the function for printing
-			data.catch(document.getElementById("body").innerHTML = "Error reaching the API, are you sure you're calling from 'maxsimmonds.engineer'?");
+			//data.catch(document.getElementById("body").innerHTML = "Error reaching the API, are you sure you're calling from 'maxsimmonds.engineer'?");
 			//document.getElementById("code").innerHTML = ;
 			//data.catch(document.getElementById("code").innerHTML = "error");
 		</script>
