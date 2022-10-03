@@ -43,3 +43,13 @@ The alt text is then changed to the command, so that the data isn't lost.
 I recently wanted to present (on my CV) my leetcode stats. Leetcode doesn't have a dedicated way of showing this data, unless you're logged in. In order to use their GraphQL API 
 
 ---
+
+## [JS Wave Emulator](./JS/wave.html)
+
+**Start Date:** 20/09/2022
+
+**End Date:** 
+
+Some javascript code that allows you to "drop" a stone into a virtual pond, and watch the waves it generates propagate. 
+
+---
