@@ -21,3 +21,13 @@ This is my current project, a self balancing electric skateboard, commonly known
 This section outlines some of my programming projects. This is mainly to document my progression. 
 
 ---
+
+# [Harvard CS50 Course](./CS50/index.md)
+
+**Start Date:** 16/08/2022
+
+**End Date:** On going
+
+My submissions and thoughts during my Harvard CS50 (computer science) course.
+
+---
