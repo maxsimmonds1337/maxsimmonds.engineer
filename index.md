@@ -22,7 +22,7 @@ This section outlines some of my programming projects. This is mainly to documen
 
 ---
 
-# [Harvard CS50 Course](./CS50/index.md)
+# [Harvard CS50 Course](./programming/CS50/index.md)
 
 **Start Date:** 16/08/2022
 
