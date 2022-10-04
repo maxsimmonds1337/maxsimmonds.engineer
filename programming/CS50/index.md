@@ -4,6 +4,6 @@ Harvard submits all it's CS50 lectures online, allowing you to follow along and 
 
 ## Week 1, Scratch
 
-[Week 1 Submissions](./Submissions/psets/1)
+[Week 1 Submissions](./Submissions/psets/1.md)
 
 A numerically controlled oscillator is a method for generating a value that changes sinusoidally at a given frequency. Usually, sine waves and cosine waves are generated via a lookup table. This is an alternative method that doesn't require a large table of memory.
