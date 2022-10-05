@@ -44,7 +44,7 @@ I recently wanted to present (on my CV) my leetcode stats. Leetcode doesn't have
 
 ---
 
-## [JS Wave Emulator](./JS/wave.html)
+## [JS Wave Emulator](./JS/Wave/wave.html)
 
 **Start Date:** 20/09/2022
 
