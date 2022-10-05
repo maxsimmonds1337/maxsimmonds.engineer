@@ -34,7 +34,7 @@ The alt text is then changed to the command, so that the data isn't lost.
 
 ---
 
-## [CORS Proxy](./JS/CORS-proxy.md)
+## [CORS Proxy](./JS/leetcode-api-cors.html)
 
 **Start Date:** 13/09/2022
 
