@@ -33,8 +33,12 @@
   
   function display_results(response_json) {
   
-      console.log(response_json.data['time'])
+      const username = response_json.data.matchedUser.username;
   
+      const total_submissions = response_json.data[0];
+  
+      document.getElementById("username").innerHTML = "User: " + username;
+    
   }
   
   </script>
