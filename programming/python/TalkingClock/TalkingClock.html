@@ -1,32 +1,18 @@
 
 <script>
     // Just some constants
-  const LEETCODE_API_ENDPOINT = 'https://cors-proxy.maxsimmonds1337.workers.dev?https://talking-clock.herokuapp.com/'
-  const GetProgress = `
-  query getUserProfile($username: String!) {
-    matchedUser(username: $username) {
-      username
-      submitStats: submitStatsGlobal {
-        acSubmissionNum {
-          difficulty
-          count
-          submissions
-        }
-      }
-    }
-  }`
+  const TALKING_CLOCK_API_ENDPOINT = 'https://cors-proxy.maxsimmonds1337.workers.dev?https://talking-clock.herokuapp.com/'
+
       
   // We can pass the JSON response as an object to our createTodoistTask later.
   const fetchDailyCodingChallenge = async () => {
       console.log(`Getting time from Talking Clock API...`)
   
       const init = {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: {"time": ""},
+          "time": "",
       }
   
-      const response = await fetch(LEETCODE_API_ENDPOINT, init)
+      const response = await fetch(TALKING_CLOCK_ENDPOINT, init)
       return response.json();
   
   }
