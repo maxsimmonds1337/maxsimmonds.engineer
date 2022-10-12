@@ -33,7 +33,7 @@
   
   function display_results(response_json) {
   
-      const username = response_json.data[0];
+      const username = response_json['time'];
   
       document.getElementById("username").innerHTML = "User: " + username;
     
@@ -53,8 +53,7 @@
   
           <script>
               let data = fetchDailyCodingChallenge();
-              console.log(data);
-              console.log(data['time']);
+              display_result(data);
 
           </script>
       </body>
