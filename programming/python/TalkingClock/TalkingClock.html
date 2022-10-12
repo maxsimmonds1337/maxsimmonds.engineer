@@ -33,7 +33,8 @@
   
   function display_results(response_json) {
   
-      const username = response_json['time'];
+      console.log(response_json);
+      const username = response_json.data;
   
       document.getElementById("username").innerHTML = "User: " + username;
     
