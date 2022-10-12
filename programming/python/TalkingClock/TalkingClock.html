@@ -33,10 +33,10 @@
   
   function display_results(response_json) {
   
-      console.log(response_json);
-      const username = response_json.data;
+      //console.log(response_json);
+      const time = response_json.time['time'];
   
-      document.getElementById("username").innerHTML = "User: " + username;
+      document.getElementById("time").innerHTML = "Time: " + time;
     
   }
   
@@ -46,12 +46,7 @@
       <h1>Leetcode stats</h1>
   
       <body id = "body">
-          <div id = "username"></div>
-          <div id = "total_submissions"></div>
-          <div id = "easy_completed"></div>
-          <div id = "medium_completed"></div>
-          <div id = "hard_completed"></div>
-  
+          <div id = "time"></div>
           <script>
               let data = fetchDailyCodingChallenge();
               data.then(display_results);
