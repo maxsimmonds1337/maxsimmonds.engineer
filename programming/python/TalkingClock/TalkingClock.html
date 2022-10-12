@@ -54,7 +54,7 @@
   
           <script>
               let data = fetchDailyCodingChallenge();
-              display_results(data);
+              data.then(display_results);
 
           </script>
       </body>
