@@ -16,6 +16,11 @@ def depth_first_search_print(graph: dict, source_node: str) -> None:
             stack.append(neighbour)
     return None
 
+def depth_first_search_print_rec(graph: dict, source_node: str) -> None:
+    print(source_node) ## this is the current node, so print it
+    for neighbour in graph[source_node]:
+        depth_first_search_print_rec(graph, neighbour)
+
 def bredth_first_search_print(graph: dict, source_node: str) -> None:
     queue = deque()
     queue.append(source_node) ## init the queue
@@ -29,6 +34,8 @@ def bredth_first_search_print(graph: dict, source_node: str) -> None:
 
 if __name__ == "__main__":
     depth_first_search_print(graph, "a")
+    print()
+    depth_first_search_print_rec(graph, "a")
     print()
     bredth_first_search_print(graph, "a")
 
