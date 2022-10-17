@@ -5,11 +5,11 @@
 
       
   // We can pass the JSON response as an object to our createTodoistTask later.
-  const fetchDailyCodingChallenge(test) = async () => {
+  const fetchDailyCodingChallenge = async () => {
       console.log(`Getting time from Talking Clock API...`)
   
       const init = {
-          "time": test,
+          "time": "",
       }
   
       const response = await fetch(TALKING_CLOCK_API_ENDPOINT, init)
@@ -37,8 +37,8 @@
           <button onclick="button_clicked()">click to get latest time</button>
           <script>
             function button_clicked() {
-              test = "10:10";
-              let data = fetchDailyCodingChallenge(test);
+
+              let data = fetchDailyCodingChallenge();
               data.then(display_results);
             }
 
