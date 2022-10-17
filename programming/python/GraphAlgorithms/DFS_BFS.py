@@ -1,10 +1,7 @@
 
-## adjacent list
-from ast import IsNot
 from collections import deque
-from queue import Empty
 
-
+## adjaceny list
 graph = {"a": ["b", "c"], "b": ["d"], "c": ["e"], "d": ["f"], "e": [], "f": []}
 
 def depth_first_search_print(graph: dict, source_node: str) -> None:
@@ -19,6 +16,19 @@ def depth_first_search_print(graph: dict, source_node: str) -> None:
             stack.append(neighbour)
     return None
 
+def bredth_first_search_print(graph: dict, source_node: str) -> None:
+    queue = deque()
+    queue.append(source_node) ## init the queue
+
+    while len(queue) != 0:
+        ## stop when the queue is empty
+        current_node = queue.popleft()
+        print(current_node) # print the current node
+        for neighbour in graph[current_node]:
+            queue.append(neighbour) ## add each neighbour, the queuing datatype will ensure we go through via BFS
+
 if __name__ == "__main__":
     depth_first_search_print(graph, "a")
+    print()
+    bredth_first_search_print(graph, "a")
 
