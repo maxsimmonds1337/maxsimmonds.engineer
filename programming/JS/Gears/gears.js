@@ -123,7 +123,7 @@ function calculate_gears(){
 }
 
 function setup() {
-  createCanvas(1000, 600);
+  createCanvas(windowWidth, 600);
 }
 
 function draw() {
