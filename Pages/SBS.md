@@ -26,3 +26,8 @@ Posted: 03/08/2022
 Posted: 05/08/2022
 
 ---
+
+## [Blog Post 4 - Schematic Capture!](blog4.md)
+Posted: 17/01/2023
+
+---
