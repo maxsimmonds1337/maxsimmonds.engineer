@@ -130,7 +130,10 @@ function draw() {
   
   background(51);
 
+  let num_slider_div = createDiv();
+  num_slider_div.addClass('navbar-header');
   num_of_pegs_slider = createSlider(0,21,6);
+  num_of_pegs_slider.parent(num_slider_div);
   num_of_pegs_slider.position(10,10);
   num_of_pegs_slider.style('width', width/2 + 'px');
   num_of_pegs_slider.input(draw_sliders);
