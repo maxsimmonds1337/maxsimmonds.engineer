@@ -2,7 +2,7 @@ This site hosts my projects, code, and anything else that I think my be worthy o
 
 ---
 
-# [DIY One Wheel](./Pages/SBS.md)
+# [DIY One Wheel](./DIY_One_Wheel/SBS.md)
 
 **Start Date:** 31/07/2022
 
@@ -12,7 +12,7 @@ This is my current project, a self balancing electric skateboard, commonly known
 
 ---
 
-# [Programming Portfolio](./programming/index.md)
+# [Programming Portfolio](./Programming_Portfolio/index.md)
 
 **Start Date:** 17/08/2022
 
@@ -22,7 +22,7 @@ This section outlines some of my programming projects. This is mainly to documen
 
 ---
 
-# [Harvard CS50 Course](./programming/CS50/index.md)
+# [Harvard CS50 Course](./Programming_Portfolio/CS50/index.md)
 
 **Start Date:** 16/08/2022
 
