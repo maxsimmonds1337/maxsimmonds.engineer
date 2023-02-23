@@ -12,8 +12,22 @@ Actually, checking back on the last [blog 4](blog4.md) I've made a fair bit of p
 
 ## Front Page
 
+<img width="1294" alt="image" src="https://user-images.githubusercontent.com/58208872/221044797-f9f1d70b-c8ab-4d9e-aa8e-6fdb5a56a506.png">
+
+Here's the front page! Obviously not finished. The BLDC driver needs it's sheet entries pulled in, and there's a few missing components (a few status LEDs, the 6 axis IMU, and that's about it!). So not long now.
+
 ## MCU
+
+<img width="1230" alt="image" src="https://user-images.githubusercontent.com/58208872/221044863-d3224cfa-8ae3-4371-91e5-17b4cb621d53.png">
+
+This is done! When I give the schematic the once over, it might change slightly, but this is it pretty much done. I remember a post earlier (maybe I'll link it in one day!) where I was trying to determine which MCU was used. Well, using my neat trick below (check out the old BOM section) I found it in the BOM. I very much doubt they changed the MCU in revisions, too much OSS (open source software) lost. It's the STM32F405RGT6 (I was right!).
 
 ## BLDC Driver
 
+<img width="1249" alt="image" src="https://user-images.githubusercontent.com/58208872/221044979-d9f7e326-0de5-484d-b76c-1f104bee1626.png">
+
+There's a little left to do here, the supply sense circuit, which is a simple N channel MOSFET that's enabled when the 5V buck is on (or, atleast, above the gate threshold of the FET), the voltage (I think they're bridge voltage, but I can't remember!) filter circuit with analogue switch (to add or remove filtering), and an LDO. Though, I recall thinking to myself that I didn't need this, so I'll check my notes from the first few blogs to see. 
+
 ## The Olb BOM
+
+One of the tricks I found to help speed up the schematic capture was to look at the old version of the VESC (V4) and check out its [BOM](./BLDC4.12_BOM.csv). I've done this for some of the components, like the MCU, and a few specfic diodes (like the one used in the buck) where the actual part is important, and I'm too lazy to do the calcs for them...
