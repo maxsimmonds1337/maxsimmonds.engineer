@@ -2,8 +2,16 @@
 from glob import glob as g
 import os
 from datetime import datetime
+import re
 
-base_path = "../../../"
+base_path = "../../"
+
+# this is the functino I need to finish
+def order_blog_posts(blog_posts):
+
+    blog_posts = sorted(blog_posts)
+  
+    return blog_posts
 
 def get_posts(blog_dir):
     """Get's the blog posts from a given blog directory"""
@@ -16,6 +24,15 @@ def get_posts(blog_dir):
     # TODO: make the blogs chronological
 
     return blogs
+
+def update_blog_edit_time(blog_dir, blog_name, new_time):
+    with open(f"{blog_dir}/index.md", "r+") as f:
+        old = f.read() # read everything in the file
+        f.seek(0) # rewind
+        print(re.split(blog_name, old)[0])
+        print("\n\n\n\n\n\n")
+        print(re.split(blog_name, old)[1])
+
 
 # this function adds the name of the blog (specified by the user) along with the posted date to the index 
 # ---
@@ -39,10 +56,6 @@ def add_blog(base_dir, blog_name, blog_desc):
     #   start date
     #   end date (on going)
 
-
-
-def update_end_date(blog_dir, blog_name):
-    pass
 
 def add_post(blog_dir, blog_name, blog_number):
     cmd = "code " + blog_dir + "blog" + str(counter - 1) + ".md"
@@ -91,6 +104,9 @@ if int(option) in range(0,counter):
         print("No blog posts!")
     else:
 
+        # important to order them so that when scrapping posts, we can index via the number
+        blog_posts = order_blog_posts(blog_posts)
+
         for blog in blog_posts:
             counter += 1
             print(f"{counter}. {blog}")
@@ -102,7 +118,10 @@ if int(option) in range(0,counter):
             add_post(blog_dir, blog_name, blog_number)
         else:
             # update the index to show the last edit on this blog (might be tricky)
-            #open the blog
+            new_time = datetime.now().strftime("%d/%m/%y")
+
+            # update_blog_edit_time(blog_dir, blog_name, new_time)
+            # open the blog
             print(f"Opening blog '{blog_dir + blog_posts[int(option)-1]}''")
             os.system("code " + blog_dir + str(blog_posts[int(option)-1]))
 

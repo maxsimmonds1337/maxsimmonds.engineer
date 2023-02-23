@@ -1,5 +1,17 @@
 # Programming Portfolio
 
+---
+
+## [My first Go with GO!](./Go/intro/go.html)
+
+**Posted:** 23/02/2023
+
+**Last Edited:** 23/02/2023
+
+My first attempt with go, using the online tutorial found [here](https://go.dev/tour/welcome/)
+
+---
+
 ## [Numerically Controlled Oscillator, C](./c/NCO.md)
 
 **Start Date:** 01/07/2022
