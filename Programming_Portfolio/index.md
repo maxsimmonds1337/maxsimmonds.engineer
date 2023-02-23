@@ -2,7 +2,7 @@
 
 ---
 
-## [My first Go with GO!](./Go/intro/go.html)
+## [My first Go with GO!](./Go/intro/go.md)
 
 **Posted:** 23/02/2023
 
