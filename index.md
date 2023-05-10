@@ -28,6 +28,6 @@ This section outlines some of my programming projects. This is mainly to documen
 
 **End Date:** On going
 
-My submissions and thoughts during my Harvard CS50 (computer science) course.
+My submissions and thoughts during my Harvard CS50 (computer science) course. (Really needs updating, I've almost completed the course!)
 
 ---

@@ -8,7 +8,7 @@
 
 **Last Edited:** 23/02/2023
 
-My first attempt with go, using the online tutorial found [here](https://go.dev/tour/basics/1)
+My first attempt with go, a baby tracking app that's hosted on GCP.
 
 ---
 
