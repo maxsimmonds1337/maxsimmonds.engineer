@@ -1,4 +1,12 @@
 # Programming Portfolio
+---
+## [Face Morphin!](./python/goMorph/faceMorph.md)
+
+**Posted:** 26/09/2023
+
+**Last Edited:** 26/09/2023
+
+An algorithm I designed that morphs faces. There's two branches, one for human-human morphing, and another for human-cartoon morphing. The code uses dlib to find pertient facial points. My algorithm then coralates these points between two images, and generates a triangular mesh over both images, using delaunay triangles. An intermediate shape is generated, that is somewhere between the two triangles, scaled between 0-1. The Affine transformation is calculated to determine the position of a pixel in th enew intermediate shape. This is done for both triangles, and pixels in the same position in the intermediate shape are cross-dissolved. This post goes into detail about the math and algorithm, with examples of the face morphing.
 
 ---
 
@@ -22,7 +30,7 @@ A numerically controlled oscillator is a method for generating a value that chan
 
 ---
 
-## [Markdown Graph Interpreter, Python](./Python/graphPlotter.md)
+## [Markdown Graph Interpreter, Python](./python/graphPlotter.md)
 
 **Start Date:** 01/08/2022
 

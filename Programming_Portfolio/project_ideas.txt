@@ -1,0 +1,6 @@
+=== Coding Project Ideas ===
+* Some sort of ray tracing (some boundaries, a point source, written in go)
+* A game in Go (FPV)
+* Self balancing skateboard (embedded programming and hardware)
+* 8 bit computer, including custom machine code
+* 
