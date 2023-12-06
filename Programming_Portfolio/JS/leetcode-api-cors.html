@@ -16,8 +16,8 @@ query getUserProfile($username: String!) {
 }`
     
 // We can pass the JSON response as an object to our createTodoistTask later.
-const fetchDailyCodingChallenge = async () => {
-    console.log(`Fetching daily coding challenge from LeetCode API.`)
+const fetchStats = async () => {
+    console.log(`Fetching stats from LeetCode API.`)
 
     const init = {
         method: 'POST',
@@ -65,8 +65,8 @@ function display_results(response_json) {
 		<div id = "hard_completed"></div>
 
 		<script>
-			let data = fetchDailyCodingChallenge();
-			data.then(display_results); // fetchDailyCoding... returns a promise. We wait on the promise, and then it's forfilled, we call the function for printing
+			let data = fetchStats();
+			data.then(display_results); // fetchStats... returns a promise. We wait on the promise, and then it's forfilled, we call the function for printing
 			//data.catch(document.getElementById("body").innerHTML = "Error reaching the API, are you sure you're calling from 'maxsimmonds.engineer'?");
 			//document.getElementById("code").innerHTML = ;
 			//data.catch(document.getElementById("code").innerHTML = "error");
