@@ -1,0 +1,75 @@
+<script>
+  // Just some constants
+const LEETCODE_API_ENDPOINT = 'https://cors-proxy.maxsimmonds1337.workers.dev?https://leetcode.com/graphql'
+const GetProgress = `
+query getUserProfile($username: String!) {
+  matchedUser(username: $username) {
+    username
+    submitStats: submitStatsGlobal {
+      acSubmissionNum {
+        difficulty
+        count
+        submissions
+      }
+    }
+  }
+}`
+    
+// We can pass the JSON response as an object to our createTodoistTask later.
+const fetchStats = async () => {
+    console.log(`Fetching stats from LeetCode API.`)
+
+    const init = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+			query: GetProgress,
+			variables: {username : "theengineeringoctopus"}, // this refers to SKU 
+		}),
+    }
+
+    const response = await fetch(LEETCODE_API_ENDPOINT, init)
+    return response.json();
+
+}
+
+function display_results(response_json) {
+
+	const username = response_json.data.matchedUser.username;
+
+	const total_submissions = response_json.data.matchedUser.submitStats.acSubmissionNum[0].count;
+
+	const easy_completed = response_json.data.matchedUser.submitStats.acSubmissionNum[1].count;
+	const medium_completed = response_json.data.matchedUser.submitStats.acSubmissionNum[2].count;
+	const hard_completed = response_json.data.matchedUser.submitStats.acSubmissionNum[3].count;
+
+
+	document.getElementById("username").innerHTML = "User: " + username;
+	document.getElementById("total_submissions").innerHTML = "Total Submissions: " + total_submissions;
+	document.getElementById("easy_completed").innerHTML = "'Easy' questions completed: " + easy_completed;
+	document.getElementById("medium_completed").innerHTML = "'Medium' questions completed: " + medium_completed;
+	document.getElementById("hard_completed").innerHTML = "'Hard' questions completed: " + hard_completed;
+
+}
+
+</script>
+
+<html>
+	<h1>Leetcode stats</h1>
+
+	<body id = "body">
+		<div id = "username"></div>
+		<div id = "total_submissions"></div>
+		<div id = "easy_completed"></div>
+		<div id = "medium_completed"></div>
+		<div id = "hard_completed"></div>
+
+		<script>
+			let data = fetchStats();
+			data.then(display_results); // fetchStats... returns a promise. We wait on the promise, and then it's forfilled, we call the function for printing
+			//data.catch(document.getElementById("body").innerHTML = "Error reaching the API, are you sure you're calling from 'maxsimmonds.engineer'?");
+			//document.getElementById("code").innerHTML = ;
+			//data.catch(document.getElementById("code").innerHTML = "error");
+		</script>
+	</body>
+</html>
