@@ -1,3 +1,36 @@
+  // Just some constants
+  const LEETCODE_API_ENDPOINT = 'https://cors-proxy.maxsimmonds1337.workers.dev?https://leetcode.com/graphql'
+  const GetProgress = `
+  query getUserProfile($username: String!) {
+    matchedUser(username: $username) {
+      username
+      submitStats: submitStatsGlobal {
+        acSubmissionNum {
+          difficulty
+          count
+          submissions
+        }
+      }
+    }
+  }`
+      
+  const fetchStats = async () => {
+      console.log(`Fetching stats from LeetCode API.`)
+  
+      const init = {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ 
+        query: GetProgress,
+        variables: {username : "theengineeringoctopus"},
+      }),
+      }
+  
+      const response = await fetch(LEETCODE_API_ENDPOINT, init)
+      return response.json();
+  
+  }
+
 function setup() {
     createCanvas(400, 400);
   }
@@ -58,6 +91,29 @@ function setup() {
       pop()
   
   }
+
+
+function updateVals(response_json) {
+
+	// const username = response_json.data.matchedUser.username;
+
+  total = response_json.data.matchedUser.submitStats.acSubmissionNum[0].count;
+
+	easy = response_json.data.matchedUser.submitStats.acSubmissionNum[1].count;
+  medium = response_json.data.matchedUser.submitStats.acSubmissionNum[2].count;
+  hard = response_json.data.matchedUser.submitStats.acSubmissionNum[3].count;
+
+	// document.getElementById("username").innerHTML = "User: " + username;
+	// document.getElementById("total_submissions").innerHTML = "Total Submissions: " + total_submissions;
+	// document.getElementById("easy_completed").innerHTML = "'Easy' questions completed: " + easy_completed;
+	// document.getElementById("medium_completed").innerHTML = "'Medium' questions completed: " + medium_completed;
+	// document.getElementById("hard_completed").innerHTML = "'Hard' questions completed: " + hard_completed;
+
+}
+var total = 0
+var easy = 0
+var hard = 0
+var medium = 0
   
   function draw() {
     background(255,255,255);
@@ -67,13 +123,12 @@ function setup() {
     textSize(32);
     textFont('Courier New');
     text("Leetcode stats\nby Max", width/2, 50)
+
+    let data = fetchStats();
+    data.then(updateVal); // fetchStats... returns a promise. We wait on the promise, and then it's forfilled, we call the function for printing
     
     weight = 20
-    
-    var total = 100
-    var easy = 10
-    var hard = 50
-    var medium = 40
+  
     
     textToRotate = str(total) + " total questions"
     textStyle(BOLD);

@@ -1,60 +1,3 @@
-<script>
-  // Just some constants
-const LEETCODE_API_ENDPOINT = 'https://cors-proxy.maxsimmonds1337.workers.dev?https://leetcode.com/graphql'
-const GetProgress = `
-query getUserProfile($username: String!) {
-  matchedUser(username: $username) {
-    username
-    submitStats: submitStatsGlobal {
-      acSubmissionNum {
-        difficulty
-        count
-        submissions
-      }
-    }
-  }
-}`
-    
-const fetchStats = async () => {
-    console.log(`Fetching stats from LeetCode API.`)
-
-    const init = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-			query: GetProgress,
-			variables: {username : "theengineeringoctopus"},
-		}),
-    }
-
-    const response = await fetch(LEETCODE_API_ENDPOINT, init)
-    return response.json();
-
-}
-
-
-
-function display_results(response_json) {
-
-	const username = response_json.data.matchedUser.username;
-
-	const total_submissions = response_json.data.matchedUser.submitStats.acSubmissionNum[0].count;
-
-	const easy_completed = response_json.data.matchedUser.submitStats.acSubmissionNum[1].count;
-	const medium_completed = response_json.data.matchedUser.submitStats.acSubmissionNum[2].count;
-	const hard_completed = response_json.data.matchedUser.submitStats.acSubmissionNum[3].count;
-
-	
-	// document.getElementById("username").innerHTML = "User: " + username;
-	// document.getElementById("total_submissions").innerHTML = "Total Submissions: " + total_submissions;
-	// document.getElementById("easy_completed").innerHTML = "'Easy' questions completed: " + easy_completed;
-	// document.getElementById("medium_completed").innerHTML = "'Medium' questions completed: " + medium_completed;
-	// document.getElementById("hard_completed").innerHTML = "'Hard' questions completed: " + hard_completed;
-
-}
-
-</script>
-
 <html>
 	<script src="https://cdn.jsdelivr.net/npm/p5@1.9.0/lib/p5.js"></script>
 	<script src="./target.js"></script>
@@ -66,12 +9,10 @@ function display_results(response_json) {
 		<div id = "medium_completed"></div>
 		<div id = "hard_completed"></div> -->
 
-		<script>
-			let data = fetchStats();
-			data.then(draw()); // fetchStats... returns a promise. We wait on the promise, and then it's forfilled, we call the function for printing
+		<!-- <script>
 			//data.catch(document.getElementById("body").innerHTML = "Error reaching the API, are you sure you're calling from 'maxsimmonds.engineer'?");
 			//document.getElementById("code").innerHTML = ;
 			//data.catch(document.getElementById("code").innerHTML = "error");
-		</script>
+		</script> -->
 	</body>
 </html>
