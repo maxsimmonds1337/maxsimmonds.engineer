@@ -50,47 +50,47 @@ function setup() {
   
   }
   
-  function rotateText(x, y, radius, txt, angle) {
-      // Comment the following line to hide debug objects
-      // drawDebug(x, y, radius)
-    
-      textFont('Courier New');
-      noStroke()
+  function rotateText(x, y, radius, txt, angle, txtSize) {
+    // Comment the following line to hide debug objects
+    // drawDebug(x, y, radius)
   
-      // Split the chars so they can be printed one by one
-      chars = txt.split("")
-  
-      // Decide an angle
-      charSpacingAngleDeg = angle;
-  
-      // https://p5js.org/reference/#/p5/textAlign
-      textAlign(CENTER, BASELINE)
-      textSize(10)
-  
-  
-      // https://p5js.org/reference/#/p5/push
-      // Save the current translation matrix so it can be reset
-      // before the end of the function
-      push()
-  
-      // Let's first move to the center of the circle
-      translate(x, y)
-  
-      // First rotate half back so that middle char will come in the center
-      rotate(radians(-chars.length * charSpacingAngleDeg / 2))
-  
-      for (let i = 0; i < chars.length; i++) {
-          text(chars[i], 0, -radius)
-  
-          // Then keep rotating forward per character
-          rotate(radians(charSpacingAngleDeg))
-      }
-  
-      // Reset all translations we did since the last push() call
-      // so anything we draw after this isn't affected
-      pop()
-  
-  }
+    textFont('Courier New');
+    noStroke()
+
+    // Split the chars so they can be printed one by one
+    chars = txt.split("")
+
+    // Decide an angle
+    charSpacingAngleDeg = angle;
+
+    // https://p5js.org/reference/#/p5/textAlign
+    textAlign(CENTER, BASELINE)
+    textSize(txtSize)
+
+
+    // https://p5js.org/reference/#/p5/push
+    // Save the current translation matrix so it can be reset
+    // before the end of the function
+    push()
+
+    // Let's first move to the center of the circle
+    translate(x, y)
+
+    // First rotate half back so that middle char will come in the center
+    rotate(radians(-chars.length * charSpacingAngleDeg / 2))
+
+    for (let i = 0; i < chars.length; i++) {
+        text(chars[i], 0, -radius)
+
+        // Then keep rotating forward per character
+        rotate(radians(charSpacingAngleDeg))
+    }
+
+    // Reset all translations we did since the last push() call
+    // so anything we draw after this isn't affected
+    pop()
+
+}
 
 
 function updateVals(response_json) {
@@ -125,12 +125,18 @@ function draw() {
   textFont('Courier New');
   text("Leetcode stats\nby Max", width/2, 50)
   
-  weight = 40
 
   let data = fetchStats()
   data.then(updateVals)
   
-  strokeWeight(20);
+  weight = 40
+  
+  easy = 22
+  total = 34
+  medium = 10
+  hard = 0
+  
+  strokeWeight(weight);
   stroke(0,0,0)
   arc(width/2, height/2, 175*2, 175*2, -PI, 2*PI-PI);
   stroke(0,255,0)
@@ -143,10 +149,10 @@ function draw() {
   textStyle(BOLD);
     
   textToRotate = str(total) + " questions completed"
-  rotateText(width/2, height/2, 100*2, textToRotate, 5)
-  rotateText(width/2, height/2, 60*2, str(easy) + " easy", 10)
-  rotateText(width/2, height/2, 35*2, str(medium) + " medium", 12)
-  rotateText(width/2, height/2, 10*2, str(hard) + " hard", 25)
+  rotateText(width/2, height/2, 100*2, textToRotate, 5, 20)
+  rotateText(width/2, height/2, 60*2, str(easy) + " Easy", 10, 20)
+  rotateText(width/2, height/2, 35*2, str(medium) + " Medium", 12, 20)
+  rotateText(width/2, height/2, 10*2, str(hard) + " Hard", 25, 14)
   textAlign(CENTER, CENTER);
   noStroke()
   textSize(32);
