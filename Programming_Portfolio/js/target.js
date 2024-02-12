@@ -134,21 +134,21 @@ function draw() {
   
   strokeWeight(20);
   stroke(0,0,0)
-  arc(width/2, height/2, 175, 175, -PI, PI);
+  arc(width/2, height/2, 175*2, 175*2, -PI, PI);
   stroke(0,255,0)
-  arc(width/2, height/2, 125, 125, -PI, PI*(easy/total));
+  arc(width/2, height/2, 125*2, 125*2, -PI, PI*(easy/total));
   stroke(0,0,255)
-  arc(width/2, height/2, 75, 75, -PI, PI*(medium/total));
+  arc(width/2, height/2, 75*2, 75*2, -PI, PI*(medium/total));
   stroke(255,0,0)
-  arc(width/2, height/2, 25, 25, -PI, PI*(hard/total));
+  arc(width/2, height/2, 25*2, 25*2, -PI, PI*(hard/total));
   
     
   textToRotate = str(total) + " questions completed"
   textStyle(BOLD);
-  rotateText(width/2, height/2, 100, textToRotate, 5)
-  rotateText(width/2, height/2, 60, str(easy) + " easy", 10)
-  rotateText(width/2, height/2, 35, str(medium) + " medium", 12)
-  rotateText(width/2, height/2, 10, str(hard) + " hard", 25)
+  rotateText(width/2, height/2, 100*2, textToRotate, 5)
+  rotateText(width/2, height/2, 60*2, str(easy) + " easy", 10)
+  rotateText(width/2, height/2, 35*2, str(medium) + " medium", 12)
+  rotateText(width/2, height/2, 10*2, str(hard) + " hard", 25)
   textAlign(CENTER, CENTER);
   noStroke()
   textSize(32);
