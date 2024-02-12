@@ -32,7 +32,7 @@
   }
 
 function setup() {
-    createCanvas(width, height);
+    createCanvas(windowWidth, windowHeight);
   }
   
   function drawDebug(x, y, radius) {
