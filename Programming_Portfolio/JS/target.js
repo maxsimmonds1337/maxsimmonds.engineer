@@ -50,7 +50,7 @@ function setup() {
   
   }
   
-  function rotateText(x, y, radius, txt) {
+  function rotateText(x, y, radius, txt, angle) {
       // Comment the following line to hide debug objects
       // drawDebug(x, y, radius)
     
@@ -61,7 +61,7 @@ function setup() {
       chars = txt.split("")
   
       // Decide an angle
-      charSpacingAngleDeg = 5;
+      charSpacingAngleDeg = angle;
   
       // https://p5js.org/reference/#/p5/textAlign
       textAlign(CENTER, BASELINE)
@@ -142,9 +142,9 @@ function draw() {
   stroke(255,0,0)
   arc(width/2, height/2, 25*2, 25*2, -PI, PI*(hard/total));
   
-    
-  textToRotate = str(total) + " questions completed"
   textStyle(BOLD);
+    
+  textToRotate = str(total) + " questions completed"=
   rotateText(width/2, height/2, 100*2, textToRotate, 5)
   rotateText(width/2, height/2, 60*2, str(easy) + " easy", 10)
   rotateText(width/2, height/2, 35*2, str(medium) + " medium", 12)
