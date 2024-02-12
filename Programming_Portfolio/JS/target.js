@@ -144,7 +144,7 @@ function draw() {
   
   textStyle(BOLD);
     
-  textToRotate = str(total) + " questions completed"=
+  textToRotate = str(total) + " questions completed"
   rotateText(width/2, height/2, 100*2, textToRotate, 5)
   rotateText(width/2, height/2, 60*2, str(easy) + " easy", 10)
   rotateText(width/2, height/2, 35*2, str(medium) + " medium", 12)
