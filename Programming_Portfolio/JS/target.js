@@ -116,36 +116,42 @@ var easy = 0
 var hard = 0
 var medium = 0
   
-  function draw() {
-    background(255,255,255);
+function draw() {
+  background(255,255,255);
+  
+  textAlign(CENTER, CENTER);
+  noStroke()
+  textSize(32);
+  textFont('Courier New');
+  text("Leetcode stats\nby Max", width/2, 50)
+  
+  weight = 20
+  
+  var total = 100
+  var easy = 22
+  var medium = 30
+  var hard = 3  
+  
+  strokeWeight(20);
+  stroke(0,0,0)
+  arc(width/2, height/2, 175, 175, -PI, PI);
+  stroke(0,255,0)
+  arc(width/2, height/2, 125, 125, -PI, PI*(easy/total));
+  stroke(0,0,255)
+  arc(width/2, height/2, 75, 75, -PI, PI*(medium/total));
+  stroke(255,0,0)
+  arc(width/2, height/2, 25, 25, -PI, PI*(hard/total));
+  
     
-    textAlign(CENTER, CENTER);
-    noStroke()
-    textSize(32);
-    textFont('Courier New');
-    text("Leetcode stats\nby Max", width/2, 50)
+  textToRotate = str(total) + " questions completed"
+  textStyle(BOLD);
+  rotateText(200, 200, 100, textToRotate, 5)
+  rotateText(200, 200, 60, str(easy) + " easy", 10)
+  rotateText(200, 200, 35, str(medium) + " medium", 12)
+  rotateText(200, 200, 10, str(hard) + " hard", 25)
+  textAlign(CENTER, CENTER);
+  noStroke()
+  textSize(32);
+  textFont('Courier New');
 
-    let data = fetchStats();
-    data.then(updateVals); // fetchStats... returns a promise. We wait on the promise, and then it's forfilled, we call the function for printing
-    
-    weight = 20
-    
-    textToRotate = str(total) + " total questions"
-    textStyle(BOLD);
-    rotateText(200, 200, 100, textToRotate)
-    textAlign(CENTER, CENTER);
-    noStroke()
-    textSize(32);
-    textFont('Courier New');
-    
-    strokeWeight(20);
-    stroke(0,0,0)
-    arc(width/2, height/2, 175, 175, -PI, PI);
-    stroke(0,255,0)
-    arc(width/2, height/2, 125, 125, -PI, PI*(easy/total));
-    stroke(0,0,255)
-    arc(width/2, height/2, 75, 75, -PI, PI*(medium/total));
-    stroke(255,0,0)
-    arc(width/2, height/2, 25, 25, -PI, PI*(hard/total));
-    
-  }
+}
