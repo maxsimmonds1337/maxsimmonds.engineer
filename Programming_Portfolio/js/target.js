@@ -127,11 +127,6 @@ function draw() {
   
   weight = 40
   
-  var total = 100
-  var easy = 22
-  var medium = 30
-  var hard = 3  
-  
   strokeWeight(20);
   stroke(0,0,0)
   arc(width/2, height/2, 175*2, 175*2, -PI, PI);
