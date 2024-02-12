@@ -145,10 +145,10 @@ function draw() {
     
   textToRotate = str(total) + " questions completed"
   textStyle(BOLD);
-  rotateText(200, 200, 100, textToRotate, 5)
-  rotateText(200, 200, 60, str(easy) + " easy", 10)
-  rotateText(200, 200, 35, str(medium) + " medium", 12)
-  rotateText(200, 200, 10, str(hard) + " hard", 25)
+  rotateText(width/2, height/2, 100, textToRotate, 5)
+  rotateText(width/2, height/2, 60, str(easy) + " easy", 10)
+  rotateText(width/2, height/2, 35, str(medium) + " medium", 12)
+  rotateText(width/2, height/2, 10, str(hard) + " hard", 25)
   textAlign(CENTER, CENTER);
   noStroke()
   textSize(32);
