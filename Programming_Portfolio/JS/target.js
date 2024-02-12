@@ -125,7 +125,7 @@ var medium = 0
     text("Leetcode stats\nby Max", width/2, 50)
 
     let data = fetchStats();
-    data.then(updateVal); // fetchStats... returns a promise. We wait on the promise, and then it's forfilled, we call the function for printing
+    data.then(updateVals); // fetchStats... returns a promise. We wait on the promise, and then it's forfilled, we call the function for printing
     
     weight = 20
   
