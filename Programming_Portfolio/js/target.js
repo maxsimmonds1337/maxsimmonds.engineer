@@ -126,6 +126,9 @@ function draw() {
   text("Leetcode stats\nby Max", width/2, 50)
   
   weight = 40
+
+  let data = fetchStats()
+  data.then(updateVals)
   
   strokeWeight(20);
   stroke(0,0,0)
