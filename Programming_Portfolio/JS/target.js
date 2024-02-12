@@ -132,7 +132,7 @@ function draw() {
   
   strokeWeight(20);
   stroke(0,0,0)
-  arc(width/2, height/2, 175*2, 175*2, -PI, -PI);
+  arc(width/2, height/2, 175*2, 175*2, -PI, 2*PI-PI);
   stroke(0,255,0)
   arc(width/2, height/2, 125*2, 125*2, -PI, (2*PI*(easy/total)) - PI);
   stroke(0,0,255)
