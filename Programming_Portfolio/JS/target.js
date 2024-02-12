@@ -125,7 +125,7 @@ function draw() {
   textFont('Courier New');
   text("Leetcode stats\nby Max", width/2, 50)
   
-  weight = 20
+  weight = 40
   
   var total = 100
   var easy = 22
