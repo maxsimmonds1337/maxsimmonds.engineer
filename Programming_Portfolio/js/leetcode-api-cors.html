@@ -15,7 +15,6 @@ query getUserProfile($username: String!) {
   }
 }`
     
-// We can pass the JSON response as an object to our createTodoistTask later.
 const fetchStats = async () => {
     console.log(`Fetching stats from LeetCode API.`)
 
@@ -24,7 +23,7 @@ const fetchStats = async () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
 			query: GetProgress,
-			variables: {username : "theengineeringoctopus"}, // this refers to SKU 
+			variables: {username : "theengineeringoctopus"},
 		}),
     }
 
@@ -32,6 +31,8 @@ const fetchStats = async () => {
     return response.json();
 
 }
+
+
 
 function display_results(response_json) {
 
@@ -43,26 +44,29 @@ function display_results(response_json) {
 	const medium_completed = response_json.data.matchedUser.submitStats.acSubmissionNum[2].count;
 	const hard_completed = response_json.data.matchedUser.submitStats.acSubmissionNum[3].count;
 
+	
 
-	document.getElementById("username").innerHTML = "User: " + username;
-	document.getElementById("total_submissions").innerHTML = "Total Submissions: " + total_submissions;
-	document.getElementById("easy_completed").innerHTML = "'Easy' questions completed: " + easy_completed;
-	document.getElementById("medium_completed").innerHTML = "'Medium' questions completed: " + medium_completed;
-	document.getElementById("hard_completed").innerHTML = "'Hard' questions completed: " + hard_completed;
+
+	// document.getElementById("username").innerHTML = "User: " + username;
+	// document.getElementById("total_submissions").innerHTML = "Total Submissions: " + total_submissions;
+	// document.getElementById("easy_completed").innerHTML = "'Easy' questions completed: " + easy_completed;
+	// document.getElementById("medium_completed").innerHTML = "'Medium' questions completed: " + medium_completed;
+	// document.getElementById("hard_completed").innerHTML = "'Hard' questions completed: " + hard_completed;
 
 }
 
 </script>
 
 <html>
-	<h1>Leetcode stats</h1>
+	<script src="https://cdn.jsdelivr.net/npm/p5@1.9.0/lib/p5.js"></script>
+	<script src="sketch.js"></script>
 
 	<body id = "body">
-		<div id = "username"></div>
+		<!-- <div id = "username"></div>
 		<div id = "total_submissions"></div>
 		<div id = "easy_completed"></div>
 		<div id = "medium_completed"></div>
-		<div id = "hard_completed"></div>
+		<div id = "hard_completed"></div> -->
 
 		<script>
 			let data = fetchStats();
