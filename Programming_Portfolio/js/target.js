@@ -134,11 +134,11 @@ function draw() {
   stroke(0,0,0)
   arc(width/2, height/2, 175*2, 175*2, -PI, PI);
   stroke(0,255,0)
-  arc(width/2, height/2, 125*2, 125*2, -PI, PI*(easy/total));
+  arc(width/2, height/2, 125*2, 125*2, 0, 2*PI*(easy/total));
   stroke(0,0,255)
-  arc(width/2, height/2, 75*2, 75*2, -PI, PI*(medium/total));
+  arc(width/2, height/2, 75*2, 75*2, 0, 2*PI*(medium/total));
   stroke(255,0,0)
-  arc(width/2, height/2, 25*2, 25*2, -PI, PI*(hard/total));
+  arc(width/2, height/2, 25*2, 25*2, 0, 2*PI*(hard/total));
   
   textStyle(BOLD);
     
