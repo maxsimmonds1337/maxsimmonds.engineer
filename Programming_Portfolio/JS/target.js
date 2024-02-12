@@ -102,6 +102,7 @@ function updateVals(response_json) {
 	easy = response_json.data.matchedUser.submitStats.acSubmissionNum[1].count;
   medium = response_json.data.matchedUser.submitStats.acSubmissionNum[2].count;
   hard = response_json.data.matchedUser.submitStats.acSubmissionNum[3].count;
+  noLoop()
 
 	// document.getElementById("username").innerHTML = "User: " + username;
 	// document.getElementById("total_submissions").innerHTML = "Total Submissions: " + total_submissions;
@@ -147,5 +148,4 @@ var medium = 0
     stroke(255,0,0)
     arc(width/2, height/2, 25, 25, -PI, PI*(hard/total));
     
-    noLoop()
   }
