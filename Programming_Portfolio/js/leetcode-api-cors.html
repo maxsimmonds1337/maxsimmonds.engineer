@@ -45,8 +45,6 @@ function display_results(response_json) {
 	const hard_completed = response_json.data.matchedUser.submitStats.acSubmissionNum[3].count;
 
 	
-
-
 	// document.getElementById("username").innerHTML = "User: " + username;
 	// document.getElementById("total_submissions").innerHTML = "Total Submissions: " + total_submissions;
 	// document.getElementById("easy_completed").innerHTML = "'Easy' questions completed: " + easy_completed;
@@ -70,7 +68,7 @@ function display_results(response_json) {
 
 		<script>
 			let data = fetchStats();
-			data.then(display_results); // fetchStats... returns a promise. We wait on the promise, and then it's forfilled, we call the function for printing
+			data.then(draw()); // fetchStats... returns a promise. We wait on the promise, and then it's forfilled, we call the function for printing
 			//data.catch(document.getElementById("body").innerHTML = "Error reaching the API, are you sure you're calling from 'maxsimmonds.engineer'?");
 			//document.getElementById("code").innerHTML = ;
 			//data.catch(document.getElementById("code").innerHTML = "error");
