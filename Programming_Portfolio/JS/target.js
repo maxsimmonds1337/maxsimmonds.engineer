@@ -128,7 +128,6 @@ var medium = 0
     data.then(updateVals); // fetchStats... returns a promise. We wait on the promise, and then it's forfilled, we call the function for printing
     
     weight = 20
-  
     
     textToRotate = str(total) + " total questions"
     textStyle(BOLD);
@@ -148,5 +147,5 @@ var medium = 0
     stroke(255,0,0)
     arc(width/2, height/2, 25, 25, -PI, PI*(hard/total));
     
-  
+    noLoop()
   }
