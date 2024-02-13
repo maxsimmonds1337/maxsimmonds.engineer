@@ -131,10 +131,10 @@ function draw() {
   
   weight = 40
   
-  easy = 22
-  total = 34
-  medium = 10
-  hard = 0
+  // easy = 22
+  // total = 34
+  // medium = 10
+  // hard = 0
   
   strokeWeight(weight);
   stroke(0,0,0)
