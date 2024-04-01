@@ -121,5 +121,8 @@ No luck there either :( I think it catches an exception because, when I try to l
 
 <img width="729" alt="image" src="https://github.com/maxsimmonds1337/maxsimmonds.engineer/assets/58208872/47756d2c-a51f-4ad0-8e77-f7545812e097">
 
+## Hydra
 
+## TCPDump
+So, wireshark didn't seem to be working. I reviewed some previously captured data from when I connected a phone to the drone, and used my laptop for packet sniffing. I noticed that the version number is updated on the app after connecting to the drone, so that means some data's been sent - but my laptop didn't catch it. So Wireshark seems to be having some issues. I looked and checked that the 
 
