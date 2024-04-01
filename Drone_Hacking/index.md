@@ -105,3 +105,21 @@ An issue I came across is that each connection/test takes ~3s. That does not sca
 
 ## Metasploit
 
+I haven't used Metasploit before, but after googling looking for FTP exploits, it looks like it might be useful. Specifically, it has a DB of exploits you can search through, so let's see what it can do. First, I ran an nmap scan through metasploit:
+
+<img width="1708" alt="image" src="https://github.com/maxsimmonds1337/maxsimmonds.engineer/assets/58208872/75959c96-df8c-4bd9-a2a3-e5ddda18b717">
+
+So, a little bit more info than what I got when I did a native nmap scan, but nothing that amazing. However, it does seem to think that port 7070 is the video stream (given that, for some reason, it's talking about a doorbird, which is a video doorbell.). Also, it's captured the data that's spewed out of port 50000 when a TCP connection is established, so that's cool. Anyway, I check the DB, and no luck for an exploit for stupidFTP:
+
+<img width="224" alt="image" src="https://github.com/maxsimmonds1337/maxsimmonds.engineer/assets/58208872/bc4e5ac3-cbd9-4176-ac1f-edc39af5ecc3">
+
+No luck for the doorbird either. I searched for FTP, which as you can imagine, had many hits, and tried out a few that seemed platform agnostic:
+
+<img width="531" alt="image" src="https://github.com/maxsimmonds1337/maxsimmonds.engineer/assets/58208872/aa55bcd9-f67c-4431-bdd4-8d5e7df2d850">
+
+No luck there either :( I think it catches an exception because, when I try to login manually with anon, it returns a server error and closes the connection. I tried a BF method too, but seems metasploit has the same issue as my code, single connections and not concurrent, so taking a long while. The last password in this list is kinda how I feel right now:
+
+<img width="729" alt="image" src="https://github.com/maxsimmonds1337/maxsimmonds.engineer/assets/58208872/47756d2c-a51f-4ad0-8e77-f7545812e097">
+
+
+
