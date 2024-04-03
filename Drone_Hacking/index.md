@@ -143,7 +143,11 @@ So, I think I will drop the attempt, for now, at gaining access to the FTP serve
 
 <img width="1710" alt="image" src="https://github.com/maxsimmonds1337/maxsimmonds.engineer/assets/58208872/a95caa51-0e2c-42e3-9e76-bfffe7f347d0">
 
-So, this time with WS running in monitor mode, I connected to the drone via my wife's phone (who's successfully connects, unlike my iphone 14 MAX, here's is just an Iphone 14) and captured all the data. On port 6699, the one that I currently suspect send the video data, I got this amazing data dump, you can see above. Now, extracting the data we can read it a little more clearly (its JSON format):
+So, this time with WS running in monitor mode, I connected to the drone via my wife's phone (who's successfully connects, unlike my iphone 14 MAX, here's is just an Iphone 14) and captured all the data. 
+
+### Port 6699
+
+On port 6699, the one that I currently suspect send the video data, I got this amazing data dump, you can see above. Now, extracting the data we can read it a little more clearly (its JSON format):
 
 ```
 "CMD": 0,
@@ -191,7 +195,20 @@ Now, I wonder if the ```CMD``` param is how we send commands to the drone? Somet
 
 So, back to the other ports we have available. Metasploit gave a better service description that what I could get with native nmap, here's a reminder:
 
-[] - 
+[21] - Stupid FTP
+[2121] - Stupid FTP
+[6699] - Napster?
+[7070] - Door Bird
+[50000] - ibm db2?
+
+The two with question marks, I'm guessing, are ones it can't verifiy through any output. 6699 is the port that we recived data about the wifi etc. Let's take a look at some of the output from the other ports
+
+### Port 7070
+
+
+
+
+
 
 
 
