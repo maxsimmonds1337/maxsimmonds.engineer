@@ -121,8 +121,78 @@ No luck there either :( I think it catches an exception because, when I try to l
 
 <img width="729" alt="image" src="https://github.com/maxsimmonds1337/maxsimmonds.engineer/assets/58208872/47756d2c-a51f-4ad0-8e77-f7545812e097">
 
-## Hydra
 
 ## TCPDump
-So, wireshark didn't seem to be working. I reviewed some previously captured data from when I connected a phone to the drone, and used my laptop for packet sniffing. I noticed that the version number is updated on the app after connecting to the drone, so that means some data's been sent - but my laptop didn't catch it. So Wireshark seems to be having some issues. I looked and checked that the 
+So, wireshark didn't seem to be working. I reviewed some previously captured data from when I connected a phone to the drone, and used my laptop for packet sniffing. I noticed that the version number is updated on the app after connecting to the drone, so that means some data's been sent - but my laptop didn't catch it. So Wireshark seems to be having some issues.
+
+# [2/04/2024]
+
+So, some updates:
+
+- I got wireshare working. There were two issues, one, apparently, having WS in promiscious mode isn't enough, you also need to have it in [monitor mode](https://wiki.wireshark.org/CaptureSetup/WLAN) . Secondly, when it's in monitor mode, you can't be connected to a wifi station at that point. So, with that in mind, I was able to get some data (see below!)
+
+- Hydra wasn't working. Well, it was, but it wasn't. While I can make up to 8 concurrent connections to the drone's FTP server (that speeds up my bruteforcer by 8 times!) I'm still no closer to hacking it. I tried multiple passwords/users etc. But since I can't even know the username, I have to also go through a username list and a password list (or attempt a bruteforce, which, for context a 5 char password consisting of [a-z][A-Z][0-9] is 4 billion passwords. I can manage 8 tests every 3 seconds, so about 2 a second, that's 2 billion seconds, a long time!)
+
+<img width="1336" alt="image" src="https://github.com/maxsimmonds1337/maxsimmonds.engineer/assets/58208872/fe4d27b8-bf8c-47cd-9e67-6b7b49478b2b">
+
+Above is an image of hydra in action, with concurrent requests. Very cool, but not likely to result in anything. I dabbled with using an RPI, and hard wiring a bench power supply to the drone, and just leave it running, and maybe I'll do this later. I had just about managed to set the pi up so that I could connect to it over SSH via the ethernet port (on my wifi) and then have it's wifi adapater connect to the drone (on a different network, 192.168.201.X) for the hacking, but that's as far as I got. Remember the objectives, I tell myself!)
+
+So, I think I will drop the attempt, for now, at gaining access to the FTP server. It's not that important for my objectives anyway, which are to fly the drone from my laptop. Let's get back to wireshark...
+
+## Wireshark attempt 2
+
+<img width="1710" alt="image" src="https://github.com/maxsimmonds1337/maxsimmonds.engineer/assets/58208872/a95caa51-0e2c-42e3-9e76-bfffe7f347d0">
+
+So, this time with WS running in monitor mode, I connected to the drone via my wife's phone (who's successfully connects, unlike my iphone 14 MAX, here's is just an Iphone 14) and captured all the data. On port 6699, the one that I currently suspect send the video data, I got this amazing data dump, you can see above. Now, extracting the data we can read it a little more clearly (its JSON format):
+
+```
+"CMD": 0,
+"PARAM": {
+    "M_LED_MODE": 1,
+    "M_AWB": 0,
+    "M_AE": 0,
+    "M_CTS": 0,
+    "M_BHT": 0,
+    "Wifi_Param": {
+        "ssid": "SNAPTAIN-A15-GD0214",
+        "ap_head": "SNAPTAIN-A15-",
+        "channel": "2",
+        "hw_mode": "g",
+        "pass_phrase": "12345678",
+        "mac": "E8E380B179A8"
+    },
+    "M_CARD": {
+        "online": 0
+    },
+    "Sensor_Param": {
+        "saturation": 0,
+        "brightness": 0,
+        "contrast": 0,
+        "flip": 0,
+        "angle": 0,
+        "flow_x": -1,
+        "flow_y": -1,
+        "flow_sensitivity": 30
+    },
+    "FirmWare": "3.1.00",
+    "build_date": "Jul  8 2020",
+    "build_time": "14:03:25",
+    "baud_rate": "115200",
+    "flow_protocol": "1",
+    "client": "XA",
+    "app_flag": ""
+},
+"RESULT": 0
+```
+
+Now, this explains how the app version is received on the app (and what first tipped me off that, while my phone doesn't receive a video stream, it does at least connect to the drone and receive _some_ data, as this version appears in the app, maybe i'll do a data dump of my phone at some point and compare). Interestingly, it yeilds a passcode for the wifi, but the wifi doesn't actually need a pass. I, of course, tried this pass with a few user names (user, root, snap, snaptain, admin, etc) but no luck. Oh well.
+
+Now, I wonder if the ```CMD``` param is how we send commands to the drone? Something I'll look at later too. 
+
+So, back to the other ports we have available. Metasploit gave a better service description that what I could get with native nmap, here's a reminder:
+
+[] - 
+
+
+
 
