@@ -205,7 +205,15 @@ The two with question marks, I'm guessing, are ones it can't verifiy through any
 
 ### Port 7070
 
+So, port 7070 is the one that nmap thinks is the RTSP port. I decided to run an nmap script, in fact all the scripts that relate to RTSP:
 
+<img width="775" alt="image" src="https://github.com/maxsimmonds1337/maxsimmonds.engineer/assets/58208872/c01dfb09-aef6-457b-ad17-6e8ff9ac81f2">
+
+Unfortunately, I didn't get much. I can see that it is indeed an RTSP protocol, as I can see the RTSP methods. Ideally, I would have liked the URL. Usually, it's something like:
+
+```rtsp://<ip>:<port>/route/for/stream```
+
+I guess we'll have to try and guess it :/. Oddly enough, I'm not seeing any packets in wireshark with the stream up, I thought I would, but apprently not!
 
 
 
