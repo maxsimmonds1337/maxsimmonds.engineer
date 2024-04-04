@@ -252,10 +252,11 @@ if __name__ == "__main__":
     main()
 ```
 
+<img width="1293" alt="image" src="https://github.com/maxsimmonds1337/maxsimmonds.engineer/assets/58208872/e1b4db87-010f-43d0-b186-c9cf14ac0758">
 
+Sadly, none of these worked! So I stoll don't know the URL!
 
-
-Someting seems odd, because I think I should be seeing more activity on wireshark than what I am. I think the next step will be sniff packets with a Remote Vitual Interface, as explained here (https://www.linkedin.com/pulse/easy-guide-apple-ios-packet-capture-amit-singh/)[https://www.linkedin.com/pulse/easy-guide-apple-ios-packet-capture-amit-singh/] 
+But something seems odd, because I think I should be seeing more activity on wireshark than what I am. I think the next step will be sniff packets with a Remote Vitual Interface, as explained here (https://www.linkedin.com/pulse/easy-guide-apple-ios-packet-capture-amit-singh/)[https://www.linkedin.com/pulse/easy-guide-apple-ios-packet-capture-amit-singh/] I think that'll be my plan tomorrow...
 
 
 
