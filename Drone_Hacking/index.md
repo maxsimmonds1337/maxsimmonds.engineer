@@ -215,6 +215,48 @@ Unfortunately, I didn't get much. I can see that it is indeed an RTSP protocol, 
 
 I guess we'll have to try and guess it :/. Oddly enough, I'm not seeing any packets in wireshark with the stream up, I thought I would, but apprently not!
 
+I've tried accessing many URLs, I even found the documentation for a doorbird that uses RTSP, to see what the route might be, but no luck. I even tried BF all of [these](https://raw.githubusercontent.com/nmap/nmap/master/nselib/data/rtsp-urls.txt) with the following:
+
+``` python
+import requests
+
+def check_rtsp_url(url):
+    try:
+        response = requests.options(url)
+        if response.status_code == 200:
+            print(f"Valid RTSP URL found: {url}")
+        else:
+            print(f"Not a valid RTSP URL: {url}")
+    except Exception as e:
+        print(f"Error occurred while checking URL {url}: {e}")
+
+def main():
+    # IP address and port
+    ip_address = "192.168.201.1"
+    port = "7070"
+
+    # Path to the word list containing possible routes for RTSP
+    wordlist_path = "wordlist.txt"
+
+    # Read the word list
+    with open(wordlist_path, "r") as file:
+        wordlist = file.readlines()
+
+    # Iterate over each word in the word list and construct RTSP URLs
+    for word in wordlist:
+        route = word.strip()
+        url = f"rtsp://{ip_address}:{port}/{route}"
+        check_rtsp_url(url)
+
+if __name__ == "__main__":
+    main()
+```
+
+
+
+
+Someting seems odd, because I think I should be seeing more activity on wireshark than what I am. I think the next step will be sniff packets with a Remote Vitual Interface, as explained here (https://www.linkedin.com/pulse/easy-guide-apple-ios-packet-capture-amit-singh/)[https://www.linkedin.com/pulse/easy-guide-apple-ios-packet-capture-amit-singh/] 
+
 
 
 
