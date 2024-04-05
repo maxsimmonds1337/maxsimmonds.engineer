@@ -205,17 +205,17 @@ The two with question marks, I'm guessing, are ones it can't verifiy through any
 
 ### Port 7070
 
-So, port 7070 is the one that nmap thinks is the RTSP port. I decided to run an nmap script, in fact all the scripts that relate to RTSP:
+<img width="1822" alt="image" src="https://github.com/maxsimmonds1337/maxsimmonds.engineer/assets/58208872/8dcd8222-4286-4127-a415-790345b9e432">
 
-<img width="775" alt="image" src="https://github.com/maxsimmonds1337/maxsimmonds.engineer/assets/58208872/c01dfb09-aef6-457b-ad17-6e8ff9ac81f2">
+I only got one successfull packet port 7070, see above. Now, obviously, I can't tell from the data if it's an image or not. So, let's try to capture a stream from it!
 
-Unfortunately, I didn't get much. I can see that it is indeed an RTSP protocol, as I can see the RTSP methods. Ideally, I would have liked the URL. Usually, it's something like:
+I've had little success capturing packets with wireshark. I only seem to get a few, even though my phone clearly sees a video stream. Maybe I need a packet capture software on my phone instead. Anyone, I started looking more into RTSP, and specifically that with door bird, the service that was mentioned with nmap. I did another scan:
 
-```rtsp://<ip>:<port>/route/for/stream```
+So I can see which options I can use. Now, let see if we can get nmap to tell us the URL...
 
-I guess we'll have to try and guess it :/. Oddly enough, I'm not seeing any packets in wireshark with the stream up, I thought I would, but apprently not!
+<img width="760" alt="image" src="https://github.com/maxsimmonds1337/maxsimmonds.engineer/assets/58208872/a8868d2a-723f-4a9c-bb76-9ad64c9eb846">
 
-I've tried accessing many URLs, I even found the documentation for a doorbird that uses RTSP, to see what the route might be, but no luck. I even tried BF all of [these](https://raw.githubusercontent.com/nmap/nmap/master/nselib/data/rtsp-urls.txt) with the following:
+Weeeeellll, crap. I ran all the scripts that nmap has available for RTSP, and was hoping it might come up with the url I need to hit, but nope. All it shows, which is interesting in some ways, are the the methods available to me for RTSP. I suppose that shows it is indeed an RTSP port, and at least I know what I can try and send later. 
 
 ``` python
 import requests
@@ -228,7 +228,8 @@ def check_rtsp_url(url):
         else:
             print(f"Not a valid RTSP URL: {url}")
     except Exception as e:
-        print(f"Error occurred while checking URL {url}: {e}")
+        pass
+    # print(f"Error occurred while checking URL {url}: {e}")
 
 def main():
     # IP address and port
@@ -252,15 +253,22 @@ if __name__ == "__main__":
     main()
 ```
 
-<img width="1293" alt="image" src="https://github.com/maxsimmonds1337/maxsimmonds.engineer/assets/58208872/e1b4db87-010f-43d0-b186-c9cf14ac0758">
+I tried bruteforcing the URL with a list of commonly used routes (RTSP is in the format rtsp://<ip>:<port>/route/to/stream), but no luck :( And, what's weird, is that I don't see the RTSP stream in wireshark, so I think it's not capturing all the available packets. I think, the best thing to do now, it to sniff packets directly from my phone, luckily for us, apple has a great way of doing it....
 
-Sadly, none of these worked! So I stoll don't know the URL!
+# [4/4/24]
 
-But something seems odd, because I think I should be seeing more activity on wireshark than what I am. I think the next step will be sniff packets with a Remote Vitual Interface, as explained here (https://www.linkedin.com/pulse/easy-guide-apple-ios-packet-capture-amit-singh/)[https://www.linkedin.com/pulse/easy-guide-apple-ios-packet-capture-amit-singh/] I think that'll be my plan tomorrow...
+## **sniff sniff* smells like TCP!
 
+<img width="1710" alt="image" src="https://github.com/maxsimmonds1337/maxsimmonds.engineer/assets/58208872/75ab832d-ba4c-4c49-b048-b955cecb4da2">
 
+As you can see from the above image, I had a much better response with wireshark this time around, what did I do differently, you ask? Well, let me tell you! I plugged my phone into my Mac, and found its UUID from going into "finder", and clicking on the my Iphone under devices, and then click just under the IPhone name, where it shows how much battery it has, and it cycles through some information about your phone. The UDID is there too!
 
+Then, using rvictl, I start a device using that UDID:
 
+```rvictl -s <UDID>```
 
+It'll say something like ```Starting device UDID [SUCCEEDED] with interface rvi0```. Now we can use the rvi0 interface in wireshark, and see all the packets (as you can see in the image above!).
 
+So, A few intesting points:
 
+- 
