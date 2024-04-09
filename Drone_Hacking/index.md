@@ -253,11 +253,11 @@ if __name__ == "__main__":
     main()
 ```
 
-I tried bruteforcing the URL with a list of commonly used routes (RTSP is in the format rtsp://<ip>:<port>/route/to/stream), but no luck :( And, what's weird, is that I don't see the RTSP stream in wireshark, so I think it's not capturing all the available packets. I think, the best thing to do now, it to sniff packets directly from my phone, luckily for us, apple has a great way of doing it....
+I tried bruteforcing the URL with a [list](https://raw.githubusercontent.com/nmap/nmap/master/nselib/data/rtsp-urls.txt) of commonly used routes (RTSP is in the format rtsp://<ip>:<port>/route/to/stream), with the above program, but no luck :( And, what's weird, is that I don't see the RTSP stream in wireshark, so I think it's not capturing all the available packets. I think, the best thing to do now, it to sniff packets directly from my phone, luckily for us, apple has a great way of doing it....
 
 # [4/4/24]
 
-## **sniff sniff* smells like TCP!
+## **sniff sniff** smells like TCP!
 
 <img width="1710" alt="image" src="https://github.com/maxsimmonds1337/maxsimmonds.engineer/assets/58208872/75ab832d-ba4c-4c49-b048-b955cecb4da2">
 
@@ -271,4 +271,106 @@ It'll say something like ```Starting device UDID [SUCCEEDED] with interface rvi0
 
 So, A few intesting points:
 
-- 
+- You can clearly see the DHCP server in action, establishing an IP address for the phone (initially, a NAK is sent, negative acknowledgement, probably becauase it usually tries to get 192.168.201.20 first, and I had two phones connected). Then an offer is sent, and and ACK to accept it
+- A lot of info is being sent over port 6699 (more on that later) each push (PSH) is responded with an ACK, to say it's been recevied
+- The same for ports 7070 and 50000, though it can't be seen in this screenshot
+
+ Let's take a closer look at these ports!
+
+## Port 6699
+ 
+<img width="1667" alt="image" src="https://github.com/maxsimmonds1337/maxsimmonds.engineer/assets/58208872/87dd68c1-abba-479a-8625-c3a6e392aaf1">
+
+The first packet that's sent with data on port 6699 is shown above. Looking at it's payload, we see:
+
+```json
+{
+  "CMD" : 79,
+  "PARAM" : 1
+}
+```
+
+So it looks like we can send cmds over port 6699, currently we don't know what the numbers mean. I can either hit each button on the phone controller in turn, and check the cmds sent, or, and somewhat more interestingly, I can see if I can still get access to the firmware (I have plans for hardware hacking later if I can't get an FTP user/pass over the air!)
+
+There's a whole host of data being sent over port 6699, some more examples:
+
+```json
+{
+    "REPORT" : 3,
+    "PARAM" : {
+        "rssi": -39
+    }
+}
+```
+
+```json
+{
+  "CMD" : 11,
+  "PARAM" : {
+    "num" : 1,
+    "delay" : 0
+  }
+}
+```
+
+```json
+{
+  "CMD" : 73,
+  "PARAM" : {
+    "width" : 1920,
+    "height" : 1080
+  }
+}
+```
+
+```json
+{ "CMD": 73, "RESULT": 0 }
+```
+
+I think, at some point, we'll have fun sending these commands. But for now, let's move on to port 50000!
+
+## Port 50000
+
+<img width="1665" alt="image" src="https://github.com/maxsimmonds1337/maxsimmonds.engineer/assets/58208872/36d41cba-43c0-469d-baf0-41b05145358e">
+
+Port 50000 isn't really that interesting, it seems to be a heart beat or something similar. As can be seen from above, the drone sends a pattern of bytes: ```66 26 00 00 00 00 00 00 00 26```. This is then ACKd each time. It seems to be the same string each time, here's a few:
+
+1 | 66 26 00 00 00 00 00 00 00 26
+2 | 00
+3 | 66 26 00 00 00 00 00 00 00 26
+4 | 66 26 00 00 00 00 00 00 00 26
+
+You get the point.... I think the packet maybe got dropped or something.
+
+# [09/04/24]
+
+I've been working on this on and off for a few days now, but haven't written it up, so will do that now. I've done two main things since.
+
+## FTP Attempt 2
+
+Not much to report here, I thought that if I tried to access the file storage via the phone, it might send the user/pass over the air unencrypted. Great logic, unfortunatly, the app doesn't actually check the drone's storage, rather, it uses your phone's storage :( Seems that, when you click to take a photo or video, your phone stores the stream directly to your device, and not to the drone locally. I noticed in a previous TCP packet (on port 6699) mentioned an "M_CARD":
+
+```json
+    "M_CARD": {
+        "online": 0
+    },
+```
+
+So, the system itself doesn't think it has a memory card (and I checked the hardware too, see next section). I wonder if I can send an update to make it think it has a memory card, and then search for FTP packets, but that's for later.
+
+The long and short is that, I didn't find the user/pass. I search for a packet containing the string "user" or "pass" or even "stupid" (since that's the name of the ftp server) but no dice. Anyway, moving on, let's see if we can get a console read from hardware hacking!
+
+
+## Hardware Hacking
+
+![46460F59-1AEA-4B82-8846-9D62DB39DA38_1_102_o](https://github.com/maxsimmonds1337/maxsimmonds.engineer/assets/58208872/a6f7be57-d098-4ac5-8f8d-c061fa3857ff)
+
+So! I decided to solder some wire to all the test pins I could find. Most of them had some silkscreen related to a UART (TX, RX, etc). Others, I couldn't read, so I soldered to them any way. I also soldered some wires to the battery input, and set the current limit to 1A, and the voltage to 4V (replicating the battery). As you can see from the above image, it worked!
+
+Sadly though, with an Arduino as a basic USB to serial decoder (and then later, my oscilliscope) I didn't get anything decent.
+
+![EEE47BBD-D37E-47C4-B14C-EEE05AE62C69_1_102_o](https://github.com/maxsimmonds1337/maxsimmonds.engineer/assets/58208872/20574157-8f18-4180-87e2-ae3405ca8e45)
+
+This is all I could see on every pin, but it was late (as you can tell from the poor lighting!). I think it's worth another shot though at a later date, because I think we could be on to something. I found this post about another drone, and they looked like they're doing something similar! https://www.reddit.com/r/drones/comments/13e5c1s/hacking_a_dronex_pro_air_camera/ Anyway, I've been quickly typing all this up just to keep track of my notes, it's a little all over the place and I tried a few more things that I haven't written, but that's the main ones. Tomorrow I might look more at the hardware hacking!
+
+
