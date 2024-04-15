@@ -373,4 +373,17 @@ Sadly though, with an Arduino as a basic USB to serial decoder (and then later, 
 
 This is all I could see on every pin, but it was late (as you can tell from the poor lighting!). I think it's worth another shot though at a later date, because I think we could be on to something. I found this post about another drone, and they looked like they're doing something similar! https://www.reddit.com/r/drones/comments/13e5c1s/hacking_a_dronex_pro_air_camera/ Anyway, I've been quickly typing all this up just to keep track of my notes, it's a little all over the place and I tried a few more things that I haven't written, but that's the main ones. Tomorrow I might look more at the hardware hacking!
 
+# [15/04/24]
 
+It's been a few days since I've done any drone hacking, mostly because I'm running out of ideas and things to try. So far, I have access to the video streams (though, I haven't tried changing to the bottom camera yet, might do that soon!), I can see commands being sent, and that's about it! I was unsuccessful with my hardware hacking; while I can see a UART datastream, I haven't been able to get any discernable information. I've ordered a [UART to USB converter](https://www.amazon.co.uk/dp/B075N82CDL?psc=1&ref=ppx_yo2ov_dt_b_product_details), that should be arriving today:
+
+<img width="572" alt="image" src="https://github.com/maxsimmonds1337/maxsimmonds.engineer/assets/58208872/5fdb0256-30c3-40aa-847a-09c2d4567546">
+
+It's a very simple device, but it should allow me to easily attach to the drone, and then run a terminal to see the datastream. I can then easily switch board rates, etc, more easily that with an arduino. I think the issue with using my scope is that packets of data are sent very far apart, which means that my scope doesn't have enough memory to hold them all. At least, that's why I hope I'm not seeing anything!
+
+Any way, in the meantime, I've started working on my [PC remote controller software](https://github.com/maxsimmonds1337/flight_controller). I envision it to look something like this:
+
+![image](https://github.com/maxsimmonds1337/maxsimmonds.engineer/assets/58208872/37f1c1d8-0d9f-4e42-ad4b-c9db4336356e)
+
+
+I will make a seperate post about that once it's written!
