@@ -85,7 +85,7 @@ $$ Gain = \frac{R_1}{R_1 + R_2} = \frac{2.2k}{2.2k+39k} = 0.053 $$
 
 Therefore, with a battery input of 60V (which I believe this is rated for, though I have some concerns that I will raise later!), that gives a voltage at "sens_x" of 3.2V. This then goes into the ADC of the MCU. This could be used for sensorless operation, but the code will enlighten me on that. The analogue switch introduces a 100nF capacitor, yeilding a cutoff frequency of:
 
-$f_c = \frac{1}{2 \cdot \pi R \cdot C} = \frac{1}{2 \cdot \pi 2.2k \cdot 100n} = 723 Hz$
+$$ f_c = \frac{1}{2 \cdot \pi R \cdot C} = \frac{1}{2 \cdot \pi 2.2k \cdot 100n} = 723 Hz $$
 
 That's an order of magnitude below what I would expect the switching frequency to be (about 20k).
 
