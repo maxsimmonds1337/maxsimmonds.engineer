@@ -85,7 +85,9 @@ $$ Gain = \frac{R_1}{R_1 + R_2} = \frac{2.2k}{2.2k+39k} = 0.053 $$
 
 Therefore, with a battery input of 60V (which I believe this is rated for, though I have some concerns that I will raise later!), that gives a voltage at "sens_x" of 3.2V. This then goes into the ADC of the MCU. This could be used for sensorless operation, but the code will enlighten me on that. The analogue switch introduces a 100nF capacitor, yeilding a cutoff frequency of:
 
-$$f_c = \frac{1}{2 \cdot \pi R \cdot C} = \frac{1}{2 \cdot \pi 2.2k \cdot 100n} = 723 Hz$$. That's an order of magnitude below what I would expect the switching frequency to be (about 20k).
+$f_c = \frac{1}{2 \cdot \pi R \cdot C} = \frac{1}{2 \cdot \pi 2.2k \cdot 100n} = 723 Hz$
+
+That's an order of magnitude below what I would expect the switching frequency to be (about 20k).
 
 There's another circuit on here that tells the MCU when the battery is present. That's Q7 and the two resistors. Again, it's the same gain as before, it's the same resistors, but the MOSFET is there to only be switched on (and therefore connect the two resistors as a potential divider) when the buck converter is online. This buck converter only comes online when the battery is connected. The output of this potential divider goes to the MCU, for reading the battery voltage.
 
