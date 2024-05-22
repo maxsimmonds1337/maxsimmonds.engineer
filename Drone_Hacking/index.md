@@ -387,3 +387,74 @@ Any way, in the meantime, I've started working on my [PC remote controller softw
 
 
 I will make a seperate post about that once it's written!
+
+# [22/05/24]
+It's been a while since I've been doing any drone hacking, but I've found some time to take a look again. My Ipad still works with the drone app, which means I can easily stream video and capture all the packets I want! Mostly, I've been working on a flight controller app, a python app that connects to the drone, shows me the video stream, and I can "send" take off and land commands (as of yet, it doesn't actually send a take off cmd, which leads me to my next round of hacking...)
+
+## CMD lists!
+
+The following are all sent on port 6699.
+
+When presseing a button in the drone app, I can see things like below, being sent over TCP:
+
+```
+{ 
+ "REPORT": 3, 
+ "PARAM": 
+  { 
+    "rssi": -39 
+  } 
+}
+```
+
+Now, out of interest, I can see that there are 3 bars on the battery level display in the app. So, I wonder if that's what the report is. RSSI is kinda obvious, that'll be the drone to controller signal, currently it's showing full signal (4 bars).
+
+Now, if I press to take an image, I see:
+
+```
+{
+  "CMD" : 11,
+  "PARAM" : {
+    "num" : 1,
+    "delay" : 0
+  }
+}
+```
+
+This looks like CMD 11 is to take a photo, and that we require 1 image, with no delay (I'm presuming!). Now let's see what happens if I press video!
+
+
+```
+{
+ "CMD": 4,
+ "RESULT": -1
+}
+{
+ "CMD": 5,
+ "RESULT": 0
+}
+```
+
+Looks like the start and finish of the video. Now, I don't know how the video is recorded/stored, but it's still something!
+
+## Roll/Pitch/Yaw, Up, and Down
+
+On port 50000 I saw a lot of the same data being sent, initially I thought maybe this was a heartbeat or something:
+
+```
+66240000000000000024
+```
+This is being sent from the drone to the controller. However, data going from the controller to the drone has a pattern, many of them are like this:
+
+```
+6614808080800000000000000000000000000099
+```
+
+but, If I move the stick forward (IE, tell the drone to go forwards) I see, at max speed:
+
+```
+66147ebf8080000000000000000000000000c199
+```
+
+Both start with 66, and end with 99. Almost like quote marks, or start/end bits. Over the next few days, I'll try to decode the other bytes, I suspect they are intensity values for the roll/pitch/yaw and altidude (up/down) with 80 probably being rest.
+
