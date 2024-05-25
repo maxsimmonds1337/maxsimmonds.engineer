@@ -458,3 +458,21 @@ but, If I move the stick forward (IE, tell the drone to go forwards) I see, at m
 
 Both start with 66, and end with 99. Almost like quote marks, or start/end bits. Over the next few days, I'll try to decode the other bytes, I suspect they are intensity values for the roll/pitch/yaw and altidude (up/down) with 80 probably being rest.
 
+# [25/05/24]
+
+Okay, so I found a few things out. I found a [blog post](https://hackaday.io/project/19356-reverse-engineering-a-promark-vr-toy-drone/log/51749-comm-protocol-between-camera-and-drone-controller) post that leads me to believe that I'm on the right track regarding the protocol for sending direction cmds to the drone. It also pointed out, rather obviously now I think about it, that 0x66 + 0x99 = 0xFF! So makes sense as a start stop bytes. I also think there's some XOR checksum in there, but I'll look more into this later. Right now, what bothers me, is the laggy as hell video stream. It's clear as day on the app, but with my python code for RTSP streaming, and VLC, it's dog crap.
+
+## [RTSP or not RTSP?]
+
+It got me thinking, maybe, since I see raw TCP packets over port 7070 that it was using a custom protocol for sending them, or it was raw encoded bytes over TCP or something like this, for latency reasons. However, a brief chat with chatGPT and I realised, wireshark assumes the protocol based on the port that's being used. So, I added port 7070 to the RTSP protocol settings in the wireshark preferences, and hey presto!
+
+<img width="1710" alt="image" src="https://github.com/maxsimmonds1337/maxsimmonds.engineer/assets/58208872/78c26f28-d93b-4904-8a92-34d12ff69df6">
+
+I started getting things that looked more like RTSP! Then, I decided to search the packets for text containing the elusive RTSP, and, yep, you guessed it, I found something!
+
+<img width="1710" alt="image" src="https://github.com/maxsimmonds1337/maxsimmonds.engineer/assets/58208872/62184d4d-214b-488e-b4aa-41df507cba6a">
+
+This is a teardown signal, that I think closes the RTSP streaming. I pressed the "stop" button a few times in the app, so I think perhaps it sends this cmd when doing so! But, this proves the RTSP url I've been using (which, I found on the web from a totally different drone, it just so happened to use the same URL). This is good news, because it means that this must be the source of the video, and there isn't some other stream that low latency that I'm missing!
+
+
+
