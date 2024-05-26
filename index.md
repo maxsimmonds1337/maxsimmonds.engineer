@@ -2,6 +2,16 @@ This site hosts my projects, code, and anything else that I think my be worthy o
 
 ---
 
+# [Moving to Estonia BLOG](./eesti_move/index.md)
+
+**Start Date:** 23/06/2024
+
+**End Date:** On going
+
+Me, my wife, our daughter, two cats (Elon and Axel), and a crustation, and jumping in a van and driving all our stuff from the UK to Estonia!
+
+---
+
 # [Building a Cat Cam](./Cat_Cam/index.md)
 
 **Start Date:** 26/05/2024
