@@ -474,5 +474,10 @@ I started getting things that looked more like RTSP! Then, I decided to search t
 
 This is a teardown signal, that I think closes the RTSP streaming. I pressed the "stop" button a few times in the app, so I think perhaps it sends this cmd when doing so! But, this proves the RTSP url I've been using (which, I found on the web from a totally different drone, it just so happened to use the same URL). This is good news, because it means that this must be the source of the video, and there isn't some other stream that low latency that I'm missing!
 
+I recently found out about the "follow stream" feature of wireshark, it's so helpful for things like this. I've found a packet of interest, and I want to see all the payloads sequentially. I highlight the packet, right click -> Follow -> TCP Stream, and boom:
+
+<img width="1143" alt="image" src="https://github.com/maxsimmonds1337/maxsimmonds.engineer/assets/58208872/e59c3970-70ec-41a2-8cb9-b0d4e759d7c0">
+
+
 
 
