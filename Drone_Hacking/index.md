@@ -478,6 +478,13 @@ I recently found out about the "follow stream" feature of wireshark, it's so hel
 
 <img width="1143" alt="image" src="https://github.com/maxsimmonds1337/maxsimmonds.engineer/assets/58208872/e59c3970-70ec-41a2-8cb9-b0d4e759d7c0">
 
+# [26/05/24]
+
+Okay, so, I can clearly see the URL now, but as I said before, it's laggy as hell over VLC or my python code. So, I think my next plan is to see if I can record a stream, and play it back. 
+
+## Recording a RTSP stream
+
+There's a few options to record a stream, VLC, mpv, or FFMPEG to name a few. I briefly tried them all, and seemed to have the most success with mpv, so will look into that more deeply.
 
 
 
