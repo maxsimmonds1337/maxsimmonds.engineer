@@ -2,14 +2,23 @@ This site hosts my projects, code, and anything else that I think my be worthy o
 
 ---
 
-# [Drone Hacking](./Drone_Hacking/index.md)
+# [Building a Cat Cam](./Cat_Cam/index.md)
 
-**Start Date:** 31/07/2022
+**Start Date:** 26/05/2024
 
 **End Date:** On going
 
 This is my current project, a self balancing electric skateboard, commonly known as a OneWheel. 
 
+---
+
+# [Drone Hacking](./Drone_Hacking/index.md)
+
+**Start Date:** 31/03/2024
+
+**End Date:** On going
+
+I'm reverse engineering a snaptain Af15 drone, to be able to fly it from my laptop
 ---
 
 # [DIY One Wheel](./DIY_One_Wheel/SBS.md)
