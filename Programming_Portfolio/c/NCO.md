@@ -124,7 +124,7 @@ unsigned int sine_full_1[1024] = {6,6,6,6,6,6,6,6,6,6,6,6,6,6,7,7,7,7,7,7,7,7,7,
 
 ```
 
-As you can see, for decent resolution, the length of the LUT get's quite high. Having to have several for different amplitudes is also not great, though, as mentioned, I think that could be changed. Another thing that could be changed to slightly increased coding complexity would be a quarter wave LUT. Since a sine wave is periodic, that is, it repeates, you can utilise this to your advantage. You could repeate every $$ \frac{\pi}}{4} $$ , so long as you initally go through the LUT from the 0th element, up to n, and then go from the nth element down to the 0th, and repeate again, but with negative outputs. This isn't uncommon for applications that are short of memory. Another interesting point is that you can use the same LUT for waves with different phase shifts, by simply having another pointer to the LUT. If you wanted it to be 180 degress out, then you'd place the other pointer in the middle of the LUT. Of course, this phase shift if limited by the length of the LUT. If you only had 4 points, you'd have one coarse sinewave, and only be able to have a minimum phase shift of 90 degrees!
+As you can see, for decent resolution, the length of the LUT get's quite high. Having to have several for different amplitudes is also not great, though, as mentioned, I think that could be changed. Another thing that could be changed to slightly increased coding complexity would be a quarter wave LUT. Since a sine wave is periodic, that is, it repeates, you can utilise this to your advantage. You could repeate every $\frac{\pi}{4}$, so long as you initally go through the LUT from the 0th element, up to n, and then go from the nth element down to the 0th, and repeate again, but with negative outputs. This isn't uncommon for applications that are short of memory. Another interesting point is that you can use the same LUT for waves with different phase shifts, by simply having another pointer to the LUT. If you wanted it to be 180 degress out, then you'd place the other pointer in the middle of the LUT. Of course, this phase shift if limited by the length of the LUT. If you only had 4 points, you'd have one coarse sinewave, and only be able to have a minimum phase shift of 90 degrees!
 
 However, given I hadn't done an NCO before, and the fact that it would be easier to adjust the frequency on the fly, along with the peak to peak amplitude, I went with the NCO!
 
@@ -138,21 +138,21 @@ The above image shows a phasor of length 1, on what we shall call the complex pl
 
 You may have noticed the phasor pointing in a different direction. This is said to have rotated by 90 degrees. In the complex plane, we can say we have multiplied by "i". The explanation for this is as follows. Imagine we have a phasor in the complex plane, x+iy. If x was 1, and y was 0, we would have the graph plotted in the first sequence above. Now, if we are to multiply by 'i' (which has been defined as the square root of minus 1) then we get:
 
-$$ i(x + i \cdot y ) = i \cdot x + i^2 \cdot y $$
+$i(x + i \cdot y ) = i \cdot x + i^2 \cdot y $
 
 We know that:
 
-$$ i = \sqrt-1 $$
+$i = \sqrt-1 $
 
-$$ i^2 = -1 $$
+$i^2 = -1 $
 
 So, finally, we get:
 
-$$ x \cdot i - y$$
+$x \cdot i - y$
 
 This has the affect of _rotating_ a phasor. This is more apparent if we assign values to x and y. Let's say that x is initally 1, and y is 0.:
 
-$$ phasor_1 = 1 + i \cdot 0  = 1 $$
+$phasor_1 = 1 + i \cdot 0  = 1 $
 
 This is plotted on the graph below:
 
@@ -160,14 +160,14 @@ This is plotted on the graph below:
 
 If we now multiply by 'i', we get:
 
-$$ phasor_2 = i(1 + 0i) = 0 + i$$
+$phasor_2 = i(1 + 0i) = 0 + i$
 
 This, plotted on a graph, looks like the following:
 
 ![Plotted with graphPlotter!](/programming/python/images/2a88c8be23c211ed80eac821587c6744.png)
 If we did this one more time, multiply by i, we rotate again:
 
-$$ phasor_3= i(0 + i) = 0 + i^2 = -1$$
+$phasor_3= i(0 + i) = 0 + i^2 = -1$
 
 We know it's -1 from the math outlined a bit futher up. We can then plot this on a graph too:
 
@@ -191,11 +191,11 @@ image of a set of axes with the right angled triangle...
 
 We can say, then, that if the length of this phasor is simply 1, because we're on the "unit circle", then:
 
-$$ sin(\theta) = \frac{O}{H} $$
+$sin(\theta) = \frac{O}{H} $
 
 The "H", or hypotenus, in this case is 1 (it's a phasor of length 1), and "O", is the y value that we want, so this equation becomes:
 
-$$ 1 \cdot sin(\theta) = y $$
+$1 \cdot sin(\theta) = y $
 
 If we plot this for each value of theta as we progress around the circle, we get the graph above, nice!
 
@@ -361,7 +361,7 @@ What's important here, and the reasons for the digression is that we're using on
 
 A quick bit of math, the reason 500 is 9 bits, is we're using the binary system, so base 2. If we want to know how many bits are required, then we do:
 
-$$ ceil(log_2(500)) = 9 $$
+$ceil(log_2(500)) = 9 $
 
 ```C
 phasor_scaled = (phasor.real / 100) *  pwmGainCurrent; // scale the phasor, by the current gain

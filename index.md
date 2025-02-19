@@ -6,7 +6,7 @@ This site hosts my projects, code, and anything else that I think my be worthy o
 
 **Start Date:** 23/06/2024
 
-**End Date:** On going
+**End Date:** 28/06/2024
 
 Me, my wife, our daughter, two cats (Elon and Axel), and a crustation, and jumping in a van and driving all our stuff from the UK to Estonia!
 
@@ -29,6 +29,7 @@ This is my current project, a self balancing electric skateboard, commonly known
 **End Date:** On going
 
 I'm reverse engineering a snaptain Af15 drone, to be able to fly it from my laptop
+
 ---
 
 # [DIY One Wheel](./DIY_One_Wheel/SBS.md)
