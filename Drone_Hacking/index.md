@@ -486,5 +486,236 @@ Okay, so, I can clearly see the URL now, but as I said before, it's laggy as hel
 
 There's a few options to record a stream, VLC, mpv, or FFMPEG to name a few. I briefly tried them all, and seemed to have the most success with mpv, so will look into that more deeply.
 
+# [05/04/25]
+
+So it's been a while since I looked into this (actually, close to a year!). I recently started a new job at Starship, a robot delivery service. They use, as you would expect, videostreams to help remotely assist bots. It got me excited about being able to hack this drone and fly it from my laptop again. 
+
+## RTSP
+
+I've been reading more about RTSP, and wanted to write a barebone client in Go. I've been able to successfully connect to the drone with TCP on port 7070, and issue an `OPTIONS` cmd:
+
+<img width="1710" alt="image" src="https://github.com/user-attachments/assets/69fe15d7-c6b2-42b7-84f7-896b85d59222" />
+
+I actually managed to get a pretty good connection going:
+
+```
+max@Mac go % go run main.go
+Connecting to RTSP stream...
+Connection established!
+
+Enter RTSP command (OPTIONS, DESCRIBE, SETUP, PLAY): OPTIONS
+
+Enter RTSP command (OPTIONS, DESCRIBE, SETUP, PLAY): 
+Received:
+RTSP/1.0 200 OK
+CSeq: 1
+Date: Thu, Jan 01 1970 01:14:49 GMT
+Public: OPTIONS, DESCRIBE, SETUP, TEARDOWN, PLAY, PAUSE, GET_PARAMETER, SET_PA
+RAMETER
 
 
+DESCRIBE
+
+Enter RTSP command (OPTIONS, DESCRIBE, SETUP, PLAY): 
+Received:
+RTSP/1.0 404 Stream Not Found
+CSeq: 2
+Date: Thu, Jan 01 1970 01:15:05 GMT
+
+
+^C
+Received signal: interrupt
+max@Mac go % go run main.go
+Connecting to RTSP stream...
+Connection established!
+
+Enter RTSP command (OPTIONS, DESCRIBE, SETUP, PLAY): DESCRIBE
+
+Enter RTSP command (OPTIONS, DESCRIBE, SETUP, PLAY): 
+Received:
+RTSP/1.0 200 OK
+CSeq: 2
+Date: Thu, Jan 01 1970 01:25:06 GMT
+Content-Base: rtsp://192.168.201.1:7070/H264VideoSMS/
+Content-Type: application/sdp
+Content-Length: 484
+
+v=0
+o=- 3737324 1 IN IP4 192.168.201.1
+s=Session streamed by "OnDemandRTSPServer"
+i=H264VideoSMS
+t=0 0
+a=tool:LIVE555 Streaming Media v2015.07.23
+a=type:broadcast
+a=control:*
+a=range:npt=0-
+a=x-qt-text-nam:Session streamed by "OnDemandRTSPServer"
+a=x-qt-text-inf:H264VideoSMS
+m=video 0 RTP/AVP 96
+c=IN IP4 0.0.0.0
+b=AS:35000
+a=rtpmap:96 H264/90000
+a=fmtp:96 packetization-mode=1;profile-level-id=4D001F;sprop-parameter-sets=Z0
+0AH+VAKALYgA==,aO4xEg==
+a=control:track1
+
+SETUP
+
+Enter RTSP command (OPTIONS, DESCRIBE, SETUP, PLAY): 
+Received:
+RTSP/1.0 200 OK
+CSeq: 3
+Date: Thu, Jan 01 1970 01:25:54 GMT
+Transport: RTP/AVP;unicast;destination=192.168.201.21;source=192.168.201.1;cli
+ent_port=8000-8001;server_port=6970-6971
+Session: 51B6236A;timeout=65
+
+
+PLAY
+
+Enter RTSP command (OPTIONS, DESCRIBE, SETUP, PLAY): 
+Received:
+RTSP/1.0 454 Session Not Found
+CSeq: 4
+Date: Thu, Jan 01 1970 01:26:04 GMT
+
+
+Read error: read tcp 192.168.201.21:54189->192.168.201.1:7070: read: operation
+ timed out
+max@Mac go % 
+```
+Seems I initially had the stream URL incorrect, but after correcting it in the code, I managed to be able to `DESCRIBE` and `SETUP` the stream. Playing didn't seem to work, I got a `454 Session not found` I'm guessing I need to supply the sessionID along with the request. Let's see if the RFC says anything about that.
+
+<img width="605" alt="image" src="https://github.com/user-attachments/assets/49f35bf8-9267-4019-bc00-13f4906ada60" />
+
+Looks like I _should_ be sending the session, so let's adapt the code and grab any sessions that are sent:
+
+```go
+package main
+
+import (
+	"bufio"
+	"fmt"
+	"net"
+	"os"
+	"os/signal"
+	"strings"
+	"syscall"
+)
+
+var sessionID string
+
+func main() {
+	rtspAddr := "192.168.201.1:7070"
+	rtspURL := "rtsp://192.168.201.1/H264VideoSMS"
+
+	fmt.Println("Connecting to RTSP stream...")
+	rtspStream, err := net.Dial("tcp", rtspAddr)
+	if err != nil {
+		panic(err)
+	}
+	defer rtspStream.Close()
+	fmt.Println("Connection established!")
+
+	sigs := make(chan os.Signal, 1)
+	signal.Notify(sigs, syscall.SIGINT, syscall.SIGTERM)
+
+	commands := make(chan string)
+	quit := make(chan struct{})
+
+	// Goroutine: Handle SIGINT (Ctrl+C)
+	go func() {
+		sig := <-sigs
+		fmt.Printf("\nReceived signal: %s\n", sig)
+		close(quit)
+		os.Exit(0)
+	}()
+
+	// Goroutine: Send commands to RTSP server
+	go func() {
+		for {
+			select {
+			case cmd := <-commands:
+				var req string
+				switch strings.ToUpper(cmd) {
+				case "OPTIONS":
+					req = fmt.Sprintf("OPTIONS %s RTSP/1.0\r\nCSeq: 1\r\n\r\n", rtspURL)
+				case "DESCRIBE":
+					req = fmt.Sprintf("DESCRIBE %s RTSP/1.0\r\nCSeq: 2\r\nAccept: application/sdp\r\n\r\n", rtspURL)
+				case "SETUP":
+					req = fmt.Sprintf("SETUP %s RTSP/1.0\r\nCSeq: 3\r\nTransport: RTP/AVP;unicast;client_port=8000-8001\r\n\r\n", rtspURL)
+				case "PLAY":
+					req = fmt.Sprintf("PLAY %s RTSP/1.0\r\nCSeq: 4\r\nSession: %s\r\n\r\n", rtspURL, sessionID)
+				default:
+					fmt.Println("Unknown command:", cmd)
+					continue
+				}
+				_, err := rtspStream.Write([]byte(req))
+				if err != nil {
+					fmt.Println("Write error:", err)
+					return
+				}
+			case <-quit:
+				return
+			}
+		}
+	}()
+
+	// Goroutine: User input
+	go func() {
+		reader := bufio.NewReader(os.Stdin)
+		for {
+			fmt.Print("\nEnter RTSP command (OPTIONS, DESCRIBE, SETUP, PLAY): ")
+			text, _ := reader.ReadString('\n')
+			text = strings.TrimSpace(text)
+			if text == "exit" || text == "quit" {
+				close(quit)
+				os.Exit(0)
+			}
+			commands <- text
+		}
+	}()
+
+	// Main loop: Read from RTSP stream
+	buf := make([]byte, 4096)
+	for {
+		select {
+		case <-quit:
+			fmt.Println("Exiting reader loop...")
+			return
+		default:
+			n, err := rtspStream.Read(buf)
+			if err != nil {
+				fmt.Println("Read error:", err)
+				return
+			}
+			if n > 0 {
+				fmt.Printf("\nReceived:\n%s\n", buf[:n])
+				if sessionID == "" {
+					sessionID = getSessionFromResponse(string(buf))
+				}
+			}
+		}
+	}
+}
+
+func getSessionFromResponse(res string) string {
+
+	if strings.Contains(res, "Session:") {
+		lines := strings.Split(res, "\r\n")
+		for _, line := range lines {
+
+			if strings.HasPrefix(line, "Session:") {
+				parts := strings.Split(line, ":")
+				if len(parts) > 1 {
+					sessionID = strings.TrimSpace(strings.Split(parts[1], ";")[0])
+					fmt.Println("Session ID captured:", sessionID)
+				}
+			}
+		}
+	}
+	return ""
+}
+```
+
+And dang, battery for the drone ran out before I could test - looks like I'll pick this up tomorrow. At some point, I'll take a battery out of it's container, and hard wire a PSU in so it's better for developing (and maybe diasble the damn LEDs!). I have a spare drone with a damaged rotor motor, so I'll probably use that if I can find it (I moved countris and who knows where it is now!)
