@@ -719,3 +719,95 @@ func getSessionFromResponse(res string) string {
 ```
 
 And dang, battery for the drone ran out before I could test - looks like I'll pick this up tomorrow. At some point, I'll take a battery out of it's container, and hard wire a PSU in so it's better for developing (and maybe diasble the damn LEDs!). I have a spare drone with a damaged rotor motor, so I'll probably use that if I can find it (I moved countris and who knows where it is now!)
+
+# [9/04/2025]
+
+So I've managed to get a stream establied using my previous crappy code. It was nice to manually run command in a CLI type way, but I think now we need something a bit more sophisticated. I've started a "service object struct" like so:
+
+```go
+package RTSPClient
+
+import (
+	"bufio"
+	"errors"
+	"fmt"
+	"log"
+	"net"
+	"os"
+)
+
+type RTSPClient struct {
+	conn        net.Conn
+	reader      *bufio.Reader
+	addr        string
+	url         string
+	sessionID   string
+	cSeq        int
+	previousCmd string
+	logger      *log.Logger
+}
+
+// NewRTSPClient generates a new client. `host` is the host address, IE
+// 192.168.0.1, `port` is the port address, for example 7070, and path is the
+// RTSP streaming URL, like H264VideoSMS
+// TODO: This only work with ipv4 address, not ipv6
+func (c *RTSPClient) NewRTSPClient(host string, port string, path string) (*RTSPClient, error) {
+	urlAndPort := fmt.Sprintf("%s:%s", host, port)
+	conn, err := net.Dial("tcp", urlAndPort)
+	if err != nil {
+		return nil, err
+	}
+
+	url := fmt.Sprintf("rtsp://%s/%s", host, path)
+
+	return &RTSPClient{
+		conn:        conn,
+		addr:        urlAndPort,
+		url:         url,
+		cSeq:        1,
+		previousCmd: "",
+		logger:      log.New(os.Stdout, "[RTSP] ", log.LstdFlags),
+	}, nil
+}
+
+// sendRtspCmd is used to send an RTSP command, for example, `OPTIONS` to an
+// RTSP server.
+func (c *RTSPClient) sendRtspCmd(cmd string) error {
+	req := fmt.Sprintf("%s %s RTSP/1.0\r\nCSeq: %d\r\n\r\n", cmd, c.addr, c.cSeq)
+	_, err := c.conn.Write([]byte(req))
+	if err != nil {
+		c.logger.Printf("error sending %s command: %s", cmd, err)
+	}
+	c.cSeq++
+	c.previousCmd = cmd
+	return nil
+}
+
+// Options sends the `OPTIONS` command
+func (c *RTSPClient) Options() error {
+	return c.sendRtspCmd("OPTIONS")
+}
+
+// DESCRIBE sends the `DESCRIBE` command
+func (c *RTSPClient) DESCRIBE() error {
+	return c.sendRtspCmd("DESCRIBE")
+}
+
+// SETUP sends the `SETUP` command
+func (c *RTSPClient) SETUP() error {
+	if c.previousCmd != "DESCRIBE" {
+		c.logger.Printf("it is recomended to send the DESCRIBE command before SETUP")
+	}
+	return c.sendRtspCmd("DESCRIBE")
+}
+
+// PLAY sends the `PLAY` command
+func (c *RTSPClient) PLAY() error {
+	if c.sessionID == "" {
+		return errors.New("no sessionID, issue command `SETUP` before `PLAY`")
+	}
+	return c.sendRtspCmd("PLAY")
+}
+```
+
+ I haven't tested it yet, I'll probably do that tomorrow. But for now, it looks pretty good. 
