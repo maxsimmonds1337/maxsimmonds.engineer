@@ -1209,4 +1209,17 @@ func (c *Info) Close() error {
 }
 ```
 
-The current issue I have is that the `output.mp4` can't be played, and for now I don't know why. It's most likely that I'm not parsing the RTP payload correctly. A friend of mine had a great idea, which is to generate some packets using gstreamer, and use those in some unit tests to see what's wrong. So, that's my plan now! 
+The current issue I have is that the `output.mp4` can't be played, and for now I don't know why. It's most likely that I'm not parsing the RTP payload correctly. A friend of mine had a great idea, which is to generate some packets using gstreamer, and use those in some unit tests to see what's wrong. So, that's my plan now!
+
+# [16/05/2025]
+
+I actually have some updates! So, while I've sort of stopped working on this for the moment (I've found myself longing for some hardware related projects recently, specifically, I want to continue with my [electric self balancing skateboard](../DIY_One_Wheel/index.md) and a new project, turning an old USSR mechanical calculator into a clock!). Therefore, I thought I would draw a line under this, write down where I got to and what was the latest issue to solve, in the hope that I pick this back up once again, and finally get stream.
+
+## So, where am I?
+
+Well, I can setup an RTSP connection, and I can receive an RTP stream, for 2 seconds. Then it shits itself and that's it. I can't remember if I figured out exactly why, but I did decide to split the problem up and see what's causing issues:
+
+- FFMPEG streaming - I pipe raw data straight to ffmpeg, this could be a problem
+- Reassembly FU-A packets - It's also super possible that I'm not reconstructing frames correctly. I do remember that I had an issue whereby if a TCP packet contained both channel 1 and then channel 0 data, I dropped the whole thing. This usually happens at the start, when the SPS/PPS packets are sent. It seems the drone only sends them once at startup (which was an issue too!).
+
+Anyway, that's where I'm currently at. Given that it only lasts 2 secs or so, I'm thinking my reassembly of the FU-A packets is the issue, but I'll leave that for another day. Time to get my hands dirty with electronics again! (or, you now, solder and flux, and probably IPA...)
