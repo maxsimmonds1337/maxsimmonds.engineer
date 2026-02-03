@@ -2,6 +2,26 @@ This site hosts my projects, code, and anything else that I think my be worthy o
 
 ---
 
+# [LED Streaming Display - Rocket Countdown](./led_streaming_display___rocket_countdown/index.md)
+
+**Start Date:** 02/02/26
+
+**Last Edited:** 02/02/26
+
+I really want to have an old school scrolling display in my room. I kinda want it to have the time, temperature outside, etc., but also show me when and who is the next rocket launch. So, this is my design of such a thing.
+
+---
+
+# [Making an Enclosure for 3D Printer](./making_an_enclosure_for_3d_printer/index.md)
+
+**Start Date:** 02/02/26
+
+**Last Edited:** 02/02/26
+
+I recently bought a new 3D printer (retiring my old homemade one!). I wanted an enclosure to stop accidental touches (from 3 year old hands!) and also extract fumes from plastics like PETG. This is my build process, documented.
+
+---
+
 # [Moving to Estonia BLOG](./eesti_move/index.md)
 
 **Start Date:** 23/06/2024
