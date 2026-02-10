@@ -123,24 +123,11 @@ summarise them below:
 
 
 | IC | Pros | Cons | Price |
-|-----|------|------|-------|
-| CD4014| The pro's for this are pretty small. I had some, and that was about
-the only thing. The cost, therefore, was essentially 0, but I only had 4. |
-Really not suitable for this type of work - more of a parallel in, serial out,
-which is the oppposite of what we want | ~€1-2 |
-| 74HC959 | - OE pin, allows for PWM <br> - cheap | - Can only supply 6mA! LLM's
-lied to me, I'm just finding this out now, after checking the datasheet. Meh.
-Either needs darlington array, or we use another IC | ~€0.20 |
-| TPIC6B595 | - Can source a whopping 150mA per output | Expensive, and not well
-sourced in LCSC | ~€1 |
-| MAX7219 | It's a display driver, designed for these things. | I was going to
-write a con that these are expensive, like ~€15/20 but, depending on which one
-you get, they can be as little as €1. This is starting to make them attractive.
-(LCSC)[https://www.lcsc.com/product-detail/C6705351.html?s_z=n_MAX7219] has
-these and they're basically the same, but Chinese. Mouser etc stock the Maxim
-ones, but even the commercial ones are still €15, seems crazy, so these might
-get bumped up the list |
-
+| :--- | :--- | :--- | :--- |
+| **CD4014** | • Cost is essentially €0 (I have 4) <br> • Good for learning | • PISO (Parallel-In, Serial-Out) is the opposite of what we want <br> • No output latch (flicker) | ~€1-2 |
+| **74HC595** | • OE pin allows for PWM <br> • Extremely cheap | • **6mA limit!** Needs a Darlington array (ULN2803) or external transistors to handle the current | ~€0.20 |
+| **TPIC6B595** | • **150mA** per output (massive) <br> • Power shift register | • More expensive <br> • Harder to source on LCSC | ~€1.00 |
+| **MAX7219** | • Purpose-built display driver <br> • Built-in multiplexing <br> • [LCSC Chinese clones](https://www.lcsc.com/product-detail/C6705351.html) make it affordable | • Genuine Maxim versions are crazy expensive (€15+) <br> • Requires 10µF/0.1µF caps to stay stable | ~€1.00 |
 
 So, let's think, maybe we should go with the MAX7219? Let's think more about
 this tomorrow.
@@ -152,3 +139,16 @@ think the MAX7219 is the choice. Specifically, the MAX7219M/TR. For each module
 (64 LEDs), I would need only 1 for each 8x8 module. That's pretty good. Also,
 it's possible to control the brightness digitally too. Finally, they can be
 cascaded - so that works well for this scrolling text.
+
+### The LEDs
+
+So, next step is to take a look at some LEDs. We're going to need a lot, so I
+want some cheap ones. I'm not too sure on size yet, either. I'm not sure if I
+need SMD or THT - I'm inclinded to thing that THT would be more the look I'm
+going for. From NASAs mission control center:
+
+![image](./images/nasa_led.png)
+
+Looking on LCSC [this LED](https://www.lcsc.com/product-detail/C7470870.html) looks to be a good fit. In 1000 quantities, it's about $27.7. That's not too bad, so probably will get these. They're clear (which probably looks better when LEDs are off) and then it's green when it's on.
+
+
