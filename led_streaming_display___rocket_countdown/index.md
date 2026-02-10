@@ -122,7 +122,7 @@ The winner, based on price and a few other things, was the **74HC959**. Let's
 summarise them below:
 
 
-| IC | Pros | Cons | Price
+| IC | Pros | Cons | Price |
 |-----|------|------|-------|
 | CD4014| The pro's for this are pretty small. I had some, and that was about
 the only thing. The cost, therefore, was essentially 0, but I only had 4. |
@@ -144,3 +144,11 @@ get bumped up the list |
 
 So, let's think, maybe we should go with the MAX7219? Let's think more about
 this tomorrow.
+
+## 10/02/26
+
+Okay, a few days late but hey, we're back. Let's pick up where we last were, I
+think the MAX7219 is the choice. Specifically, the MAX7219M/TR. For each module
+(64 LEDs), I would need only 1 for each 8x8 module. That's pretty good. Also,
+it's possible to control the brightness digitally too. Finally, they can be
+cascaded - so that works well for this scrolling text.

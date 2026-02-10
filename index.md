@@ -26,7 +26,7 @@ I recently bought a new 3D printer (retiring my old homemade one!). I wanted an 
 
 **Start Date:** 23/06/2024
 
-**End Date:** 28/06/2024
+***Last Edited:** 28/06/2024
 
 Me, my wife, our daughter, two cats (Elon and Axel), and a crustation, and jumping in a van and driving all our stuff from the UK to Estonia!
 
@@ -36,9 +36,9 @@ Me, my wife, our daughter, two cats (Elon and Axel), and a crustation, and jumpi
 
 **Start Date:** 26/05/2024
 
-**End Date:** On going
+**Last Edited:** On going
 
-This is my current project, a self balancing electric skateboard, commonly known as a OneWheel. 
+This is my current project, a self balancing electric skateboard, commonly known as a OneWheel.
 
 ---
 
@@ -46,7 +46,7 @@ This is my current project, a self balancing electric skateboard, commonly known
 
 **Start Date:** 31/03/2024
 
-**End Date:** On going
+**Last Edited:** On going
 
 I'm reverse engineering a snaptain Af15 drone, to be able to fly it from my laptop
 
@@ -56,7 +56,7 @@ I'm reverse engineering a snaptain Af15 drone, to be able to fly it from my lapt
 
 **Start Date:** 31/07/2022
 
-**End Date:** On going
+**Last Edited:** On going
 
 This is my current project, a self balancing electric skateboard, commonly known as a OneWheel. 
 
@@ -66,7 +66,7 @@ This is my current project, a self balancing electric skateboard, commonly known
 
 **Start Date:** 17/08/2022
 
-**End Date:** On going
+**Last Edited:** On going
 
 This section outlines some of my programming projects. This is mainly to document my progression. 
 
@@ -76,7 +76,7 @@ This section outlines some of my programming projects. This is mainly to documen
 
 **Start Date:** 16/08/2022
 
-**End Date:** On going
+**Last Edited:** On going
 
 My submissions and thoughts during my Harvard CS50 (computer science) course. (Really needs updating, I've almost completed the course!)
 
