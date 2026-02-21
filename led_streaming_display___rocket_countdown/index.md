@@ -152,3 +152,25 @@ going for. From NASAs mission control center:
 Looking on LCSC [this LED](https://www.lcsc.com/product-detail/C7470870.html) looks to be a good fit. In 1000 quantities, it's about $27.7. That's not too bad, so probably will get these. They're clear (which probably looks better when LEDs are off) and then it's green when it's on.
 
 
+
+## 21/02/26
+
+Well it's been a little while, but I have been working (I promise). I've been
+getting the base schematic done, I won't share it just yet, I'll wait till it's
+done. But here's a few insights I've gotten so far:
+
+1. The wifi link (ESP32) isn't actually an ESP32. I had a look at what I
+   actually had and it was a [D1 mini](https://uc2cb756136852eb70d6a7c764aa.dl.dropboxusercontent.com/cd/0/inline2/C7QL3nZnDZNxBcOEiZFGtSBBPEXyqxlR70cme3Fjo7H9jrEw_xGuSXMaOJtRmAoR6fdZL-cHu3gwxdcLE-HGDzPPFSICcu0sYBHyFn336KLB1hG2uhc8YTWx-qEFsVPoqfg6mMdH2nVsf2TnSIG2nWmSDx8tQCkoSmlyi7TgZRf-PpEkmsVTbjltrazOGphf6ygioTYiFPVe0IXAqk2seujc00Cx0sLtUAbXD8ANNNat6iL5Ageq9DuPzW6o4bfN6vgUsyVKne-owqdk4Xzs4bK5gjADMG8lYQfAgtfLK0J_GQORKCzArELZezyPqrbCiisjJ2j57So1muzeelSbOYpinutrX58YMX7_YBIRq68zbw/file), which actually has an ESP82266MOD with 4MB
+   of flash (over the SPI pins of the dev board, so those are actually out of
+action). Now, these are pretty cheap on LCSC, about $2.5 or so. The "dev board"
+is an ESP12F - really low GPIO count, and not many bells and whistles. It needs
+a USB 2 UART, a few pullups/downs, and a 3v3 LDO.
+
+2. I realised that, to keep costs down, I should make a PCB with all components
+   on every module (IE, wifi, LEDs, USB connectors, etc.) Obviously only one
+board (let's call it, the master board) needs a wifi module/USB, etc., but I can
+reuse the same PCB board for each. That way, I can get 20 ish made at JLCPCB,
+probably 100x100mm, for like $20.
+
+## 22/02/26
+

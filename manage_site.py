@@ -20,7 +20,7 @@ def update_home_page(title, folder_name, blurb, is_new=True):
         lines = f.readlines()
 
     today = get_today()
-    link = f"./{folder_name}/index.md"
+    link = f"./{folder_name}"
 
     if is_new:
         # We start with the content, then END with a separator

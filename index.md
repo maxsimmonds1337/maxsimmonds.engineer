@@ -1,8 +1,15 @@
 This site hosts my projects, code, and anything else that I think my be worthy of sharing!
 
+If you're a recruiter, checkout my CV (though, likely out of date) [here](./CV/CV.pdf).
+
+[LinkedIn](https://linkedin.com/in/max-simmonds) will be more up-to-date.
+
+Finally, checkout my [YouTube Channel](https://www.youtube.com/@LifeofanElectronicEngineer), where I occasionally post videos on some
+of my projects.
+
 ---
 
-# [LED Streaming Display - Rocket Countdown](./led_streaming_display___rocket_countdown/index.md)
+# [LED Streaming Display - Rocket Countdown](./led_streaming_display___rocket_countdown/)
 
 **Start Date:** 02/02/26
 
@@ -12,7 +19,7 @@ I really want to have an old school scrolling display in my room. I kinda want i
 
 ---
 
-# [Making an Enclosure for 3D Printer](./making_an_enclosure_for_3d_printer/index.md)
+# [Making an Enclosure for 3D Printer](./making_an_enclosure_for_3d_printer/)
 
 **Start Date:** 02/02/26
 
@@ -22,17 +29,17 @@ I recently bought a new 3D printer (retiring my old homemade one!). I wanted an 
 
 ---
 
-# [Moving to Estonia BLOG](./eesti_move/index.md)
+# [Moving to Estonia BLOG](./eesti_move/)
 
 **Start Date:** 23/06/2024
 
-***Last Edited:** 28/06/2024
+**Last Edited:** 28/06/2024
 
 Me, my wife, our daughter, two cats (Elon and Axel), and a crustation, and jumping in a van and driving all our stuff from the UK to Estonia!
 
 ---
 
-# [Building a Cat Cam](./Cat_Cam/index.md)
+# [Building a Cat Cam](./Cat_Cam/)
 
 **Start Date:** 26/05/2024
 
@@ -42,7 +49,7 @@ This is my current project, a self balancing electric skateboard, commonly known
 
 ---
 
-# [Drone Hacking](./Drone_Hacking/index.md)
+# [Drone Hacking](./Drone_Hacking/)
 
 **Start Date:** 31/03/2024
 
@@ -52,7 +59,7 @@ I'm reverse engineering a snaptain Af15 drone, to be able to fly it from my lapt
 
 ---
 
-# [DIY One Wheel](./DIY_One_Wheel/SBS.md)
+# [DIY One Wheel](./DIY_One_Wheel/)
 
 **Start Date:** 31/07/2022
 
@@ -62,7 +69,7 @@ This is my current project, a self balancing electric skateboard, commonly known
 
 ---
 
-# [Programming Portfolio](./Programming_Portfolio/index.md)
+# [Programming Portfolio](./Programming_Portfolio/)
 
 **Start Date:** 17/08/2022
 
@@ -72,7 +79,7 @@ This section outlines some of my programming projects. This is mainly to documen
 
 ---
 
-# [Harvard CS50 Course](./Havard_CS50_Course/index.md)
+# [Harvard CS50 Course](./Havard_CS50_Course/)
 
 **Start Date:** 16/08/2022
 
