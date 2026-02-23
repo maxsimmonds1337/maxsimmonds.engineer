@@ -172,5 +172,10 @@ board (let's call it, the master board) needs a wifi module/USB, etc., but I can
 reuse the same PCB board for each. That way, I can get 20 ish made at JLCPCB,
 probably 100x100mm, for like $20.
 
-## 22/02/26
+## 23/02/2026
 
+So I want to think about the current requirements of the LED supply.
+
+Since it's rastered (that is, column driven) I think the worst case current,
+assuming full brightness, would be $$8 \cdot 20mA = 160mA$$. That's pretty much
+nothing!

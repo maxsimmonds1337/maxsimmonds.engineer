@@ -9,6 +9,16 @@ of my projects.
 
 ---
 
+# [Project Todo List](./project_todo_list)
+
+**Start Date:** 23/02/26
+
+**Last Edited:** 23/02/26
+
+I would like a way to track my impulsive project ideas
+
+---
+
 # [LED Streaming Display - Rocket Countdown](./led_streaming_display___rocket_countdown/)
 
 **Start Date:** 02/02/26
