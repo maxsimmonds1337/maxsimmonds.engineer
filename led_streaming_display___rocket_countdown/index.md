@@ -177,5 +177,27 @@ probably 100x100mm, for like $20.
 So I want to think about the current requirements of the LED supply.
 
 Since it's rastered (that is, column driven) I think the worst case current,
-assuming full brightness, would be $$8 \cdot 20mA = 160mA$$. That's pretty much
-nothing!
+assuming full brightness, would be $$8 \cdot 20mA = 160mA$$. But, that's for
+just one module. We have 15 (maybe 16, seems like a more rounded number? Let's
+go with 16 for now) so $$16 \cdot 160mA = 2.560A$$. At 5V, that's about 12.5W -
+I will just pull this from the USB port that this will be connected too.
+
+## 24/02/2026
+
+Okay, so, I think the schematic capture is pretty much done. Here's a [pdf](https://github.com/maxsimmonds1337/RocketClock/blob/d438bd8a07c629ab0a97276669d96e3dab4f1ef7/manufacturing/RocketClock.pdf) of it, in it's current version.
+
+
+As I move towards the PCB layout, I want to give a little thought to the
+mechanical design. The PCB itself will be 100mmx100mm - but how that's housed,
+how the LEDs are situated and how far apart, etc., needs a little thought. I
+know I want some way of passing the 3 display signals (CLK, CS, and data), plus
+power and ground, in a way that's easy - no cables. So, that leaves contact
+connectors (like pogo pins) or some push-fit type connectors (like header pins,
+but probably something a bit more robust).
+
+Let's brainstorm:
+
+| connector type | Pros | Cons | Link |
+| :---           | :--- | :----| :--- |
+| Pogo Pins      | Press fit, cool, more tolerance in X and Y (depending on type) | Current carrying capabilities is limited, though I found one for 2A (could probably do 2.5A at a push) | https://www.lcsc.com/product-image/C41361293.html |
+| Mechanical Connector |  | |

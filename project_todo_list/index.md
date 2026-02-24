@@ -6,6 +6,7 @@
 [ ] 3D printer (Creality 10SE) enclosure
 [ ] NASA Inspired Launch Count Down Display
 [ ] Mechanical Calculator Clock
+[ ] Update KiCAD Project Template Repo
 
 
 I'll link these projects to their respective project page, as and when I
