@@ -197,7 +197,16 @@ but probably something a bit more robust).
 
 Let's brainstorm:
 
-| connector type | Pros | Cons | Link |
-| :---           | :--- | :----| :--- |
-| Pogo Pins      | Press fit, cool, more tolerance in X and Y (depending on type) | Current carrying capabilities is limited, though I found one for 2A (could probably do 2.5A at a push) | https://www.lcsc.com/product-image/C41361293.html |
-| Mechanical Connector |  | |
+| connector type | Pros | Cons | Cost | Link |
+| :---           | :--- | :----| :--- | :--- |
+| Pogo Pins      | * Press fit <br> * Cool <br> * More tolerance in X and Y (depending on type) <br> * Intergrated magnets  | * Current carrying capabilities is limited though I found one for 2A (could probably do 2.5A at a push) <br> * Requires manual soldering | ~3$ per pair | https://www.lcsc.com/product-image/C41361293.html |
+| Mechanical Connector | tigher fit, might not shake loose on wall. <br> * Cheap
+(basically pin headers) <br> * Doesn't require manual soldering (probably) |
+0.10$ | https://www.lcsc.com/product-detail/C18357552.html?s_z=n_pcb%2520interconnect%25205%2520pin |
+
+
+So, I really wanted to go for the magnetic one, but all things considered, a mechanical connector makes the most sense. Also, I can reuse the USB connector that I need anyway, so that keeps the overall BOM list smaller. I have an idea for how to set these out physically:
+
+
+
+

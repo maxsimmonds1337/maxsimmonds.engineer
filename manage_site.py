@@ -46,7 +46,7 @@ def update_home_page(title, folder_name, blurb, is_new=True):
 
         # Split over two lines using parentheses (Implicit Concatenation)
         pattern = (
-            rf"(# \[{re.escape(title)}\]\({re.escape(link)}\).*?"
+            rf"(# \[{re.escape(title)}\]\({re.escape(link)}/?\).*?"
             r"Last Edited:\s*)[\d/]+"
         )
 
