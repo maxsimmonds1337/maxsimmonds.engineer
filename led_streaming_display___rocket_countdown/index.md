@@ -207,6 +207,17 @@ Let's brainstorm:
 
 So, I really wanted to go for the magnetic one, but all things considered, a mechanical connector makes the most sense. Also, I can reuse the USB connector that I need anyway, so that keeps the overall BOM list smaller. I have an idea for how to set these out physically:
 
+## 25/02/26
 
+Okay, so I didn't get a chance to finish where I was last night. I woke up extra
+early today (0530 hrs!) to have some time to work on this, and other things,
+before work. I found a nice "PCB edge" connector that I think will work really
+well for the module interconnect. Specifically, it's this
+[one](https://www.digikey.com/en/products/detail/w%C3%BCrth-elektronik/632712000011/5806668):
 
+[!image](./images/edge_usb_con.jpg)
 
+So, this is designed for PCB thicknesses of 0.8mm. I'll need to remember that.
+Gemini seems to think this may not be the best part (and also, I can't find
+anything similar on LCSC!) and I need a mid-mount part. So, let's take a look at
+those.

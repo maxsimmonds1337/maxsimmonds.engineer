@@ -47,10 +47,10 @@ def update_home_page(title, folder_name, blurb, is_new=True):
         # Split over two lines using parentheses (Implicit Concatenation)
         pattern = (
             rf"(# \[{re.escape(title)}\]\({re.escape(link)}/?\).*?"
-            r"Last Edited:\s*)[\d/]+"
+            r"\*\*Last Edited:\*\*\s*)[\d/]+"
         )
 
-        content = re.sub(pattern, rf"\1{today}", content, flags=re.DOTALL)
+        content = re.sub(pattern, rf"\g<1>{today}", content, flags=re.DOTALL)
         lines = [content]
 
     with open(HOME_FILE, "w") as f:
