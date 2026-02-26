@@ -221,3 +221,19 @@ So, this is designed for PCB thicknesses of 0.8mm. I'll need to remember that.
 Gemini seems to think this may not be the best part (and also, I can't find
 anything similar on LCSC!) and I need a mid-mount part. So, let's take a look at
 those.
+
+Actually, talking a few hours later, I don't think I need a mid-mount part. I
+can have a normal mounted USB C connector, with PCB pads on either side.
+Depending on whether I want to pass USB power in, or pass through the CS, Data,
+etc.,. I can either solder it from top or bottom, or I could just have 0 Ohm
+resistors for selecting what goes where - like that idea better, I think. And
+with that, let's CAD something simple up.
+
+### Quick CAD Model
+
+Nope, no CAD. I flip-flopped back again. I realised an issue. Male USB C
+connectors don't seem to be easily available in right angle mounted horizontal
+connectors. Maybe they are and I'm just not looking correctly. But the more I
+look at it, the more I would need to either choose both edge mounted, or both
+normal mounted, to ensure alignment, and I just don't think I can find that. I'm
+going back to the nice mag connectors.
