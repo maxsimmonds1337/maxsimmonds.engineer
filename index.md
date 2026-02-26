@@ -9,6 +9,16 @@ of my projects.
 
 ---
 
+# [Inductive Charger from Scratch](./inductive_charger_from_scratch)
+
+**Start Date:** 26/02/26
+
+**Last Edited:** 26/02/26
+
+A recent project of mine required some custom, non standard coil, inductive charging. I want to document my development of this custom wireless/inductive charger.
+
+---
+
 # [Project Todo List](./project_todo_list)
 
 **Start Date:** 23/02/26
