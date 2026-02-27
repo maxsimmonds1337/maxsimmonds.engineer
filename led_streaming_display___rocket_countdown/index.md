@@ -215,7 +215,7 @@ before work. I found a nice "PCB edge" connector that I think will work really
 well for the module interconnect. Specifically, it's this
 [one](https://www.digikey.com/en/products/detail/w%C3%BCrth-elektronik/632712000011/5806668):
 
-[!image](./images/edge_usb_con.jpg)
+![image](./images/edge_usb_con.jpg)
 
 So, this is designed for PCB thicknesses of 0.8mm. I'll need to remember that.
 Gemini seems to think this may not be the best part (and also, I can't find
@@ -237,3 +237,25 @@ connectors. Maybe they are and I'm just not looking correctly. But the more I
 look at it, the more I would need to either choose both edge mounted, or both
 normal mounted, to ensure alignment, and I just don't think I can find that. I'm
 going back to the nice mag connectors.
+
+## 27/02/26
+
+Okay, been a couple of days, I've been working on a seperate project ([inductive
+charging](./../inductive_charger_from_scratch/) but let's refocus on this, and
+try and get that CAD mockup done of the connectors.
+
+Step 0 - model them because I can't find a model online :(.
+
+![image](./images/measurements.jpg)
+
+The magcon didn't have a dimension for the hole which houses the magnet. I used
+a known dimension (the 4mm radius) and measured the number of pixels. It was 130
+pixels. Then I measured the unknown dimension, which was 103, and that gives me:
+
+$$ \frac{4}{130} \cdot 103 = 3.16 \approx 3.2mm $$
+
+So now I have the dimension!
+
+![image](./images/two_modules.jpg)
+
+Okay, so I got the connector modelled, and I started place them on the "PCB". This will be the basis for me to understand how the enclouser will look. The enclosure will house the PCB, but also the LEDs and possible use some [lithophane](https://en.wikipedia.org/wiki/Lithophane) type techniques (or not really lithophane, but some type of dispersion maybe?) of the LEDS. Or I might just have a hole -- not sure yet, that's why I need to CAD it up!
