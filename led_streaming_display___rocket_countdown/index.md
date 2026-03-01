@@ -259,3 +259,14 @@ So now I have the dimension!
 ![image](./images/two_modules.jpg)
 
 Okay, so I got the connector modelled, and I started place them on the "PCB". This will be the basis for me to understand how the enclouser will look. The enclosure will house the PCB, but also the LEDs and possible use some [lithophane](https://en.wikipedia.org/wiki/Lithophane) type techniques (or not really lithophane, but some type of dispersion maybe?) of the LEDS. Or I might just have a hole -- not sure yet, that's why I need to CAD it up!
+
+## 01/03/26
+
+![image](./images/RocketClock.png)
+
+We have a model! A very basic one, but we have a model. This was a pretty decent
+exercise. I now have a PCB board envelope to work with. I do my modelling in
+[OnShape](https://cad.onshape.com). It's pretty easy to get a DXF of the layout,
+which I then import into KiCAD as a board layout:
+
+![image](./images/pcbBoard.jpg)

@@ -9,6 +9,16 @@ of my projects.
 
 ---
 
+# [Robot Dog Butler](./robot_dog_butler)
+
+**Start Date:** 28/02/26
+
+**Last Edited:** 28/02/26
+
+My daughter really wants a dog, so we settled on a robot dog (called Cedric, named by my daughter). I thought it would be cool to make it useful, so we'll attached a steward platform to the top, and make it carry drinks.
+
+---
+
 # [Inductive Charger from Scratch](./inductive_charger_from_scratch)
 
 **Start Date:** 26/02/26
@@ -33,7 +43,7 @@ I would like a way to track my impulsive project ideas
 
 **Start Date:** 02/02/26
 
-**Last Edited:** 27/02/26
+**Last Edited:** 01/03/26
 
 I really want to have an old school scrolling display in my room. I kinda want it to have the time, temperature outside, etc., but also show me when and who is the next rocket launch. So, this is my design of such a thing.
 
