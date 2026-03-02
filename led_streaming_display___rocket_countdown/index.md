@@ -270,3 +270,56 @@ exercise. I now have a PCB board envelope to work with. I do my modelling in
 which I then import into KiCAD as a board layout:
 
 ![image](./images/pcbBoard.jpg)
+
+### Schematic update
+
+I remembered, I wanted to have a buzzer so that I could also use this as an
+alarm, maybe even play some crappy music. But, I have no pins left on the uP.
+So, I do have an I2C bus, but I haven't played or seen any I2C buzzers before.
+Let's see if I can find any.
+
+Okay, I had a look, all I can find that's somewhat decent is the
+[SparkFun](https://www.sparkfun.com/sparkfun-qwiic-buzzer.html#content-overview)
+speaker board. It has an ATTiny84 on there for basically being an I2C -> PWM
+converter with configurable frequency and volume. I checked LCSC, it's like 2$
+for an [attiny84](https://www.lcsc.com/product-detail/C1522082.html?s_z=n_attiny84) and then another few dollars for the [buzzer](https://www.lcsc.com/product-detail/C22359724.html?s_z=n_CBT-09427-SMT-TR), which is currently out of stock so I'll probably chose a different one.
+
+For the sake of a couple of dollars, I'll add one (of course, the footprint will
+be on every module, but only one can be used unless I pass I2C bus over the
+modules some how. I'll need to write my own firmware for it, but that'll be
+pretty cool. I have this old [programmer](https://www.sparkfun.com/tiny-avr-programmer.html#content-documentation) from SparkFun that programes the ATTINY series, so I can easily program it that way. Seems like a pretty cool addition. Plus, the [schematics](https://docs.sparkfun.com/SparkFun_Qwiic_Buzzer/assets/board_files/SparkFun_Qwiic_Buzzer_Schematic_V10.pdf) are all available, so nice and easy.
+
+Let's add this to the current schematic and update the github repo. Then, we're
+ready for PCB Layout!
+
+Ah - I just found
+[this](https://github.com/sparkfun/SparkFun_Qwiic_Buzzer/tree/main/Firmware/QwiicBuzzerFirmware)
+which is the firmware for the attiny! I might need to make mods, because the pin
+out may not be the same (I might use a digipot for the volume) but that will
+make this much much easier!
+
+In the end, I didn't go with the digipot. LCSC has a bunch, but I'd need to mod
+the firmware and now I know I don't have to write custom FW, I'm lazy! The
+pinout for the IC I've chosen (QFN) is not the same as SparkFun's, so I'll need
+to do some pin changes, but that should be fine.
+
+Schematic's not finished, but I'll do some more tomorrow.
+
+## 02/03/26
+
+New day, let's gooooooo.
+
+![image](./images/buzzer_sch.jpg)
+
+Alright, I added a buzzer, it was pretty involved, but it's now done. Back to
+the PCB. The exported PCB board file is nice, but I would like guidelines on
+where to put them. Luckily, we can export that from OnShape, and add it on a
+layer in the PCB.
+
+![image](./images/LEDSPlaced.jpg)
+
+This was actually pretty easy in KiCAD. I used the DXF of LED places from
+OnShape to understand whereabouts I need to place them. Then, I used the Grid
+Array feature in KiCAD (CMD + T on a mac) and placed them in an 8x8 grid, with
+12.5 ($$ \frac{100}{8} $$) spacing.
+
