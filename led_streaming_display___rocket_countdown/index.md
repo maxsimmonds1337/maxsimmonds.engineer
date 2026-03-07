@@ -323,3 +323,12 @@ OnShape to understand whereabouts I need to place them. Then, I used the Grid
 Array feature in KiCAD (CMD + T on a mac) and placed them in an 8x8 grid, with
 12.5 ($$ \frac{100}{8} $$) spacing.
 
+
+## 07/03/26
+Quick update: I'm an idiot. I wanted to use through holes to give the modules an
+archaic feel, but that's not going to work. There's so many holes that I can't
+place anything on either side of the PCB. DOH. So, I'll update the LEDs to SMD
+(they're cheaper, too!) and then maybe we'll need light pipes or maybe we can
+get away with just the 3D printed diffusers or something. Needs some thought,
+but today (later) I'll update the schematic to change the footprints to SMD.
+Sigh. 
