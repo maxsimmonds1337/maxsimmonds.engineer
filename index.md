@@ -9,6 +9,16 @@ of my projects.
 
 ---
 
+# [Aurora Sign](./aurora_sign)
+
+**Start Date:** 08/03/26
+
+**Last Edited:** 08/03/26
+
+Needed a sign that said "Aurora" -- added cool RGB LEDs. All 3D printed.
+
+---
+
 # [Robot Dog Butler](./robot_dog_butler)
 
 **Start Date:** 28/02/26
