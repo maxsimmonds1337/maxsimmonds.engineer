@@ -28,4 +28,32 @@ later I had my two part sign!
 
 ![image](./images/PrintedSign.jpeg)
 
-There we have it! 
+There we have it!
+
+## 10/03/26
+
+Okay, so I've been working on this a little, but not much. Tomorrow is the
+deadline, so I will have to pick up pace then. For now, I changed tack a little.
+
+![image](./images/oldWires.jpg) ![image](./images/newWires.jpg)
+
+Above we have two images. I initially started with very thin, 0.8mm, enameled
+wire. This was, I thought, a good idea. I could quickly tack them on to each pad
+that I needed. It was thin enough to quickly burn through the enamel and solder
+to the pad. They'd be thin, won't short out when touching each other, etc. Alas,
+it didn't work out that way. I was getting a lot of lack of contact between wire
+and pad, they were brittle and would snap, there's no rigidity and so wouldn't
+stay in place, etc. etc.. So, I went with the more standard approach - using 22
+AWG wire. You can see how I've daisy chained them on the image on the right. I
+now have a bunch more to do (but only ~50 LEDs available). I'll get all these
+done tomorrow. Currently, the code is very simple and turns on each LED
+sequentially, in purple.
+
+I also had an issue with oddities when string the LEDs together. The first would
+illuminate fine, but the second, third, forth, would change colour and
+eventually start "double counting" as if LEDs $$X$$ and $$X+1$$ were the same.
+
+The issue was that these LEDs are RGB_W_. I forgot about the _W_. Easy fix in
+code. I'll probably share the code here when I'm done (simple Arduino C++ code)
+and some oscilloscope shots of the data lines out of interest, too. But, only
+when I've soldered all those LEDs!
