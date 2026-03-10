@@ -325,6 +325,7 @@ Array feature in KiCAD (CMD + T on a mac) and placed them in an 8x8 grid, with
 
 
 ## 07/03/26
+
 Quick update: I'm an idiot. I wanted to use through holes to give the modules an
 archaic feel, but that's not going to work. There's so many holes that I can't
 place anything on either side of the PCB. DOH. So, I'll update the LEDs to SMD
@@ -332,3 +333,27 @@ place anything on either side of the PCB. DOH. So, I'll update the LEDs to SMD
 get away with just the 3D printed diffusers or something. Needs some thought,
 but today (later) I'll update the schematic to change the footprints to SMD.
 Sigh. 
+
+## 10/03/26
+
+Been 3 days, not had too much time. I had a couple of issues I wanted to note
+down though.
+
+![image](./images/frontBoard1.jpg) ![image](./images/backBoard1.jpg)
+
+1. Edge cuts. I had a small issue with the board outline, easy fix, basically
+   there was a spur coming off the perimeter, don't know why but deleting it
+fixed it.
+2. Replaced THT LEDs with SMD, this means a redesign of the enclosure, at least
+   the holes. Not sure how these will look in real life, probably I will make a
+   test square piece with several types of holes and diffusions, and I'll see
+how it looks with an LED before committing to the hole thing
+3. Finally, the layout of the multiplexed LEDs isn't the most conducive to a 2
+   layer board. I need vias to jump over/under traces, but then I litter the
+bottom side with areas where I can't place large components. I do have these
+areas near the top and right of the board where there are no vias or bottom
+traces. I'll try and fit most components there.
+
+Anyway, that's all I can update today. Hopefully will get some more time for
+this later this week, and get the boards made! It's been about 5 weeks since I
+had this idea, so need to get the cadence up!
