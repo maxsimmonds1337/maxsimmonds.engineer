@@ -60,4 +60,11 @@ when I've soldered all those LEDs!
 
 ## 13/03/26
 
-![video](https://youtu.be/Z5suf64Qr8A)
+<iframe width="560" height="315" src="https://www.youtube.com/embed/Z5suf64Qr8A?si=qyUN-N6rT_Y287wB" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+Okay, not too much of an update here -- basically, I have soldered a few more
+LEDs and printed a base. The base is very much the same idea as the sign, I used
+dove tail joints, and there's a hollow section at the bottom that houses the
+arduino. Once I have more LEDs soldered, I'll give a full update, this will
+probably be the penultimate update (not much more interesting to update on
+until it's all soldered up!)
