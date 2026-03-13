@@ -57,3 +57,7 @@ The issue was that these LEDs are RGB_W_. I forgot about the _W_. Easy fix in
 code. I'll probably share the code here when I'm done (simple Arduino C++ code)
 and some oscilloscope shots of the data lines out of interest, too. But, only
 when I've soldered all those LEDs!
+
+## 13/03/26
+
+![video](https://youtu.be/Z5suf64Qr8A)
