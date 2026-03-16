@@ -357,3 +357,12 @@ traces. I'll try and fit most components there.
 Anyway, that's all I can update today. Hopefully will get some more time for
 this later this week, and get the boards made! It's been about 5 weeks since I
 had this idea, so need to get the cadence up!
+
+## 16/03/26
+
+I've mostly done the layout now, I wanted to add some photos to show the
+progress.
+
+![image](./images/Layout1.png.jpeg)
+![image](./images/RenderFront1.jpg)
+![image](./images/backBoard1.jpg)
