@@ -63,7 +63,7 @@ I really want to have an old school scrolling display in my room. I kinda want i
 
 **Start Date:** 02/02/26
 
-**Last Edited:** 02/02/26
+**Last Edited:** 20/03/26
 
 I recently bought a new 3D printer (retiring my old homemade one!). I wanted an enclosure to stop accidental touches (from 3 year old hands!) and also extract fumes from plastics like PETG. This is my build process, documented.
 
