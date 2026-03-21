@@ -53,7 +53,7 @@ I would like a way to track my impulsive project ideas
 
 **Start Date:** 02/02/26
 
-**Last Edited:** 16/03/26
+**Last Edited:** 21/03/26
 
 I really want to have an old school scrolling display in my room. I kinda want it to have the time, temperature outside, etc., but also show me when and who is the next rocket launch. So, this is my design of such a thing.
 

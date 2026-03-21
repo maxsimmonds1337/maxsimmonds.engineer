@@ -366,3 +366,16 @@ progress.
 ![image](./images/Layout1.png.jpeg)
 ![image](./images/RenderFront1.jpg)
 ![image](./images/LayoutRengeringBack1.png.jpeg)
+
+## 21/03/26
+
+Layout is now done, DRC is passing, and DFM checks on JLCPCB are good. A few
+warnings about annular rings and some other such stuff (silkscreen over board
+edge, but that's not an issue, just how I placed my custom magconnector
+footprints).
+
+I'm using Claude to help speed up part selection - when LCSC's BOM uploader tool
+can't find a part (or it's out of stock) I get Claude to find me a replacement,
+drop in. For example, the buzzer I used was available in LCSC, but it's out of
+stock. Claude was able to find a great match, based on a bunch of metrics (DB,
+size, footprint) and one that's in stock - I was pretty impressed!
