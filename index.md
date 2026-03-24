@@ -9,6 +9,26 @@ of my projects.
 
 ---
 
+# [STL Stacker](./stl_stacker)
+
+**Start Date:** 22/03/26
+
+**Last Edited:** 22/03/26
+
+For my Rocket Clock project I need many face plates. I realised, I could stack them, but there's no convenient tool do so - so I built one.
+
+---
+
+# [Linear Regression Deep Dive](./linear_regression_deep_dive)
+
+**Start Date:** 22/03/26
+
+**Last Edited:** 22/03/26
+
+I recently utilised a linear regression machine learning algorithm at work. It was incredibly affective, and I wanted to get an intuative understanding of how it worked.
+
+---
+
 # [Aurora Sign](./aurora_sign)
 
 **Start Date:** 08/03/26
