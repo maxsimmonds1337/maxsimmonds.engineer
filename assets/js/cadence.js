@@ -144,7 +144,7 @@
     var nowLineW = TRUNK_X + (numLanes + 1) * LANE_W;
     parts.push('<line x1="' + TRUNK_X + '" y1="' + PAD_T + '" x2="' + nowLineW + '" y2="' + PAD_T + '" stroke="' + NOW_COL + '" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>');
     parts.push('<circle cx="' + TRUNK_X + '" cy="' + PAD_T + '" r="' + NOW_R + '" fill="' + NOW_COL + '"/>');
-    parts.push('<text x="' + (TRUNK_X + NOW_R + 6) + '" y="' + (PAD_T + 4) + '" font-size="11" fill="' + NOW_COL + '" font-family="\'Helvetica Neue\',Helvetica,Arial,sans-serif" font-weight="600">Now</text>');
+    parts.push('<text x="' + (nowLineW + 6) + '" y="' + (PAD_T + 4) + '" font-size="11" fill="' + NOW_COL + '" font-family="\'Helvetica Neue\',Helvetica,Arial,sans-serif" font-weight="600">Now</text>');
 
     projects.forEach(function(p) {
       var sY  = toY(p._s);
