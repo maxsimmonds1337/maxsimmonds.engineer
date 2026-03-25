@@ -1,0 +1,114 @@
+[
+  {
+    "name": "STL Stacker",
+    "folder": "stl_stacker",
+    "startDate": "22/03/26",
+    "lastEdited": "22/03/26",
+    "status": "ongoing",
+    "blurb": "For my Rocket Clock project I need many face plates. I realised, I could stack them, but there's no convenient tool do so - so I built one."
+  },
+  {
+    "name": "Linear Regression Deep Dive",
+    "folder": "linear_regression_deep_dive",
+    "startDate": "22/03/26",
+    "lastEdited": "22/03/26",
+    "status": "ongoing",
+    "blurb": "I recently utilised a linear regression machine learning algorithm at work. It was incredibly affective, and I wanted to get an intuative understanding of how it worked."
+  },
+  {
+    "name": "Aurora Sign",
+    "folder": "aurora_sign",
+    "startDate": "08/03/26",
+    "lastEdited": "13/03/26",
+    "status": "ongoing",
+    "blurb": "Needed a sign that said Aurora -- added cool RGB LEDs. All 3D printed."
+  },
+  {
+    "name": "Robot Dog Butler",
+    "folder": "robot_dog_butler",
+    "startDate": "28/02/26",
+    "lastEdited": "28/02/26",
+    "status": "ongoing",
+    "blurb": "My daughter really wants a dog, so we settled on a robot dog called Cedric. I thought it would be cool to make it useful, so we attached a steward platform to the top, and make it carry drinks."
+  },
+  {
+    "name": "Inductive Charger from Scratch",
+    "folder": "inductive_charger_from_scratch",
+    "startDate": "26/02/26",
+    "lastEdited": "26/02/26",
+    "status": "ongoing",
+    "blurb": "A recent project of mine required some custom, non standard coil, inductive charging. I want to document my development of this custom wireless/inductive charger."
+  },
+  {
+    "name": "Project Todo List",
+    "folder": "project_todo_list",
+    "startDate": "23/02/26",
+    "lastEdited": "23/02/26",
+    "status": "ongoing",
+    "blurb": "I would like a way to track my impulsive project ideas."
+  },
+  {
+    "name": "LED Streaming Display",
+    "folder": "led_streaming_display___rocket_countdown",
+    "startDate": "02/02/26",
+    "lastEdited": "21/03/26",
+    "status": "ongoing",
+    "blurb": "I really want to have an old school scrolling display in my room with time, temperature, and rocket launch info."
+  },
+  {
+    "name": "3D Printer Enclosure",
+    "folder": "making_an_enclosure_for_3d_printer",
+    "startDate": "02/02/26",
+    "lastEdited": "20/03/26",
+    "status": "ongoing",
+    "blurb": "Enclosure for my new 3D printer to stop accidental touches and extract fumes."
+  },
+  {
+    "name": "Moving to Estonia",
+    "folder": "eesti_move",
+    "startDate": "23/06/2024",
+    "lastEdited": "28/06/2024",
+    "status": "ongoing",
+    "blurb": "Driving all our stuff from the UK to Estonia in a van!"
+  },
+  {
+    "name": "Cat Cam",
+    "folder": "Cat_Cam",
+    "startDate": "26/05/2024",
+    "lastEdited": "26/05/2024",
+    "status": "ongoing",
+    "blurb": "Building a camera system to monitor my cats."
+  },
+  {
+    "name": "Drone Hacking",
+    "folder": "Drone_Hacking",
+    "startDate": "31/03/2024",
+    "lastEdited": "31/03/2024",
+    "status": "ongoing",
+    "blurb": "Reverse engineering a Snaptain AF15 drone to fly it from my laptop."
+  },
+  {
+    "name": "DIY One Wheel",
+    "folder": "DIY_One_Wheel",
+    "startDate": "31/07/2022",
+    "lastEdited": "31/07/2022",
+    "status": "ongoing",
+    "blurb": "A self balancing electric skateboard, commonly known as a OneWheel."
+  },
+  {
+    "name": "Programming Portfolio",
+    "folder": "Programming_Portfolio",
+    "startDate": "17/08/2022",
+    "lastEdited": "17/08/2022",
+    "status": "ongoing",
+    "blurb": "Documenting my programming projects and progression."
+  },
+  {
+    "name": "Harvard CS50",
+    "folder": "Havard_CS50_Course",
+    "startDate": "16/08/2022",
+    "lastEdited": "16/08/2022",
+    "status": "ongoing",
+    "blurb": "My submissions and thoughts during my Harvard CS50 computer science course."
+  }
+]

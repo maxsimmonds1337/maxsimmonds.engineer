@@ -1,150 +1,156 @@
-This site hosts my projects, code, and anything else that I think my be worthy of sharing!
-
-If you're a recruiter, checkout my CV (though, likely out of date) [here](./CV/CV.pdf).
-
-[LinkedIn](https://linkedin.com/in/max-simmonds) will be more up-to-date.
-
-Finally, checkout my [YouTube Channel](https://www.youtube.com/@LifeofanElectronicEngineer), where I occasionally post videos on some
-of my projects.
-
+---
 ---
 
-# [STL Stacker](./stl_stacker)
-
-**Start Date:** 22/03/26
-
-**Last Edited:** 22/03/26
-
-For my Rocket Clock project I need many face plates. I realised, I could stack them, but there's no convenient tool do so - so I built one.
-
----
-
-# [Linear Regression Deep Dive](./linear_regression_deep_dive)
-
-**Start Date:** 22/03/26
-
-**Last Edited:** 22/03/26
-
-I recently utilised a linear regression machine learning algorithm at work. It was incredibly affective, and I wanted to get an intuative understanding of how it worked.
-
----
-
-# [Aurora Sign](./aurora_sign)
-
-**Start Date:** 08/03/26
-
-**Last Edited:** 13/03/26
-
-Needed a sign that said "Aurora" -- added cool RGB LEDs. All 3D printed.
-
----
-
-# [Robot Dog Butler](./robot_dog_butler)
-
-**Start Date:** 28/02/26
-
-**Last Edited:** 28/02/26
-
-My daughter really wants a dog, so we settled on a robot dog (called Cedric, named by my daughter). I thought it would be cool to make it useful, so we'll attached a steward platform to the top, and make it carry drinks.
-
----
-
-# [Inductive Charger from Scratch](./inductive_charger_from_scratch)
-
-**Start Date:** 26/02/26
-
-**Last Edited:** 26/02/26
-
-A recent project of mine required some custom, non standard coil, inductive charging. I want to document my development of this custom wireless/inductive charger.
-
----
-
-# [Project Todo List](./project_todo_list)
-
-**Start Date:** 23/02/26
-
-**Last Edited:** 23/02/26
-
-I would like a way to track my impulsive project ideas
-
----
-
-# [LED Streaming Display - Rocket Countdown](./led_streaming_display___rocket_countdown/)
-
-**Start Date:** 02/02/26
-
-**Last Edited:** 21/03/26
-
-I really want to have an old school scrolling display in my room. I kinda want it to have the time, temperature outside, etc., but also show me when and who is the next rocket launch. So, this is my design of such a thing.
-
----
-
-# [Making an Enclosure for 3D Printer](./making_an_enclosure_for_3d_printer/)
-
-**Start Date:** 02/02/26
-
-**Last Edited:** 20/03/26
-
-I recently bought a new 3D printer (retiring my old homemade one!). I wanted an enclosure to stop accidental touches (from 3 year old hands!) and also extract fumes from plastics like PETG. This is my build process, documented.
-
----
-
-# [Moving to Estonia BLOG](./eesti_move/)
-
-**Start Date:** 23/06/2024
-
-**Last Edited:** 28/06/2024
-
-Me, my wife, our daughter, two cats (Elon and Axel), and a crustation, and jumping in a van and driving all our stuff from the UK to Estonia!
-
----
-
-# [Building a Cat Cam](./Cat_Cam/)
-
-**Start Date:** 26/05/2024
-
-**Last Edited:** On going
-
-This is my current project, a self balancing electric skateboard, commonly known as a OneWheel.
-
----
-
-# [Drone Hacking](./Drone_Hacking/)
-
-**Start Date:** 31/03/2024
-
-**Last Edited:** On going
-
-I'm reverse engineering a snaptain Af15 drone, to be able to fly it from my laptop
-
----
-
-# [DIY One Wheel](./DIY_One_Wheel/)
-
-**Start Date:** 31/07/2022
-
-**Last Edited:** On going
-
-This is my current project, a self balancing electric skateboard, commonly known as a OneWheel. 
-
----
-
-# [Programming Portfolio](./Programming_Portfolio/)
-
-**Start Date:** 17/08/2022
-
-**Last Edited:** On going
-
-This section outlines some of my programming projects. This is mainly to document my progression. 
-
----
-
-# [Harvard CS50 Course](./Havard_CS50_Course/)
-
-**Start Date:** 16/08/2022
-
-**Last Edited:** On going
-
-My submissions and thoughts during my Harvard CS50 (computer science) course. (Really needs updating, I've almost completed the course!)
-
----
+<div class="project-card">
+  <a href="./stl_stacker" class="project-image-wrap">
+    <img src="./stl_stacker/images/listImage.png" alt="STL Stacker" onerror="this.closest('.project-image-wrap').style.display='none'">
+  </a>
+  <div class="project-meta">
+    <h1><a href="./stl_stacker">STL Stacker</a></h1>
+    <p class="project-dates"><strong>Start Date:</strong> 22/03/26 &nbsp;·&nbsp; <strong>Last Edited:</strong> 22/03/26 &nbsp;·&nbsp; <strong>Status:</strong> <span class="status-ongoing">Ongoing</span></p>
+    <p class="project-blurb">For my Rocket Clock project I need many face plates. I realised, I could stack them, but there's no convenient tool do so - so I built one.</p>
+  </div>
+</div>
+
+<div class="project-card">
+  <a href="./linear_regression_deep_dive" class="project-image-wrap">
+    <img src="./linear_regression_deep_dive/images/listImage.png" alt="Linear Regression Deep Dive" onerror="this.closest('.project-image-wrap').style.display='none'">
+  </a>
+  <div class="project-meta">
+    <h1><a href="./linear_regression_deep_dive">Linear Regression Deep Dive</a></h1>
+    <p class="project-dates"><strong>Start Date:</strong> 22/03/26 &nbsp;·&nbsp; <strong>Last Edited:</strong> 22/03/26 &nbsp;·&nbsp; <strong>Status:</strong> <span class="status-ongoing">Ongoing</span></p>
+    <p class="project-blurb">I recently utilised a linear regression machine learning algorithm at work. It was incredibly affective, and I wanted to get an intuative understanding of how it worked.</p>
+  </div>
+</div>
+
+<div class="project-card">
+  <a href="./aurora_sign" class="project-image-wrap">
+    <img src="./aurora_sign/images/listImage.png" alt="Aurora Sign" onerror="this.closest('.project-image-wrap').style.display='none'">
+  </a>
+  <div class="project-meta">
+    <h1><a href="./aurora_sign">Aurora Sign</a></h1>
+    <p class="project-dates"><strong>Start Date:</strong> 08/03/26 &nbsp;·&nbsp; <strong>Last Edited:</strong> 13/03/26 &nbsp;·&nbsp; <strong>Status:</strong> <span class="status-ongoing">Ongoing</span></p>
+    <p class="project-blurb">Needed a sign that said "Aurora" -- added cool RGB LEDs. All 3D printed.</p>
+  </div>
+</div>
+
+<div class="project-card">
+  <a href="./robot_dog_butler" class="project-image-wrap">
+    <img src="./robot_dog_butler/images/listImage.png" alt="Robot Dog Butler" onerror="this.closest('.project-image-wrap').style.display='none'">
+  </a>
+  <div class="project-meta">
+    <h1><a href="./robot_dog_butler">Robot Dog Butler</a></h1>
+    <p class="project-dates"><strong>Start Date:</strong> 28/02/26 &nbsp;·&nbsp; <strong>Last Edited:</strong> 28/02/26 &nbsp;·&nbsp; <strong>Status:</strong> <span class="status-ongoing">Ongoing</span></p>
+    <p class="project-blurb">My daughter really wants a dog, so we settled on a robot dog (called Cedric, named by my daughter). I thought it would be cool to make it useful, so we'll attached a steward platform to the top, and make it carry drinks.</p>
+  </div>
+</div>
+
+<div class="project-card">
+  <a href="./inductive_charger_from_scratch" class="project-image-wrap">
+    <img src="./inductive_charger_from_scratch/images/listImage.png" alt="Inductive Charger from Scratch" onerror="this.closest('.project-image-wrap').style.display='none'">
+  </a>
+  <div class="project-meta">
+    <h1><a href="./inductive_charger_from_scratch">Inductive Charger from Scratch</a></h1>
+    <p class="project-dates"><strong>Start Date:</strong> 26/02/26 &nbsp;·&nbsp; <strong>Last Edited:</strong> 26/02/26 &nbsp;·&nbsp; <strong>Status:</strong> <span class="status-ongoing">Ongoing</span></p>
+    <p class="project-blurb">A recent project of mine required some custom, non standard coil, inductive charging. I want to document my development of this custom wireless/inductive charger.</p>
+  </div>
+</div>
+
+<div class="project-card">
+  <a href="./project_todo_list" class="project-image-wrap">
+    <img src="./project_todo_list/images/listImage.png" alt="Project Todo List" onerror="this.closest('.project-image-wrap').style.display='none'">
+  </a>
+  <div class="project-meta">
+    <h1><a href="./project_todo_list">Project Todo List</a></h1>
+    <p class="project-dates"><strong>Start Date:</strong> 23/02/26 &nbsp;·&nbsp; <strong>Last Edited:</strong> 23/02/26 &nbsp;·&nbsp; <strong>Status:</strong> <span class="status-ongoing">Ongoing</span></p>
+    <p class="project-blurb">I would like a way to track my impulsive project ideas.</p>
+  </div>
+</div>
+
+<div class="project-card">
+  <a href="./led_streaming_display___rocket_countdown/" class="project-image-wrap">
+    <img src="./led_streaming_display___rocket_countdown/images/listImage.png" alt="LED Streaming Display - Rocket Countdown" onerror="this.closest('.project-image-wrap').style.display='none'">
+  </a>
+  <div class="project-meta">
+    <h1><a href="./led_streaming_display___rocket_countdown/">LED Streaming Display - Rocket Countdown</a></h1>
+    <p class="project-dates"><strong>Start Date:</strong> 02/02/26 &nbsp;·&nbsp; <strong>Last Edited:</strong> 21/03/26 &nbsp;·&nbsp; <strong>Status:</strong> <span class="status-ongoing">Ongoing</span></p>
+    <p class="project-blurb">I really want to have an old school scrolling display in my room. I kinda want it to have the time, temperature outside, etc., but also show me when and who is the next rocket launch. So, this is my design of such a thing.</p>
+  </div>
+</div>
+
+<div class="project-card">
+  <a href="./making_an_enclosure_for_3d_printer/" class="project-image-wrap">
+    <img src="./making_an_enclosure_for_3d_printer/images/listImage.png" alt="Making an Enclosure for 3D Printer" onerror="this.closest('.project-image-wrap').style.display='none'">
+  </a>
+  <div class="project-meta">
+    <h1><a href="./making_an_enclosure_for_3d_printer/">Making an Enclosure for 3D Printer</a></h1>
+    <p class="project-dates"><strong>Start Date:</strong> 02/02/26 &nbsp;·&nbsp; <strong>Last Edited:</strong> 20/03/26 &nbsp;·&nbsp; <strong>Status:</strong> <span class="status-ongoing">Ongoing</span></p>
+    <p class="project-blurb">I recently bought a new 3D printer (retiring my old homemade one!). I wanted an enclosure to stop accidental touches (from 3 year old hands!) and also extract fumes from plastics like PETG. This is my build process, documented.</p>
+  </div>
+</div>
+
+<div class="project-card">
+  <a href="./eesti_move/" class="project-image-wrap">
+    <img src="./eesti_move/images/listImage.png" alt="Moving to Estonia BLOG" onerror="this.closest('.project-image-wrap').style.display='none'">
+  </a>
+  <div class="project-meta">
+    <h1><a href="./eesti_move/">Moving to Estonia BLOG</a></h1>
+    <p class="project-dates"><strong>Start Date:</strong> 23/06/2024 &nbsp;·&nbsp; <strong>Last Edited:</strong> 28/06/2024 &nbsp;·&nbsp; <strong>Status:</strong> <span class="status-ongoing">Ongoing</span></p>
+    <p class="project-blurb">Me, my wife, our daughter, two cats (Elon and Axel), and a crustacean, jumping in a van and driving all our stuff from the UK to Estonia!</p>
+  </div>
+</div>
+
+<div class="project-card">
+  <a href="./Cat_Cam/" class="project-image-wrap">
+    <img src="./Cat_Cam/images/listImage.png" alt="Building a Cat Cam" onerror="this.closest('.project-image-wrap').style.display='none'">
+  </a>
+  <div class="project-meta">
+    <h1><a href="./Cat_Cam/">Building a Cat Cam</a></h1>
+    <p class="project-dates"><strong>Start Date:</strong> 26/05/2024 &nbsp;·&nbsp; <strong>Last Edited:</strong> On going &nbsp;·&nbsp; <strong>Status:</strong> <span class="status-ongoing">Ongoing</span></p>
+    <p class="project-blurb">Building a camera system to monitor my cats.</p>
+  </div>
+</div>
+
+<div class="project-card">
+  <a href="./Drone_Hacking/" class="project-image-wrap">
+    <img src="./Drone_Hacking/images/listImage.png" alt="Drone Hacking" onerror="this.closest('.project-image-wrap').style.display='none'">
+  </a>
+  <div class="project-meta">
+    <h1><a href="./Drone_Hacking/">Drone Hacking</a></h1>
+    <p class="project-dates"><strong>Start Date:</strong> 31/03/2024 &nbsp;·&nbsp; <strong>Last Edited:</strong> On going &nbsp;·&nbsp; <strong>Status:</strong> <span class="status-ongoing">Ongoing</span></p>
+    <p class="project-blurb">I'm reverse engineering a Snaptain AF15 drone, to be able to fly it from my laptop.</p>
+  </div>
+</div>
+
+<div class="project-card">
+  <a href="./DIY_One_Wheel/" class="project-image-wrap">
+    <img src="./DIY_One_Wheel/images/listImage.png" alt="DIY One Wheel" onerror="this.closest('.project-image-wrap').style.display='none'">
+  </a>
+  <div class="project-meta">
+    <h1><a href="./DIY_One_Wheel/">DIY One Wheel</a></h1>
+    <p class="project-dates"><strong>Start Date:</strong> 31/07/2022 &nbsp;·&nbsp; <strong>Last Edited:</strong> On going &nbsp;·&nbsp; <strong>Status:</strong> <span class="status-ongoing">Ongoing</span></p>
+    <p class="project-blurb">This is my current project, a self balancing electric skateboard, commonly known as a OneWheel.</p>
+  </div>
+</div>
+
+<div class="project-card">
+  <a href="./Programming_Portfolio/" class="project-image-wrap">
+    <img src="./Programming_Portfolio/images/listImage.png" alt="Programming Portfolio" onerror="this.closest('.project-image-wrap').style.display='none'">
+  </a>
+  <div class="project-meta">
+    <h1><a href="./Programming_Portfolio/">Programming Portfolio</a></h1>
+    <p class="project-dates"><strong>Start Date:</strong> 17/08/2022 &nbsp;·&nbsp; <strong>Last Edited:</strong> On going &nbsp;·&nbsp; <strong>Status:</strong> <span class="status-ongoing">Ongoing</span></p>
+    <p class="project-blurb">This section outlines some of my programming projects. This is mainly to document my progression.</p>
+  </div>
+</div>
+
+<div class="project-card">
+  <a href="./Havard_CS50_Course/" class="project-image-wrap">
+    <img src="./Havard_CS50_Course/images/listImage.png" alt="Harvard CS50 Course" onerror="this.closest('.project-image-wrap').style.display='none'">
+  </a>
+  <div class="project-meta">
+    <h1><a href="./Havard_CS50_Course/">Harvard CS50 Course</a></h1>
+    <p class="project-dates"><strong>Start Date:</strong> 16/08/2022 &nbsp;·&nbsp; <strong>Last Edited:</strong> On going &nbsp;·&nbsp; <strong>Status:</strong> <span class="status-ongoing">Ongoing</span></p>
+    <p class="project-blurb">My submissions and thoughts during my Harvard CS50 (computer science) course. (Really needs updating, I've almost completed the course!)</p>
+  </div>
+</div>

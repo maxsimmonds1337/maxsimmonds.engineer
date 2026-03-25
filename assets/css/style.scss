@@ -3,167 +3,218 @@
 
 @import "{{ site.theme }}";
 
-/* --- 1. FONTS --- */
-@font-face {
-    font-family: 'Noto Sans';
-    font-weight: 400;
-    font-style: normal;
-    src: url("../fonts/Noto-Sans-regular/Noto-Sans-regular.eot");
-    src: url("../fonts/Noto-Sans-regular/Noto-Sans-regular.eot?#iefix") format("embedded-opentype"),local("Noto Sans"),local("Noto-Sans-regular"),url("../fonts/Noto-Sans-regular/Noto-Sans-regular.woff2") format("woff2"),url("../fonts/Noto-Sans-regular/Noto-Sans-regular.woff") format("woff"),url("../fonts/Noto-Sans-regular/Noto-Sans-regular.ttf") format("truetype"),url("../fonts/Noto-Sans-regular/Noto-Sans-regular.svg#NotoSans") format("svg")
-}
-
-@font-face {
-    font-family: 'Noto Sans';
-    font-weight: 700;
-    font-style: normal;
-    src: url("../fonts/Noto-Sans-700/Noto-Sans-700.eot");
-    src: url("../fonts/Noto-Sans-700/Noto-Sans-700.eot?#iefix") format("embedded-opentype"),local("Noto Sans Bold"),local("Noto-Sans-700"),url("../fonts/Noto-Sans-700/Noto-Sans-700.woff2") format("woff2"),url("../fonts/Noto-Sans-700/Noto-Sans-700.woff") format("woff"),url("../fonts/Noto-Sans-700/Noto-Sans-700.ttf") format("truetype"),url("../fonts/Noto-Sans-700/Noto-Sans-700.svg#NotoSans") format("svg")
-}
-
-/* --- 2. SYNTAX HIGHLIGHTING (Your Original Styles) --- */
-.highlight table td { padding: 5px }
-.highlight table pre { margin: 0 }
-.highlight .cm { color: #999988; font-style: italic }
-.highlight .cp { color: #999999; font-weight: bold }
-.highlight .c1 { color: #999988; font-style: italic }
-.highlight .cs { color: #999999; font-weight: bold; font-style: italic }
-.highlight .c,.highlight .cd { color: #999988; font-style: italic }
-.highlight .err { color: #a61717; background-color: #e3d2d2 }
-.highlight .gd { color: #000000; background-color: #ffdddd }
-.highlight .ge { color: #000000; font-style: italic }
-.highlight .gr { color: #aa0000 }
-.highlight .gh { color: #999999 }
-.highlight .gi { color: #000000; background-color: #ddffdd }
-.highlight .go { color: #888888 }
-.highlight .gp { color: #555555 }
-.highlight .gs { font-weight: bold }
-.highlight .gu { color: #aaaaaa }
-.highlight .gt { color: #aa0000 }
-.highlight .kc { color: #000000; font-weight: bold }
-.highlight .kd { color: #000000; font-weight: bold }
-.highlight .kn { color: #000000; font-weight: bold }
-.highlight .kp { color: #000000; font-weight: bold }
-.highlight .kr { color: #000000; font-weight: bold }
-.highlight .kt { color: #445588; font-weight: bold }
-.highlight .k,.highlight .kv { color: #000000; font-weight: bold }
-.highlight .mf { color: #009999 }
-.highlight .mh { color: #009999 }
-.highlight .il { color: #009999 }
-.highlight .mi { color: #009999 }
-.highlight .mo { color: #009999 }
-.highlight .m,.highlight .mb,.highlight .mx { color: #009999 }
-.highlight .sb { color: #d14 }
-.highlight .sc { color: #d14 }
-.highlight .sd { color: #d14 }
-.highlight .s2 { color: #d14 }
-.highlight .se { color: #d14 }
-.highlight .sh { color: #d14 }
-.highlight .si { color: #d14 }
-.highlight .sx { color: #d14 }
-.highlight .sr { color: #009926 }
-.highlight .s1 { color: #d14 }
-.highlight .ss { color: #990073 }
-.highlight .s { color: #d14 }
-.highlight .na { color: #008080 }
-.highlight .bp { color: #999999 }
-.highlight .nb { color: #0086B3 }
-.highlight .nc { color: #445588; font-weight: bold }
-.highlight .no { color: #008080 }
-.highlight .nd { color: #3c5d5d; font-weight: bold }
-.highlight .ni { color: #800080 }
-.highlight .ne { color: #990000; font-weight: bold }
-.highlight .nf { color: #990000; font-weight: bold }
-.highlight .nl { color: #990000; font-weight: bold }
-.highlight .nn { color: #555555 }
-.highlight .nt { color: #000080 }
-.highlight .vc { color: #008080 }
-.highlight .vg { color: #008080 }
-.highlight .vi { color: #008080 }
-.highlight .nv { color: #008080 }
-.highlight .ow { color: #000000; font-weight: bold }
-.highlight .o { color: #000000; font-weight: bold }
-.highlight .w { color: #bbbbbb }
-.highlight { background-color: #f8f8f8 }
-
-/* --- 3. DYNAMIC LAYOUT --- */
+/* ─── Layout override ─── */
 body {
-    background-color: #fff;
-    font: 14px/1.5 "Noto Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    color: #727272;
-    margin: 0;
-    padding: 0;
+  background: #fff;
+  color: #555;
+  font: 14px/1.6 "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 .wrapper {
-    max-width: 1100px;
-    width: 90%;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: 270px 1fr;
-    grid-template-rows: 1fr auto;
-    gap: 50px;
-    padding: 50px 0;
+  max-width: 1200px;
+  width: 92%;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  grid-template-rows: 1fr auto;
+  gap: 50px;
+  padding: 50px 0;
 }
 
 header {
-    grid-row: 1 / -1; /* Span all rows */
-    position: sticky;
-    top: 50px;
-    height: fit-content;
+  grid-column: 1;
+  grid-row: 1 / -1;
+  position: sticky;
+  top: 40px;
+  height: fit-content;
 }
 
 section {
-    grid-column: 2;
-    min-width: 0; /* Prevents code blocks from breaking grid layout */
+  grid-column: 2;
+  min-width: 0;
 }
 
 footer {
-    grid-column: 2;
-    margin-top: 40px;
-    color: #ccc;
-    font-size: 11px;
+  grid-column: 2;
+  color: #ccc;
+  font-size: 11px;
+  margin-top: 20px;
 }
 
-/* --- 4. TYPOGRAPHY & ELEMENTS --- */
-h1, h2, h3, h4, h5, h6 { color: #222; margin: 0 0 20px; line-height: 1.1; }
-h1 { font-size: 28px; }
-h2 { color: #393939; border-bottom: 1px solid #eee; padding-bottom: 10px; }
-
-p, ul, ol, pre, blockquote { margin: 0 0 20px; }
-
-a { color: #267CB9; text-decoration: none; }
-a:hover { color: #069; font-weight: bold; }
-
-hr { border: 0; background: #e5e5e5; height: 1px; margin: 40px 0; }
-
-pre {
-    padding: 15px;
-    background: #f8f8f8;
-    border-radius: 5px;
-    border: 1px solid #e5e5e5;
-    overflow-x: auto;
+/* ─── Profile section ─── */
+.profile-section {
+  text-align: center;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 20px;
 }
 
-img { max-width: 100%; height: auto; }
+.profile-photo {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+  margin: 0 auto 12px;
+  border: 3px solid #eee;
+}
 
-/* --- 5. MOBILE RESPONSIVENESS --- */
-@media (max-width: 850px) {
-    .wrapper {
-        grid-template-columns: 1fr;
-        grid-template-rows: auto 1fr auto;
-        padding: 20px;
-        gap: 20px;
-    }
-    header {
-        grid-row: auto;
-        position: static;
-        border-bottom: 1px solid #eee;
-        padding-bottom: 20px;
-    }
-    section {
-        grid-column: 1;
-    }
-    footer {
-        grid-column: 1;
-    }
+.profile-section h1 {
+  font-size: 22px;
+  margin: 0 0 8px;
+  line-height: 1.2;
+}
+
+.profile-section h1 a {
+  color: #222;
+  text-decoration: none;
+}
+
+.profile-tagline {
+  font-size: 13px;
+  color: #777;
+  margin: 0 0 12px;
+}
+
+.profile-links {
+  font-size: 13px;
+  color: #999;
+  margin: 0;
+}
+
+.profile-links a {
+  color: #267CB9;
+  text-decoration: none;
+}
+
+.profile-links a:hover {
+  color: #069;
+}
+
+/* ─── Cadence map section ─── */
+.cadence-title {
+  font-size: 13px;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0 0 10px;
+  font-weight: 600;
+}
+
+#cadence-map {
+  overflow-x: auto;
+  overflow-y: visible;
+}
+
+#cadence-map svg {
+  display: block;
+}
+
+.cadence-legend {
+  margin-top: 8px;
+  font-size: 10px;
+  line-height: 1.7;
+  color: #666;
+  font-family: sans-serif;
+}
+
+/* ─── Project cards ─── */
+.project-card {
+  display: flex;
+  align-items: stretch;
+  gap: 18px;
+  margin-bottom: 28px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid #eee;
+}
+
+.project-image-wrap {
+  flex: 0 0 150px;
+  width: 150px;
+}
+
+.project-image-wrap img {
+  width: 150px;
+  height: 100%;
+  min-height: 80px;
+  object-fit: cover;
+  border-radius: 5px;
+  display: block;
+}
+
+.project-meta {
+  flex: 1;
+  min-width: 0;
+}
+
+.project-meta h1 {
+  font-size: 18px;
+  margin: 0 0 6px;
+  line-height: 1.2;
+}
+
+.project-meta h1 a {
+  color: #267CB9;
+  text-decoration: none;
+}
+
+.project-meta h1 a:hover {
+  color: #069;
+}
+
+.project-dates {
+  font-size: 12px;
+  color: #aaa;
+  margin: 0 0 8px;
+}
+
+.project-dates strong {
+  color: #888;
+}
+
+.status-ongoing  { color: #27ae60; }
+.status-finished { color: #3498db; }
+.status-abandoned { color: #e74c3c; }
+
+.project-blurb {
+  font-size: 13px;
+  color: #666;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* ─── General typography ─── */
+h1, h2, h3 { color: #222; }
+a { color: #267CB9; }
+a:hover { color: #069; }
+
+hr {
+  border: 0;
+  background: #eee;
+  height: 1px;
+  margin: 30px 0;
+}
+
+/* ─── Mobile ─── */
+@media (max-width: 860px) {
+  .wrapper {
+    grid-template-columns: 1fr;
+    padding: 20px;
+    gap: 20px;
+  }
+  header {
+    grid-column: 1;
+    grid-row: auto;
+    position: static;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 20px;
+  }
+  section, footer {
+    grid-column: 1;
+  }
+  .project-image-wrap {
+    flex: 0 0 110px;
+    width: 110px;
+  }
 }
