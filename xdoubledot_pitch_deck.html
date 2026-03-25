@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>x̄̈ - The Engine of Sovereign Space Infrastructure</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@1,600&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@1,600&display=swap"
+        rel="stylesheet">
     <style>
         :root {
             --primary: #000000;
@@ -55,7 +58,7 @@
             right: 0;
             bottom: 0;
             background: radial-gradient(ellipse at 80% 20%, rgba(0, 212, 255, 0.08) 0%, transparent 50%),
-                        radial-gradient(ellipse at 20% 80%, rgba(0, 136, 255, 0.06) 0%, transparent 50%);
+                radial-gradient(ellipse at 20% 80%, rgba(0, 136, 255, 0.06) 0%, transparent 50%);
             pointer-events: none;
         }
 
@@ -490,8 +493,15 @@
 
         /* Animations */
         @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
         }
 
         .float {
@@ -587,769 +597,857 @@
             .slide {
                 padding: 40px;
             }
+
             h1 {
                 font-size: 3rem;
             }
+
             h2 {
                 font-size: 2.2rem;
             }
-            .grid-2, .grid-3, .grid-4 {
+
+            .grid-2,
+            .grid-3,
+            .grid-4 {
                 grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
+
 <body>
 
-<!-- Navigation -->
-<nav class="footer-nav">
-    <div class="nav-dot active" onclick="goToSlide(0)"></div>
-    <div class="nav-dot" onclick="goToSlide(1)"></div>
-    <div class="nav-dot" onclick="goToSlide(2)"></div>
-    <div class="nav-dot" onclick="goToSlide(3)"></div>
-    <div class="nav-dot" onclick="goToSlide(4)"></div>
-    <div class="nav-dot" onclick="goToSlide(5)"></div>
-    <div class="nav-dot" onclick="goToSlide(6)"></div>
-    <div class="nav-dot" onclick="goToSlide(7)"></div>
-    <div class="nav-dot" onclick="goToSlide(8)"></div>
-    <div class="nav-dot" onclick="goToSlide(9)"></div>
-    <div class="nav-dot" onclick="goToSlide(10)"></div>
-    <div class="nav-dot" onclick="goToSlide(11)"></div>
-    <div class="nav-dot" onclick="goToSlide(12)"></div>
-    <div class="nav-dot" onclick="goToSlide(13)"></div>
-    <div class="nav-dot" onclick="goToSlide(14)"></div>
-</nav>
+    <!-- Navigation -->
+    <nav class="footer-nav">
+        <div class="nav-dot active" onclick="goToSlide(0)"></div>
+        <div class="nav-dot" onclick="goToSlide(1)"></div>
+        <div class="nav-dot" onclick="goToSlide(2)"></div>
+        <div class="nav-dot" onclick="goToSlide(3)"></div>
+        <div class="nav-dot" onclick="goToSlide(4)"></div>
+        <div class="nav-dot" onclick="goToSlide(5)"></div>
+        <div class="nav-dot" onclick="goToSlide(6)"></div>
+        <div class="nav-dot" onclick="goToSlide(7)"></div>
+        <div class="nav-dot" onclick="goToSlide(8)"></div>
+        <div class="nav-dot" onclick="goToSlide(9)"></div>
+        <div class="nav-dot" onclick="goToSlide(10)"></div>
+        <div class="nav-dot" onclick="goToSlide(11)"></div>
+        <div class="nav-dot" onclick="goToSlide(12)"></div>
+        <div class="nav-dot" onclick="goToSlide(13)"></div>
+        <div class="nav-dot" onclick="goToSlide(14)"></div>
+    </nav>
 
-<!-- Slide 1: Title -->
-<section class="slide slide-title" id="slide-0">
-    <span class="slide-number">01 / 15</span>
-    <div class="logo float xdd-logo" style="font-size: 5rem;">x</div>
-    <h1>The Engine of Sovereign<br>Space Infrastructure</h1>
-    <p class="subtitle">Next-Generation AI-Powered Hall Effect Thrusters<br>for the LEO/VLEO Revolution</p>
-    <p class="founders"><span>Tiziano Fiore</span> & <span>Max Simmonds</span> | March 2026</p>
-</section>
+    <!-- Slide 1: Title -->
+    <section class="slide slide-title" id="slide-0">
+        <span class="slide-number">01 / 15</span>
+        <div class="logo float xdd-logo" style="font-size: 5rem;">x</div>
+        <h1>The Engine of Sovereign<br>Space Infrastructure</h1>
+        <p class="subtitle">Next-Generation AI-Powered Hall Effect Thrusters<br>for the LEO/VLEO Revolution</p>
+        <p class="founders"><span>Tiziano Fiore</span> & <span>Max Simmonds</span> | March 2026</p>
+    </section>
 
-<!-- Slide 2: Vision -->
-<section class="slide" id="slide-1">
-    <span class="slide-number">02 / 15</span>
-    <h3>The Vision</h3>
-    <h2>The "NVIDIA" of Electric Propulsion</h2>
-    <div class="grid-2" style="margin-top: 50px;">
-        <div>
-            <p class="lead" style="margin-bottom: 40px;">
-                <span class="xdd-logo" style="font-size: 1.5rem;">x</span> is not merely a hardware manufacturer. We are building the <span class="highlight">definitive propulsion platform</span> for the next generation of 100,000+ satellites.
-            </p>
-            <p>
-                By integrating modular hardware with AI-assisted control and propellant-agnostic designs, we enable persistent, scalable, and sovereign space infrastructure for Europe and beyond.
-            </p>
-        </div>
-        <div class="grid-3" style="grid-template-columns: 1fr;">
-            <div class="card">
-                <h4>Modular Hardware</h4>
-                <p>Plug-and-play architecture for any satellite platform</p>
+    <!-- Slide 2: Vision -->
+    <section class="slide" id="slide-1">
+        <span class="slide-number">02 / 15</span>
+        <h3>The Vision</h3>
+        <h2>The "NVIDIA" of Electric Propulsion</h2>
+        <div class="grid-2" style="margin-top: 50px;">
+            <div>
+                <p class="lead" style="margin-bottom: 40px;">
+                    <span class="xdd-logo" style="font-size: 1.5rem;">x</span> is not merely a hardware manufacturer. We
+                    are building the <span class="highlight">definitive propulsion platform</span> for the next
+                    generation of 100,000+ satellites.
+                </p>
+                <p>
+                    By integrating modular hardware with AI-assisted control and propellant-agnostic designs, we enable
+                    persistent, scalable, and sovereign space infrastructure for Europe and beyond.
+                </p>
             </div>
-            <div class="card">
-                <h4>AI-Powered Control</h4>
-                <p>Real-time optimization and autonomous operations</p>
-            </div>
-            <div class="card">
-                <h4>Propellant Agnostic</h4>
-                <p>From Krypton to atmospheric gases</p>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Slide 3: Problem -->
-<section class="slide" id="slide-2">
-    <span class="slide-number">03 / 15</span>
-    <h3>The Problem</h3>
-    <h2>VLEO: The Frontier That Current Tech Cannot Reach</h2>
-    <div class="grid-2" style="margin-top: 40px;">
-        <div>
-            <p style="margin-bottom: 30px;">
-                Very Low Earth Orbit (below 300km) offers <span class="highlight">10x better imaging resolution</span> and <span class="highlight">5x lower latency</span>. But atmospheric drag makes it nearly impossible with current propulsion.
-            </p>
-            <div class="problem-stat">
-                <span class="problem-number">85%</span>
-                <span>Faster orbital decay in VLEO vs standard LEO</span>
-            </div>
-            <div class="problem-stat">
-                <span class="problem-number">$10K+</span>
-                <span>Cost per kg of space-grade Xenon propellant</span>
-            </div>
-            <div class="problem-stat">
-                <span class="problem-number">6-18mo</span>
-                <span>Typical VLEO mission life without constant thrust</span>
-            </div>
-        </div>
-        <div>
-            <div class="card" style="border-color: #ff6b6b;">
-                <h4 style="color: #ff6b6b;">Current Solutions Are Failing</h4>
-                <table style="width: 100%; margin-top: 20px;">
-                    <tr style="border-bottom: 1px solid rgba(255,255,255,0.1);">
-                        <td style="padding: 15px 0; color: var(--text-muted);">Chemical Propulsion</td>
-                        <td style="padding: 15px 0;">Too inefficient, massive fuel loads</td>
-                    </tr>
-                    <tr style="border-bottom: 1px solid rgba(255,255,255,0.1);">
-                        <td style="padding: 15px 0; color: var(--text-muted);">Xenon Hall Thrusters</td>
-                        <td style="padding: 15px 0;">Prohibitive cost, supply chain risk</td>
-                    </tr>
-                    <tr>
-                        <td style="padding: 15px 0; color: var(--text-muted);">Standard EP Systems</td>
-                        <td style="padding: 15px 0;">Not optimized for continuous drag compensation</td>
-                    </tr>
-                </table>
-            </div>
-            <p style="margin-top: 20px; font-style: italic; color: var(--accent);">
-                Result: Mission economics are broken for the next wave of space infrastructure.
-            </p>
-        </div>
-    </div>
-</section>
-
-<!-- Slide 4: The Cathode Problem (NEW - Technical Deep Dive) -->
-<section class="slide" id="slide-3">
-    <span class="slide-number">04 / 15</span>
-    <h3>The Technical Challenge</h3>
-    <h2>Cathode Erosion: The Silent Killer of Hall Thrusters</h2>
-    <div class="grid-2" style="margin-top: 40px;">
-        <div>
-            <p style="margin-bottom: 30px;">
-                Every Hall Effect Thruster depends on a cathode to generate electrons for plasma ionization. But high-energy ion bombardment causes <span class="highlight">progressive cathode erosion</span>, limiting thruster lifespan to 10,000-15,000 hours.
-            </p>
-            <div class="card" style="margin-bottom: 20px;">
-                <h4>The Erosion Cycle</h4>
-                <p>Ion bombardment strips material from the cathode surface. As geometry changes, plasma becomes unstable. Efficiency drops. The thruster fails.</p>
-            </div>
-            <div class="card">
-                <h4>Industry Standard: Accept & Replace</h4>
-                <p>Current solutions treat erosion as inevitable. Satellites carry redundant thrusters or plan for shorter missions. This adds mass, cost, and risk.</p>
-            </div>
-        </div>
-        <div class="tech-diagram">
-            <h4 style="margin-bottom: 30px; color: var(--text-muted);">Cathode Erosion Impact</h4>
-            <div style="display: flex; flex-direction: column; gap: 20px;">
-                <div class="problem-stat" style="justify-content: space-between; border-color: rgba(255, 107, 107, 0.3);">
-                    <span>Mission Life Limited</span>
-                    <span class="problem-number" style="font-size: 1.8rem;">2-3 years</span>
+            <div class="grid-3" style="grid-template-columns: 1fr;">
+                <div class="card">
+                    <h4>Modular Hardware</h4>
+                    <p>Plug-and-play architecture for any satellite platform</p>
                 </div>
-                <div class="problem-stat" style="justify-content: space-between; border-color: rgba(255, 107, 107, 0.3);">
-                    <span>Efficiency Loss Over Time</span>
-                    <span class="problem-number" style="font-size: 1.8rem;">15-25%</span>
+                <div class="card">
+                    <h4>AI-Powered Control</h4>
+                    <p>Real-time optimization and autonomous operations</p>
                 </div>
-                <div class="problem-stat" style="justify-content: space-between; border-color: rgba(255, 107, 107, 0.3);">
-                    <span>Redundancy Mass Penalty</span>
-                    <span class="problem-number" style="font-size: 1.8rem;">+40%</span>
-                </div>
-                <div class="problem-stat" style="justify-content: space-between; border-color: rgba(255, 107, 107, 0.3);">
-                    <span>Replacement Cost per Satellite</span>
-                    <span class="problem-number" style="font-size: 1.8rem;">$500K+</span>
+                <div class="card">
+                    <h4>Propellant Agnostic</h4>
+                    <p>From Krypton to atmospheric gases</p>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<!-- Slide 5: Our USP - Magnetic Field Guidance + AI -->
-<section class="slide" id="slide-4">
-    <span class="slide-number">05 / 15</span>
-    <h3>Our Breakthrough</h3>
-    <h2>AI-Guided Magnetic Shielding: Eliminating Cathode Erosion</h2>
+    <!-- Slide 3: Problem -->
+    <section class="slide" id="slide-2">
+        <span class="slide-number">03 / 15</span>
+        <h3>The Problem</h3>
+        <h2>VLEO: The Frontier That Current Tech Cannot Reach</h2>
+        <div class="grid-2" style="margin-top: 40px;">
+            <div>
+                <p style="margin-bottom: 30px;">
+                    Very Low Earth Orbit (below 300km) offers <span class="highlight">10x better imaging
+                        resolution</span> and <span class="highlight">5x lower latency</span>. But atmospheric drag
+                    makes it nearly impossible with current propulsion.
+                </p>
+                <div class="problem-stat">
+                    <span class="problem-number">85%</span>
+                    <span>Faster orbital decay in VLEO vs standard LEO</span>
+                </div>
+                <div class="problem-stat">
+                    <span class="problem-number">$10K+</span>
+                    <span>Cost per kg of space-grade Xenon propellant</span>
+                </div>
+                <div class="problem-stat">
+                    <span class="problem-number">6-18mo</span>
+                    <span>Typical VLEO mission life without constant thrust</span>
+                </div>
+            </div>
+            <div>
+                <div class="card" style="border-color: #ff6b6b;">
+                    <h4 style="color: #ff6b6b;">Current Solutions Are Failing</h4>
+                    <table style="width: 100%; margin-top: 20px;">
+                        <tr style="border-bottom: 1px solid rgba(255,255,255,0.1);">
+                            <td style="padding: 15px 0; color: var(--text-muted);">Chemical Propulsion</td>
+                            <td style="padding: 15px 0;">Too inefficient, massive fuel loads</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid rgba(255,255,255,0.1);">
+                            <td style="padding: 15px 0; color: var(--text-muted);">Xenon Hall Thrusters</td>
+                            <td style="padding: 15px 0;">Prohibitive cost, supply chain risk</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 15px 0; color: var(--text-muted);">Standard EP Systems</td>
+                            <td style="padding: 15px 0;">Not optimized for continuous drag compensation</td>
+                        </tr>
+                    </table>
+                </div>
+                <p style="margin-top: 20px; font-style: italic; color: var(--accent);">
+                    Result: Mission economics are broken for the next wave of space infrastructure.
+                </p>
+            </div>
+        </div>
+    </section>
 
-    <div class="usp-box">
+    <!-- Slide 4: The Cathode Problem (NEW - Technical Deep Dive) -->
+    <section class="slide" id="slide-3">
+        <span class="slide-number">04 / 15</span>
+        <h3>The Technical Challenge</h3>
+        <h2>Cathode Erosion: The Silent Killer of Hall Thrusters</h2>
+        <div class="grid-2" style="margin-top: 40px;">
+            <div>
+                <p style="margin-bottom: 30px;">
+                    Every Hall Effect Thruster depends on a cathode to generate electrons for plasma ionization. But
+                    high-energy ion bombardment causes <span class="highlight">progressive cathode erosion</span>,
+                    limiting thruster lifespan to 10,000-15,000 hours.
+                </p>
+                <div class="card" style="margin-bottom: 20px;">
+                    <h4>The Erosion Cycle</h4>
+                    <p>Ion bombardment strips material from the cathode surface. As geometry changes, plasma becomes
+                        unstable. Efficiency drops. The thruster fails.</p>
+                </div>
+                <div class="card">
+                    <h4>Industry Standard: Accept & Replace</h4>
+                    <p>Current solutions treat erosion as inevitable. Satellites carry redundant thrusters or plan for
+                        shorter missions. This adds mass, cost, and risk.</p>
+                </div>
+            </div>
+            <div class="tech-diagram">
+                <h4 style="margin-bottom: 30px; color: var(--text-muted);">Cathode Erosion Impact</h4>
+                <div style="display: flex; flex-direction: column; gap: 20px;">
+                    <div class="problem-stat"
+                        style="justify-content: space-between; border-color: rgba(255, 107, 107, 0.3);">
+                        <span>Mission Life Limited</span>
+                        <span class="problem-number" style="font-size: 1.8rem;">2-3 years</span>
+                    </div>
+                    <div class="problem-stat"
+                        style="justify-content: space-between; border-color: rgba(255, 107, 107, 0.3);">
+                        <span>Efficiency Loss Over Time</span>
+                        <span class="problem-number" style="font-size: 1.8rem;">15-25%</span>
+                    </div>
+                    <div class="problem-stat"
+                        style="justify-content: space-between; border-color: rgba(255, 107, 107, 0.3);">
+                        <span>Redundancy Mass Penalty</span>
+                        <span class="problem-number" style="font-size: 1.8rem;">+40%</span>
+                    </div>
+                    <div class="problem-stat"
+                        style="justify-content: space-between; border-color: rgba(255, 107, 107, 0.3);">
+                        <span>Replacement Cost per Satellite</span>
+                        <span class="problem-number" style="font-size: 1.8rem;">$500K+</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 5: Our USP - Magnetic Field Guidance + AI -->
+    <section class="slide" id="slide-4">
+        <span class="slide-number">05 / 15</span>
+        <h3>Our Breakthrough</h3>
+        <h2>AI-Guided Magnetic Shielding: Eliminating Cathode Erosion</h2>
+
+        <div class="usp-box">
+            <div class="grid-2">
+                <div>
+                    <h4>The <span class="xdd-logo">x</span> Innovation</h4>
+                    <p style="font-size: 1.15rem; color: var(--text); line-height: 1.8;">
+                        We use <span class="highlight">dynamically controlled magnetic fields</span> to guide ion flow
+                        away from the cathode surface. Our proprietary AI continuously optimizes field geometry in
+                        real-time, responding to plasma conditions and extending cathode life by <span
+                            class="highlight">5-10x</span>.
+                    </p>
+                </div>
+                <div style="text-align: center;">
+                    <div
+                        style="font-size: 5rem; color: var(--accent); font-family: 'Space Grotesk', sans-serif; font-weight: 700;">
+                        5-10x</div>
+                    <div style="color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px;">Longer
+                        Cathode Life</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid-3" style="margin-top: 40px;">
+            <div class="card">
+                <h4>Magnetic Field Shaping</h4>
+                <p>Proprietary electromagnetic coil arrays create protective field geometries that deflect erosive ion
+                    bombardment from critical surfaces.</p>
+            </div>
+            <div class="card">
+                <h4>Real-Time AI Optimization</h4>
+                <p>ML models trained on plasma physics predict optimal field configurations. The system adapts every
+                    millisecond to changing conditions.</p>
+            </div>
+            <div class="card">
+                <h4>Predictive Maintenance</h4>
+                <p>AI monitors cathode health, predicts degradation, and proactively adjusts operations to maximize
+                    lifespan and performance.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 6: How the AI Works -->
+    <section class="slide" id="slide-5">
+        <span class="slide-number">06 / 15</span>
+        <h3>AI-Powered Propulsion</h3>
+        <h2>Intelligent Thruster Control for the Autonomous Space Era</h2>
+
+        <div class="grid-2" style="margin-top: 40px;">
+            <div>
+                <div class="ai-feature">
+                    <div class="ai-icon">1</div>
+                    <div>
+                        <h4 style="margin-bottom: 8px;">Plasma State Estimation</h4>
+                        <p style="font-size: 1rem;">Real-time sensor fusion estimates plasma density, temperature, and
+                            ion velocity. Neural networks process data faster than traditional methods.</p>
+                    </div>
+                </div>
+                <div class="ai-feature">
+                    <div class="ai-icon">2</div>
+                    <div>
+                        <h4 style="margin-bottom: 8px;">Magnetic Field Optimization</h4>
+                        <p style="font-size: 1rem;">Reinforcement learning finds optimal B-field configurations that
+                            maximize thrust while minimizing cathode exposure to erosive particles.</p>
+                    </div>
+                </div>
+                <div class="ai-feature">
+                    <div class="ai-icon">3</div>
+                    <div>
+                        <h4 style="margin-bottom: 8px;">Autonomous Orbit Control</h4>
+                        <p style="font-size: 1rem;">AI handles drag compensation, collision avoidance, and
+                            station-keeping without ground intervention. Critical for VLEO persistence.</p>
+                    </div>
+                </div>
+                <div class="ai-feature">
+                    <div class="ai-icon">4</div>
+                    <div>
+                        <h4 style="margin-bottom: 8px;">Fleet-Wide Learning</h4>
+                        <p style="font-size: 1rem;">Federated learning across constellation improves all units. Every
+                            satellite makes the fleet smarter.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="tech-diagram">
+                <h4 style="margin-bottom: 30px;">AI Control Loop</h4>
+                <div class="tech-flow" style="flex-direction: column; gap: 15px;">
+                    <div class="tech-node">Plasma Sensors</div>
+                    <div class="arrow">&#8595;</div>
+                    <div class="tech-node highlight-node">AI Controller</div>
+                    <div class="arrow">&#8595;</div>
+                    <div class="tech-node">Magnetic Coils</div>
+                    <div class="arrow">&#8595;</div>
+                    <div class="tech-node">Optimized Thrust</div>
+                    <div style="margin-top: 20px; color: var(--text-muted); font-size: 0.9rem;">
+                        Latency: &lt;10ms | Updates: 1000Hz
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 7: AI in Space - The Future -->
+    <section class="slide" id="slide-6">
+        <span class="slide-number">07 / 15</span>
+        <h3>Market Context</h3>
+        <h2>AI in Space: A $12B Opportunity by 2030</h2>
+
+        <div class="grid-2" style="margin-top: 40px;">
+            <div>
+                <p style="margin-bottom: 30px;">
+                    The space industry is undergoing an <span class="highlight">AI transformation</span>. Autonomous
+                    operations are no longer optional - they're essential for managing mega-constellations of 10,000+
+                    satellites.
+                </p>
+
+                <div class="card" style="margin-bottom: 20px;">
+                    <h4>Why AI is Inevitable for Hall Thrusters</h4>
+                    <ul style="list-style: none; margin-top: 15px;">
+                        <li style="padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.08);">
+                            <span class="highlight">Plasma physics is chaotic</span> - requires real-time adaptation
+                        </li>
+                        <li style="padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.08);">
+                            <span class="highlight">VLEO drag varies constantly</span> - needs predictive compensation
+                        </li>
+                        <li style="padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.08);">
+                            <span class="highlight">Ground control doesn't scale</span> - autonomy is mandatory
+                        </li>
+                        <li style="padding: 10px 0;">
+                            <span class="highlight">Alternative propellants need tuning</span> - AI handles variability
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div>
+                <div class="grid-2" style="grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div class="stat card">
+                        <div class="stat-value">$12B</div>
+                        <div class="stat-label">AI in Space by 2030</div>
+                    </div>
+                    <div class="stat card">
+                        <div class="stat-value">85%</div>
+                        <div class="stat-label">LEO Sats Need AI by 2028</div>
+                    </div>
+                    <div class="stat card">
+                        <div class="stat-value">50K+</div>
+                        <div class="stat-label">Satellites Planned 2025-2030</div>
+                    </div>
+                    <div class="stat card">
+                        <div class="stat-value">0</div>
+                        <div class="stat-label">Competitors with AI-Native HETs</div>
+                    </div>
+                </div>
+                <p style="margin-top: 30px; font-style: italic; text-align: center;">
+                    <span class="xdd-logo">x</span> is the only company building AI into the thruster from day one.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 8: Solution Overview -->
+    <section class="slide" id="slide-7">
+        <span class="slide-number">08 / 15</span>
+        <h3>The Solution</h3>
+        <h2>High-Efficiency, AI-Powered, Propellant-Agnostic Propulsion</h2>
+
+        <div class="grid-4" style="margin-top: 50px;">
+            <div class="card">
+                <h4>Modular Design</h4>
+                <p>Plug-and-play architecture compatible with any satellite bus, from CubeSats to 500kg platforms.
+                    Standard interfaces, custom performance.</p>
+            </div>
+            <div class="card">
+                <h4>Alternative Propellants</h4>
+                <p>Optimized for Krypton and Argon with a roadmap to air-breathing. <span class="highlight">10x cost
+                        reduction</span> vs traditional Xenon systems.</p>
+            </div>
+            <div class="card">
+                <h4>AI Orbit Control</h4>
+                <p>Real-time drag compensation, autonomous collision avoidance, and predictive maintenance for maximum
+                    mission safety.</p>
+            </div>
+            <div class="card">
+                <h4>Dual-Use Ready</h4>
+                <p>Engineered for commercial scalability and high-resilience defense requirements. ITAR-free, 100%
+                    European supply chain.</p>
+            </div>
+        </div>
+
+        <div class="tech-diagram" style="margin-top: 50px;">
+            <h4 style="margin-bottom: 30px;">The <span class="xdd-logo">x</span> Platform Stack</h4>
+            <div class="tech-flow">
+                <div class="tech-node">HET Core</div>
+                <span class="arrow">+</span>
+                <div class="tech-node">Magnetic Shield</div>
+                <span class="arrow">+</span>
+                <div class="tech-node highlight-node">AI Controller</div>
+                <span class="arrow">+</span>
+                <div class="tech-node">PPU</div>
+                <span class="arrow">+</span>
+                <div class="tech-node">Feed System</div>
+                <span class="arrow">=</span>
+                <div class="tech-node highlight-node" style="font-weight: 700;">Complete Solution</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 9: Technology Roadmap -->
+    <section class="slide" id="slide-8">
+        <span class="slide-number">09 / 15</span>
+        <h3>Innovation</h3>
+        <h2>From Krypton to Air-Breathing: Our Technology Roadmap</h2>
+
+        <div class="grid-2" style="margin-top: 40px;">
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">PHASE 1 - CURRENT (TRL 2–3)</div>
+                    <div class="timeline-title">Concept Validation & Prototype</div>
+                    <p>Laboratory proof-of-concept: plasma discharge demonstration, magnetic field geometry modelling,
+                        and AI control architecture design. Krypton propellant optimisation for 10x cost reduction vs
+                        Xenon.</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">PHASE 2 - 2027</div>
+                    <div class="timeline-title">Modular Subsystem Integration</div>
+                    <p>Full-stack integration of Power Processing Units (PPU) and intelligent feed systems for
+                        plug-and-play satellite bus compatibility.</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">PHASE 3 - 2028+</div>
+                    <div class="timeline-title">ABHEP: Air-Breathing Propulsion</div>
+                    <p>The "Holy Grail" of VLEO. Utilizing residual atmosphere as fuel for theoretically infinite
+                        mission lifetimes. Proprietary magnetic shielding is critical enabler.</p>
+                </div>
+            </div>
+            <div>
+                <div class="card"
+                    style="background: linear-gradient(135deg, rgba(0, 212, 255, 0.15) 0%, rgba(0, 212, 255, 0.03) 100%); border-color: var(--accent);">
+                    <h4 style="color: var(--accent);">Why Air-Breathing Needs Our Tech</h4>
+                    <p style="margin-top: 15px;">
+                        Atmospheric gases (N2, O2) are highly reactive and dramatically accelerate cathode erosion.
+                        Traditional HETs fail within hours.
+                    </p>
+                    <p style="margin-top: 15px;">
+                        Our <span class="highlight">AI-guided magnetic shielding</span> is the breakthrough that makes
+                        air-breathing propulsion viable. We're not just building thrusters - we're building the platform
+                        that enables permanent VLEO presence.
+                    </p>
+                </div>
+                <div class="grid-2" style="margin-top: 30px; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div class="stat card" style="padding: 30px;">
+                        <div class="stat-value" style="font-size: 2.5rem;">TRL 2–3</div>
+                        <div class="stat-label">Current Maturity</div>
+                    </div>
+                    <div class="stat card" style="padding: 30px;">
+                        <div class="stat-value" style="font-size: 2.5rem;">2029</div>
+                        <div class="stat-label">Target IOD</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 10: European Competitors -->
+    <section class="slide" id="slide-9">
+        <span class="slide-number">10 / 15</span>
+        <h3>Competitive Landscape</h3>
+        <h2>European Electric Propulsion Market</h2>
+
+        <div class="grid-4" style="margin-top: 40px; grid-template-columns: repeat(4, 1fr);">
+            <div class="competitor-card">
+                <h5>Safran</h5>
+                <div class="country">France | Incumbent</div>
+                <ul>
+                    <li>PPS series Hall thrusters</li>
+                    <li>Heritage: 1000+ units</li>
+                    <li>Xenon-only, hardware focus</li>
+                    <li>High cost, long lead times</li>
+                    <li>No AI integration</li>
+                </ul>
+            </div>
+            <div class="competitor-card">
+                <h5>Exotrail</h5>
+                <div class="country">France | Startup</div>
+                <ul>
+                    <li>ExoMG series</li>
+                    <li>Software + Hardware play</li>
+                    <li>Xenon/Krypton capable</li>
+                    <li>SpaceDragon software</li>
+                    <li>No VLEO optimization</li>
+                </ul>
+            </div>
+            <div class="competitor-card">
+                <h5>Thales Alenia</h5>
+                <div class="country">France/Italy | Incumbent</div>
+                <ul>
+                    <li>System integrator focus</li>
+                    <li>Partners for propulsion</li>
+                    <li>IRIS2 contractor</li>
+                    <li>Not a thruster innovator</li>
+                    <li>Potential customer</li>
+                </ul>
+            </div>
+            <div class="competitor-card">
+                <h5>ArianeGroup</h5>
+                <div class="country">France/Germany | Incumbent</div>
+                <ul>
+                    <li>Chemical propulsion focus</li>
+                    <li>Limited EP portfolio</li>
+                    <li>Launcher-centric</li>
+                    <li>Slow to innovate</li>
+                    <li>ITAR dependencies</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="usp-box" style="margin-top: 40px; padding: 30px 50px;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <h4 style="margin-bottom: 10px;"><span class="xdd-logo">x</span> Competitive Advantage</h4>
+                    <p style="font-size: 1.1rem; color: var(--text);">
+                        Only company combining <span class="highlight">VLEO optimization</span> + <span
+                            class="highlight">AI-native architecture</span> + <span class="highlight">magnetic shielding
+                            for erosion</span> + <span class="highlight">propellant flexibility</span>
+                    </p>
+                </div>
+                <div class="tag" style="font-size: 1rem; padding: 10px 24px;">Unique Position</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 11: Competitive Comparison Table -->
+    <section class="slide" id="slide-10">
+        <span class="slide-number">11 / 15</span>
+        <h3>Competition</h3>
+        <h2>Outperforming Incumbents and Startups</h2>
+
+        <table class="comparison-table" style="margin-top: 40px;">
+            <thead>
+                <tr>
+                    <th>Feature</th>
+                    <th>Incumbents (Safran)</th>
+                    <th>Startups (Exotrail)</th>
+                    <th class="xdd-col"><span class="xdd-logo">x</span></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>VLEO Optimized</td>
+                    <td><span class="cross">No</span></td>
+                    <td><span class="partial">Partial</span></td>
+                    <td class="xdd-col"><span class="check">Yes - ABHEP Ready</span></td>
+                </tr>
+                <tr>
+                    <td>Propellant Options</td>
+                    <td>Xenon only</td>
+                    <td>Xenon / Krypton</td>
+                    <td class="xdd-col">Krypton / Argon / Air</td>
+                </tr>
+                <tr>
+                    <td>AI Integration</td>
+                    <td><span class="cross">None</span></td>
+                    <td><span class="partial">Software layer</span></td>
+                    <td class="xdd-col"><span class="check">Native AI control</span></td>
+                </tr>
+                <tr>
+                    <td>Cathode Protection</td>
+                    <td>Standard materials</td>
+                    <td>Standard materials</td>
+                    <td class="xdd-col"><span class="check">AI Magnetic Shielding</span></td>
+                </tr>
+                <tr>
+                    <td>Platform Approach</td>
+                    <td>Hardware only</td>
+                    <td>Hardware + Software</td>
+                    <td class="xdd-col">AI-Integrated Platform</td>
+                </tr>
+                <tr>
+                    <td>Cost per Unit</td>
+                    <td>High (300K+)</td>
+                    <td>Medium (150K+)</td>
+                    <td class="xdd-col"><span class="check">Low (50K+) - Scalable</span></td>
+                </tr>
+                <tr>
+                    <td>Thruster Lifespan</td>
+                    <td>10-15K hours</td>
+                    <td>10-15K hours</td>
+                    <td class="xdd-col"><span class="check">50K+ hours target</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Slide 12: Market Opportunity -->
+    <section class="slide" id="slide-11">
+        <span class="slide-number">12 / 15</span>
+        <h3>Market Opportunity</h3>
+        <h2>A $15.6B European Market in Rapid Transition</h2>
+
+        <div class="market-grid" style="margin-top: 40px;">
+            <div>
+                <div class="grid-3" style="grid-template-columns: repeat(3, 1fr); gap: 30px; margin-bottom: 40px;">
+                    <div class="stat card">
+                        <div class="stat-value">$15.6B</div>
+                        <div class="stat-label">EU Space Propulsion 2030</div>
+                    </div>
+                    <div class="stat card">
+                        <div class="stat-value">$66B</div>
+                        <div class="stat-label">LEO Satellite Market 2035</div>
+                    </div>
+                    <div class="stat card">
+                        <div class="stat-value">7x</div>
+                        <div class="stat-label">Satellite Market Growth (Goldman)</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h4>Strategic Drivers</h4>
+                    <ul style="list-style: none; margin-top: 15px;">
+                        <li style="padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.08);">
+                            <span class="highlight">IRIS2 Constellation</span> - EU's sovereign connectivity
+                            infrastructure requires European propulsion
+                        </li>
+                        <li style="padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.08);">
+                            <span class="highlight">VLEO Sensing Boom</span> - Defense and commercial demand for
+                            low-altitude persistent surveillance
+                        </li>
+                        <li style="padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.08);">
+                            <span class="highlight">Mega-Constellations</span> - Starlink competitors need
+                            cost-effective propulsion
+                        </li>
+                        <li style="padding: 12px 0;">
+                            <span class="highlight">Strategic Autonomy</span> - Post-Ukraine push for ITAR-free European
+                            supply chains
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div>
+                <div class="card" style="height: 100%; display: flex; flex-direction: column; justify-content: center;">
+                    <h4 style="text-align: center; margin-bottom: 30px;">Addressable Market</h4>
+                    <div style="text-align: center;">
+                        <div
+                            style="font-size: 6rem; font-weight: 700; color: var(--accent); font-family: 'Space Grotesk', sans-serif;">
+                            $1.7T</div>
+                        <div
+                            style="color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px; margin-top: 10px;">
+                            Global Hall Thruster Market 2030+</div>
+                    </div>
+                    <p style="text-align: center; margin-top: 30px; font-style: italic;">
+                        <span class="xdd-logo">x</span> targets 5% of European market by 2030 = <span
+                            class="highlight">$780M+ opportunity</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 13: Strategic Positioning -->
+    <section class="slide" id="slide-12">
+        <span class="slide-number">13 / 15</span>
+        <h3>Strategic Positioning</h3>
+        <h2>Powering Europe's Strategic Autonomy</h2>
+
+        <div class="grid-4" style="margin-top: 50px;">
+            <div class="card">
+                <h4 style="color: var(--accent);">IRIS2 Alignment</h4>
+                <p>Directly supporting the EU's secure connectivity constellation with high-efficiency, scalable
+                    propulsion units built for European sovereignty.</p>
+            </div>
+            <div class="card">
+                <h4 style="color: var(--accent);">ITAR-Free Supply Chain</h4>
+                <p>100% European-sourced components ensuring mission security and unrestricted global commercialization.
+                    No US export dependencies.</p>
+            </div>
+            <div class="card">
+                <h4 style="color: var(--accent);">Defense Resilience</h4>
+                <p>Enabling maneuverable and persistent space assets for NATO and EU defense priorities in contested
+                    orbits. Hardened for adversarial environments.</p>
+            </div>
+            <div class="card">
+                <h4 style="color: var(--accent);">Sustainability</h4>
+                <p>Reducing space debris through active de-orbiting capabilities and efficient VLEO operations where
+                    natural decay handles end-of-life.</p>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 60px;">
+            <p class="lead" style="max-width: 900px; margin: 0 auto;">
+                "Building the technological foundation for Europe's sovereign space infrastructure.
+                <span class="highlight"><span class="xdd-logo">x</span> is the engine.</span>"
+            </p>
+        </div>
+    </section>
+
+    <!-- Slide 14: Business Model & Team -->
+    <section class="slide" id="slide-13">
+        <span class="slide-number">14 / 15</span>
         <div class="grid-2">
             <div>
-                <h4>The <span class="xdd-logo">x</span> Innovation</h4>
-                <p style="font-size: 1.15rem; color: var(--text); line-height: 1.8;">
-                    We use <span class="highlight">dynamically controlled magnetic fields</span> to guide ion flow away from the cathode surface. Our proprietary AI continuously optimizes field geometry in real-time, responding to plasma conditions and extending cathode life by <span class="highlight">5-10x</span>.
-                </p>
-            </div>
-            <div style="text-align: center;">
-                <div style="font-size: 5rem; color: var(--accent); font-family: 'Space Grotesk', sans-serif; font-weight: 700;">5-10x</div>
-                <div style="color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px;">Longer Cathode Life</div>
-            </div>
-        </div>
-    </div>
+                <h3>Business Model</h3>
+                <h2 style="font-size: 2.2rem;">Scalable Revenue Across the Propulsion Lifecycle</h2>
 
-    <div class="grid-3" style="margin-top: 40px;">
-        <div class="card">
-            <h4>Magnetic Field Shaping</h4>
-            <p>Proprietary electromagnetic coil arrays create protective field geometries that deflect erosive ion bombardment from critical surfaces.</p>
-        </div>
-        <div class="card">
-            <h4>Real-Time AI Optimization</h4>
-            <p>ML models trained on plasma physics predict optimal field configurations. The system adapts every millisecond to changing conditions.</p>
-        </div>
-        <div class="card">
-            <h4>Predictive Maintenance</h4>
-            <p>AI monitors cathode health, predicts degradation, and proactively adjusts operations to maximize lifespan and performance.</p>
-        </div>
-    </div>
-</section>
-
-<!-- Slide 6: How the AI Works -->
-<section class="slide" id="slide-5">
-    <span class="slide-number">06 / 15</span>
-    <h3>AI-Powered Propulsion</h3>
-    <h2>Intelligent Thruster Control for the Autonomous Space Era</h2>
-
-    <div class="grid-2" style="margin-top: 40px;">
-        <div>
-            <div class="ai-feature">
-                <div class="ai-icon">1</div>
-                <div>
-                    <h4 style="margin-bottom: 8px;">Plasma State Estimation</h4>
-                    <p style="font-size: 1rem;">Real-time sensor fusion estimates plasma density, temperature, and ion velocity. Neural networks process data faster than traditional methods.</p>
+                <div class="card" style="margin-top: 30px; margin-bottom: 20px;">
+                    <h4>Unit Sales | $50K - $300K</h4>
+                    <p>Direct sales of modular HET units to satellite OEMs and constellation operators. High-margin
+                        hardware with scalable production.</p>
+                </div>
+                <div class="card" style="margin-bottom: 20px;">
+                    <h4>Subsystems | Propulsion-as-a-Service</h4>
+                    <p>Full-stack integration including PPU, feed systems, and structural mounting. Turnkey solutions
+                        for rapid mission deployment.</p>
+                </div>
+                <div class="card">
+                    <h4>Software | SaaS Licensing</h4>
+                    <p>Recurring revenue from AI-driven orbit control, autonomous drag compensation, and collision
+                        avoidance software layers.</p>
                 </div>
             </div>
-            <div class="ai-feature">
-                <div class="ai-icon">2</div>
-                <div>
-                    <h4 style="margin-bottom: 8px;">Magnetic Field Optimization</h4>
-                    <p style="font-size: 1rem;">Reinforcement learning finds optimal B-field configurations that maximize thrust while minimizing cathode exposure to erosive particles.</p>
-                </div>
-            </div>
-            <div class="ai-feature">
-                <div class="ai-icon">3</div>
-                <div>
-                    <h4 style="margin-bottom: 8px;">Autonomous Orbit Control</h4>
-                    <p style="font-size: 1rem;">AI handles drag compensation, collision avoidance, and station-keeping without ground intervention. Critical for VLEO persistence.</p>
-                </div>
-            </div>
-            <div class="ai-feature">
-                <div class="ai-icon">4</div>
-                <div>
-                    <h4 style="margin-bottom: 8px;">Fleet-Wide Learning</h4>
-                    <p style="font-size: 1rem;">Federated learning across constellation improves all units. Every satellite makes the fleet smarter.</p>
-                </div>
-            </div>
-        </div>
-        <div class="tech-diagram">
-            <h4 style="margin-bottom: 30px;">AI Control Loop</h4>
-            <div class="tech-flow" style="flex-direction: column; gap: 15px;">
-                <div class="tech-node">Plasma Sensors</div>
-                <div class="arrow">&#8595;</div>
-                <div class="tech-node highlight-node">AI Controller</div>
-                <div class="arrow">&#8595;</div>
-                <div class="tech-node">Magnetic Coils</div>
-                <div class="arrow">&#8595;</div>
-                <div class="tech-node">Optimized Thrust</div>
-                <div style="margin-top: 20px; color: var(--text-muted); font-size: 0.9rem;">
-                    Latency: &lt;10ms | Updates: 1000Hz
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Slide 7: AI in Space - The Future -->
-<section class="slide" id="slide-6">
-    <span class="slide-number">07 / 15</span>
-    <h3>Market Context</h3>
-    <h2>AI in Space: A $12B Opportunity by 2030</h2>
-
-    <div class="grid-2" style="margin-top: 40px;">
-        <div>
-            <p style="margin-bottom: 30px;">
-                The space industry is undergoing an <span class="highlight">AI transformation</span>. Autonomous operations are no longer optional - they're essential for managing mega-constellations of 10,000+ satellites.
-            </p>
-
-            <div class="card" style="margin-bottom: 20px;">
-                <h4>Why AI is Inevitable for Hall Thrusters</h4>
-                <ul style="list-style: none; margin-top: 15px;">
-                    <li style="padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.08);">
-                        <span class="highlight">Plasma physics is chaotic</span> - requires real-time adaptation
-                    </li>
-                    <li style="padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.08);">
-                        <span class="highlight">VLEO drag varies constantly</span> - needs predictive compensation
-                    </li>
-                    <li style="padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.08);">
-                        <span class="highlight">Ground control doesn't scale</span> - autonomy is mandatory
-                    </li>
-                    <li style="padding: 10px 0;">
-                        <span class="highlight">Alternative propellants need tuning</span> - AI handles variability
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <div>
-            <div class="grid-2" style="grid-template-columns: 1fr 1fr; gap: 20px;">
-                <div class="stat card">
-                    <div class="stat-value">$12B</div>
-                    <div class="stat-label">AI in Space by 2030</div>
-                </div>
-                <div class="stat card">
-                    <div class="stat-value">85%</div>
-                    <div class="stat-label">LEO Sats Need AI by 2028</div>
-                </div>
-                <div class="stat card">
-                    <div class="stat-value">50K+</div>
-                    <div class="stat-label">Satellites Planned 2025-2030</div>
-                </div>
-                <div class="stat card">
-                    <div class="stat-value">0</div>
-                    <div class="stat-label">Competitors with AI-Native HETs</div>
-                </div>
-            </div>
-            <p style="margin-top: 30px; font-style: italic; text-align: center;">
-                <span class="xdd-logo">x</span> is the only company building AI into the thruster from day one.
-            </p>
-        </div>
-    </div>
-</section>
-
-<!-- Slide 8: Solution Overview -->
-<section class="slide" id="slide-7">
-    <span class="slide-number">08 / 15</span>
-    <h3>The Solution</h3>
-    <h2>High-Efficiency, AI-Powered, Propellant-Agnostic Propulsion</h2>
-
-    <div class="grid-4" style="margin-top: 50px;">
-        <div class="card">
-            <h4>Modular Design</h4>
-            <p>Plug-and-play architecture compatible with any satellite bus, from CubeSats to 500kg platforms. Standard interfaces, custom performance.</p>
-        </div>
-        <div class="card">
-            <h4>Alternative Propellants</h4>
-            <p>Optimized for Krypton and Argon with a roadmap to air-breathing. <span class="highlight">10x cost reduction</span> vs traditional Xenon systems.</p>
-        </div>
-        <div class="card">
-            <h4>AI Orbit Control</h4>
-            <p>Real-time drag compensation, autonomous collision avoidance, and predictive maintenance for maximum mission safety.</p>
-        </div>
-        <div class="card">
-            <h4>Dual-Use Ready</h4>
-            <p>Engineered for commercial scalability and high-resilience defense requirements. ITAR-free, 100% European supply chain.</p>
-        </div>
-    </div>
-
-    <div class="tech-diagram" style="margin-top: 50px;">
-        <h4 style="margin-bottom: 30px;">The <span class="xdd-logo">x</span> Platform Stack</h4>
-        <div class="tech-flow">
-            <div class="tech-node">HET Core</div>
-            <span class="arrow">+</span>
-            <div class="tech-node">Magnetic Shield</div>
-            <span class="arrow">+</span>
-            <div class="tech-node highlight-node">AI Controller</div>
-            <span class="arrow">+</span>
-            <div class="tech-node">PPU</div>
-            <span class="arrow">+</span>
-            <div class="tech-node">Feed System</div>
-            <span class="arrow">=</span>
-            <div class="tech-node highlight-node" style="font-weight: 700;">Complete Solution</div>
-        </div>
-    </div>
-</section>
-
-<!-- Slide 9: Technology Roadmap -->
-<section class="slide" id="slide-8">
-    <span class="slide-number">09 / 15</span>
-    <h3>Innovation</h3>
-    <h2>From Krypton to Air-Breathing: Our Technology Roadmap</h2>
-
-    <div class="grid-2" style="margin-top: 40px;">
-        <div class="timeline">
-            <div class="timeline-item">
-                <div class="timeline-date">PHASE 1 - CURRENT (TRL 2–3)</div>
-                <div class="timeline-title">Concept Validation & Prototype</div>
-                <p>Laboratory proof-of-concept: plasma discharge demonstration, magnetic field geometry modelling, and AI control architecture design. Krypton propellant optimisation for 10x cost reduction vs Xenon.</p>
-            </div>
-            <div class="timeline-item">
-                <div class="timeline-date">PHASE 2 - 2027</div>
-                <div class="timeline-title">Modular Subsystem Integration</div>
-                <p>Full-stack integration of Power Processing Units (PPU) and intelligent feed systems for plug-and-play satellite bus compatibility.</p>
-            </div>
-            <div class="timeline-item">
-                <div class="timeline-date">PHASE 3 - 2028+</div>
-                <div class="timeline-title">ABHEP: Air-Breathing Propulsion</div>
-                <p>The "Holy Grail" of VLEO. Utilizing residual atmosphere as fuel for theoretically infinite mission lifetimes. Proprietary magnetic shielding is critical enabler.</p>
-            </div>
-        </div>
-        <div>
-            <div class="card" style="background: linear-gradient(135deg, rgba(0, 212, 255, 0.15) 0%, rgba(0, 212, 255, 0.03) 100%); border-color: var(--accent);">
-                <h4 style="color: var(--accent);">Why Air-Breathing Needs Our Tech</h4>
-                <p style="margin-top: 15px;">
-                    Atmospheric gases (N2, O2) are highly reactive and dramatically accelerate cathode erosion. Traditional HETs fail within hours.
-                </p>
-                <p style="margin-top: 15px;">
-                    Our <span class="highlight">AI-guided magnetic shielding</span> is the breakthrough that makes air-breathing propulsion viable. We're not just building thrusters - we're building the platform that enables permanent VLEO presence.
-                </p>
-            </div>
-            <div class="grid-2" style="margin-top: 30px; grid-template-columns: 1fr 1fr; gap: 20px;">
-                <div class="stat card" style="padding: 30px;">
-                    <div class="stat-value" style="font-size: 2.5rem;">TRL 2–3</div>
-                    <div class="stat-label">Current Maturity</div>
-                </div>
-                <div class="stat card" style="padding: 30px;">
-                    <div class="stat-value" style="font-size: 2.5rem;">2029</div>
-                    <div class="stat-label">Target IOD</div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Slide 10: European Competitors -->
-<section class="slide" id="slide-9">
-    <span class="slide-number">10 / 15</span>
-    <h3>Competitive Landscape</h3>
-    <h2>European Electric Propulsion Market</h2>
-
-    <div class="grid-4" style="margin-top: 40px; grid-template-columns: repeat(4, 1fr);">
-        <div class="competitor-card">
-            <h5>Safran</h5>
-            <div class="country">France | Incumbent</div>
-            <ul>
-                <li>PPS series Hall thrusters</li>
-                <li>Heritage: 1000+ units</li>
-                <li>Xenon-only, hardware focus</li>
-                <li>High cost, long lead times</li>
-                <li>No AI integration</li>
-            </ul>
-        </div>
-        <div class="competitor-card">
-            <h5>Exotrail</h5>
-            <div class="country">France | Startup</div>
-            <ul>
-                <li>ExoMG series</li>
-                <li>Software + Hardware play</li>
-                <li>Xenon/Krypton capable</li>
-                <li>SpaceDragon software</li>
-                <li>No VLEO optimization</li>
-            </ul>
-        </div>
-        <div class="competitor-card">
-            <h5>Thales Alenia</h5>
-            <div class="country">France/Italy | Incumbent</div>
-            <ul>
-                <li>System integrator focus</li>
-                <li>Partners for propulsion</li>
-                <li>IRIS2 contractor</li>
-                <li>Not a thruster innovator</li>
-                <li>Potential customer</li>
-            </ul>
-        </div>
-        <div class="competitor-card">
-            <h5>ArianeGroup</h5>
-            <div class="country">France/Germany | Incumbent</div>
-            <ul>
-                <li>Chemical propulsion focus</li>
-                <li>Limited EP portfolio</li>
-                <li>Launcher-centric</li>
-                <li>Slow to innovate</li>
-                <li>ITAR dependencies</li>
-            </ul>
-        </div>
-    </div>
-
-    <div class="usp-box" style="margin-top: 40px; padding: 30px 50px;">
-        <div style="display: flex; justify-content: space-between; align-items: center;">
             <div>
-                <h4 style="margin-bottom: 10px;"><span class="xdd-logo">x</span> Competitive Advantage</h4>
-                <p style="font-size: 1.1rem; color: var(--text);">
-                    Only company combining <span class="highlight">VLEO optimization</span> + <span class="highlight">AI-native architecture</span> + <span class="highlight">magnetic shielding for erosion</span> + <span class="highlight">propellant flexibility</span>
-                </p>
-            </div>
-            <div class="tag" style="font-size: 1rem; padding: 10px 24px;">Unique Position</div>
-        </div>
-    </div>
-</section>
+                <h3>The Team</h3>
+                <h2 style="font-size: 2.2rem;">World-Class Expertise in Electric Propulsion</h2>
 
-<!-- Slide 11: Competitive Comparison Table -->
-<section class="slide" id="slide-10">
-    <span class="slide-number">11 / 15</span>
-    <h3>Competition</h3>
-    <h2>Outperforming Incumbents and Startups</h2>
-
-    <table class="comparison-table" style="margin-top: 40px;">
-        <thead>
-            <tr>
-                <th>Feature</th>
-                <th>Incumbents (Safran)</th>
-                <th>Startups (Exotrail)</th>
-                <th class="xdd-col"><span class="xdd-logo">x</span></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>VLEO Optimized</td>
-                <td><span class="cross">No</span></td>
-                <td><span class="partial">Partial</span></td>
-                <td class="xdd-col"><span class="check">Yes - ABHEP Ready</span></td>
-            </tr>
-            <tr>
-                <td>Propellant Options</td>
-                <td>Xenon only</td>
-                <td>Xenon / Krypton</td>
-                <td class="xdd-col">Krypton / Argon / Air</td>
-            </tr>
-            <tr>
-                <td>AI Integration</td>
-                <td><span class="cross">None</span></td>
-                <td><span class="partial">Software layer</span></td>
-                <td class="xdd-col"><span class="check">Native AI control</span></td>
-            </tr>
-            <tr>
-                <td>Cathode Protection</td>
-                <td>Standard materials</td>
-                <td>Standard materials</td>
-                <td class="xdd-col"><span class="check">AI Magnetic Shielding</span></td>
-            </tr>
-            <tr>
-                <td>Platform Approach</td>
-                <td>Hardware only</td>
-                <td>Hardware + Software</td>
-                <td class="xdd-col">AI-Integrated Platform</td>
-            </tr>
-            <tr>
-                <td>Cost per Unit</td>
-                <td>High (300K+)</td>
-                <td>Medium (150K+)</td>
-                <td class="xdd-col"><span class="check">Low (50K+) - Scalable</span></td>
-            </tr>
-            <tr>
-                <td>Thruster Lifespan</td>
-                <td>10-15K hours</td>
-                <td>10-15K hours</td>
-                <td class="xdd-col"><span class="check">50K+ hours target</span></td>
-            </tr>
-        </tbody>
-    </table>
-</section>
-
-<!-- Slide 12: Market Opportunity -->
-<section class="slide" id="slide-11">
-    <span class="slide-number">12 / 15</span>
-    <h3>Market Opportunity</h3>
-    <h2>A $15.6B European Market in Rapid Transition</h2>
-
-    <div class="market-grid" style="margin-top: 40px;">
-        <div>
-            <div class="grid-3" style="grid-template-columns: repeat(3, 1fr); gap: 30px; margin-bottom: 40px;">
-                <div class="stat card">
-                    <div class="stat-value">$15.6B</div>
-                    <div class="stat-label">EU Space Propulsion 2030</div>
+                <div class="team-card" style="margin-top: 30px; margin-bottom: 20px;">
+                    <img src="./xdoubledot/tiz.jpeg" alt="Tiziano Fiore" class="profile-photo">
+                    <div class="team-info">
+                        <h4>Tiziano Fiore</h4>
+                        <div class="role">Co-Founder & CEO</div>
+                        <p>Electric propulsion engineer who designed and tested a 1kW arcjet thruster achieving 130mN
+                            thrust, 600s specific impulse, and 50%+ efficiency. Built thermal-vacuum test facilities and
+                            plasma diagnostic systems including RPA ion probes.</p>
+                        <div class="credentials">
+                            <span class="credential-tag">Arcjet Propulsion</span>
+                            <span class="credential-tag">Plasma Diagnostics</span>
+                            <span class="credential-tag">Aalto MBA</span>
+                            <span class="credential-tag">ABB</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="stat card">
-                    <div class="stat-value">$66B</div>
-                    <div class="stat-label">LEO Satellite Market 2035</div>
+                <div class="team-card">
+                    <img src="./xdoubledot/max.jpeg" alt="Max Simmonds" class="profile-photo">
+                    <div class="team-info">
+                        <h4>Max Simmonds</h4>
+                        <div class="role">Co-Founder & CTO</div>
+                        <p>MEng Electrical & Electronic Engineering. Former ESA Young Graduate Trainee at ESTEC,
+                            co-authoring an IEEE publication on discrete-time modelling of high-frequency switch-mode
+                            converters — the power electronics core of Hall thruster PPUs. Senior Electronics
+                            Engineering Specialist at Safran (incumbent HET manufacturer), working on space-grade power
+                            systems. Worked at Thales Alenia Space on miniature cryogenic coolers. CERN research
+                            placement on the Antiproton Decelerator. Founded TEO Robotics Ltd (UK, profitable),
+                            currently Co-Founder of nCode OÜ at Tehnopol. BrightSparks 2019 winner; Space Apps Challenge
+                            winner (NASA, 2014).</p>
+                        <div class="credentials">
+                            <span class="credential-tag">ESA ESTEC YGT</span>
+                            <span class="credential-tag">Safran</span>
+                            <span class="credential-tag">Thales Alenia Space</span>
+                            <span class="credential-tag">CERN</span>
+                            <span class="credential-tag">IEEE Published</span>
+                            <span class="credential-tag">BrightSparks 2019</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="stat card">
-                    <div class="stat-value">7x</div>
-                    <div class="stat-label">Satellite Market Growth (Goldman)</div>
-                </div>
-            </div>
-
-            <div class="card">
-                <h4>Strategic Drivers</h4>
-                <ul style="list-style: none; margin-top: 15px;">
-                    <li style="padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.08);">
-                        <span class="highlight">IRIS2 Constellation</span> - EU's sovereign connectivity infrastructure requires European propulsion
-                    </li>
-                    <li style="padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.08);">
-                        <span class="highlight">VLEO Sensing Boom</span> - Defense and commercial demand for low-altitude persistent surveillance
-                    </li>
-                    <li style="padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.08);">
-                        <span class="highlight">Mega-Constellations</span> - Starlink competitors need cost-effective propulsion
-                    </li>
-                    <li style="padding: 12px 0;">
-                        <span class="highlight">Strategic Autonomy</span> - Post-Ukraine push for ITAR-free European supply chains
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <div>
-            <div class="card" style="height: 100%; display: flex; flex-direction: column; justify-content: center;">
-                <h4 style="text-align: center; margin-bottom: 30px;">Addressable Market</h4>
-                <div style="text-align: center;">
-                    <div style="font-size: 6rem; font-weight: 700; color: var(--accent); font-family: 'Space Grotesk', sans-serif;">$1.7T</div>
-                    <div style="color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px; margin-top: 10px;">Global Hall Thruster Market 2030+</div>
-                </div>
-                <p style="text-align: center; margin-top: 30px; font-style: italic;">
-                    <span class="xdd-logo">x</span> targets 5% of European market by 2030 = <span class="highlight">$780M+ opportunity</span>
+                <p style="margin-top: 20px; font-style: italic; color: var(--text-muted);">
+                    Supported by advisors from top-tier European VCs, ESA research labs, and aerospace industry
+                    veterans.
                 </p>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<!-- Slide 13: Strategic Positioning -->
-<section class="slide" id="slide-12">
-    <span class="slide-number">13 / 15</span>
-    <h3>Strategic Positioning</h3>
-    <h2>Powering Europe's Strategic Autonomy</h2>
+    <!-- Slide 15: Call to Action -->
+    <section class="slide slide-title" id="slide-14"
+        style="background: radial-gradient(ellipse at center, #0a0a14 0%, #000000 70%);">
+        <span class="slide-number">15 / 15</span>
 
-    <div class="grid-4" style="margin-top: 50px;">
-        <div class="card">
-            <h4 style="color: var(--accent);">IRIS2 Alignment</h4>
-            <p>Directly supporting the EU's secure connectivity constellation with high-efficiency, scalable propulsion units built for European sovereignty.</p>
-        </div>
-        <div class="card">
-            <h4 style="color: var(--accent);">ITAR-Free Supply Chain</h4>
-            <p>100% European-sourced components ensuring mission security and unrestricted global commercialization. No US export dependencies.</p>
-        </div>
-        <div class="card">
-            <h4 style="color: var(--accent);">Defense Resilience</h4>
-            <p>Enabling maneuverable and persistent space assets for NATO and EU defense priorities in contested orbits. Hardened for adversarial environments.</p>
-        </div>
-        <div class="card">
-            <h4 style="color: var(--accent);">Sustainability</h4>
-            <p>Reducing space debris through active de-orbiting capabilities and efficient VLEO operations where natural decay handles end-of-life.</p>
-        </div>
-    </div>
-
-    <div style="text-align: center; margin-top: 60px;">
-        <p class="lead" style="max-width: 900px; margin: 0 auto;">
-            "Building the technological foundation for Europe's sovereign space infrastructure.
-            <span class="highlight"><span class="xdd-logo">x</span> is the engine.</span>"
+        <div class="logo float xdd-logo" style="font-size: 5rem; margin-bottom: 40px;">x</div>
+        <h1 style="font-size: 4rem;">Join the VLEO Revolution</h1>
+        <p class="subtitle" style="max-width: 800px; margin: 0 auto 50px;">
+            <span class="xdd-logo">x</span> is building the propulsion infrastructure that will define the next decade
+            of space.
+            Join us in powering persistent, efficient, and sovereign missions for the global space economy.
         </p>
-    </div>
-</section>
 
-<!-- Slide 14: Business Model & Team -->
-<section class="slide" id="slide-13">
-    <span class="slide-number">14 / 15</span>
-    <div class="grid-2">
-        <div>
-            <h3>Business Model</h3>
-            <h2 style="font-size: 2.2rem;">Scalable Revenue Across the Propulsion Lifecycle</h2>
-
-            <div class="card" style="margin-top: 30px; margin-bottom: 20px;">
-                <h4>Unit Sales | $50K - $300K</h4>
-                <p>Direct sales of modular HET units to satellite OEMs and constellation operators. High-margin hardware with scalable production.</p>
-            </div>
-            <div class="card" style="margin-bottom: 20px;">
-                <h4>Subsystems | Propulsion-as-a-Service</h4>
-                <p>Full-stack integration including PPU, feed systems, and structural mounting. Turnkey solutions for rapid mission deployment.</p>
-            </div>
-            <div class="card">
-                <h4>Software | SaaS Licensing</h4>
-                <p>Recurring revenue from AI-driven orbit control, autonomous drag compensation, and collision avoidance software layers.</p>
-            </div>
-        </div>
-        <div>
-            <h3>The Team</h3>
-            <h2 style="font-size: 2.2rem;">World-Class Expertise in Electric Propulsion</h2>
-
-            <div class="team-card" style="margin-top: 30px; margin-bottom: 20px;">
-                <img src="tiz.jpeg" alt="Tiziano Fiore" class="profile-photo">
-                <div class="team-info">
-                    <h4>Tiziano Fiore</h4>
-                    <div class="role">Co-Founder & CEO</div>
-                    <p>Electric propulsion engineer who designed and tested a 1kW arcjet thruster achieving 130mN thrust, 600s specific impulse, and 50%+ efficiency. Built thermal-vacuum test facilities and plasma diagnostic systems including RPA ion probes.</p>
-                    <div class="credentials">
-                        <span class="credential-tag">Arcjet Propulsion</span>
-                        <span class="credential-tag">Plasma Diagnostics</span>
-                        <span class="credential-tag">Aalto MBA</span>
-                        <span class="credential-tag">ABB</span>
-                    </div>
-                </div>
-            </div>
-            <div class="team-card">
-                <img src="max.jpeg" alt="Max Simmonds" class="profile-photo">
-                <div class="team-info">
-                    <h4>Max Simmonds</h4>
-                    <div class="role">Co-Founder & CTO</div>
-                    <p>MEng Electrical & Electronic Engineering. Former ESA Young Graduate Trainee at ESTEC, co-authoring an IEEE publication on discrete-time modelling of high-frequency switch-mode converters — the power electronics core of Hall thruster PPUs. Senior Electronics Engineering Specialist at Safran (incumbent HET manufacturer), working on space-grade power systems. Worked at Thales Alenia Space on miniature cryogenic coolers. CERN research placement on the Antiproton Decelerator. Founded TEO Robotics Ltd (UK, profitable), currently Co-Founder of nCode OÜ at Tehnopol. BrightSparks 2019 winner; Space Apps Challenge winner (NASA, 2014).</p>
-                    <div class="credentials">
-                        <span class="credential-tag">ESA ESTEC YGT</span>
-                        <span class="credential-tag">Safran</span>
-                        <span class="credential-tag">Thales Alenia Space</span>
-                        <span class="credential-tag">CERN</span>
-                        <span class="credential-tag">IEEE Published</span>
-                        <span class="credential-tag">BrightSparks 2019</span>
-                    </div>
-                </div>
-            </div>
-            <p style="margin-top: 20px; font-style: italic; color: var(--text-muted);">
-                Supported by advisors from top-tier European VCs, ESA research labs, and aerospace industry veterans.
+        <div class="usp-box" style="max-width: 700px; margin: 0 auto 50px; text-align: center;">
+            <h4>The Investment Ask</h4>
+            <p style="font-size: 1.2rem; color: var(--text); margin-top: 15px;">
+                Seeking <span class="highlight">Seed/Series A funding</span> to accelerate R&D, expand our engineering
+                team, and secure our first in-orbit demonstration.
             </p>
         </div>
-    </div>
-</section>
 
-<!-- Slide 15: Call to Action -->
-<section class="slide slide-title" id="slide-14" style="background: radial-gradient(ellipse at center, #0a0a14 0%, #000000 70%);">
-    <span class="slide-number">15 / 15</span>
-
-    <div class="logo float xdd-logo" style="font-size: 5rem; margin-bottom: 40px;">x</div>
-    <h1 style="font-size: 4rem;">Join the VLEO Revolution</h1>
-    <p class="subtitle" style="max-width: 800px; margin: 0 auto 50px;">
-        <span class="xdd-logo">x</span> is building the propulsion infrastructure that will define the next decade of space.
-        Join us in powering persistent, efficient, and sovereign missions for the global space economy.
-    </p>
-
-    <div class="usp-box" style="max-width: 700px; margin: 0 auto 50px; text-align: center;">
-        <h4>The Investment Ask</h4>
-        <p style="font-size: 1.2rem; color: var(--text); margin-top: 15px;">
-            Seeking <span class="highlight">Seed/Series A funding</span> to accelerate R&D, expand our engineering team, and secure our first in-orbit demonstration.
-        </p>
-    </div>
-
-    <div class="grid-3" style="max-width: 600px; margin: 0 auto; grid-template-columns: repeat(3, 1fr); text-align: center;">
-        <div>
-            <div style="color: var(--text-muted); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px;">Email</div>
-            <div style="color: var(--text);">info@x-double-dot.space</div>
+        <div class="grid-3"
+            style="max-width: 600px; margin: 0 auto; grid-template-columns: repeat(3, 1fr); text-align: center;">
+            <div>
+                <div
+                    style="color: var(--text-muted); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px;">
+                    Email</div>
+                <div style="color: var(--text);">info@x-double-dot.space</div>
+            </div>
+            <div>
+                <div
+                    style="color: var(--text-muted); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px;">
+                    Web</div>
+                <div style="color: var(--text);">www.x-double-dot.space</div>
+            </div>
+            <div>
+                <div
+                    style="color: var(--text-muted); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px;">
+                    Location</div>
+                <div style="color: var(--text);">Europe</div>
+            </div>
         </div>
-        <div>
-            <div style="color: var(--text-muted); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px;">Web</div>
-            <div style="color: var(--text);">www.x-double-dot.space</div>
+
+        <div style="margin-top: 60px; font-size: 0.85rem; color: var(--text-muted); text-align: center;">
+            <p>Sources: [1] Mordor Intelligence, "Europe Space Propulsion Market Size & Growth to 2030", Jan 2025. [2]
+                Business Research Insights, "Hall-Effect Thruster System Market Size, Share & Trends", 2025. [3] Roots
+                Analysis, "LEO Satellite Market Size & Share Report, 2035", 2025. [4] Goldman Sachs, "The global
+                satellite market is forecast to become seven times bigger", Mar 2025.</p>
         </div>
-        <div>
-            <div style="color: var(--text-muted); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px;">Location</div>
-            <div style="color: var(--text);">Europe</div>
-        </div>
-    </div>
+    </section>
 
-    <div style="margin-top: 60px; font-size: 0.85rem; color: var(--text-muted); text-align: center;">
-        <p>Sources: [1] Mordor Intelligence, "Europe Space Propulsion Market Size & Growth to 2030", Jan 2025. [2] Business Research Insights, "Hall-Effect Thruster System Market Size, Share & Trends", 2025. [3] Roots Analysis, "LEO Satellite Market Size & Share Report, 2035", 2025. [4] Goldman Sachs, "The global satellite market is forecast to become seven times bigger", Mar 2025.</p>
-    </div>
-</section>
+    <script>
+        // Navigation functionality
+        const slides = document.querySelectorAll('.slide');
+        const navDots = document.querySelectorAll('.nav-dot');
 
-<script>
-    // Navigation functionality
-    const slides = document.querySelectorAll('.slide');
-    const navDots = document.querySelectorAll('.nav-dot');
-
-    function goToSlide(index) {
-        slides[index].scrollIntoView({ behavior: 'smooth' });
-    }
-
-    // Update active dot on scroll
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const index = Array.from(slides).indexOf(entry.target);
-                navDots.forEach((dot, i) => {
-                    dot.classList.toggle('active', i === index);
-                });
-            }
-        });
-    }, { threshold: 0.5 });
-
-    slides.forEach(slide => observer.observe(slide));
-
-    // Keyboard navigation
-    document.addEventListener('keydown', (e) => {
-        const currentSlide = Array.from(slides).findIndex(slide => {
-            const rect = slide.getBoundingClientRect();
-            return rect.top >= -100 && rect.top <= 100;
-        });
-
-        if (e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === ' ') {
-            e.preventDefault();
-            if (currentSlide < slides.length - 1) {
-                goToSlide(currentSlide + 1);
-            }
-        } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
-            e.preventDefault();
-            if (currentSlide > 0) {
-                goToSlide(currentSlide - 1);
-            }
+        function goToSlide(index) {
+            slides[index].scrollIntoView({behavior: 'smooth'});
         }
-    });
-</script>
+
+        // Update active dot on scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const index = Array.from(slides).indexOf(entry.target);
+                    navDots.forEach((dot, i) => {
+                        dot.classList.toggle('active', i === index);
+                    });
+                }
+            });
+        }, {threshold: 0.5});
+
+        slides.forEach(slide => observer.observe(slide));
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            const currentSlide = Array.from(slides).findIndex(slide => {
+                const rect = slide.getBoundingClientRect();
+                return rect.top >= -100 && rect.top <= 100;
+            });
+
+            if (e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === ' ') {
+                e.preventDefault();
+                if (currentSlide < slides.length - 1) {
+                    goToSlide(currentSlide + 1);
+                }
+            } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+                e.preventDefault();
+                if (currentSlide > 0) {
+                    goToSlide(currentSlide - 1);
+                }
+            }
+        });
+    </script>
 
 </body>
+
 </html>
