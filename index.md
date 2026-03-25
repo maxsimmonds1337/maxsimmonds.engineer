@@ -199,9 +199,9 @@
       <li><strong>NASA Space Apps Challenge</strong> <span class="award-year">2018</span><br>International Winner &amp; Global Top 5 — NASA's global hackathon across 200+ cities worldwide.</li>
       <li><strong>The Manufacturer's Top 100</strong> <span class="award-year">2019</span><br>Recognised among the UK's top 100 young manufacturing professionals.</li>
       <li><strong>Bright Spark</strong> <span class="award-year">2019</span><br>Electronics Weekly award for outstanding young engineers.</li>
-      <li><strong>Engineering Excellence</strong></li>
-      <li><strong>Technical Innovation</strong></li>
-      <li><strong>Contribution to Student Life</strong></li>
+      <li><strong>Engineering Excellence</strong> <span class="award-year">2018</span><br>University of Plymouth graduation award.</li>
+      <li><strong>Technical Innovation</strong> <span class="award-year">2018</span><br>University of Plymouth graduation award.</li>
+      <li><strong>Contribution to Student Life</strong> <span class="award-year">2018</span><br>University of Plymouth graduation award.</li>
     </ul>
   </div>
 
