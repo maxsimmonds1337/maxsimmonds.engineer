@@ -11,8 +11,8 @@ body {
 }
 
 .wrapper {
-  max-width: 1200px;
-  width: 92%;
+  max-width: 1440px;
+  width: 95%;
   margin: 0 auto;
   display: grid;
   grid-template-columns: 260px 1fr;
@@ -166,9 +166,9 @@ footer {
 .project-card {
   display: flex;
   align-items: stretch;
-  gap: 16px;
-  margin-bottom: 20px;
-  padding-bottom: 20px;
+  gap: 18px;
+  margin-bottom: 28px;
+  padding-bottom: 24px;
   border-bottom: 1px solid #eee;
 }
 
@@ -192,9 +192,9 @@ footer {
 }
 
 .project-meta h1 {
-  font-size: 16px;
-  margin: 0 0 4px;
-  line-height: 1.25;
+  font-size: 18px;
+  margin: 0 0 6px;
+  line-height: 1.2;
 }
 
 .project-meta h1 a {
@@ -257,8 +257,8 @@ section table td {
 /* ─── Content two-column layout ─── */
 .content-layout {
   display: grid;
-  grid-template-columns: 1fr 240px;
-  gap: 36px;
+  grid-template-columns: 1fr 300px;
+  gap: 48px;
   align-items: start;
 }
 
