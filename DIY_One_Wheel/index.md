@@ -1,3 +1,7 @@
+> **Project abandoned (March 2026).** This project has been superseded by the [Robot Dog Butler](../robot_dog_butler). That project requires a custom BLDC driver with torque control — something the VESC doesn't support — so a custom motor driver is needed anyway. Rather than build two separate drivers, the effort is being consolidated there.
+
+---
+
 # Self Balancing Unicycle - SBS V1.0
 
 Welcome to my page on the SBS V1.0, more commonly known as the OneWheel!

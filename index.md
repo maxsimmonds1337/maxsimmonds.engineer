@@ -130,8 +130,8 @@
   </a>
   <div class="project-meta">
     <h1><a href="./DIY_One_Wheel/">DIY One Wheel</a></h1>
-    <p class="project-dates"><strong>Start Date:</strong> 31/07/2022 &nbsp;·&nbsp; <strong>Last Edited:</strong> On going &nbsp;·&nbsp; <strong>Status:</strong> <span class="status-ongoing">Ongoing</span></p>
-    <p class="project-blurb">This is my current project, a self balancing electric skateboard, commonly known as a OneWheel.</p>
+    <p class="project-dates"><strong>Start Date:</strong> 31/07/2022 &nbsp;·&nbsp; <strong>Last Edited:</strong> 25/03/26 &nbsp;·&nbsp; <strong>Status:</strong> <span class="status-abandoned">Abandoned</span></p>
+    <p class="project-blurb">A self balancing electric skateboard. Superseded by the Robot Dog Butler — which requires a custom BLDC driver with torque control that the VESC doesn't support, making a custom motor driver necessary anyway.</p>
   </div>
 </div>
 
@@ -176,6 +176,13 @@
       <p class="pub-meta">Max Simmonds &nbsp;·&nbsp; <em>University of Plymouth</em>, 2017</p>
       <p class="pub-abstract">A rigorous treatment of the Extended Hamming (8,4,3) code — constructing parity-check and generator matrices, comparing G- and H-matrix trellis complexity, and demonstrating that Viterbi decoding outperforms both codeword enumeration and syndrome decoding. Includes a quantitative complexity analysis.</p>
       <p class="pub-links"><a href="/An Investigation into Linear Codes copy.pdf" target="_blank">PDF ↗</a></p>
+    </div>
+
+    <div class="pub-card">
+      <p class="pub-title"><a href="https://cds.cern.ch/record/2210440" target="_blank">Fibre Optic Notch Filter for the Antiproton Decelerator Stochastic Cooling System</a></p>
+      <p class="pub-meta">Max Simmonds &nbsp;·&nbsp; <em>CERN Document Server</em>, 2016</p>
+      <p class="pub-abstract">Reverse-engineered and restored a fibre optic notch filter for integration into CERN's Antiproton Decelerator (AD) stochastic cooling system. Confirmed temperature stabilisation and brought the device to operational status. Completed during a summer placement in the BE Accelerator Technology department.</p>
+      <p class="pub-links"><a href="https://cds.cern.ch/record/2210440" target="_blank">CERN CDS ↗</a></p>
     </div>
 
   </div>
