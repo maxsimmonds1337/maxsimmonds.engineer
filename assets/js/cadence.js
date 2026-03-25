@@ -102,7 +102,7 @@
     var NOW_R      = 5.5;  // "Now" dot radius
     var LABEL_PAD  = 9;
     var LABEL_W    = 50;
-    var PAD_T      = 30;
+    var PAD_T      = 52;   // extra room above so recent labels don't crowd Now
     var PAD_B      = 14;
     var PX_PER_DAY = 0.52;
     var MIN_GAP    = 13;   // min px between date labels
@@ -140,7 +140,9 @@
     // Trunk line
     parts.push('<line x1="' + TRUNK_X + '" y1="' + PAD_T + '" x2="' + TRUNK_X + '" y2="' + (svgH - PAD_B) + '" stroke="' + TRUNK_COL + '" stroke-width="2"/>');
 
-    // "Now" dot + label
+    // "Now" dot + label — sits above the first branch
+    var nowLineW = TRUNK_X + (numLanes + 1) * LANE_W;
+    parts.push('<line x1="' + TRUNK_X + '" y1="' + PAD_T + '" x2="' + nowLineW + '" y2="' + PAD_T + '" stroke="' + NOW_COL + '" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>');
     parts.push('<circle cx="' + TRUNK_X + '" cy="' + PAD_T + '" r="' + NOW_R + '" fill="' + NOW_COL + '"/>');
     parts.push('<text x="' + (TRUNK_X + NOW_R + 6) + '" y="' + (PAD_T + 4) + '" font-size="11" fill="' + NOW_COL + '" font-family="\'Helvetica Neue\',Helvetica,Arial,sans-serif" font-weight="600">Now</text>');
 
@@ -178,8 +180,7 @@
             ' V ' + eY;
         parts.push('<path d="' + d + '" fill="none" stroke="' + c + '" stroke-width="2"' + dash + '/>');
         if (!p._ended) {
-          // Dot connecting up to Now
-          parts.push('<circle cx="' + bX + '" cy="' + PAD_T + '" r="' + MERGE_R + '" fill="' + c + '" stroke="white" stroke-width="1.5"/>');
+          // Lines just terminate at the Now guide — no dot (avoids the cluster)
         } else {
           // Abandoned: X marker
           parts.push('<line x1="' + (bX-4) + '" y1="' + (eY-4) + '" x2="' + (bX+4) + '" y2="' + (eY+4) + '" stroke="' + c + '" stroke-width="2"/>');
