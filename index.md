@@ -1,6 +1,8 @@
 ---
 ---
 
+<div class="content-layout">
+<div class="projects-column">
 <div class="project-card">
   <a href="./stl_stacker" class="project-image-wrap">
     <img src="./stl_stacker/images/listImage.png" alt="STL Stacker" onerror="this.closest('.project-image-wrap').style.display='none'">
@@ -154,3 +156,41 @@
     <p class="project-blurb">My submissions and thoughts during my Harvard CS50 (computer science) course. (Really needs updating, I've almost completed the course!)</p>
   </div>
 </div>
+
+</div><!-- /projects-column -->
+
+<aside class="pub-column">
+
+  <div class="pub-section">
+    <h2 class="pub-section-title">Publications</h2>
+
+    <div class="pub-card">
+      <p class="pub-title"><a href="https://ieeexplore.ieee.org/document/8459991/" target="_blank">Discrete-time modelling of pulse-width modulated DC-DC converters in sub-sampling conditions</a></p>
+      <p class="pub-meta">Max Simmonds et al. &nbsp;·&nbsp; <em>IEEE COMPEL</em>, 2018</p>
+      <p class="pub-abstract">Extends small-signal discrete-time modelling of DC-DC converters to sub-sampling conditions — where the sample interval spans multiple switching periods. Derives a model that quantifies the dynamic performance degradation and enables proper controller design under these constraints.</p>
+      <p class="pub-links"><a href="https://ieeexplore.ieee.org/document/8459991/" target="_blank">IEEE Xplore ↗</a></p>
+    </div>
+
+    <div class="pub-card">
+      <p class="pub-title"><a href="/An Investigation into Linear Codes copy.pdf" target="_blank">An Investigation into Linear Codes &amp; The Viterbi Algorithm</a></p>
+      <p class="pub-meta">Max Simmonds &nbsp;·&nbsp; <em>University of Bath</em>, 2017</p>
+      <p class="pub-abstract">A rigorous treatment of the Extended Hamming (8,4,3) code — constructing parity-check and generator matrices, comparing G- and H-matrix trellis complexity, and demonstrating that Viterbi decoding outperforms both codeword enumeration and syndrome decoding. Includes a quantitative complexity analysis.</p>
+      <p class="pub-links"><a href="/An Investigation into Linear Codes copy.pdf" target="_blank">PDF ↗</a></p>
+    </div>
+
+  </div>
+
+  <div class="pub-section">
+    <h2 class="pub-section-title">Awards</h2>
+    <ul class="awards-list">
+      <li><strong>The Manufacturer's Top 100</strong> <span class="award-year">2019</span><br>Recognised among the UK's top 100 young manufacturing professionals.</li>
+      <li><strong>Bright Spark</strong> <span class="award-year">2019</span><br>Electronics Weekly award for outstanding young engineers.</li>
+      <li><strong>Engineering Excellence</strong></li>
+      <li><strong>Technical Innovation</strong></li>
+      <li><strong>Contribution to Student Life</strong></li>
+    </ul>
+  </div>
+
+</aside>
+
+</div><!-- /content-layout -->

@@ -253,6 +253,124 @@ section table td {
   word-break: break-word;
 }
 
+/* ─── Content two-column layout ─── */
+.content-layout {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 44px;
+  align-items: start;
+}
+
+.projects-column {
+  min-width: 0;
+}
+
+.pub-column {
+  position: sticky;
+  top: 40px;
+}
+
+/* ─── Publications ─── */
+.pub-section {
+  margin-bottom: 32px;
+}
+
+.pub-section-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #444;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 6px;
+  margin: 0 0 16px;
+}
+
+.pub-card {
+  margin-bottom: 20px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.pub-card:last-child {
+  border-bottom: none;
+}
+
+.pub-title {
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.4;
+  margin: 0 0 4px;
+}
+
+.pub-title a {
+  color: #267CB9;
+  text-decoration: none;
+}
+
+.pub-title a:hover {
+  color: #069;
+}
+
+.pub-meta {
+  font-size: 11px;
+  color: #999;
+  margin: 0 0 6px;
+}
+
+.pub-abstract {
+  font-size: 12px;
+  color: #666;
+  line-height: 1.55;
+  margin: 0 0 6px;
+}
+
+.pub-links {
+  font-size: 11px;
+  margin: 0;
+}
+
+.pub-links a {
+  color: #267CB9;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+/* ─── Awards ─── */
+.awards-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.awards-list li {
+  font-size: 12px;
+  color: #555;
+  padding: 6px 0;
+  border-bottom: 1px solid #f4f4f4;
+  line-height: 1.5;
+}
+
+.awards-list li:last-child {
+  border-bottom: none;
+}
+
+.award-year {
+  font-size: 10px;
+  color: #aaa;
+  font-weight: 400;
+  margin-left: 4px;
+}
+
+@media (max-width: 1000px) {
+  .content-layout {
+    grid-template-columns: 1fr;
+  }
+  .pub-column {
+    position: static;
+  }
+}
+
 /* ─── General typography ─── */
 h1, h2, h3 { color: #222; }
 a { color: #267CB9; }
