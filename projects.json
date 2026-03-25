@@ -68,7 +68,7 @@
     "folder": "eesti_move",
     "startDate": "23/06/2024",
     "lastEdited": "28/06/2024",
-    "status": "ongoing",
+    "status": "finished",
     "blurb": "Driving all our stuff from the UK to Estonia in a van!"
   },
   {
@@ -88,6 +88,22 @@
     "blurb": "Reverse engineering a Snaptain AF15 drone to fly it from my laptop."
   },
   {
+    "name": "Face Morphin!",
+    "folder": "Programming_Portfolio",
+    "startDate": "26/09/2023",
+    "lastEdited": "26/09/2023",
+    "status": "finished",
+    "blurb": "Face morphing algorithm using dlib facial landmarks, Delaunay triangulation, and Affine transforms."
+  },
+  {
+    "name": "Go Baby Tracker",
+    "folder": "Programming_Portfolio",
+    "startDate": "23/02/2023",
+    "lastEdited": "23/02/2023",
+    "status": "finished",
+    "blurb": "My first Go project — a baby tracking app hosted on GCP."
+  },
+  {
     "name": "DIY One Wheel",
     "folder": "DIY_One_Wheel",
     "startDate": "31/07/2022",
@@ -96,19 +112,51 @@
     "blurb": "A self balancing electric skateboard, commonly known as a OneWheel."
   },
   {
-    "name": "Programming Portfolio",
+    "name": "JS Wave Emulator",
     "folder": "Programming_Portfolio",
-    "startDate": "17/08/2022",
-    "lastEdited": "17/08/2022",
-    "status": "ongoing",
-    "blurb": "Documenting my programming projects and progression."
+    "startDate": "20/09/2022",
+    "lastEdited": "20/09/2022",
+    "status": "finished",
+    "blurb": "JavaScript simulation of wave propagation from a stone dropped in a pond."
+  },
+  {
+    "name": "CORS Proxy",
+    "folder": "Programming_Portfolio",
+    "startDate": "13/09/2022",
+    "lastEdited": "17/09/2022",
+    "status": "finished",
+    "blurb": "A CORS proxy to expose Leetcode GraphQL stats on my CV page."
   },
   {
     "name": "Harvard CS50",
     "folder": "Havard_CS50_Course",
     "startDate": "16/08/2022",
     "lastEdited": "16/08/2022",
-    "status": "ongoing",
+    "status": "finished",
     "blurb": "My submissions and thoughts during my Harvard CS50 computer science course."
+  },
+  {
+    "name": "Markdown Graph Plotter",
+    "folder": "Programming_Portfolio",
+    "startDate": "01/08/2022",
+    "lastEdited": "26/08/2022",
+    "status": "finished",
+    "blurb": "Python script called from a git hook that renders inline graphs in Markdown files."
+  },
+  {
+    "name": "Programming Portfolio",
+    "folder": "Programming_Portfolio",
+    "startDate": "17/08/2022",
+    "lastEdited": "26/09/2023",
+    "status": "finished",
+    "blurb": "Documenting my programming projects and progression."
+  },
+  {
+    "name": "NCO in C",
+    "folder": "Programming_Portfolio",
+    "startDate": "01/07/2022",
+    "lastEdited": "30/07/2022",
+    "status": "finished",
+    "blurb": "A numerically controlled oscillator — alternative to sine lookup tables."
   }
 ]

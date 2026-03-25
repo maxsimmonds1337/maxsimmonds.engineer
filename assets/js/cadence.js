@@ -2,9 +2,9 @@
   'use strict';
 
   var COLORS = [
-    '#e74c3c','#3498db','#27ae60','#f39c12','#9b59b6',
-    '#16a085','#e67e22','#c0392b','#2980b9','#8e44ad',
-    '#1abc9c','#d35400','#2c3e50','#c0392b'
+    '#58a6ff','#3fb950','#f0883e','#d2a8ff','#ffa657',
+    '#79c0ff','#7ee787','#ff7b72','#e3b341','#a371f7',
+    '#56d364','#ff9a8b','#63bdff','#cae8ff'
   ];
 
   var MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
@@ -50,22 +50,21 @@
     var avgLine = '';
     if (finishedDays.length > 0) {
       var avg = Math.round(finishedDays.reduce(function (a, b) { return a + b; }, 0) / finishedDays.length);
-      avgLine = '<span style="color:#3498db">&#10003;</span> avg ' + avg + ' days to finish<br>';
+      avgLine = '<span class="cs-val" style="color:#3fb950">' + avg + 'd</span> avg to finish&nbsp;&nbsp;';
     } else {
-      // Show average age of open projects
       var ages = projects
         .filter(function (p) { return p.status === 'ongoing'; })
         .map(function (p) { return Math.round((TODAY - parseDate(p.startDate)) / 86400000); });
       if (ages.length > 0) {
         var avgAge = Math.round(ages.reduce(function (a, b) { return a + b; }, 0) / ages.length);
-        avgLine = '<span style="color:#aaa">&#9202;</span> avg age ' + avgAge + ' days<br>';
+        avgLine = '<span class="cs-val">' + avgAge + 'd</span> avg age&nbsp;&nbsp;';
       }
     }
 
     container.innerHTML =
-      '<span style="color:#27ae60">&#9679;</span> ' + ongoing + ' ongoing&nbsp;&nbsp;' +
-      '<span style="color:#3498db">&#10003;</span> ' + finished + ' done&nbsp;&nbsp;' +
-      '<span style="color:#e74c3c">&#10007;</span> ' + abandoned + ' dropped<br>' +
+      '<span class="cs-dot" style="color:#3fb950">●</span> <span class="cs-val">' + ongoing + '</span> active&nbsp;&nbsp;' +
+      '<span class="cs-dot" style="color:#58a6ff">✓</span> <span class="cs-val">' + finished + '</span> done&nbsp;&nbsp;' +
+      '<span class="cs-dot" style="color:#ff7b72">✗</span> <span class="cs-val">' + abandoned + '</span> dropped<br>' +
       avgLine;
   }
 
@@ -77,14 +76,11 @@
     var TODAY = new Date();
     var STALE_DAYS = 45;
 
-    // Sort oldest first
-    projects.sort(function (a, b) {
-      return parseDate(a.startDate) - parseDate(b.startDate);
-    });
+    projects.sort(function (a, b) { return parseDate(a.startDate) - parseDate(b.startDate); });
 
     if (statsContainer) renderStats(projects, statsContainer);
 
-    // Assign lanes with greedy algorithm
+    // Assign lanes
     var laneEnds = [];
     projects.forEach(function (p, i) {
       p.color = COLORS[i % COLORS.length];
@@ -97,118 +93,115 @@
 
       var lane = -1;
       for (var l = 0; l < laneEnds.length; l++) {
-        if (laneEnds[l] <= startDate) {
-          lane = l;
-          laneEnds[l] = endDate;
-          break;
-        }
+        if (laneEnds[l] <= startDate) { lane = l; laneEnds[l] = endDate; break; }
       }
-      if (lane === -1) {
-        lane = laneEnds.length;
-        laneEnds.push(endDate);
-      }
+      if (lane === -1) { lane = laneEnds.length; laneEnds.push(endDate); }
       p._lane = lane;
     });
 
     var numLanes = laneEnds.length;
 
-    // Layout constants
-    var TRUNK_X = 12;
-    var LANE_W = 10;
-    var LABEL_PAD = 6;
-    var LABEL_W = 44;   // width reserved for date text
-    var PAD_T = 22;
-    var PAD_B = 14;
+    // Layout
+    var TRUNK_X   = 10;
+    var LANE_W    = 10;
+    var LABEL_PAD = 8;
+    var LABEL_W   = 46;
+    var PAD_T     = 24;
+    var PAD_B     = 10;
     var PX_PER_DAY = 0.55;
+    var MIN_LABEL_GAP = 12; // px between date labels
 
     var TEXT_X = TRUNK_X + (numLanes + 1) * LANE_W + LABEL_PAD;
 
-    // Date range
     var allStartDates = projects.map(function (p) { return p._startDate; });
     var minDate = new Date(Math.min.apply(null, allStartDates));
-    var totalMs = TODAY - minDate;
-    var totalDays = totalMs / 86400000;
+    var totalDays = (TODAY - minDate) / 86400000;
     var svgH = Math.round(PAD_T + totalDays * PX_PER_DAY + PAD_B);
     var svgW = TEXT_X + LABEL_W;
 
     function dateToY(date) {
-      var days = (TODAY - date) / 86400000;
-      return Math.round(PAD_T + days * PX_PER_DAY);
+      return Math.round(PAD_T + (TODAY - date) / 86400000 * PX_PER_DAY);
     }
+
+    // Track placed label Y positions to prevent overlap
+    var placedLabels = [];
+    function tryLabel(y, text, color, opacity) {
+      for (var i = 0; i < placedLabels.length; i++) {
+        if (Math.abs(placedLabels[i] - y) < MIN_LABEL_GAP) return '';
+      }
+      placedLabels.push(y);
+      return '<text x="' + TEXT_X + '" y="' + (y + 3) + '" ' +
+        'font-size="8" fill="' + color + '" font-family="\'SF Mono\',\'Fira Code\',monospace" ' +
+        'opacity="' + (opacity || 0.9) + '">' + text + '</text>';
+    }
+
+    var bg = '#0d1117';
+    var trunkColor = 'rgba(255,255,255,0.15)';
+    var nowColor = '#ffffff';
 
     var parts = [];
 
-    // Main trunk
-    parts.push('<line x1="' + TRUNK_X + '" y1="' + PAD_T + '" x2="' + TRUNK_X + '" y2="' + (svgH - PAD_B) + '" stroke="#bbb" stroke-width="2"/>');
+    // Background rect
+    parts.push('<rect width="' + svgW + '" height="' + svgH + '" fill="' + bg + '"/>');
 
-    // "Now" dot + label
-    parts.push('<circle cx="' + TRUNK_X + '" cy="' + PAD_T + '" r="4" fill="#555"/>');
-    parts.push('<text x="' + (TRUNK_X + 8) + '" y="' + (PAD_T + 4) + '" font-size="9" fill="#555" font-family="sans-serif">Now</text>');
+    // Trunk
+    parts.push('<line x1="' + TRUNK_X + '" y1="' + PAD_T + '" x2="' + TRUNK_X + '" y2="' + (svgH - PAD_B) + '" stroke="' + trunkColor + '" stroke-width="1.5"/>');
 
-    // Draw each project branch
+    // "NOW" — dot + label
+    parts.push('<circle cx="' + TRUNK_X + '" cy="' + PAD_T + '" r="3" fill="' + nowColor + '"/>');
+    parts.push('<text x="' + (TRUNK_X + 7) + '" y="' + (PAD_T + 3) + '" font-size="8" fill="' + nowColor + '" font-family="\'SF Mono\',\'Fira Code\',monospace" font-weight="bold" opacity="0.9">NOW</text>');
+
+    // Draw branches
     projects.forEach(function (p) {
       var startY = dateToY(p._startDate);
-      var endY = p._isEnded ? dateToY(p._endDate) : PAD_T;
+      var endY   = p._isEnded ? dateToY(p._endDate) : PAD_T;
       var branchX = TRUNK_X + (p._lane + 1) * LANE_W;
       var c = p.color;
 
-      var isStale = !p._isEnded &&
-        (TODAY - parseDate(p.lastEdited)) > STALE_DAYS * 86400000;
+      var isStale = !p._isEnded && (TODAY - parseDate(p.lastEdited)) > STALE_DAYS * 86400000;
+      var dash = p.status === 'abandoned' ? ' stroke-dasharray="3,2"'
+               : isStale               ? ' stroke-dasharray="1.5,2"'
+               : '';
 
-      var dashAttr = '';
-      if (p.status === 'abandoned') dashAttr = ' stroke-dasharray="4,3"';
-      else if (isStale) dashAttr = ' stroke-dasharray="2,2"';
+      // Horizontal connector trunk → branch
+      parts.push('<line x1="' + TRUNK_X + '" y1="' + startY + '" x2="' + branchX + '" y2="' + startY + '" stroke="' + c + '" stroke-width="1"/>');
 
-      // Horizontal connector: trunk → branch
-      parts.push('<line x1="' + TRUNK_X + '" y1="' + startY + '" x2="' + branchX + '" y2="' + startY + '" stroke="' + c + '" stroke-width="2"/>');
-
-      // Vertical branch line
-      parts.push('<line x1="' + branchX + '" y1="' + startY + '" x2="' + branchX + '" y2="' + endY + '" stroke="' + c + '" stroke-width="2"' + dashAttr + '/>');
+      // Vertical branch
+      parts.push('<line x1="' + branchX + '" y1="' + startY + '" x2="' + branchX + '" y2="' + endY + '" stroke="' + c + '" stroke-width="1"' + dash + '/>');
 
       // Start dot
-      parts.push('<circle cx="' + branchX + '" cy="' + startY + '" r="3" fill="' + c + '"/>');
+      parts.push('<circle cx="' + branchX + '" cy="' + startY + '" r="2.5" fill="' + c + '"/>');
 
-      // Start date label
-      var startLabel = shortDate(p.startDate);
-      if (startLabel) {
-        parts.push('<text x="' + TEXT_X + '" y="' + (startY + 3) + '" font-size="8" fill="' + c + '" font-family="sans-serif" opacity="0.85">' + startLabel + '</text>');
-      }
+      // Start date label (deduplicated)
+      parts.push(tryLabel(startY, shortDate(p.startDate), c, 0.85));
 
       if (p.status === 'finished') {
-        // Merge horizontal back to trunk
-        parts.push('<line x1="' + branchX + '" y1="' + endY + '" x2="' + TRUNK_X + '" y2="' + endY + '" stroke="' + c + '" stroke-width="2"/>');
-        parts.push('<circle cx="' + TRUNK_X + '" cy="' + endY + '" r="3" fill="' + c + '"/>');
-        // End date label
-        var endLabel = shortDate(p.lastEdited);
-        if (endLabel) {
-          parts.push('<text x="' + TEXT_X + '" y="' + (endY + 3) + '" font-size="8" fill="' + c + '" font-family="sans-serif" opacity="0.7">' + endLabel + '</text>');
-        }
+        parts.push('<line x1="' + branchX + '" y1="' + endY + '" x2="' + TRUNK_X + '" y2="' + endY + '" stroke="' + c + '" stroke-width="1"/>');
+        parts.push('<circle cx="' + TRUNK_X + '" cy="' + endY + '" r="2.5" fill="' + c + '"/>');
+        parts.push(tryLabel(endY, shortDate(p.lastEdited), c, 0.7));
       } else if (p.status === 'abandoned') {
-        var x = branchX, y = endY;
-        parts.push('<line x1="' + (x-4) + '" y1="' + (y-4) + '" x2="' + (x+4) + '" y2="' + (y+4) + '" stroke="' + c + '" stroke-width="2"/>');
-        parts.push('<line x1="' + (x+4) + '" y1="' + (y-4) + '" x2="' + (x-4) + '" y2="' + (y+4) + '" stroke="' + c + '" stroke-width="2"/>');
+        parts.push('<line x1="' + (branchX-3) + '" y1="' + (endY-3) + '" x2="' + (branchX+3) + '" y2="' + (endY+3) + '" stroke="' + c + '" stroke-width="1.5"/>');
+        parts.push('<line x1="' + (branchX+3) + '" y1="' + (endY-3) + '" x2="' + (branchX-3) + '" y2="' + (endY+3) + '" stroke="' + c + '" stroke-width="1.5"/>');
       } else {
-        // Ongoing: dot connecting up to "Now"
-        parts.push('<circle cx="' + branchX + '" cy="' + PAD_T + '" r="3" fill="' + c + '"/>');
+        parts.push('<circle cx="' + branchX + '" cy="' + PAD_T + '" r="2.5" fill="' + c + '"/>');
       }
     });
 
-    var svg = '<svg width="' + svgW + '" height="' + svgH + '" xmlns="http://www.w3.org/2000/svg" style="display:block">' + parts.join('') + '</svg>';
+    var svg = '<svg width="' + svgW + '" height="' + svgH + '" xmlns="http://www.w3.org/2000/svg" style="display:block;border-radius:6px">' + parts.join('') + '</svg>';
 
-    // Legend (newest first, root-relative links)
+    // Legend
     var legendParts = ['<div class="cadence-legend">'];
     projects.slice().reverse().forEach(function (p) {
-      var statusLabel = '';
-      if (p.status === 'finished') statusLabel = ' <em style="color:#aaa">(done)</em>';
-      else if (p.status === 'abandoned') statusLabel = ' <em style="color:#aaa">(dropped)</em>';
+      var tag = '';
+      if (p.status === 'finished') tag = '<span style="color:#58a6ff;font-size:9px"> ✓</span>';
+      else if (p.status === 'abandoned') tag = '<span style="color:#ff7b72;font-size:9px"> ✗</span>';
       else {
         var isStale = (TODAY - parseDate(p.lastEdited)) > STALE_DAYS * 86400000;
-        if (isStale) statusLabel = ' <em style="color:#aaa">(stale)</em>';
+        if (isStale) tag = '<span style="color:#6e7681;font-size:9px"> stale</span>';
       }
       legendParts.push(
-        '<span style="color:' + p.color + '">&#9632;</span> ' +
-        '<a href="/' + p.folder + '" style="color:#555;text-decoration:none;font-size:10px">' + p.name + '</a>' +
-        statusLabel + '<br>'
+        '<span style="color:' + p.color + '">■</span> ' +
+        '<a href="/' + p.folder + '">' + p.name + '</a>' + tag + '<br>'
       );
     });
     legendParts.push('</div>');
@@ -216,20 +209,12 @@
     mapContainer.innerHTML = svg + legendParts.join('');
   }
 
-  // Fetch projects.json from root
   var req = new XMLHttpRequest();
   req.open('GET', '/projects.json', true);
   req.onreadystatechange = function () {
-    if (req.readyState === 4) {
-      if (req.status === 200) {
-        try {
-          renderCadence(JSON.parse(req.responseText));
-        } catch (e) {
-          console.error('cadence.js: failed to parse projects.json', e);
-        }
-      } else {
-        console.warn('cadence.js: projects.json not found (status ' + req.status + ')');
-      }
+    if (req.readyState === 4 && req.status === 200) {
+      try { renderCadence(JSON.parse(req.responseText)); }
+      catch (e) { console.error('cadence.js:', e); }
     }
   };
   req.send();

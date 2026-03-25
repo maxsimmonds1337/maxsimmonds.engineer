@@ -112,13 +112,39 @@ footer {
 }
 
 /* ─── Cadence map section ─── */
+.cadence-section {
+  background: #0d1117;
+  border: 1px solid #21262d;
+  border-radius: 8px;
+  padding: 14px 12px 10px;
+  margin-top: 4px;
+}
+
 .cadence-title {
-  font-size: 13px;
-  color: #888;
+  font-size: 9px;
+  color: #6e7681;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin: 0 0 10px;
+  letter-spacing: 0.12em;
+  margin: 0 0 8px;
   font-weight: 600;
+  font-family: 'SF Mono', 'Fira Code', monospace;
+}
+
+#cadence-stats {
+  font-size: 10px;
+  color: #6e7681;
+  margin-bottom: 8px;
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  line-height: 1.8;
+}
+
+#cadence-stats .cs-val {
+  color: #c9d1d9;
+  font-weight: 600;
+}
+
+#cadence-stats .cs-dot {
+  font-size: 9px;
 }
 
 #cadence-map {
@@ -126,16 +152,20 @@ footer {
   overflow-y: visible;
 }
 
-#cadence-map svg {
-  display: block;
+.cadence-legend {
+  margin-top: 10px;
+  font-size: 9.5px;
+  line-height: 1.85;
+  font-family: 'SF Mono', 'Fira Code', monospace;
 }
 
-.cadence-legend {
-  margin-top: 8px;
-  font-size: 10px;
-  line-height: 1.7;
-  color: #666;
-  font-family: sans-serif;
+.cadence-legend a {
+  color: #8b949e;
+  text-decoration: none;
+}
+
+.cadence-legend a:hover {
+  color: #c9d1d9;
 }
 
 /* ─── Project cards ─── */
