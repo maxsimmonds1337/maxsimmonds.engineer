@@ -196,6 +196,7 @@
   <div class="pub-section">
     <h2 class="pub-section-title">Awards</h2>
     <ul class="awards-list">
+      <li><strong>NASA Space Apps Challenge</strong> <span class="award-year">2018</span><br>International Winner &amp; Global Top 5 — NASA's global hackathon across 200+ cities worldwide.</li>
       <li><strong>The Manufacturer's Top 100</strong> <span class="award-year">2019</span><br>Recognised among the UK's top 100 young manufacturing professionals.</li>
       <li><strong>Bright Spark</strong> <span class="award-year">2019</span><br>Electronics Weekly award for outstanding young engineers.</li>
       <li><strong>Engineering Excellence</strong></li>

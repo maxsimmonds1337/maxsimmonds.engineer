@@ -27,11 +27,16 @@ header {
   position: sticky;
   top: 40px;
   height: fit-content;
+  width: auto;
+  float: none;
 }
 
 section {
   grid-column: 2;
   min-width: 0;
+  width: auto;
+  float: none;
+  padding-bottom: 0;
 }
 
 footer {
