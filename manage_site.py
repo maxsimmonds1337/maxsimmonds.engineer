@@ -85,7 +85,7 @@ def update_home_page(title, folder_name, blurb, is_new=True, status="ongoing"):
         # Simpler targeted replacement: find the card for this project
         # Look for the link to this project and update Last Edited in its card
         card_pattern = (
-            rf'(href="{re.escape(link)}"[^>]*>.*?'
+            rf'(href="{re.escape(link)}/?[^>]*>.*?'
             rf'<strong>Last Edited:</strong>\s*)[\w\s/]+'
             rf'(\s*&nbsp;·&nbsp;)'
         )
@@ -98,7 +98,7 @@ def update_home_page(title, folder_name, blurb, is_new=True, status="ongoing"):
         if new_content == content:
             # Fallback: simpler pattern
             simple_pattern = (
-                rf'(href="{re.escape(link)}".*?Last Edited:</strong>\s*)([^<&]+)'
+                rf'(href="{re.escape(link)}/?.*?Last Edited:</strong>\s*)([^<&]+)'
             )
             new_content = re.sub(
                 simple_pattern,
@@ -229,7 +229,7 @@ def set_status():
 
     # Replace status span for this project's card
     pattern = (
-        rf'(href="{re.escape(link)}".*?<span class="status-\w+">)\w+(<\/span>)'
+        rf'(href="{re.escape(link)}/?.*?<span class="status-\w+">)\w+(<\/span>)'
     )
     new_content = re.sub(
         pattern,
