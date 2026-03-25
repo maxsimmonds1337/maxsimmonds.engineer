@@ -2,9 +2,10 @@
   'use strict';
 
   var COLORS = [
-    '#58a6ff','#3fb950','#f0883e','#d2a8ff','#ffa657',
-    '#79c0ff','#7ee787','#ff7b72','#e3b341','#a371f7',
-    '#56d364','#ff9a8b','#63bdff','#cae8ff'
+    '#2563eb','#16a34a','#d97706','#7c3aed','#dc2626',
+    '#0891b2','#ea580c','#0d9488','#9333ea','#e11d48',
+    '#2980b9','#27ae60','#c0392b','#8e44ad','#16a085',
+    '#f59e0b','#6366f1','#10b981','#ef4444','#3b82f6'
   ];
 
   var MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
@@ -31,15 +32,13 @@
   }
 
   function renderStats(projects, container) {
-    var ongoing = 0, finished = 0, abandoned = 0;
-    var finishedDays = [];
+    var ongoing = 0, finished = 0, abandoned = 0, finishedDays = [];
     var TODAY = new Date();
-
     projects.forEach(function (p) {
       if (p.status === 'finished') {
         finished++;
-        var days = Math.round((parseDate(p.lastEdited) - parseDate(p.startDate)) / 86400000);
-        if (days > 0) finishedDays.push(days);
+        var d = Math.round((parseDate(p.lastEdited) - parseDate(p.startDate)) / 86400000);
+        if (d > 0) finishedDays.push(d);
       } else if (p.status === 'abandoned') {
         abandoned++;
       } else {
@@ -47,174 +46,181 @@
       }
     });
 
-    var avgLine = '';
+    var line2 = '';
     if (finishedDays.length > 0) {
-      var avg = Math.round(finishedDays.reduce(function (a, b) { return a + b; }, 0) / finishedDays.length);
-      avgLine = '<span class="cs-val" style="color:#3fb950">' + avg + 'd</span> avg to finish&nbsp;&nbsp;';
+      var avg = Math.round(finishedDays.reduce(function(a,b){return a+b;},0) / finishedDays.length);
+      line2 = 'avg <span class="cs-val">' + avg + 'd</span> to finish';
     } else {
-      var ages = projects
-        .filter(function (p) { return p.status === 'ongoing'; })
-        .map(function (p) { return Math.round((TODAY - parseDate(p.startDate)) / 86400000); });
-      if (ages.length > 0) {
-        var avgAge = Math.round(ages.reduce(function (a, b) { return a + b; }, 0) / ages.length);
-        avgLine = '<span class="cs-val">' + avgAge + 'd</span> avg age&nbsp;&nbsp;';
+      var ages = projects.filter(function(p){return p.status==='ongoing';})
+        .map(function(p){return Math.round((TODAY - parseDate(p.startDate))/86400000);});
+      if (ages.length) {
+        var avgAge = Math.round(ages.reduce(function(a,b){return a+b;},0)/ages.length);
+        line2 = 'avg age <span class="cs-val">' + avgAge + 'd</span>';
       }
     }
 
     container.innerHTML =
-      '<span class="cs-dot" style="color:#3fb950">●</span> <span class="cs-val">' + ongoing + '</span> active&nbsp;&nbsp;' +
-      '<span class="cs-dot" style="color:#58a6ff">✓</span> <span class="cs-val">' + finished + '</span> done&nbsp;&nbsp;' +
-      '<span class="cs-dot" style="color:#ff7b72">✗</span> <span class="cs-val">' + abandoned + '</span> dropped<br>' +
-      avgLine;
+      '<span style="color:#16a34a">●</span> <span class="cs-val">' + ongoing + '</span> active&nbsp; ' +
+      '<span style="color:#2563eb">✓</span> <span class="cs-val">' + finished + '</span> done&nbsp; ' +
+      '<span style="color:#dc2626">✗</span> <span class="cs-val">' + abandoned + '</span> dropped' +
+      (line2 ? '<br>' + line2 : '');
   }
 
   function renderCadence(projects) {
-    var mapContainer = document.getElementById('cadence-map');
-    var statsContainer = document.getElementById('cadence-stats');
-    if (!mapContainer) return;
+    var mapEl   = document.getElementById('cadence-map');
+    var statsEl = document.getElementById('cadence-stats');
+    if (!mapEl) return;
 
     var TODAY = new Date();
     var STALE_DAYS = 45;
 
-    projects.sort(function (a, b) { return parseDate(a.startDate) - parseDate(b.startDate); });
+    projects.sort(function(a,b){ return parseDate(a.startDate) - parseDate(b.startDate); });
+    if (statsEl) renderStats(projects, statsEl);
 
-    if (statsContainer) renderStats(projects, statsContainer);
-
-    // Assign lanes
+    // Lane assignment
     var laneEnds = [];
-    projects.forEach(function (p, i) {
+    projects.forEach(function(p, i) {
       p.color = COLORS[i % COLORS.length];
-      var startDate = parseDate(p.startDate);
-      var isEnded = (p.status === 'finished' || p.status === 'abandoned');
-      var endDate = isEnded ? parseDate(p.lastEdited) : TODAY;
-      p._startDate = startDate;
-      p._endDate = endDate;
-      p._isEnded = isEnded;
-
+      var s = parseDate(p.startDate);
+      var ended = p.status === 'finished' || p.status === 'abandoned';
+      var e = ended ? parseDate(p.lastEdited) : TODAY;
+      p._s = s; p._e = e; p._ended = ended;
       var lane = -1;
       for (var l = 0; l < laneEnds.length; l++) {
-        if (laneEnds[l] <= startDate) { lane = l; laneEnds[l] = endDate; break; }
+        if (laneEnds[l] <= s) { lane = l; laneEnds[l] = e; break; }
       }
-      if (lane === -1) { lane = laneEnds.length; laneEnds.push(endDate); }
+      if (lane === -1) { lane = laneEnds.length; laneEnds.push(e); }
       p._lane = lane;
     });
 
+    // Layout constants
+    var TRUNK_X    = 14;
+    var LANE_W     = 14;
+    var R          = 5;    // corner radius for smooth bends
+    var DOT_R      = 4.5;  // branch dot radius
+    var MERGE_R    = 3.5;  // trunk merge dot radius
+    var NOW_R      = 5.5;  // "Now" dot radius
+    var LABEL_PAD  = 9;
+    var LABEL_W    = 50;
+    var PAD_T      = 30;
+    var PAD_B      = 14;
+    var PX_PER_DAY = 0.52;
+    var MIN_GAP    = 13;   // min px between date labels
+
     var numLanes = laneEnds.length;
+    var TEXT_X   = TRUNK_X + (numLanes + 1) * LANE_W + LABEL_PAD;
 
-    // Layout
-    var TRUNK_X   = 10;
-    var LANE_W    = 10;
-    var LABEL_PAD = 8;
-    var LABEL_W   = 46;
-    var PAD_T     = 24;
-    var PAD_B     = 10;
-    var PX_PER_DAY = 0.55;
-    var MIN_LABEL_GAP = 12; // px between date labels
-
-    var TEXT_X = TRUNK_X + (numLanes + 1) * LANE_W + LABEL_PAD;
-
-    var allStartDates = projects.map(function (p) { return p._startDate; });
-    var minDate = new Date(Math.min.apply(null, allStartDates));
+    var allStarts = projects.map(function(p){ return p._s; });
+    var minDate   = new Date(Math.min.apply(null, allStarts));
     var totalDays = (TODAY - minDate) / 86400000;
     var svgH = Math.round(PAD_T + totalDays * PX_PER_DAY + PAD_B);
     var svgW = TEXT_X + LABEL_W;
 
-    function dateToY(date) {
+    function toY(date) {
       return Math.round(PAD_T + (TODAY - date) / 86400000 * PX_PER_DAY);
     }
 
-    // Track placed label Y positions to prevent overlap
-    var placedLabels = [];
-    function tryLabel(y, text, color, opacity) {
-      for (var i = 0; i < placedLabels.length; i++) {
-        if (Math.abs(placedLabels[i] - y) < MIN_LABEL_GAP) return '';
+    var parts = [];
+    var placedY = [];
+
+    function tryLabel(y, text, color) {
+      for (var i = 0; i < placedY.length; i++) {
+        if (Math.abs(placedY[i] - y) < MIN_GAP) return '';
       }
-      placedLabels.push(y);
-      return '<text x="' + TEXT_X + '" y="' + (y + 3) + '" ' +
-        'font-size="8" fill="' + color + '" font-family="\'SF Mono\',\'Fira Code\',monospace" ' +
-        'opacity="' + (opacity || 0.9) + '">' + text + '</text>';
+      placedY.push(y);
+      return '<text x="' + TEXT_X + '" y="' + (y + 4) + '" ' +
+        'font-size="10.5" fill="' + color + '" ' +
+        'font-family="\'Helvetica Neue\',Helvetica,Arial,sans-serif" ' +
+        'opacity="0.85">' + text + '</text>';
     }
 
-    var bg = '#0d1117';
-    var trunkColor = 'rgba(255,255,255,0.15)';
-    var nowColor = '#ffffff';
+    var TRUNK_COL = '#d0d7de';
+    var NOW_COL   = '#267CB9';
 
-    var parts = [];
+    // Trunk line
+    parts.push('<line x1="' + TRUNK_X + '" y1="' + PAD_T + '" x2="' + TRUNK_X + '" y2="' + (svgH - PAD_B) + '" stroke="' + TRUNK_COL + '" stroke-width="2"/>');
 
-    // Background rect
-    parts.push('<rect width="' + svgW + '" height="' + svgH + '" fill="' + bg + '"/>');
+    // "Now" dot + label
+    parts.push('<circle cx="' + TRUNK_X + '" cy="' + PAD_T + '" r="' + NOW_R + '" fill="' + NOW_COL + '"/>');
+    parts.push('<text x="' + (TRUNK_X + NOW_R + 6) + '" y="' + (PAD_T + 4) + '" font-size="11" fill="' + NOW_COL + '" font-family="\'Helvetica Neue\',Helvetica,Arial,sans-serif" font-weight="600">Now</text>');
 
-    // Trunk
-    parts.push('<line x1="' + TRUNK_X + '" y1="' + PAD_T + '" x2="' + TRUNK_X + '" y2="' + (svgH - PAD_B) + '" stroke="' + trunkColor + '" stroke-width="1.5"/>');
+    projects.forEach(function(p) {
+      var sY  = toY(p._s);
+      var eY  = p._ended ? toY(p._e) : PAD_T;
+      var bX  = TRUNK_X + (p._lane + 1) * LANE_W;
+      var c   = p.color;
 
-    // "NOW" — dot + label
-    parts.push('<circle cx="' + TRUNK_X + '" cy="' + PAD_T + '" r="3" fill="' + nowColor + '"/>');
-    parts.push('<text x="' + (TRUNK_X + 7) + '" y="' + (PAD_T + 3) + '" font-size="8" fill="' + nowColor + '" font-family="\'SF Mono\',\'Fira Code\',monospace" font-weight="bold" opacity="0.9">NOW</text>');
-
-    // Draw branches
-    projects.forEach(function (p) {
-      var startY = dateToY(p._startDate);
-      var endY   = p._isEnded ? dateToY(p._endDate) : PAD_T;
-      var branchX = TRUNK_X + (p._lane + 1) * LANE_W;
-      var c = p.color;
-
-      var isStale = !p._isEnded && (TODAY - parseDate(p.lastEdited)) > STALE_DAYS * 86400000;
-      var dash = p.status === 'abandoned' ? ' stroke-dasharray="3,2"'
-               : isStale               ? ' stroke-dasharray="1.5,2"'
+      var isStale = !p._ended && (TODAY - parseDate(p.lastEdited)) > STALE_DAYS * 86400000;
+      var dash = p.status === 'abandoned' ? ' stroke-dasharray="5,3"'
+               : isStale                  ? ' stroke-dasharray="3,3"'
                : '';
 
-      // Horizontal connector trunk → branch
-      parts.push('<line x1="' + TRUNK_X + '" y1="' + startY + '" x2="' + branchX + '" y2="' + startY + '" stroke="' + c + '" stroke-width="1"/>');
-
-      // Vertical branch
-      parts.push('<line x1="' + branchX + '" y1="' + startY + '" x2="' + branchX + '" y2="' + endY + '" stroke="' + c + '" stroke-width="1"' + dash + '/>');
-
-      // Start dot
-      parts.push('<circle cx="' + branchX + '" cy="' + startY + '" r="2.5" fill="' + c + '"/>');
-
-      // Start date label (deduplicated)
-      parts.push(tryLabel(startY, shortDate(p.startDate), c, 0.85));
-
+      // Build SVG path with rounded corners
+      var d;
       if (p.status === 'finished') {
-        parts.push('<line x1="' + branchX + '" y1="' + endY + '" x2="' + TRUNK_X + '" y2="' + endY + '" stroke="' + c + '" stroke-width="1"/>');
-        parts.push('<circle cx="' + TRUNK_X + '" cy="' + endY + '" r="2.5" fill="' + c + '"/>');
-        parts.push(tryLabel(endY, shortDate(p.lastEdited), c, 0.7));
-      } else if (p.status === 'abandoned') {
-        parts.push('<line x1="' + (branchX-3) + '" y1="' + (endY-3) + '" x2="' + (branchX+3) + '" y2="' + (endY+3) + '" stroke="' + c + '" stroke-width="1.5"/>');
-        parts.push('<line x1="' + (branchX+3) + '" y1="' + (endY-3) + '" x2="' + (branchX-3) + '" y2="' + (endY+3) + '" stroke="' + c + '" stroke-width="1.5"/>');
+        // Branch out, up, then merge back to trunk
+        d = 'M ' + TRUNK_X + ',' + sY +
+            ' H ' + (bX - R) +
+            ' Q ' + bX + ',' + sY + ' ' + bX + ',' + (sY - R) +
+            ' V ' + (eY + R) +
+            ' Q ' + bX + ',' + eY + ' ' + (bX - R) + ',' + eY +
+            ' H ' + TRUNK_X;
+        parts.push('<path d="' + d + '" fill="none" stroke="' + c + '" stroke-width="2"/>');
+        // Merge dot on trunk
+        parts.push('<circle cx="' + TRUNK_X + '" cy="' + eY + '" r="' + MERGE_R + '" fill="' + c + '" stroke="white" stroke-width="1.5"/>');
+        // End date label
+        parts.push(tryLabel(eY, shortDate(p.lastEdited), c));
       } else {
-        parts.push('<circle cx="' + branchX + '" cy="' + PAD_T + '" r="2.5" fill="' + c + '"/>');
+        // Branch out then up to Now (or just open end)
+        d = 'M ' + TRUNK_X + ',' + sY +
+            ' H ' + (bX - R) +
+            ' Q ' + bX + ',' + sY + ' ' + bX + ',' + (sY - R) +
+            ' V ' + eY;
+        parts.push('<path d="' + d + '" fill="none" stroke="' + c + '" stroke-width="2"' + dash + '/>');
+        if (!p._ended) {
+          // Dot connecting up to Now
+          parts.push('<circle cx="' + bX + '" cy="' + PAD_T + '" r="' + MERGE_R + '" fill="' + c + '" stroke="white" stroke-width="1.5"/>');
+        } else {
+          // Abandoned: X marker
+          parts.push('<line x1="' + (bX-4) + '" y1="' + (eY-4) + '" x2="' + (bX+4) + '" y2="' + (eY+4) + '" stroke="' + c + '" stroke-width="2"/>');
+          parts.push('<line x1="' + (bX+4) + '" y1="' + (eY-4) + '" x2="' + (bX-4) + '" y2="' + (eY+4) + '" stroke="' + c + '" stroke-width="2"/>');
+        }
       }
+
+      // Branch start dot (on top of path)
+      parts.push('<circle cx="' + bX + '" cy="' + sY + '" r="' + DOT_R + '" fill="' + c + '" stroke="white" stroke-width="2"/>');
+
+      // Start date label
+      parts.push(tryLabel(sY, shortDate(p.startDate), c));
     });
 
-    var svg = '<svg width="' + svgW + '" height="' + svgH + '" xmlns="http://www.w3.org/2000/svg" style="display:block;border-radius:6px">' + parts.join('') + '</svg>';
+    var svg = '<svg width="' + svgW + '" height="' + svgH + '" xmlns="http://www.w3.org/2000/svg" style="display:block">' +
+              parts.join('') + '</svg>';
 
-    // Legend
-    var legendParts = ['<div class="cadence-legend">'];
-    projects.slice().reverse().forEach(function (p) {
+    // Legend — newest first, root-relative links
+    var leg = ['<div class="cadence-legend">'];
+    projects.slice().reverse().forEach(function(p) {
       var tag = '';
-      if (p.status === 'finished') tag = '<span style="color:#58a6ff;font-size:9px"> ✓</span>';
-      else if (p.status === 'abandoned') tag = '<span style="color:#ff7b72;font-size:9px"> ✗</span>';
+      if (p.status === 'finished')  tag = '<span style="color:#aaa;font-size:10px"> ✓</span>';
+      else if (p.status === 'abandoned') tag = '<span style="color:#aaa;font-size:10px"> ✗</span>';
       else {
         var isStale = (TODAY - parseDate(p.lastEdited)) > STALE_DAYS * 86400000;
-        if (isStale) tag = '<span style="color:#6e7681;font-size:9px"> stale</span>';
+        if (isStale) tag = '<span style="color:#bbb;font-size:10px"> stale</span>';
       }
-      legendParts.push(
-        '<span style="color:' + p.color + '">■</span> ' +
-        '<a href="/' + p.folder + '">' + p.name + '</a>' + tag + '<br>'
-      );
+      leg.push('<span style="color:' + p.color + ';font-size:11px">●</span> ' +
+               '<a href="/' + p.folder + '">' + p.name + '</a>' + tag + '<br>');
     });
-    legendParts.push('</div>');
+    leg.push('</div>');
 
-    mapContainer.innerHTML = svg + legendParts.join('');
+    mapEl.innerHTML = svg + leg.join('');
   }
 
   var req = new XMLHttpRequest();
   req.open('GET', '/projects.json', true);
-  req.onreadystatechange = function () {
+  req.onreadystatechange = function() {
     if (req.readyState === 4 && req.status === 200) {
       try { renderCadence(JSON.parse(req.responseText)); }
-      catch (e) { console.error('cadence.js:', e); }
+      catch(e) { console.error('cadence.js:', e); }
     }
   };
   req.send();
