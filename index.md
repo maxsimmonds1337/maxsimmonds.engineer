@@ -173,11 +173,22 @@
 
     <div class="pub-card">
       <p class="pub-title"><a href="/An Investigation into Linear Codes copy.pdf" target="_blank">An Investigation into Linear Codes &amp; The Viterbi Algorithm</a></p>
-      <p class="pub-meta">Max Simmonds &nbsp;·&nbsp; <em>University of Bath</em>, 2017</p>
+      <p class="pub-meta">Max Simmonds &nbsp;·&nbsp; <em>University of Plymouth</em>, 2017</p>
       <p class="pub-abstract">A rigorous treatment of the Extended Hamming (8,4,3) code — constructing parity-check and generator matrices, comparing G- and H-matrix trellis complexity, and demonstrating that Viterbi decoding outperforms both codeword enumeration and syndrome decoding. Includes a quantitative complexity analysis.</p>
       <p class="pub-links"><a href="/An Investigation into Linear Codes copy.pdf" target="_blank">PDF ↗</a></p>
     </div>
 
+  </div>
+
+  <div class="pub-section">
+    <h2 class="pub-section-title">Articles &amp; Media</h2>
+    <ul class="article-list">
+      <li><a href="https://www.electronicsweekly.com/blogs/electro-ramblings/site-update/chiips-25-edge-ai-insights-from-max-simmonds-of-purple-parrot-2026-01/" target="_blank">Edge AI insights from Purple Parrot</a> <span class="award-year">Jan 2026</span><br><span class="article-source">Electronics Weekly — CHIIPS Podcast</span></li>
+      <li><a href="https://www.electronicsweekly.com/blogs/viewpoints/why-baby-monitors-must-respect-privacy-in-the-age-of-ai-2025-12/" target="_blank">Why baby monitors must respect privacy in the age of AI</a> <span class="award-year">Dec 2025</span><br><span class="article-source">Electronics Weekly</span></li>
+      <li><a href="https://www.rs-online.com/designspark/max-hacks-his-brightsparks-trophy" target="_blank">Max Hacks His BrightSparks Trophy</a><br><span class="article-source">RS DesignSpark — turning a PCB award into a plasma speaker</span></li>
+      <li><a href="https://www.plymouth.ac.uk/courses/undergraduate/meng-electrical-and-electronic-engineering/case-study-max-simmonds" target="_blank">Student profile — MEng Electrical &amp; Electronic Engineering</a><br><span class="article-source">University of Plymouth</span></li>
+      <li><a href="https://www.plymouth.ac.uk/schools/school-of-engineering-computing-and-mathematics/student-placements/max-simmonds-application-engineer-at-national-instruments-and-cern" target="_blank">Placement at National Instruments &amp; CERN</a><br><span class="article-source">University of Plymouth</span></li>
+    </ul>
   </div>
 
   <div class="pub-section">
