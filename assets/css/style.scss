@@ -166,9 +166,9 @@ footer {
 .project-card {
   display: flex;
   align-items: stretch;
-  gap: 18px;
-  margin-bottom: 28px;
-  padding-bottom: 24px;
+  gap: 16px;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
   border-bottom: 1px solid #eee;
 }
 
@@ -192,9 +192,9 @@ footer {
 }
 
 .project-meta h1 {
-  font-size: 18px;
-  margin: 0 0 6px;
-  line-height: 1.2;
+  font-size: 16px;
+  margin: 0 0 4px;
+  line-height: 1.25;
 }
 
 .project-meta h1 a {
@@ -207,9 +207,10 @@ footer {
 }
 
 .project-dates {
-  font-size: 12px;
+  font-size: 11px;
   color: #aaa;
-  margin: 0 0 8px;
+  margin: 0 0 6px;
+  line-height: 1.6;
 }
 
 .project-dates strong {
@@ -256,8 +257,8 @@ section table td {
 /* ─── Content two-column layout ─── */
 .content-layout {
   display: grid;
-  grid-template-columns: 1fr 300px;
-  gap: 44px;
+  grid-template-columns: 1fr 240px;
+  gap: 36px;
   align-items: start;
 }
 
@@ -297,7 +298,7 @@ section table td {
 }
 
 .pub-title {
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 600;
   line-height: 1.4;
   margin: 0 0 4px;
@@ -319,7 +320,7 @@ section table td {
 }
 
 .pub-abstract {
-  font-size: 12px;
+  font-size: 11px;
   color: #666;
   line-height: 1.55;
   margin: 0 0 6px;
