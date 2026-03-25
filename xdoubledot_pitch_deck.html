@@ -762,7 +762,7 @@
             <div>
                 <h4>The <span class="xdd-logo">x</span> Innovation</h4>
                 <p style="font-size: 1.15rem; color: var(--text); line-height: 1.8;">
-                    We use <span class="highlight">dynamically controlled magnetic fields</span> to guide ion flow away from the cathode surface. Our proprietary AI continuously optimizes field geometry in real-time, responding to plasma conditions and extending cathode life by <span class="highlight">5-10x</span>.
+                    We use <span class="highlight">AI-optimised magnetic field geometry</span> to redirect ion trajectories away from the cathode surface. The optimal field configuration is derived through physics simulation and machine learning — then implemented in hardware. The result: cathode life extended by <span class="highlight">5-10x</span>, by design.
                 </p>
             </div>
             <div style="text-align: center;">
@@ -778,12 +778,12 @@
             <p>Proprietary electromagnetic coil arrays create protective field geometries that deflect erosive ion bombardment from critical surfaces.</p>
         </div>
         <div class="card">
-            <h4>Real-Time AI Optimization</h4>
-            <p>ML models trained on plasma physics predict optimal field configurations. The system adapts every millisecond to changing conditions.</p>
+            <h4>Simulation-Driven Design</h4>
+            <p>Reinforcement learning on plasma physics simulations finds optimal B-field configurations. The winning geometry is validated in test and baked into the thruster — no runtime AI hardware needed in space.</p>
         </div>
         <div class="card">
-            <h4>Predictive Maintenance</h4>
-            <p>AI monitors cathode health, predicts degradation, and proactively adjusts operations to maximize lifespan and performance.</p>
+            <h4>Ground-Side Fleet Intelligence</h4>
+            <p>AI analyses telemetry across the constellation: cathode degradation trends, efficiency drift, anomaly detection. Updated operating parameters are uplinked as thrusters age.</p>
         </div>
     </div>
 </section>
@@ -792,52 +792,51 @@
 <section class="slide" id="slide-5">
     <span class="slide-number">06 / 15</span>
     <h3>AI-Powered Propulsion</h3>
-    <h2>Intelligent Thruster Control for the Autonomous Space Era</h2>
+    <h2>Intelligence Where It Matters: Design, Ground, and Firmware</h2>
 
     <div class="grid-2" style="margin-top: 40px;">
         <div>
             <div class="ai-feature">
                 <div class="ai-icon">1</div>
                 <div>
-                    <h4 style="margin-bottom: 8px;">Plasma State Estimation</h4>
-                    <p style="font-size: 1rem;">Real-time sensor fusion estimates plasma density, temperature, and ion velocity. Neural networks process data faster than traditional methods.</p>
+                    <h4 style="margin-bottom: 8px;">Simulation & Design (Ground)</h4>
+                    <p style="font-size: 1rem;">Reinforcement learning on COMSOL plasma simulations finds optimal magnetic field topology and channel geometry. The result is implemented in hardware — no exotic space-grade AI compute required.</p>
                 </div>
             </div>
             <div class="ai-feature">
                 <div class="ai-icon">2</div>
                 <div>
-                    <h4 style="margin-bottom: 8px;">Magnetic Field Optimization</h4>
-                    <p style="font-size: 1rem;">Reinforcement learning finds optimal B-field configurations that maximize thrust while minimizing cathode exposure to erosive particles.</p>
+                    <h4 style="margin-bottom: 8px;">Plasma State Estimation (Firmware)</h4>
+                    <p style="font-size: 1rem;">A compact neural network — trained on ground test data, deployed as microcontroller firmware — infers plasma state from electrical measurements. Enables closed-loop efficiency control without intrusive probes.</p>
                 </div>
             </div>
             <div class="ai-feature">
                 <div class="ai-icon">3</div>
                 <div>
-                    <h4 style="margin-bottom: 8px;">Autonomous Orbit Control</h4>
-                    <p style="font-size: 1rem;">AI handles drag compensation, collision avoidance, and station-keeping without ground intervention. Critical for VLEO persistence.</p>
+                    <h4 style="margin-bottom: 8px;">Fleet Intelligence (Ground SaaS)</h4>
+                    <p style="font-size: 1rem;">AI monitors telemetry across all satellites: cathode degradation, efficiency drift, anomaly detection. Updated operating parameters are uplinked as thrusters age — extending life across the entire fleet.</p>
                 </div>
             </div>
             <div class="ai-feature">
                 <div class="ai-icon">4</div>
                 <div>
-                    <h4 style="margin-bottom: 8px;">Fleet-Wide Learning</h4>
-                    <p style="font-size: 1rem;">Federated learning across constellation improves all units. Every satellite makes the fleet smarter.</p>
+                    <h4 style="margin-bottom: 8px;">Autonomous Drag Compensation</h4>
+                    <p style="font-size: 1rem;">AI-derived control parameters — uploaded to the satellite — enable autonomous VLEO station-keeping without continuous ground intervention. Critical for persistent low-altitude operations.</p>
                 </div>
             </div>
         </div>
         <div class="tech-diagram">
-            <h4 style="margin-bottom: 30px;">AI Control Loop</h4>
-            <div class="tech-flow" style="flex-direction: column; gap: 15px;">
-                <div class="tech-node">Plasma Sensors</div>
+            <h4 style="margin-bottom: 20px;">Where the AI Lives</h4>
+            <div class="tech-flow" style="flex-direction: column; gap: 12px;">
+                <div class="tech-node highlight-node">Ground: RL Simulation → Optimal Geometry</div>
                 <div class="arrow">&#8595;</div>
-                <div class="tech-node highlight-node">AI Controller</div>
+                <div class="tech-node">Hardware: Optimised Field Baked In</div>
                 <div class="arrow">&#8595;</div>
-                <div class="tech-node">Magnetic Coils</div>
+                <div class="tech-node highlight-node">Firmware: Plasma State NN</div>
                 <div class="arrow">&#8595;</div>
-                <div class="tech-node">Optimized Thrust</div>
-                <div style="margin-top: 20px; color: var(--text-muted); font-size: 0.9rem;">
-                    Latency: &lt;10ms | Updates: 1000Hz
-                </div>
+                <div class="tech-node">Closed-Loop Thrust Control</div>
+                <div class="arrow">&#8595;</div>
+                <div class="tech-node highlight-node">Ground: Fleet Telemetry AI → Parameter Uplink</div>
             </div>
         </div>
     </div>
@@ -1001,44 +1000,44 @@
             <h5>Safran</h5>
             <div class="country">France | Incumbent</div>
             <ul>
-                <li>PPS series Hall thrusters</li>
-                <li>Heritage: 1000+ units</li>
-                <li>Xenon-only, hardware focus</li>
-                <li>High cost, long lead times</li>
-                <li>No AI integration</li>
+                <li>PPS-1350: flight-proven (SMART-1, GEO)</li>
+                <li>EPS-X00: 200–1000W, not yet flight-proven</li>
+                <li>ITAR-free; high GEO pricing culture</li>
+                <li>Not designed for VLEO duty cycles</li>
+                <li>No AI in thruster systems</li>
             </ul>
         </div>
         <div class="competitor-card">
             <h5>Exotrail</h5>
             <div class="country">France | Startup</div>
             <ul>
-                <li>ExoMG series</li>
-                <li>Software + Hardware play</li>
-                <li>Xenon/Krypton capable</li>
-                <li>SpaceDragon software</li>
-                <li>No VLEO optimization</li>
+                <li>spaceware Nano/Micro: space-proven</li>
+                <li>spaceware Mini (300–600W): in development</li>
+                <li>Xe/Kr/I₂ multi-propellant</li>
+                <li>ExoOPS: trajectory optimisation software</li>
+                <li>Not VLEO-optimised; Mini TRL unproven</li>
             </ul>
         </div>
         <div class="competitor-card">
-            <h5>Thales Alenia</h5>
-            <div class="country">France/Italy | Incumbent</div>
+            <h5>Busek</h5>
+            <div class="country">USA | ITAR-restricted</div>
             <ul>
-                <li>System integrator focus</li>
-                <li>Partners for propulsion</li>
-                <li>IRIS2 contractor</li>
-                <li>Not a thruster innovator</li>
-                <li>Potential customer</li>
+                <li>BHT-350: 80 OneWeb satellites in orbit</li>
+                <li>Broadest flight-proven HET portfolio</li>
+                <li>100W–20kW range, Xe/Kr/I₂</li>
+                <li><strong>ITAR export restrictions apply</strong></li>
+                <li>European operators cannot buy without US licence</li>
             </ul>
         </div>
         <div class="competitor-card">
-            <h5>ArianeGroup</h5>
-            <div class="country">France/Germany | Incumbent</div>
+            <h5>Aliena</h5>
+            <div class="country">Singapore | Startup</div>
             <ul>
-                <li>Chemical propulsion focus</li>
-                <li>Limited EP portfolio</li>
-                <li>Launcher-centric</li>
-                <li>Slow to innovate</li>
-                <li>ITAR dependencies</li>
+                <li>MUSIC: multi-mode HET, sub-100W</li>
+                <li>MUSIC-HM: in orbit on 12U sat (2023)</li>
+                <li>ELITE mission: VLEO 290–350km (2025)</li>
+                <li>Widest thrust dynamic range in class</li>
+                <li>Only VLEO-specific competitor with flight plan</li>
             </ul>
         </div>
     </div>
@@ -1048,7 +1047,7 @@
             <div>
                 <h4 style="margin-bottom: 10px;"><span class="xdd-logo">x</span> Competitive Advantage</h4>
                 <p style="font-size: 1.1rem; color: var(--text);">
-                    Only company combining <span class="highlight">VLEO optimization</span> + <span class="highlight">AI-native architecture</span> + <span class="highlight">magnetic shielding for erosion</span> + <span class="highlight">propellant flexibility</span>
+                    Only <span class="highlight">European, ITAR-free</span> HET designed from the ground up for <span class="highlight">VLEO continuous operation</span> — with <span class="highlight">AI-optimised magnetic shielding</span>, <span class="highlight">krypton-native</span> design, and a <span class="highlight">ground SaaS</span> fleet intelligence layer
                 </p>
             </div>
             <div class="tag" style="font-size: 1rem; padding: 10px 24px;">Unique Position</div>
@@ -1080,27 +1079,27 @@
             </tr>
             <tr>
                 <td>Propellant Options</td>
-                <td>Xenon only</td>
-                <td>Xenon / Krypton</td>
-                <td class="xdd-col">Krypton / Argon / Air</td>
+                <td>Xenon primary (Kr compatible)</td>
+                <td>Xenon / Krypton / Iodine</td>
+                <td class="xdd-col">Krypton-native / Argon target</td>
             </tr>
             <tr>
-                <td>AI Integration</td>
-                <td><span class="cross">None</span></td>
-                <td><span class="partial">Software layer</span></td>
-                <td class="xdd-col"><span class="check">Native AI control</span></td>
+                <td>AI / ML</td>
+                <td><span class="cross">None in thruster systems</span></td>
+                <td><span class="partial">Trajectory optimisation only</span></td>
+                <td class="xdd-col"><span class="check">AI-designed geometry + ground SaaS</span></td>
             </tr>
             <tr>
                 <td>Cathode Protection</td>
                 <td>Standard materials</td>
                 <td>Standard materials</td>
-                <td class="xdd-col"><span class="check">AI Magnetic Shielding</span></td>
+                <td class="xdd-col"><span class="check">AI-optimised magnetic shielding</span></td>
             </tr>
             <tr>
                 <td>Platform Approach</td>
                 <td>Hardware only</td>
-                <td>Hardware + Software</td>
-                <td class="xdd-col">AI-Integrated Platform</td>
+                <td>Hardware + ops software</td>
+                <td class="xdd-col">Hardware + fleet intelligence SaaS</td>
             </tr>
             <tr>
                 <td>Cost per Unit</td>
