@@ -18,7 +18,8 @@
         <div class="profile-section">
           <img src="{{ "/assets/images/profile.jpg" | relative_url }}" alt="Max Simmonds" class="profile-photo">
           <h1><a href="{{ "/" | absolute_url }}">Max Simmonds</a></h1>
-          <p class="profile-tagline">{{ site.description | default: site.github.project_tagline }}</p>
+          <p class="profile-degree">M.Eng (Hons) First Class</p>
+          <p class="profile-bio">Electronic engineer and co-founder of <a href="https://www.linkedin.com/company/purple-parrot-monitor">Purple Parrot</a> — building an offline, AI-powered baby monitor. 5+ years in hardware and embedded systems. Based in Tallinn, Estonia.</p>
           <p class="profile-links">
             <a href="https://linkedin.com/in/max-simmonds">LinkedIn</a> /
             <a href="{{ "/CV/CV.pdf" | relative_url }}">CV</a> /
@@ -27,7 +28,8 @@
         </div>
 
         <div class="cadence-section">
-          <h3 class="cadence-title">Project Cadence</h3>
+          <h3 class="cadence-title">Project Status</h3>
+          <div id="cadence-stats"></div>
           <div id="cadence-map"></div>
         </div>
       </header>
@@ -36,11 +38,8 @@
         {{ content }}
       </section>
 
-      <footer>
-        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
-      </footer>
+      <footer></footer>
     </div>
-    <script src="{{ "/assets/js/scale.fix.js" | relative_url }}"></script>
     <script src="{{ "/assets/js/cadence.js" | relative_url }}"></script>
   </body>
 </html>

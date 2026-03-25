@@ -71,6 +71,25 @@ footer {
   text-decoration: none;
 }
 
+.profile-degree {
+  font-size: 11px;
+  color: #999;
+  margin: -6px 0 10px;
+  letter-spacing: 0.02em;
+}
+
+.profile-bio {
+  font-size: 12px;
+  color: #666;
+  margin: 0 0 12px;
+  text-align: left;
+  line-height: 1.55;
+}
+
+.profile-bio a {
+  color: #267CB9;
+}
+
 .profile-tagline {
   font-size: 13px;
   color: #777;
@@ -182,6 +201,32 @@ footer {
   color: #666;
   margin: 0;
   line-height: 1.5;
+}
+
+/* ─── Cadence stats ─── */
+#cadence-stats {
+  font-size: 11px;
+  color: #888;
+  margin-bottom: 10px;
+  line-height: 1.9;
+  font-family: sans-serif;
+}
+
+/* ─── Table overflow fix (prevents mobile zoom on pages with wide tables) ─── */
+section table {
+  display: block;
+  overflow-x: auto;
+  max-width: 100%;
+  border-collapse: collapse;
+}
+
+section table th,
+section table td {
+  padding: 6px 10px;
+  border: 1px solid #e5e5e5;
+  font-size: 13px;
+  white-space: normal;
+  word-break: break-word;
 }
 
 /* ─── General typography ─── */
