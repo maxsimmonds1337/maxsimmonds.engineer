@@ -379,3 +379,63 @@ can't find a part (or it's out of stock) I get Claude to find me a replacement,
 drop in. For example, the buzzer I used was available in LCSC, but it's out of
 stock. Claude was able to find a great match, based on a bunch of metrics (DB,
 size, footprint) and one that's in stock - I was pretty impressed!
+
+## 25/03/26
+Okay, so, about 2 days ago I finally hit the button on the order! The grand
+total is:
+
+* PCBs - $94.08
+   * PCBs (x30) - $30.40
+   * Shipping - $45.47
+   * Customs - $18.21
+* Parts - $ 152.58
+   * Parts - $135.38
+   * Shipping - $34.82
+   * Discount - $17.62
+
+Total: $246.66
+
+So, it was quite a lot! But, I did get enough for 30 boards. The mag connectors
+were not in-stock which was a shame, so I had to order some header pins (luckily
+the mag conns were 2.54 mm pitch parts and I made a custom footprint (to solder
+them parallel to the board) so it was an easy fix)). Shame I can't easily extend
+the modules, but it's okay, I can buy them later if needs be.
+
+All the board files, manufacture ring data, bom, etc, are
+[here](https://github.com/maxsimmonds1337/RocketClock/releases/tag/v1.0.0). I
+haven't started the software/firmware yet, I wanted to think about that a bit
+here.
+
+
+### Software
+
+I think I'll need:
+
+* Rocket Clock Server, this will technically run on the ESP12F.
+   * Also, turns out the ESP can also serve webpages, simple ones that is. So,
+   that makes things more simple.
+* Attiny FW, this is already written for me by SparkFun, so that's easy
+
+It's actually pretty simple, in my head there was a lot more I needed to do. I
+have an ESP12F here so I can start on some of the work, things off the top of my
+head:
+
+* UI interface, to be served to clients, to do the following:
+* Events
+   * Set Alarms / Clear Alarms
+   * Tell me next rocket launch
+   * Word of the day
+   * News
+   * My next calender event
+* Take a character, for example "a", and convert to the required LEDs to
+illuminate on the module
+* Horizontal scrolling of text
+* Vertical scrolling of text
+* Temperature reading and display
+* Pulling in data from outside (rocket launches, weather, etc)
+* Buzzer interface over I2C
+
+
+Anyway, that's the update, PCBs should be here on 31st March. That gives me
+about a week to get the software ready, or at least as ready as I can without
+actually having the hardware!
