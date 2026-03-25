@@ -387,7 +387,7 @@ Based on the gap analysis, the optimal product for a new European entrant is:
 - [European Electric Propulsion CORDIS Project](https://cordis.europa.eu/article/id/451372-improved-low-power-electric-propulsion-holds-promise-for-future-satellite-networks)
 
                                                                                                                                                                                                            11:23 AM claude-sonnet-4-6
-⏺ Right. Here's what the analysis shows, with Tiz's 200W design in mind:
+⏺ Right. Here's what the analysis shows, with Tiziano's 200W design in mind:
 
 ---
 Where the market is going
@@ -423,7 +423,7 @@ The implication: At 200km, only small satellites (≤50–80kg) are realistic fo
 mission is a good example — small satellite, modest power budget).
 
 ---
-Tiz's 200W design — is it the right class?
+Tiziano's 200W design — is it the right class?
 
 For a 50–100kg satellite at 200–280km: yes, it fits.
 
@@ -432,41 +432,10 @@ A 200W thruster running on Krypton should produce roughly 10–15mN thrust at 1,
 - Workable for a 100kg sat at 250km (2.2mN drag, 5–7× margin)
 - Marginal for a 100kg sat at 200km in high solar activity (5.7–57mN drag — insufficient at high end)
 
-The strategic sweet spot for Tiz's 200W design:
+The strategic sweet spot for Tiziano's 200W design:
 - VLEO smallsat constellation (50–100kg, 220–300km altitude)
 - Krypton-native from day one
 - Magnetic shielding essential — Kr erosion at continuous duty cycle kills unshielded cathodes fast
 - This is genuinely underserved in Europe — Aliena is the only current player and they're Singaporean
 
 ---
-Critical IP question to resolve with Tiz
-
-You said the IP "might not be his." This needs to be resolved before the ESA BIC application — it's a mandatory section of the business plan. Specifically:
-
-- Was the 200W design developed as part of his university research (IP owned by university)?
-- Personal project (he owns it)?
-- Developed while employed somewhere (employer may own it)?
-
-ESA BIC will ask. If the IP isn't cleanly owned by the founding team, the application weakens significantly. Worth getting a one-page IP clearance memo from a lawyer before submission. Budget ~€1–2K.
-
----
-What to update in the business plan
-
-Given all this, the target spec section should now read something like:
-
-┌────────────────────┬────────────────────────────────────────────────────────────────────┐
-│     Parameter      │                               Value                                │
-├────────────────────┼────────────────────────────────────────────────────────────────────┤
-│ Power class        │ 100–300W (nominal 200W)                                            │
-├────────────────────┼────────────────────────────────────────────────────────────────────┤
-│ Thrust             │ 5–15mN                                                             │
-├────────────────────┼────────────────────────────────────────────────────────────────────┤
-│ Propellant         │ Krypton primary                                                    │
-├────────────────────┼────────────────────────────────────────────────────────────────────┤
-│ Target orbit       │ VLEO 220–350km                                                     │
-├────────────────────┼────────────────────────────────────────────────────────────────────┤
-│ Target satellite   │ 50–120kg                                                           │
-├────────────────────┼────────────────────────────────────────────────────────────────────┤
-│ Key differentiator │ EU, ITAR-free, magnetically shielded for continuous VLEO operation │
-└────────────────────┴────────────────────────────────────────────────────────────────────┘
-
