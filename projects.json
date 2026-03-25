@@ -40,18 +40,10 @@
     "blurb": "A recent project of mine required some custom, non standard coil, inductive charging. I want to document my development of this custom wireless/inductive charger."
   },
   {
-    "name": "Project Todo List",
-    "folder": "project_todo_list",
-    "startDate": "23/02/26",
-    "lastEdited": "23/02/26",
-    "status": "ongoing",
-    "blurb": "I would like a way to track my impulsive project ideas."
-  },
-  {
     "name": "LED Streaming Display",
     "folder": "led_streaming_display___rocket_countdown",
     "startDate": "02/02/26",
-    "lastEdited": "21/03/26",
+    "lastEdited": "25/03/26",
     "status": "ongoing",
     "blurb": "I really want to have an old school scrolling display in my room with time, temperature, and rocket launch info."
   },
@@ -62,22 +54,6 @@
     "lastEdited": "20/03/26",
     "status": "ongoing",
     "blurb": "Enclosure for my new 3D printer to stop accidental touches and extract fumes."
-  },
-  {
-    "name": "Moving to Estonia",
-    "folder": "eesti_move",
-    "startDate": "23/06/2024",
-    "lastEdited": "28/06/2024",
-    "status": "finished",
-    "blurb": "Driving all our stuff from the UK to Estonia in a van!"
-  },
-  {
-    "name": "Cat Cam",
-    "folder": "Cat_Cam",
-    "startDate": "26/05/2024",
-    "lastEdited": "26/05/2024",
-    "status": "ongoing",
-    "blurb": "Building a camera system to monitor my cats."
   },
   {
     "name": "Drone Hacking",
@@ -101,7 +77,7 @@
     "startDate": "23/02/2023",
     "lastEdited": "23/02/2023",
     "status": "finished",
-    "blurb": "My first Go project — a baby tracking app hosted on GCP."
+    "blurb": "My first Go project \u2014 a baby tracking app hosted on GCP."
   },
   {
     "name": "DIY One Wheel",
@@ -157,6 +133,6 @@
     "startDate": "01/07/2022",
     "lastEdited": "30/07/2022",
     "status": "finished",
-    "blurb": "A numerically controlled oscillator — alternative to sine lookup tables."
+    "blurb": "A numerically controlled oscillator \u2014 alternative to sine lookup tables."
   }
 ]

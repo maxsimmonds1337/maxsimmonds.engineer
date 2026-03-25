@@ -58,16 +58,6 @@
   </div>
 </div>
 
-<div class="project-card">
-  <a href="./project_todo_list" class="project-image-wrap">
-    <img src="./project_todo_list/images/listImage.png" alt="Project Todo List" onerror="this.closest('.project-image-wrap').style.display='none'">
-  </a>
-  <div class="project-meta">
-    <h1><a href="./project_todo_list">Project Todo List</a></h1>
-    <p class="project-dates"><strong>Start Date:</strong> 23/02/26 &nbsp;·&nbsp; <strong>Last Edited:</strong> 23/02/26 &nbsp;·&nbsp; <strong>Status:</strong> <span class="status-ongoing">Ongoing</span></p>
-    <p class="project-blurb">I would like a way to track my impulsive project ideas.</p>
-  </div>
-</div>
 
 <div class="project-card">
   <a href="./led_streaming_display___rocket_countdown/" class="project-image-wrap">
@@ -91,27 +81,6 @@
   </div>
 </div>
 
-<div class="project-card">
-  <a href="./eesti_move/" class="project-image-wrap">
-    <img src="./eesti_move/images/listImage.png" alt="Moving to Estonia BLOG" onerror="this.closest('.project-image-wrap').style.display='none'">
-  </a>
-  <div class="project-meta">
-    <h1><a href="./eesti_move/">Moving to Estonia BLOG</a></h1>
-    <p class="project-dates"><strong>Start Date:</strong> 23/06/2024 &nbsp;·&nbsp; <strong>Last Edited:</strong> 28/06/2024 &nbsp;·&nbsp; <strong>Status:</strong> <span class="status-ongoing">Ongoing</span></p>
-    <p class="project-blurb">Me, my wife, our daughter, two cats (Elon and Axel), and a crustacean, jumping in a van and driving all our stuff from the UK to Estonia!</p>
-  </div>
-</div>
-
-<div class="project-card">
-  <a href="./Cat_Cam/" class="project-image-wrap">
-    <img src="./Cat_Cam/images/listImage.png" alt="Building a Cat Cam" onerror="this.closest('.project-image-wrap').style.display='none'">
-  </a>
-  <div class="project-meta">
-    <h1><a href="./Cat_Cam/">Building a Cat Cam</a></h1>
-    <p class="project-dates"><strong>Start Date:</strong> 26/05/2024 &nbsp;·&nbsp; <strong>Last Edited:</strong> On going &nbsp;·&nbsp; <strong>Status:</strong> <span class="status-ongoing">Ongoing</span></p>
-    <p class="project-blurb">Building a camera system to monitor my cats.</p>
-  </div>
-</div>
 
 <div class="project-card">
   <a href="./Drone_Hacking/" class="project-image-wrap">
