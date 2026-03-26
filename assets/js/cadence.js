@@ -218,18 +218,24 @@
       // Build SVG path with rounded corners
       var d;
       if (p.status === 'finished') {
-        // Branch out, up, then merge back to trunk
-        d = 'M ' + TRUNK_X + ',' + sY +
-            ' H ' + (bX - R) +
-            ' Q ' + bX + ',' + sY + ' ' + bX + ',' + (sY - R) +
-            ' V ' + (eY + R) +
-            ' Q ' + bX + ',' + eY + ' ' + (bX - R) + ',' + eY +
-            ' H ' + TRUNK_X;
-        parts.push('<path d="' + d + '" fill="none" stroke="' + c + '" stroke-width="2"/>');
-        // Merge dot on trunk
-        parts.push('<circle cx="' + TRUNK_X + '" cy="' + eY + '" r="' + MERGE_R + '" fill="' + c + '" stroke="white" stroke-width="1.5"/>');
-        // End date label
-        parts.push(tryLabel(eY, shortDate(p.lastEdited), c));
+        if (Math.abs(sY - eY) < R * 2) {
+          // 0-duration (or very short) project — just a dot on the trunk, no branch
+          parts.push('<circle cx="' + TRUNK_X + '" cy="' + sY + '" r="' + MERGE_R + '" fill="' + c + '" stroke="white" stroke-width="1.5"/>');
+          parts.push(tryLabel(sY, shortDate(p.lastEdited), c));
+        } else {
+          // Branch out, up, then merge back to trunk
+          d = 'M ' + TRUNK_X + ',' + sY +
+              ' H ' + (bX - R) +
+              ' Q ' + bX + ',' + sY + ' ' + bX + ',' + (sY - R) +
+              ' V ' + (eY + R) +
+              ' Q ' + bX + ',' + eY + ' ' + (bX - R) + ',' + eY +
+              ' H ' + TRUNK_X;
+          parts.push('<path d="' + d + '" fill="none" stroke="' + c + '" stroke-width="2"/>');
+          // Merge dot on trunk
+          parts.push('<circle cx="' + TRUNK_X + '" cy="' + eY + '" r="' + MERGE_R + '" fill="' + c + '" stroke="white" stroke-width="1.5"/>');
+          // End date label
+          parts.push(tryLabel(eY, shortDate(p.lastEdited), c));
+        }
       } else {
         // Branch out then up to Now (or just open end)
         d = 'M ' + TRUNK_X + ',' + sY +
