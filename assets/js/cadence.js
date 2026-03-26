@@ -32,8 +32,21 @@
   }
 
   function renderStats(projects, container) {
-    var ongoing = 0, finished = 0, abandoned = 0, finishedDays = [];
     var TODAY = new Date();
+
+    if (projects.length === 1) {
+      var p = projects[0];
+      var days = Math.round((TODAY - parseDate(p.startDate)) / 86400000);
+      var statusColor = p.status === 'finished' ? '#2563eb' : p.status === 'abandoned' ? '#dc2626' : '#16a34a';
+      var statusLabel = p.status === 'finished' ? '✓ finished' : p.status === 'abandoned' ? '✗ abandoned' : '● active';
+      container.innerHTML =
+        '<span style="color:' + statusColor + '">' + statusLabel + '</span>&nbsp; ' +
+        'started <span class="cs-val">' + shortDate(p.startDate) + '</span><br>' +
+        '<span class="cs-val">' + days + 'd</span> since start';
+      return;
+    }
+
+    var ongoing = 0, finished = 0, abandoned = 0, finishedDays = [];
     projects.forEach(function (p) {
       if (p.status === 'finished') {
         finished++;
@@ -66,7 +79,17 @@
       (line2 ? '<br>' + line2 : '');
   }
 
-  function renderCadence(projects) {
+  function getPageWorkDates() {
+    var dates = [];
+    var headings = document.querySelectorAll('section h2');
+    for (var i = 0; i < headings.length; i++) {
+      var text = headings[i].textContent.trim();
+      if (/^\d{2}\/\d{2}\/\d{2}$/.test(text)) dates.push(text);
+    }
+    return dates;
+  }
+
+  function renderCadence(projects, workDates) {
     var mapEl   = document.getElementById('cadence-map');
     var statsEl = document.getElementById('cadence-stats');
     if (!mapEl) return;
@@ -188,6 +211,22 @@
         }
       }
 
+      // Work date ticks (project page only)
+      if (workDates) {
+        workDates.forEach(function(dateStr) {
+          var wd = parseDate(dateStr);
+          var wY = toY(wd);
+          // only mark if within the branch's vertical span
+          if (wY <= sY && wY >= eY) {
+            var tk = 4;
+            parts.push('<line x1="' + (bX - tk) + '" y1="' + wY + '" x2="' + (bX + tk) + '" y2="' + wY +
+              '" stroke="white" stroke-width="2.5"/>');
+            parts.push('<line x1="' + (bX - tk) + '" y1="' + wY + '" x2="' + (bX + tk) + '" y2="' + wY +
+              '" stroke="' + c + '" stroke-width="1.5" opacity="0.9"/>');
+          }
+        });
+      }
+
       // Branch start dot (on top of path)
       parts.push('<circle cx="' + bX + '" cy="' + sY + '" r="' + DOT_R + '" fill="' + c + '" stroke="white" stroke-width="2"/>');
 
@@ -220,7 +259,13 @@
   req.open('GET', '/projects.json', true);
   req.onreadystatechange = function() {
     if (req.readyState === 4 && req.status === 200) {
-      try { renderCadence(JSON.parse(req.responseText)); }
+      try {
+        var projects = JSON.parse(req.responseText);
+        var folder = window.location.pathname.replace(/^\/|\/$/g, '');
+        var match = projects.filter(function(p) { return p.folder === folder; });
+        var workDates = match.length === 1 ? getPageWorkDates() : null;
+        renderCadence(match.length === 1 ? match : projects, workDates);
+      }
       catch(e) { console.error('cadence.js:', e); }
     }
   };
