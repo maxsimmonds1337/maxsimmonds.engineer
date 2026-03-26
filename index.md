@@ -31,7 +31,7 @@
   </a>
   <div class="project-meta">
     <h1><a href="./aurora_sign">Aurora Sign</a></h1>
-    <p class="project-dates"><strong>Start Date:</strong> 08/03/26 &nbsp;·&nbsp; <strong>Last Edited:</strong> 13/03/26 &nbsp;·&nbsp; <strong>Status:</strong> <span class="status-ongoing">Ongoing</span></p>
+    <p class="project-dates"><strong>Start Date:</strong> 08/03/26 &nbsp;·&nbsp; <strong>Last Edited:</strong> 26/03/26&nbsp;·&nbsp; <strong>Status:</strong> <span class="status-ongoing">Ongoing</span></p>
     <p class="project-blurb">Needed a sign that said "Aurora" -- added cool RGB LEDs. All 3D printed.</p>
   </div>
 </div>

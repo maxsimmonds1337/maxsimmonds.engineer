@@ -68,3 +68,15 @@ dove tail joints, and there's a hollow section at the bottom that houses the
 arduino. Once I have more LEDs soldered, I'll give a full update, this will
 probably be the penultimate update (not much more interesting to update on
 until it's all soldered up!)
+
+## 26/03/26
+
+Nothing too much to update, about a week ago I did more LEDs and got this nice
+smooth transition going:
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/mEiduGrFGz8?si=9JxrB3jvi8eGoUE9" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+I haven't had much time to continue with this as I've been pushing for the
+[Rocket Clock](../led_streaming_display___rocket_countdown/index.md) project to
+be completed before Artemis 2 launch on 1st April. I'll leave this here for now
+to mark some progress, hopefully I'll get more done after the Rocket Clock.
