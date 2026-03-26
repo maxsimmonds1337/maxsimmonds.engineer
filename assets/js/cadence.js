@@ -31,7 +31,7 @@
     return MONTHS[m] + " '" + String(y).slice(-2);
   }
 
-  function renderStats(projects, container) {
+  function renderStats(projects, container, workDates) {
     var TODAY = new Date();
 
     if (projects.length === 1) {
@@ -39,10 +39,22 @@
       var days = Math.round((TODAY - parseDate(p.startDate)) / 86400000);
       var statusColor = p.status === 'finished' ? '#2563eb' : p.status === 'abandoned' ? '#dc2626' : '#16a34a';
       var statusLabel = p.status === 'finished' ? '✓ finished' : p.status === 'abandoned' ? '✗ abandoned' : '● active';
+      var cadenceLine = '';
+      if (workDates && workDates.length >= 2) {
+        var sorted = workDates.slice().sort(function(a, b) { return parseDate(a) - parseDate(b); });
+        var gaps = [];
+        for (var i = 1; i < sorted.length; i++) {
+          gaps.push(Math.round((parseDate(sorted[i]) - parseDate(sorted[i-1])) / 86400000));
+        }
+        var avgGap = Math.round(gaps.reduce(function(a,b){return a+b;},0) / gaps.length);
+        cadenceLine = '<br>updated every ~<span class="cs-val">' + avgGap + 'd</span>';
+      } else if (workDates && workDates.length === 1) {
+        cadenceLine = '<br><span class="cs-val">' + workDates.length + '</span> session logged';
+      }
       container.innerHTML =
         '<span style="color:' + statusColor + '">' + statusLabel + '</span>&nbsp; ' +
         'started <span class="cs-val">' + shortDate(p.startDate) + '</span><br>' +
-        '<span class="cs-val">' + days + 'd</span> since start';
+        '<span class="cs-val">' + days + 'd</span> since start' + cadenceLine;
       return;
     }
 
@@ -97,8 +109,10 @@
     var TODAY = new Date();
     var STALE_DAYS = 45;
 
+    var isSingle = projects.length === 1;
+
     projects.sort(function(a,b){ return parseDate(a.startDate) - parseDate(b.startDate); });
-    if (statsEl) renderStats(projects, statsEl);
+    if (statsEl) renderStats(projects, statsEl, workDates);
 
     // Lane assignment
     var laneEnds = [];
@@ -116,19 +130,19 @@
       p._lane = lane;
     });
 
-    // Layout constants
+    // Layout constants — larger scale on single-project pages
     var TRUNK_X    = 14;
-    var LANE_W     = 14;
-    var R          = 5;    // corner radius for smooth bends
-    var DOT_R      = 4.5;  // branch dot radius
-    var MERGE_R    = 3.5;  // trunk merge dot radius
-    var NOW_R      = 5.5;  // "Now" dot radius
+    var LANE_W     = isSingle ? 22  : 14;
+    var R          = isSingle ? 7   : 5;
+    var DOT_R      = isSingle ? 6   : 4.5;
+    var MERGE_R    = isSingle ? 4.5 : 3.5;
+    var NOW_R      = isSingle ? 7   : 5.5;
     var LABEL_PAD  = 9;
-    var LABEL_W    = 50;
-    var PAD_T      = 52;   // extra room above so recent labels don't crowd Now
+    var LABEL_W    = 55;
+    var PAD_T      = 52;
     var PAD_B      = 14;
-    var PX_PER_DAY = 0.52;
-    var MIN_GAP    = 13;   // min px between date labels
+    var PX_PER_DAY = isSingle ? 2.2 : 0.52;
+    var MIN_GAP    = isSingle ? 16  : 13;
 
     var numLanes = laneEnds.length;
     var TEXT_X   = TRUNK_X + (numLanes + 1) * LANE_W + LABEL_PAD;
@@ -216,13 +230,13 @@
         workDates.forEach(function(dateStr) {
           var wd = parseDate(dateStr);
           var wY = toY(wd);
-          // only mark if within the branch's vertical span
           if (wY <= sY && wY >= eY) {
-            var tk = 4;
+            var tk = 7;
             parts.push('<line x1="' + (bX - tk) + '" y1="' + wY + '" x2="' + (bX + tk) + '" y2="' + wY +
-              '" stroke="white" stroke-width="2.5"/>');
+              '" stroke="white" stroke-width="3.5"/>');
             parts.push('<line x1="' + (bX - tk) + '" y1="' + wY + '" x2="' + (bX + tk) + '" y2="' + wY +
-              '" stroke="' + c + '" stroke-width="1.5" opacity="0.9"/>');
+              '" stroke="' + c + '" stroke-width="2.5" opacity="0.95"/>');
+            parts.push(tryLabel(wY, shortDate(dateStr), c));
           }
         });
       }
