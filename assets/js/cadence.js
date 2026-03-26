@@ -216,7 +216,11 @@
                : '';
 
       // Build SVG path with rounded corners
-      var zeroDuration = p.status === 'finished' && Math.abs(sY - eY) < 2;
+      var MIN_BRANCH = isSingle ? 20 : 12;
+      var zeroDuration = false;
+      if (p.status === 'finished' && sY - eY < MIN_BRANCH) {
+        eY = sY - MIN_BRANCH;  // enforce a minimum visible branch height
+      }
       var d;
       if (p.status === 'finished') {
         if (zeroDuration) {
@@ -275,11 +279,9 @@
         });
       }
 
-      // Branch start dot (skip for same-day projects — trunk dot was already drawn)
-      if (!zeroDuration) {
-        parts.push('<circle cx="' + bX + '" cy="' + sY + '" r="' + DOT_R + '" fill="' + c + '" stroke="white" stroke-width="2"/>');
-        parts.push(tryLabel(sY, shortDate(p.startDate), c));
-      }
+      // Branch start dot
+      parts.push('<circle cx="' + bX + '" cy="' + sY + '" r="' + DOT_R + '" fill="' + c + '" stroke="white" stroke-width="2"/>');
+      parts.push(tryLabel(sY, shortDate(p.startDate), c));
     });
 
     var svg = '<svg width="' + svgW + '" height="' + svgH + '" xmlns="http://www.w3.org/2000/svg" style="display:block">' +
