@@ -216,10 +216,11 @@
                : '';
 
       // Build SVG path with rounded corners
+      var zeroDuration = p.status === 'finished' && Math.abs(sY - eY) < 2;
       var d;
       if (p.status === 'finished') {
-        if (Math.abs(sY - eY) < R * 2) {
-          // 0-duration (or very short) project — just a dot on the trunk, no branch
+        if (zeroDuration) {
+          // Same-day project — just a dot on the trunk, no branch
           parts.push('<circle cx="' + TRUNK_X + '" cy="' + sY + '" r="' + MERGE_R + '" fill="' + c + '" stroke="white" stroke-width="1.5"/>');
           parts.push(tryLabel(sY, shortDate(p.lastEdited), c));
         } else {
@@ -268,11 +269,11 @@
         });
       }
 
-      // Branch start dot (on top of path)
-      parts.push('<circle cx="' + bX + '" cy="' + sY + '" r="' + DOT_R + '" fill="' + c + '" stroke="white" stroke-width="2"/>');
-
-      // Start date label
-      parts.push(tryLabel(sY, shortDate(p.startDate), c));
+      // Branch start dot (skip for same-day projects — trunk dot was already drawn)
+      if (!zeroDuration) {
+        parts.push('<circle cx="' + bX + '" cy="' + sY + '" r="' + DOT_R + '" fill="' + c + '" stroke="white" stroke-width="2"/>');
+        parts.push(tryLabel(sY, shortDate(p.startDate), c));
+      }
     });
 
     var svg = '<svg width="' + svgW + '" height="' + svgH + '" xmlns="http://www.w3.org/2000/svg" style="display:block">' +
