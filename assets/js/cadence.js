@@ -45,9 +45,13 @@
 
     if (projects.length === 1) {
       var p = projects[0];
-      var days = Math.round((TODAY - parseDate(p.startDate)) / 86400000);
+      var ended = p.status === 'finished' || p.status === 'abandoned';
+      var days = ended
+        ? Math.round((parseDate(p.lastEdited) - parseDate(p.startDate)) / 86400000)
+        : Math.round((TODAY - parseDate(p.startDate)) / 86400000);
       var statusColor = p.status === 'finished' ? '#2563eb' : p.status === 'abandoned' ? '#dc2626' : '#16a34a';
       var statusLabel = p.status === 'finished' ? '✓ finished' : p.status === 'abandoned' ? '✗ abandoned' : '● active';
+      var daysLabel = ended ? 'd to complete' : 'd since start';
       var cadenceLine = '';
       if (workDates && workDates.length >= 2) {
         var sorted = workDates.slice().sort(function(a, b) { return parseDate(a) - parseDate(b); });
@@ -63,7 +67,7 @@
       container.innerHTML =
         '<span style="color:' + statusColor + '">' + statusLabel + '</span>&nbsp; ' +
         'started <span class="cs-val">' + shortDate(p.startDate) + '</span><br>' +
-        '<span class="cs-val">' + days + 'd</span> since start' + cadenceLine;
+        '<span class="cs-val">' + days + '</span>' + daysLabel + cadenceLine;
       return;
     }
 
@@ -105,7 +109,7 @@
     var headings = document.querySelectorAll('section h2');
     for (var i = 0; i < headings.length; i++) {
       var text = headings[i].textContent.trim();
-      if (/^\d{2}\/\d{2}\/\d{2}$/.test(text)) dates.push(text);
+      if (/^\d{2}\/\d{2}\/(\d{2}|\d{4})$/.test(text)) dates.push(text);
     }
     return dates;
   }
@@ -131,6 +135,8 @@
       var ended = p.status === 'finished' || p.status === 'abandoned';
       var e = ended ? parseDate(p.lastEdited) : TODAY;
       p._s = s; p._e = e; p._ended = ended;
+      // For the top-anchor: ended projects use their end date, active use TODAY
+      p._top = ended ? e : TODAY;
       var lane = -1;
       for (var l = 0; l < laneEnds.length; l++) {
         if (laneEnds[l] <= s) { lane = l; laneEnds[l] = e; break; }
@@ -158,12 +164,14 @@
 
     var allStarts = projects.map(function(p){ return p._s; });
     var minDate   = new Date(Math.min.apply(null, allStarts));
-    var totalDays = (TODAY - minDate) / 86400000;
+    // Top of graph: latest active project's "now", or latest end date if all ended
+    var TOP_DATE  = new Date(Math.max.apply(null, projects.map(function(p){ return p._top; })));
+    var totalDays = (TOP_DATE - minDate) / 86400000;
     var svgH = Math.round(PAD_T + totalDays * PX_PER_DAY + PAD_B);
     var svgW = TEXT_X + LABEL_W;
 
     function toY(date) {
-      return Math.round(PAD_T + (TODAY - date) / 86400000 * PX_PER_DAY);
+      return Math.round(PAD_T + (TOP_DATE - date) / 86400000 * PX_PER_DAY);
     }
 
     var parts = [];
@@ -186,11 +194,15 @@
     // Trunk line
     parts.push('<line x1="' + TRUNK_X + '" y1="' + PAD_T + '" x2="' + TRUNK_X + '" y2="' + (svgH - PAD_B) + '" stroke="' + TRUNK_COL + '" stroke-width="2"/>');
 
-    // "Now" dot + label — sits above the first branch
+    // "Now" / "Finished" dot + label — sits at top of graph
+    var allEnded = projects.every(function(p) { return p._ended; });
+    var topLabel = allEnded ? shortDate(projects[projects.length - 1].lastEdited) : 'Now';
     var nowLineW = TRUNK_X + (numLanes + 1) * LANE_W;
-    parts.push('<line x1="' + TRUNK_X + '" y1="' + PAD_T + '" x2="' + nowLineW + '" y2="' + PAD_T + '" stroke="' + NOW_COL + '" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>');
-    parts.push('<circle cx="' + TRUNK_X + '" cy="' + PAD_T + '" r="' + NOW_R + '" fill="' + NOW_COL + '"/>');
-    parts.push('<text x="' + (nowLineW + 6) + '" y="' + (PAD_T + 4) + '" font-size="11" fill="' + NOW_COL + '" font-family="\'Helvetica Neue\',Helvetica,Arial,sans-serif" font-weight="600">Now</text>');
+    if (!allEnded) {
+      parts.push('<line x1="' + TRUNK_X + '" y1="' + PAD_T + '" x2="' + nowLineW + '" y2="' + PAD_T + '" stroke="' + NOW_COL + '" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>');
+      parts.push('<circle cx="' + TRUNK_X + '" cy="' + PAD_T + '" r="' + NOW_R + '" fill="' + NOW_COL + '"/>');
+      parts.push('<text x="' + (nowLineW + 6) + '" y="' + (PAD_T + 4) + '" font-size="11" fill="' + NOW_COL + '" font-family="\'Helvetica Neue\',Helvetica,Arial,sans-serif" font-weight="600">' + topLabel + '</text>');
+    }
 
     projects.forEach(function(p) {
       var sY  = toY(p._s);
