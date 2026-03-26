@@ -236,20 +236,27 @@
           // End date label
           parts.push(tryLabel(eY, shortDate(p.lastEdited), c));
         }
+      } else if (p.status === 'abandoned') {
+        // Abandoned: dashed branch merges back to trunk with X marker at the peak
+        d = 'M ' + TRUNK_X + ',' + sY +
+            ' H ' + (bX - R) +
+            ' Q ' + bX + ',' + sY + ' ' + bX + ',' + (sY - R) +
+            ' V ' + (eY + R) +
+            ' Q ' + bX + ',' + eY + ' ' + (bX - R) + ',' + eY +
+            ' H ' + TRUNK_X;
+        parts.push('<path d="' + d + '" fill="none" stroke="' + c + '" stroke-width="2" stroke-dasharray="5,3"/>');
+        // X marker at the peak of the branch
+        var xk = 4;
+        parts.push('<line x1="' + (bX-xk) + '" y1="' + (eY-xk) + '" x2="' + (bX+xk) + '" y2="' + (eY+xk) + '" stroke="' + c + '" stroke-width="2"/>');
+        parts.push('<line x1="' + (bX+xk) + '" y1="' + (eY-xk) + '" x2="' + (bX-xk) + '" y2="' + (eY+xk) + '" stroke="' + c + '" stroke-width="2"/>');
+        parts.push(tryLabel(eY, shortDate(p.lastEdited), c));
       } else {
-        // Branch out then up to Now (or just open end)
+        // Ongoing: branch out and up to Now, open end
         d = 'M ' + TRUNK_X + ',' + sY +
             ' H ' + (bX - R) +
             ' Q ' + bX + ',' + sY + ' ' + bX + ',' + (sY - R) +
             ' V ' + eY;
         parts.push('<path d="' + d + '" fill="none" stroke="' + c + '" stroke-width="2"' + dash + '/>');
-        if (!p._ended) {
-          // Lines just terminate at the Now guide — no dot (avoids the cluster)
-        } else {
-          // Abandoned: X marker
-          parts.push('<line x1="' + (bX-4) + '" y1="' + (eY-4) + '" x2="' + (bX+4) + '" y2="' + (eY+4) + '" stroke="' + c + '" stroke-width="2"/>');
-          parts.push('<line x1="' + (bX+4) + '" y1="' + (eY-4) + '" x2="' + (bX-4) + '" y2="' + (eY+4) + '" stroke="' + c + '" stroke-width="2"/>');
-        }
       }
 
       // Work date ticks (project page only)
