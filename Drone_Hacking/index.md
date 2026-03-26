@@ -1,7 +1,7 @@
 # Hacking a Snaptain A15F Drone
 ---
 
-## [29/03/2024]
+## 29/03/2024
 Recently, I dug out my old toy drone that I bought of Amazon for 35£, on a half price deal. It was a Snaptian A15F, which has an HD camera, remote control, and app (called Snaptain Mate), which allows you to view the live stream of the HD video. It also allows you to control the drone via phone only, pretty neat.
 
 Anyway, my phone (IPhone 14 Max) seems to be no longer supported, I can't connect to the drone and get a steam of video. So that got me thinking, the way you connect to the drone is via an unsecured WiFi connection. This thing is literally a flying router!
@@ -462,7 +462,7 @@ Both start with 66, and end with 99. Almost like quote marks, or start/end bits.
 
 Okay, so I found a few things out. I found a [blog post](https://hackaday.io/project/19356-reverse-engineering-a-promark-vr-toy-drone/log/51749-comm-protocol-between-camera-and-drone-controller) post that leads me to believe that I'm on the right track regarding the protocol for sending direction cmds to the drone. It also pointed out, rather obviously now I think about it, that 0x66 + 0x99 = 0xFF! So makes sense as a start stop bytes. I also think there's some XOR checksum in there, but I'll look more into this later. Right now, what bothers me, is the laggy as hell video stream. It's clear as day on the app, but with my python code for RTSP streaming, and VLC, it's dog crap.
 
-## [RTSP or not RTSP?]
+## RTSP or not RTSP?
 
 It got me thinking, maybe, since I see raw TCP packets over port 7070 that it was using a custom protocol for sending them, or it was raw encoded bytes over TCP or something like this, for latency reasons. However, a brief chat with chatGPT and I realised, wireshark assumes the protocol based on the port that's being used. So, I added port 7070 to the RTSP protocol settings in the wireshark preferences, and hey presto!
 

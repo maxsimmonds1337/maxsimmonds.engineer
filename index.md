@@ -88,7 +88,7 @@
   </a>
   <div class="project-meta">
     <h1><a href="./Drone_Hacking/">Drone Hacking</a></h1>
-    <p class="project-dates"><strong>Start Date:</strong> 31/03/2024 &nbsp;·&nbsp; <strong>Last Edited:</strong> On going &nbsp;·&nbsp; <strong>Status:</strong> <span class="status-ongoing">Ongoing</span></p>
+    <p class="project-dates"><strong>Start Date:</strong> 31/03/2024 &nbsp;·&nbsp; <strong>Last Edited:</strong> 16/05/2025 &nbsp;·&nbsp; <strong>Status:</strong> <span class="status-finished">Finished</span></p>
     <p class="project-blurb">I'm reverse engineering a Snaptain AF15 drone, to be able to fly it from my laptop.</p>
   </div>
 </div>
