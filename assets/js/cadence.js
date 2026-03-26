@@ -31,6 +31,15 @@
     return MONTHS[m] + " '" + String(y).slice(-2);
   }
 
+  function dayDate(str) {
+    if (!str) return '';
+    var parts = str.split('/');
+    if (parts.length !== 3) return '';
+    var d = parseInt(parts[0], 10);
+    var m = parseInt(parts[1], 10) - 1;
+    return d + ' ' + MONTHS[m];
+  }
+
   function renderStats(projects, container, workDates) {
     var TODAY = new Date();
 
@@ -236,7 +245,7 @@
               '" stroke="white" stroke-width="3.5"/>');
             parts.push('<line x1="' + (bX - tk) + '" y1="' + wY + '" x2="' + (bX + tk) + '" y2="' + wY +
               '" stroke="' + c + '" stroke-width="2.5" opacity="0.95"/>');
-            parts.push(tryLabel(wY, shortDate(dateStr), c));
+            parts.push(tryLabel(wY, dayDate(dateStr), c));
           }
         });
       }
