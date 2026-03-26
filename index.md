@@ -121,7 +121,7 @@
   </a>
   <div class="project-meta">
     <h1><a href="./Havard_CS50_Course/">Harvard CS50 Course</a></h1>
-    <p class="project-dates"><strong>Start Date:</strong> 16/08/2022 &nbsp;·&nbsp; <strong>Last Edited:</strong> On going &nbsp;·&nbsp; <strong>Status:</strong> <span class="status-ongoing">Ongoing</span></p>
+    <p class="project-dates"><strong>Start Date:</strong> 16/08/2022 &nbsp;·&nbsp; <strong>Last Edited:</strong> 01/01/2023 &nbsp;·&nbsp; <strong>Status:</strong> <span class="status-finished">Finished</span></p>
     <p class="project-blurb">My submissions and thoughts during my Harvard CS50 (computer science) course. (Really needs updating, I've almost completed the course!)</p>
   </div>
 </div>
