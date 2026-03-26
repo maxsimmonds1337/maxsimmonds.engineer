@@ -220,8 +220,7 @@
       var d;
       if (p.status === 'finished') {
         if (zeroDuration) {
-          // Same-day project — just a dot on the trunk, no branch
-          parts.push('<circle cx="' + TRUNK_X + '" cy="' + sY + '" r="' + MERGE_R + '" fill="' + c + '" stroke="white" stroke-width="1.5"/>');
+          // Same-day project — label only, no dot (a dot here overlaps adjacent merge dots)
           parts.push(tryLabel(sY, shortDate(p.lastEdited), c));
         } else {
           // Branch out, up, then merge back to trunk
