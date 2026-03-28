@@ -117,7 +117,7 @@ Satellite operators building constellations for VLEO (below 300 km altitude) fac
 
 **Unique selling proposition:** No existing European propulsion company combines AI-native control, dynamic magnetic shielding for erosion management, and propellant flexibility in a single platform. Incumbents (Safran, Exotrail) use static magnetic field configurations and accept erosion as a maintenance problem rather than a design problem.
 
-**Example application:** A 150 kg VLEO imaging satellite at 220 km altitude, requiring 10–15 mN continuous thrust for a 5-year mission, would need 43,800 hours of thruster operation. No current Hall thruster on the market achieves this without hardware redundancy. An ẍ thruster with 50,000+ hour life and on-orbit AI recalibration would enable this mission profile without redundancy mass, reducing satellite cost by an estimated €500K+.
+**Example application:** A 70 kg VLEO imaging satellite at 250 km altitude requires approximately 2–3 mN of continuous thrust for drag compensation (moderate solar activity), rising to 20+ mN at solar maximum. No existing European Hall thruster is qualified for this continuous-firing duty cycle at sub-300W power. An ẍ 200W thruster with AI-optimised magnetic shielding, rated for >8,000 hours continuous Kr operation, enables a 5-year VLEO imaging mission without orbit-raising gaps or hardware redundancy.
 
 ---
 
@@ -165,9 +165,9 @@ This is distinct from magnetic shielding techniques used by NASA/JPL (Hofer et a
 
 | Phase | Timeline | Milestone | TRL |
 |---|---|---|---|
-| Phase 1 | Now → End of incubation (2028) | Laboratory plasma discharge; magnetic field geometry validation; AI control proof-of-concept; Krypton propellant characterisation | 2–3 → 4–5 |
-| Phase 2 | 2028–2029 | Full PPU integration; engineering model thruster; first customer qualification testing | 5–6 |
-| Phase 3 | 2029+ | In-orbit demonstration (IOD); VLEO drag compensation validation; air-breathing ABEP roadmap entry | 6–7+ |
+| Phase 1 | Now → End of incubation (2028) | Laboratory plasma discharge validation; Kr propellant characterisation; magnetic field geometry modelling & bench test; AI controller proof-of-concept (software-in-loop) | 2–3 → 4–5 |
+| Phase 2 | 2028–2029 | Full PPU integration; engineering model (200W nominal, 100–300W throttle range); first customer qualification testing | 5–6 |
+| Phase 3 | 2029+ | In-orbit demonstration (IOD); VLEO drag compensation validation at 220–300km; 500W variant development for standard LEO constellation market | 6–7+ |
 
 ---
 
@@ -211,7 +211,9 @@ This is an honest and achievable target for a 24-month, €60K funded programme.
 
 ### 3.5 Intellectual Property
 
-No patents are currently held. Our IP strategy during incubation:
+No patents are currently held. The founding technology — Tiziano's 200W HET design — is currently at TRL 2–3. `[TODO CRITICAL: Establish IP ownership of Tiz's existing design before submission. Was it developed at university (university may own it), independently (Tiz owns it), or during employment (ABB or other employer may have a claim)? Get a one-page IP clearance memo from a patent/IP attorney before filing the application. Budget €1–2K. If ownership is not clean, the ESA BIC contract cannot proceed.]`
+
+Our IP strategy during incubation:
 
 1. **Priority filing:** File a provisional patent application on the core dynamic magnetic shielding architecture and AI control method during the first year of incubation. Budget for IP protection is included in the ESA incentive allocation.
 2. **Trade secrets:** Specific AI training methodology and plasma state estimation algorithms will be protected as trade secrets where patent coverage is impractical.
@@ -254,14 +256,14 @@ Key macro trends affecting ẍ:
 
 ### 4.3 Customer Segments
 
-**Priority Segment 1: VLEO Earth observation operators**
-Small to medium satellite manufacturers building VLEO imaging constellations (200–280 km altitude). These customers have the highest urgency for cathode life extension — their mission economics depend on it. Estimated per-customer deal: 5–20 thrusters at €100K–€200K each.
+**Priority Segment 1: VLEO Earth observation operators (primary)**
+Operators building small imaging constellations at 220–300km altitude, using 50–120kg satellites. This segment has the highest urgency for cathode life extension — continuous drag compensation at VLEO requires >8,000 hours rated life, which no current European HET provides. No ITAR restrictions, no Safran or Exotrail product qualified for this duty cycle. Estimated per-customer deal: 5–20 thrusters at €60K–€120K each.
 
-**Priority Segment 2: EU institutional programmes (IRIS2)**
-The EU's IRIS2 sovereign connectivity constellation specifically requires European supply chains. As an Estonian-incorporated, ITAR-free company with ESA BIC backing, ẍ is well-positioned to qualify as a European supplier. Timeline aligns — IRIS2 procurement extends through the late 2020s.
+**Priority Segment 2: EU institutional programmes (IRIS2 and defence)**
+The EU's IRIS2 sovereign connectivity constellation (290 satellites, €11B programme) requires a European, ITAR-free propulsion supply chain. Defence smallsat operators (NATO, EU sovereign surveillance constellations) increasingly require domestic supply. As an Estonian-incorporated, ESA BIC-backed company, ẍ is positioned to qualify. Timeline aligns — IRIS2 procurement extends through the late 2020s.
 
-**Priority Segment 3: CubeSat/SmallSat manufacturers**
-Scaled-down thruster variants for 3U–12U CubeSats. Lower unit value (€30K–€80K) but higher volume and faster sales cycles. Entry point for building reference customers and flight heritage.
+**Priority Segment 3: Standard LEO constellation operators (Phase 2)**
+For the standard 400–600km LEO market (OneWeb-scale, 150–300kg satellites), ẍ's Phase 2 500W variant competes directly with Safran EPS-X00 and Exotrail Mini on price and European supply chain. Lower urgency for our Phase 1 product but the larger long-term revenue opportunity.
 
 `[TODO: identify 2–3 specific named prospects in each segment — even informal conversations count. A named potential customer is far stronger than market analysis.]`
 
@@ -285,11 +287,12 @@ Scaled-down thruster variants for 3U–12U CubeSats. Lower unit value (€30K–
 
 **Stream 1: Thruster Unit Sales (primary)**
 Direct sale of ẍ HET units to satellite OEMs and constellation operators. Pricing:
-- SmallSat/CubeSat variant (< 200W): €30K–€80K per unit
-- Standard VLEO variant (500W–2kW): €100K–€200K per unit
-- High-performance variant (2kW–5kW): €200K–€300K per unit
+- Phase 1 VLEO product (100–300W, nominal 200W): **€50K–€100K per unit**
+- Phase 2 standard LEO product (300–600W): **€80K–€150K per unit**
 
-Gross margin target: 60–70% at scale (hardware margins typical for space-grade components).
+Reference: Busek BHT-350 industry estimates $80K–$250K depending on volume. Safran EPS-X00 expected to price above €150K (legacy pricing culture). ẍ targets below-market pricing enabled by Estonian manufacturing economics and a clean-sheet design.
+
+Gross margin target: 55–65% at scale (hardware margins typical for space-grade components).
 
 **Stream 2: Full Propulsion Subsystem Integration**
 Turnkey delivery including PPU, propellant feed system, structural mounting, and software. Premium pricing; simplifies procurement for satellite integrators.
