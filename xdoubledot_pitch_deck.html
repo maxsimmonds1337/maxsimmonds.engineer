@@ -846,71 +846,63 @@
 <section class="slide" id="slide-5b">
     <span class="slide-number">07 / 16</span>
     <h3>The Software</h3>
-    <h2>Aegis: Our RL Training Platform — Already Running</h2>
+    <h2>Aegis: RL Training Platform — Running Today</h2>
+    <p style="margin-top: 10px; margin-bottom: 24px; color: var(--text-muted); font-size: 1rem;">Physics-informed SAC agent controls three electromagnetic coils — minimising cathode erosion while holding target thrust. <span class="highlight">Validated. Running on a laptop.</span></p>
 
-    <div class="grid-2" style="margin-top: 40px; gap: 50px;">
+    <div class="grid-2" style="gap: 40px; align-items: start;">
         <div>
-            <div class="usp-box" style="margin-bottom: 30px;">
-                <h4 style="margin-bottom: 12px;">What Aegis Does</h4>
-                <p style="font-size: 1.05rem; line-height: 1.8; color: var(--text);">
-                    A physics-informed reinforcement learning environment that trains a SAC agent to control three electromagnetic coils in real time — finding the exact magnetic field geometry that minimises cathode erosion while maintaining target thrust. <span class="highlight">Validated against published flight data. Running today on a laptop.</span>
-                </p>
-            </div>
-
-            <div class="ai-feature" style="margin-bottom: 18px;">
+            <div class="ai-feature" style="margin-bottom: 14px;">
                 <div class="ai-icon">1</div>
                 <div>
-                    <h4 style="margin-bottom: 6px;">Novel Framing</h4>
-                    <p style="font-size: 0.95rem;">The first RL system to use coil currents as the action space and cathode ion flux as the reward signal. No prior published work. This framing is ours — IEPC 2027 paper targeted to establish priority.</p>
+                    <h4 style="margin-bottom: 4px;">Novel Framing</h4>
+                    <p style="font-size: 0.9rem;">First RL system with coil currents as action space and cathode ion flux as reward. No prior published work — IEPC 2027 paper planned to establish priority.</p>
                 </div>
             </div>
-            <div class="ai-feature" style="margin-bottom: 18px;">
+            <div class="ai-feature" style="margin-bottom: 14px;">
                 <div class="ai-icon">2</div>
                 <div>
-                    <h4 style="margin-bottom: 6px;">Validation-First</h4>
-                    <p style="font-size: 0.95rem;">52 / 52 tests passing against BHT-200 TacSat-2 flight data and HallThruster.jl reference simulation. Physics calibrated to Mikellides (2014) magnetic shielding model.</p>
+                    <h4 style="margin-bottom: 4px;">Validation-First</h4>
+                    <p style="font-size: 0.9rem;">52 / 52 tests passing vs BHT-200 TacSat-2 flight data and HallThruster.jl. Physics calibrated to Mikellides (2014).</p>
                 </div>
             </div>
             <div class="ai-feature">
                 <div class="ai-icon">3</div>
                 <div>
-                    <h4 style="margin-bottom: 6px;">Accelerates Hardware</h4>
-                    <p style="font-size: 0.95rem;">Replaces months of bench-test iteration with days of simulation. Optimal coil configurations for any propellant, thrust level, or degradation state — before touching hardware.</p>
+                    <h4 style="margin-bottom: 4px;">Accelerates Hardware</h4>
+                    <p style="font-size: 0.9rem;">Replaces months of bench iteration with days of simulation — optimal coil configs before touching hardware.</p>
+                </div>
+            </div>
+
+            <div class="card" style="margin-top: 20px; padding: 16px 20px;">
+                <h4 style="margin-bottom: 10px; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted);">Path to Hardware</h4>
+                <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 0.85rem;">
+                    <span class="tech-node highlight-node" style="padding: 5px 10px;">✓ Aegis</span>
+                    <span style="color: var(--accent);">→</span>
+                    <span class="tech-node" style="padding: 5px 10px;">HallThruster.jl</span>
+                    <span style="color: var(--accent);">→</span>
+                    <span class="tech-node" style="padding: 5px 10px;">WarpX PIC</span>
+                    <span style="color: var(--accent);">→</span>
+                    <span class="tech-node highlight-node" style="padding: 5px 10px;">Bench Thruster</span>
                 </div>
             </div>
         </div>
 
-        <div>
-            <div class="grid-2" style="grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 25px;">
-                <div class="stat card">
-                    <div class="stat-value" style="font-size: 2.8rem; color: var(--accent);">76%</div>
-                    <div class="stat-label">Cathode Flux Reduction<br><span style="font-size: 0.75rem; color: var(--text-muted);">vs 58% best passive shielding (JPL H6MS)</span></div>
-                </div>
-                <div class="stat card">
-                    <div class="stat-value" style="font-size: 2.8rem; color: var(--accent);">4×</div>
-                    <div class="stat-label">Lifetime Extension<br><span style="font-size: 0.75rem; color: var(--text-muted);">conservative lower bound</span></div>
-                </div>
-                <div class="stat card">
-                    <div class="stat-value" style="font-size: 2.8rem; color: var(--accent);">&lt;0.5%</div>
-                    <div class="stat-label">Thrust Error<br><span style="font-size: 0.75rem; color: var(--text-muted);">0.05 mN at 12 mN target</span></div>
-                </div>
-                <div class="stat card">
-                    <div class="stat-value" style="font-size: 2.8rem; color: var(--accent);">52/52</div>
-                    <div class="stat-label">Validation Tests<br><span style="font-size: 0.75rem; color: var(--text-muted);">vs published flight data</span></div>
-                </div>
+        <div class="grid-2" style="grid-template-columns: 1fr 1fr; gap: 16px;">
+            <div class="stat card">
+                <div class="stat-value" style="font-size: 2.4rem; color: var(--accent);">76%</div>
+                <div class="stat-label">Cathode Flux Reduction<br><span style="font-size: 0.75rem; color: var(--text-muted);">vs 58% JPL H6MS passive shielding</span></div>
             </div>
-
-            <div class="card">
-                <h4 style="margin-bottom: 14px;">Path to Hardware</h4>
-                <div class="tech-flow" style="flex-direction: column; gap: 10px;">
-                    <div class="tech-node highlight-node">✓ Aegis Surrogate — running, validated</div>
-                    <div class="arrow">&#8595;</div>
-                    <div class="tech-node">HallThruster.jl — 1D fluid simulation (Year 1)</div>
-                    <div class="arrow">&#8595;</div>
-                    <div class="tech-node">WarpX PIC — particle simulation spot-checks</div>
-                    <div class="arrow">&#8595;</div>
-                    <div class="tech-node highlight-node">Bench Thruster — hardware validation (incubation)</div>
-                </div>
+            <div class="stat card">
+                <div class="stat-value" style="font-size: 2.4rem; color: var(--accent);">4×</div>
+                <div class="stat-label">Lifetime Extension<br><span style="font-size: 0.75rem; color: var(--text-muted);">conservative lower bound</span></div>
+            </div>
+            <div class="stat card">
+                <div class="stat-value" style="font-size: 2.4rem; color: var(--accent);">&lt;0.5%</div>
+                <div class="stat-label">Thrust Error<br><span style="font-size: 0.75rem; color: var(--text-muted);">0.05 mN at 12 mN target</span></div>
+            </div>
+            <div class="stat card">
+                <div class="stat-value" style="font-size: 2.4rem; color: var(--accent);">52/52</div>
+                <div class="stat-label">Validation Tests<br><span style="font-size: 0.75rem; color: var(--text-muted);">vs published flight data</span></div>
             </div>
         </div>
     </div>
