@@ -152,17 +152,15 @@ Active-clamp flyback is the correct choice:
 
 ### 2.3 Turns Ratio Derivation
 
-In CCM flyback: `V_out = V_in × (N_s/N_p) × D / (1 - D)`
+In CCM flyback:
 
-Setting D_max = 0.48 at V_in_min = 22 V, target V_out = 250 V:
+$$V_\text{out} = V_\text{in} \cdot \frac{N_s}{N_p} \cdot \frac{D}{1 - D}$$
 
-```
-N_s/N_p = V_out × (1 - D_max) / (V_in_min × D_max)
-        = 250 × 0.52 / (22 × 0.48)
-        = 130 / 10.56 ≈ 12.3  →  rounds to N = 1:9 (conservative)
-```
+Setting $D_\text{max} = 0.48$ at $V_\text{in,min} = 22\text{ V}$, target $V_\text{out} = 250\text{ V}$:
 
-At N = 1:9 with V_in = 28 V: D = 250 / (250 + 28×9) = 0.498 ≈ 0.47 with losses. Minimum controllable input is ~24 V — within the 22 V lower edge with current-programmed control.
+$$\frac{N_s}{N_p} = \frac{V_\text{out}\,(1 - D_\text{max})}{V_\text{in,min}\,D_\text{max}} = \frac{250 \times 0.52}{22 \times 0.48} = \frac{130}{10.56} \approx 12.3 \;\longrightarrow\; N = 1{:}9\text{ (conservative)}$$
+
+At $N = 1{:}9$ with $V_\text{in} = 28\text{ V}$: $D = 250\,/\,(250 + 28 \times 9) = 0.498 \approx 0.47$ with losses. Minimum controllable input is ~24 V — within the 22 V lower edge with current-programmed control.
 
 ### 2.4 Transformer Design
 
@@ -233,12 +231,9 @@ Three identical LTC3609-based current-mode synchronous bucks with DAC-driven cur
 
 **Why 20 kHz current loop bandwidth for a 1 kHz policy rate:** The RL policy issues a new setpoint every 1 ms. A 20 kHz current loop bandwidth gives ~50 µs settling to 2% — well within the 1 ms budget. Higher bandwidth is unnecessary and increases switching losses.
 
-**Inductor ripple check (trim coil, worst case — lowest Vout):**
-```
-ΔI = Vout × (1 - D) / (L × fsw)
-   = 0.75 × (1 - 0.083) / (4.7e-6 × 500e3)
-   = 0.29 A peak-to-peak   (19% of 1.5 A max — acceptable)
-```
+**Inductor ripple check (trim coil, worst case — lowest $V_\text{out}$):**
+
+$$\Delta I = \frac{V_\text{out}\,(1 - D)}{L\,f_\text{sw}} = \frac{0.75 \times (1 - 0.083)}{4.7\,\mu\text{H} \times 500\,\text{kHz}} = 0.29\text{ A}_\text{pk-pk} \quad (19\%\text{ of }1.5\text{ A max — acceptable})$$
 
 The coil inductance (150–500 µH) dominates output filtering; the 22 µF capacitor provides HF bypass only.
 
@@ -437,7 +432,7 @@ An arc causes rapid discharge voltage collapse (dV/dt typically > 50 V/µs simul
 
 1. Arc comparator fires → SR latch → disables discharge converter (< 5 µs)
 2. Output cap (10 µF) absorbs arc current during off-interval
-3. Arc energy limit: ½ × 10×10⁻⁶ × 250² = **312 mJ** — far below structural damage threshold
+3. Arc energy limit: $\frac{1}{2} C V^2 = \frac{1}{2} \times 10\,\mu\text{F} \times 250^2 = \textbf{312 mJ}$ — far below structural damage threshold
 4. After 2 ms blanking (RC-timed), converter auto-restarts
 5. Arc rate > 10/s → permanent latch + STM32 fault flag
 
