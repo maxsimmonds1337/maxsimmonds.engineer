@@ -28,6 +28,7 @@ title: PPU Design
 10. [Radiation and Environmental Considerations](#10-radiation-and-environmental-considerations)
 11. [Bill of Materials Summary](#11-bill-of-materials-summary)
 12. [Design Notes and Open Items](#12-design-notes-and-open-items)
+13. [ECSS Compliance and TRL Roadmap](#13-ecss-compliance-and-trl-roadmap)
 
 ---
 
@@ -628,6 +629,283 @@ Comparable to Busek BHT-200 PPU (~900 cm³, ~550 g flight heritage).
 - No electrolytics; only film, X7R/C0G ceramic, or hermetically sealed tantalum
 - No solder mask openings under high-current traces; use solid copper pours
 - Vds derating: all MOSFETs at ≤ 60% of rated Vds (SEGR mitigation)
+
+---
+
+## 13. ECSS Compliance and TRL Roadmap
+
+### 13.1 Background — What ECSS Is and When It Applies
+
+ECSS (European Cooperation for Space Standardisation) is the framework of technical and management standards used on ESA programmes and broadly adopted across European space industry. It is organised into three branches:
+
+- **ECSS-E** (Engineering) — technical disciplines: electrical, thermal, software, mechanisms, testing, radiation
+- **ECSS-Q** (Product Assurance) — component qualification, EEE parts, materials, reliability, FMEA
+- **ECSS-M** (Management) — project management, configuration control, risk management
+
+For a PPU the directly relevant standards are:
+
+| Standard | Title | Relevance to PPU |
+|---|---|---|
+| ECSS-E-ST-20C | Electrical and electronic | Bus architecture, isolation, EMC |
+| ECSS-E-ST-20-07C | Electromagnetic compatibility | Conducted / radiated emissions and susceptibility |
+| ECSS-E-ST-10-03C | Testing | Environmental test programme (TVAC, vibration, shock) |
+| ECSS-E-ST-10-12C | Radiation hardness assurance | TID, SEE, SEGR analysis and test |
+| ECSS-Q-ST-30-11C | Derating — EEE components | Voltage, current, temperature stress limits |
+| ECSS-Q-ST-60C | EEE components | Parts list, QPL, upscreening programme |
+| ECSS-Q-ST-70-02C | Thermal vacuum / outgassing | Material outgassing characterisation (ASTM E595) |
+| ECSS-Q-ST-30C | Dependability | FMEA, FMECA |
+
+**When ECSS compliance is mandatory:** Full ECSS is a contractual requirement for ESA prime contracts and most ESA co-funded programmes (GSTP, ARTES). For commercial missions the requirement depends on the customer: constellation operators (e.g. Spire, Planet, Iceye-class) typically do not mandate formal ECSS but expect equivalent evidence of qualification. Insurers increasingly require at minimum TRL 5-level evidence (TVAC data, derating analysis) for in-orbit insurance to be commercially viable.
+
+---
+
+### 13.2 Component Derating Status — ECSS-Q-ST-30-11C Class 1
+
+ECSS-Q-ST-30-11C Class 1 (space) derating rules set maximum allowable stress fractions relative to the component's rated maximum. The table below evaluates every major component class in this PPU against those rules.
+
+#### 13.2.1 Key Derating Rules (Class 1)
+
+| Component class | Stress parameter | Class 1 limit |
+|---|---|---|
+| MOSFETs | Vds / Vds_rated | ≤ 0.75 |
+| MOSFETs | Id / Id_rated | ≤ 0.75 |
+| MOSFETs | Junction temperature Tj | ≤ 125°C |
+| Ceramic capacitors (C0G, X7R) | Working V / Rated V | ≤ 0.60 |
+| Tantalum capacitors | Working V / Rated V | ≤ 0.50 |
+| Film capacitors | Working V / Rated V | ≤ 0.60 (Class 1) / 0.70 (Class 2) |
+| Resistors | Power / Rated power | ≤ 0.50 |
+| Semiconductors (ICs) | Junction temperature Tj | ≤ 125°C |
+| Magnetics (Class B insulation) | Winding temperature | ≤ 130°C |
+
+#### 13.2.2 Derating Check by Component
+
+| Component | Instance | Circuit voltage / current | Rated value | Stress fraction | Status |
+|---|---|---|---|---|---|
+| GaN FET GS61008P (primary + clamp) | Q1, Q2 | Vds = 9 V (nom), 28 V reflected | 100 V | 9% Vds | **Compliant — significant margin** |
+| GaN FET GS61008P — current | Q1, Q2 | Id ≈ 9 A peak | 30 A | 30% Id | **Compliant** |
+| Si MOSFET SiR892DP (coil bucks) | Q5–Q10 | Vds = 9 V max | 30 V | 30% Vds | **Compliant** |
+| Si MOSFET SiR622DP (pre-reg) | Q3, Q4 | Vds = 36 V max | 60 V | 60% Vds | **Marginal — exactly at 0.60; review at Vin max** |
+| SiC SBD SCS220AE2 | D1 | VR = 250 V reverse | 600 V | 42% | **Compliant** |
+| Film capacitor WIMA FKP2 | C1 (HV output) | 250 V working | 400 V | 62.5% | **Marginal for Class 1 (limit 60%); compliant Class 2 (70%) — flag for upgrade to 630 V-rated part** |
+| Tantalum cap (heater, keeper output) | — | 15–25 V working | 25 V | 60–100% | **Non-compliant — must uprate to 35 V or 50 V tantalum; 50% rule applies** |
+| Ceramic MLCC X7R (coil output) | — | 9 V working | 16 V | 56% | **Compliant** |
+| Ceramic MLCC X7R (pre-reg output) | — | 9 V working | 16 V | 56% | **Compliant** |
+| C0G ceramic (HF bypass, HV) | — | 250 V working | 500 V | 50% | **Compliant** |
+| C0G ceramic (ignition cap) | — | 600 V working | 1 kV | 60% | **Marginal for Class 1 — upgrade to 1.5 kV recommended** |
+| Sense resistors (0.1 Ω heater current) | — | P = 4 A² × 0.1 Ω = 1.6 W | 2 W | 80% | **Non-compliant — uprate to 3 W or 4 W part** |
+| Sense resistors (25 mΩ inner coil) | — | P = 4 A² × 0.025 Ω = 0.4 W | 1 W | 40% | **Compliant** |
+| Sense resistors (50 mΩ, outer/trim) | — | P = 3.5 A² × 0.05 Ω = 0.6 W | 1 W | 61% | **Marginal — uprate to 2 W** |
+| STM32F405 | U11 | Tj estimated < 85°C | 125°C | < 68% | **Compliant (pending thermal model)** |
+| HV flyback transformer (Class B) | T1 | Winding temp estimated < 110°C | 130°C | < 85% | **Compliant (pending thermal model)** |
+
+**Actions required before TRL 5:**
+1. Replace 25 V tantalum output caps with 50 V-rated equivalents on heater and keeper supplies.
+2. Upgrade HV output film capacitor from 400 V to 630 V rating (WIMA FKP2 or equivalent — confirm vacuum-safe).
+3. Upgrade ignition C0G ceramic from 1 kV to 1.5 kV.
+4. Uprate heater current sense resistor from 2 W to 4 W.
+5. Uprate outer/trim coil sense resistors from 1 W to 2 W.
+6. At maximum bus voltage (36 V), re-check SiR622DP Vds stress — may require a 80 V-rated part.
+
+---
+
+### 13.3 Outgassing — ECSS-Q-ST-70-02C / ASTM E595
+
+Outgassing from PPU materials contaminates optical surfaces, solar panels, and sensors on the spacecraft. The acceptance threshold per ASTM E595 is:
+
+- **TML (Total Mass Loss) < 1.0%**
+- **CVCM (Collected Volatile Condensable Materials) < 0.1%**
+
+Materials in this PPU that require characterisation or verification:
+
+| Material / Component | Location | Outgassing status | Action |
+|---|---|---|---|
+| PCB FR4 + solder mask | All boards | Solder mask formulation is board-house dependent — TML typically 0.3–0.8% but **must be characterised for chosen board house** | Obtain ASTM E595 data sheet from PCB supplier or test a coupon |
+| Polypropylene film (WIMA FKP2) | C1 (HV output) | Polypropylene TML typically ~0.1%; **no specific ECSS-approved WIMA data on record** | Request ASTM E595 data from WIMA; if unavailable, test sample or substitute with a component with known-good data (e.g. Cornell Dubilier or Vishay MKP) |
+| PEEK transformer bobbin | T1, T2 | PEEK is a known-good material: TML ~0.01%, CVCM < 0.01% | No action required — well-characterised |
+| Kapton wire insulation | All wiring | Kapton (polyimide) is a known-good material: TML < 0.1% | No action required |
+| Conformal coating (if used) | All boards | Acrylic and parylene coatings have well-established ECSS data; silicone **must be avoided** (high CVCM) | Specify parylene-C or acrylic (e.g. Electrolube HPA); obtain lot-specific ASTM E595 data |
+| Solid tantalum cap epoxy slug | Heater/keeper output caps | AVX TPS and KEMET T491 series have flight-heritage outgassing data available from suppliers | Obtain data sheet confirmation from supplier |
+| Epoxy potting (if any) | Transformer cores | Dow Sylgard 184 silicone = **prohibited** (high CVCM); Arathane 5750 = acceptable | Use Arathane or equivalent; no silicone |
+| Nylon standoffs / fasteners | Mechanical assembly | Nylon TML varies; PEEK or aluminium preferred | Replace nylon hardware with PEEK or metallic equivalents |
+
+**Overall outgassing risk for this design: medium.** The main unknowns are the PCB solder mask and the WIMA film capacitor. These must be resolved before TVAC testing.
+
+---
+
+### 13.4 Radiation Hardness Assurance — ECSS-E-ST-10-12C
+
+#### 13.4.1 Radiation Environment Definition
+
+Target orbit: 550 km SSO, 5-year mission.
+
+| Parameter | Value | Notes |
+|---|---|---|
+| TID behind 2 mm Al | 10–25 krad | Per AP8/AE8 models; SSO is relatively benign |
+| TID design margin | 2× predicted | Analysis: 20–50 krad requirement on parts |
+| Peak LET (protons) | ~10 MeV-cm²/mg | Proton-dominated environment at 550 km |
+| Heavy ion LET (GCR) | Up to ~100 MeV-cm²/mg | Galactic cosmic ray tails |
+
+#### 13.4.2 RHA Category Definitions (ECSS-E-ST-10-12C)
+
+| Category | Definition | Required action |
+|---|---|---|
+| Cat 1 | No radiation concern (TID tolerance >> mission dose, no SEE sensitivity) | None |
+| Cat 2 | Use with analysis (tolerance within 2–10× margin) | Engineering analysis; monitor lot traceability |
+| Cat 3 | Test required (tolerance not demonstrated or marginal) | TID test and/or SEE test on engineering samples |
+| Cat 4 | Prohibited (known failure mode at mission dose) | Do not use; replace with alternative |
+
+#### 13.4.3 Part-by-Part RHA Assignment
+
+| Part | TID tolerance (est.) | SEE concern | RHA Category | Action |
+|---|---|---|---|---|
+| STM32F405RGT6 | ~10–30 krad (COTS; lot-dependent) | SEU in SRAM/registers | **Cat 3** | TID test 2× mission dose; SEU mitigation in firmware (watchdog, triplication); or replace with VORAGO VA10820 for flight |
+| GS61008P GaN FET | Wide bandgap — inherently TID-tolerant > 300 krad | No SEGR at 9 V / 100 V rated | **Cat 1** | No action required |
+| SCS220AE2 SiC SBD | TID-tolerant > 300 krad (SiC) | Not applicable (passive) | **Cat 1** | No action required |
+| UCC28780 (ACF controller) | COTS BiCMOS; ~10–50 krad estimated | SEL possible in bulk CMOS structures | **Cat 3** | TID test to 2× mission dose; add current-limited supply to detect SEL |
+| LTC3609 (coil buck controller) | COTS; ~10 krad typical for ADI SiGe products | SEU may cause duty cycle glitch | **Cat 3** | TID test; hardware current limit prevents destructive SEL outcome |
+| ADuM1201 digital isolators | ~30–50 krad TID (ADI characterised) | LET threshold > 60 MeV-cm²/mg (ADI app note) | **Cat 2** | Analysis; acceptable with 2× margin at 25 krad mission dose |
+| LM2904 comparator | ~10–50 krad (bipolar process — typically robust) | Not significant | **Cat 2** | Analysis; upscreening to 10 krad lot acceptance |
+| INA240 current sense amp | CMOS; ~10 krad estimated | SEU may cause offset shift | **Cat 3** | TID test; offset shift monitored via telemetry; non-critical |
+| TMP100 temp sensor | CMOS; ~10 krad | Non-critical path | **Cat 2** | Analysis; monitor with housekeeping |
+| SiR892DP / SiR622DP Si MOSFETs | TID-tolerant > 100 krad for DMOS | SEGR: derated to ≤ 60% Vds — compliant | **Cat 1** | No action required |
+| TCAN1042V CAN transceiver | CMOS; ~10 krad | Non-critical | **Cat 3** | TID test; or replace with radiation-tolerant CAN (IXYS IXDN609) for flight |
+
+**Three-tier design strategy (carried forward from Section 10):** The existing Tier 1/2/3 hierarchy maps directly onto RHA Categories: Tier 1 (rad-hard flight parts) = Cat 1 or Cat 2 resolved; Tier 2 (COTS + shielding) = Cat 2/3 under test; Tier 3 (replace for flight) = Cat 3/4 identified and replacement planned.
+
+---
+
+### 13.5 TRL Ladder
+
+#### TRL 3 — Experimental Proof of Concept (Current State)
+
+**Definition:** Analytical and experimental critical function and/or characteristic proof of concept.
+
+| Item | Status |
+|---|---|
+| Physics model validated | Done — 52/52 Aegis simulation tests passing |
+| PPU block-level design | Done — all subsystems specified in this document |
+| Component selection | Done — BOM at Section 11 |
+| Hardware breadboard | **Not started** |
+| Derating analysis | Preliminary (this section) — not yet formal document |
+| Outgassing characterisation | Not started |
+
+---
+
+#### TRL 4 — Technology Validated in Lab (Breadboard)
+
+**Definition:** Basic technological components integrated to establish that the parts will work together.
+
+**Deliverable:** A non-space-grade bench breadboard PPU, assembled from commercial COTS parts (no screening, no shielding), demonstrating all key electrical functions in ambient conditions.
+
+**Required demonstrations:**
+
+| Test | Pass criterion |
+|---|---|
+| Full-power discharge | 250 V / 0.8 A stable, ≥ 30 minutes continuous |
+| Coil current control | Step response settled to 2% within 50 µs (20 kHz bandwidth) |
+| RL policy on STM32 | Policy forward pass completing within 1 ms tick |
+| Arc detection | Simulated arc (crowbar) → converter off in < 5 µs |
+| Safe-mode | Hardware SAFE_MODE line → all HV rails off in < 1 ms |
+| CAN telemetry | All 28 channels reporting within specification |
+
+**ECSS requirements at TRL 4:** None formally mandated. However, maintain a test log from this point — it feeds the formal qualification evidence record at TRL 5+.
+
+**Estimated duration:** 3–4 months.
+
+**Key risks:**
+- **Transformer leakage inductance:** custom ETD32 wind — first-article Llk measurement may exceed 200 nH target, requiring winding redesign before ACF ZVS operates correctly.
+- **Arc detection calibration:** 50 V/µs threshold set analytically — may require iteration to avoid false triggering on normal switching transients.
+
+---
+
+#### TRL 5 — Technology Validated in Relevant Environment (Engineering Model)
+
+**Definition:** Technology validated in a relevant environment (for space: thermal vacuum, not necessarily with actual thruster).
+
+**Deliverable:** An Engineering Model (EM) PPU, built to production-representative design rules, tested in thermal vacuum.
+
+**ECSS activities required at TRL 5:**
+
+| Activity | Standard | Deliverable |
+|---|---|---|
+| EEE parts list with manufacturer / lot traceability | ECSS-Q-ST-60C Part 1 | Parts List document |
+| Formal derating analysis for every component | ECSS-Q-ST-30-11C | Derating Analysis Report |
+| QPL check or upscreening plan for all EEE parts | ECSS-Q-ST-60C | Upscreening Plan |
+| Outgassing test of PCB assembly and non-metallic materials | ECSS-Q-ST-70-02C (ASTM E595) | Outgassing Test Report |
+| Thermal vacuum test: −40°C to +80°C, 8 cycles, in vacuum | ECSS-E-ST-10-03C | TVAC Test Report |
+| Basic EMC: conducted emissions and susceptibility | ECSS-E-ST-20-07C | EMC Test Report (basic) |
+| TID test of 3 most sensitive ICs to 2× predicted mission dose | ECSS-E-ST-10-12C | RHA Test Report |
+
+**Estimated duration:** 6–9 months.
+
+**Key deliverables:** Derating Analysis Report, Parts List, TVAC Test Report, initial RHA Test Report.
+
+---
+
+#### TRL 6 — Technology Demonstrated in Relevant Environment (PPU + Thruster in Vacuum)
+
+**Definition:** Model or prototype demonstrated in a relevant environment (with actual thruster, in vacuum chamber).
+
+**Deliverable:** PPU driving a real HET in a vacuum chamber at representative operating conditions (Kr propellant, target background pressure < 5 × 10⁻⁵ mbar).
+
+**Required test programme:**
+
+| Test | Requirement |
+|---|---|
+| Duration endurance test | Minimum **100 hours** continuous operation at 200 W |
+| Throttle sweep | Full throttle range: 100–200 W discharge, coil variation across RL policy envelope |
+| Arc recovery test | ≥ 50 arc events, confirm < 5 µs detection and < 2 ms restart |
+| Thermal cycling (in vacuum) | Operational over −40°C to +80°C PCB range |
+| FMEA | Formal FMEA per ECSS-Q-ST-30C covering all identified failure modes |
+| EMC full compliance | ECSS-E-ST-20-07C, full test levels |
+| Part screening / upscreening | ECSS-Q-ST-60C full programme if space-grade parts not used from start |
+| RHA update | Radiation analysis updated with confirmed orbit parameters |
+
+**Estimated duration:** 9–12 months additional (following TRL 5 completion).
+
+---
+
+#### TRL 7–8 — System Prototype / Qualification Model
+
+**Definition:** TRL 7: prototype near or at planned operational system. TRL 8: system complete and qualified through test and demonstration.
+
+**Required activities:**
+
+| Activity | Notes |
+|---|---|
+| Full qualification programme (random vibration, acoustic, shock, thermal balance, EMC) | Per ECSS-E-ST-10-03C qualification levels |
+| Lot acceptance testing | For each production unit |
+| Qualification Model (QM) and Proto-Flight Model (PFM) builds | QM at qualification levels; PFM at acceptance levels |
+| Flight software qualification | ECSS-E-ST-40C for critical software functions |
+
+**Funding model:** This phase is typically executed under ESA GSTP, ARTES, or an equivalent national agency programme, or under a commercial contract with a committed launch customer.
+
+**Estimated duration:** 18–24 months. **Estimated cost:** €500K–2M for a PPU of this class, depending on test facility access and whether space-grade EEE parts are procured from the start.
+
+---
+
+### 13.6 New Space vs Full ECSS — Practical Decision Tree
+
+Not all missions require full ECSS compliance. The appropriate level depends on customer, insurance, and programme type.
+
+| Customer / programme type | Minimum qualification expected | ECSS paperwork required? | Typical timeline to first flight unit |
+|---|---|---|---|
+| **Constellation operator** (Spire / Planet / Iceye-class) | Derating analysis, TVAC (8 cycles), outgassing check, 100-hour burn test with thruster | No formal ECSS documentation required — but evidence expected | 2–3 years from TRL 4 |
+| **ESA direct programme** (GSTP, ARTES, ScienceCraft) | Full TRL 6 package + FMEA + RHA | **Full ECSS mandatory** — all documents listed above | 4–6 years from TRL 4 |
+| **Defence / dual-use** | ECSS-Q equivalent + STANAG security requirements | Contractually specified | 3–5 years |
+| **In-orbit insurance** (any customer) | At minimum: TRL 5 evidence (TVAC data + derating report) | Not formally required but practically required for affordable premium | Must be completed before launch |
+| **Commercial rideshare / hosted payload** | Customer-defined; often "ECSS-inspired" | Varies | 2–4 years |
+
+**"ECSS-inspired" qualification** refers to performing the substantive technical work of ECSS (derating analysis, TVAC, outgassing, 100-hour burn) without generating all the formal ECSS deliverable documents. It is the standard expectation for new-space constellation operators and gives a credible foundation for upgrading to full ECSS if an ESA contract materialises.
+
+**Recommendation for Aegis:** Target the "ECSS-inspired" level for the first commercial customers:
+1. Complete the formal derating analysis (resolving the non-compliant items identified in §13.2).
+2. Qualify the PCB assembly outgassing (resolve solder mask and film cap unknowns).
+3. Build EM PPU and complete TVAC: −40°C to +80°C, 8 cycles, in vacuum.
+4. Execute 100-hour burn test with Kr thruster in vacuum chamber.
+5. Maintain clean, traceable documentation throughout — structured to be promotable to full ECSS with minimal rework if an ESA prime contract is won.
+
+Full ECSS compliance can then be layered on top of this evidence base without repeating the physical test work, reducing the incremental cost of ESA qualification to primarily a documentation and formal witnessing exercise.
 
 ---
 
