@@ -67,8 +67,8 @@ Sputtering causes gradual erosion of the cathode keeper (the outer electrode of 
 
 The sputtering rate depends on two things:
 
-1. **Ion flux** — how many ions hit the cathode per second per unit area
-2. **Ion energy** — how hard each ion hits (sputtering yield is a steep function of energy; below ~25–30 eV, sputtering stops entirely)
+1. **Ion flux** $\Gamma_i$ — how many ions hit the cathode per second per unit area
+2. **Ion energy** $E_i$ — how hard each ion hits (sputtering yield $Y(E_i)$ is a steep function of energy; below ~25–30 eV, sputtering stops entirely)
 
 This is why **reducing ion flux at the cathode is the right engineering objective**. Cut the flux, cut the sputtering rate, extend the lifetime.
 
@@ -90,11 +90,11 @@ The key physics from Mikellides et al. (2014) is captured in this approximation 
 
 $$\Gamma \propto \exp\!\left(-k \cdot \frac{|\partial B/\partial z|}{B_\text{cathode}}\right)$$
 
-- `B_cathode` — the magnetic field magnitude at the cathode plane
-- `dB/dz` — the axial gradient of the field (how steeply the field changes along the thrust axis)
-- `k` — a shielding constant calibrated from experiment (~0.015 m)
+- $B_\text{cathode}$ — the magnetic field magnitude at the cathode plane
+- $\partial B/\partial z$ — the axial gradient of the field (how steeply the field changes along the thrust axis)
+- $k$ — a shielding constant calibrated from experiment (~0.015 m)
 
-The key insight here is that this is an **exponential**. A modest increase in the gradient ratio `|dB/dz| / B_cathode` produces a large reduction in ion flux. This is what makes the trim coil so powerful: it has high coupling to the cathode-plane field (coupling coefficient 0.80) compared to low coupling at the channel exit (0.50), so adjusting it reshapes the near-cathode field without disrupting the main discharge.
+The key insight here is that this is an **exponential**. A modest increase in the gradient ratio $|\partial B/\partial z| / B_\text{cathode}$ produces a large reduction in ion flux. This is what makes the trim coil so powerful: it has high coupling to the cathode-plane field (coupling coefficient 0.80) compared to low coupling at the channel exit (0.50), so adjusting it reshapes the near-cathode field without disrupting the main discharge.
 
 ### What passive magnetic shielding achieves (published experimental results)
 
@@ -186,9 +186,7 @@ At each timestep, the agent sees a 9-dimensional vector:
 
 At each timestep, the agent outputs three continuous values:
 
-```
-[ΔI_inner, ΔI_outer, ΔI_trim]   each in range [−0.25, +0.25] A
-```
+$$[\Delta I_\text{inner},\;\Delta I_\text{outer},\;\Delta I_\text{trim}] \quad \text{each} \in [-0.25,\,{+}0.25]\text{ A}$$
 
 These are **deltas** — incremental adjustments to the current coil currents. This design choice is important: it prevents the agent from making large discontinuous jumps in field configuration (which would be physically unrealistic and mechanically stressful), and it means the agent's actions are naturally smooth and controllable.
 
@@ -196,14 +194,9 @@ These are **deltas** — incremental adjustments to the current coil currents. T
 
 At each timestep, the environment returns:
 
-```
-r = 0.50 × (1 − cathode_flux)    # primary: maximise shielding
-  + 0.30 × thrust_reward         # maintain 12 mN target
-  − 0.15 × oscillation_amp       # penalise discharge instability
-  − 0.05 × coil_power_cost       # penalise unnecessary coil power draw
-```
+$$r = 0.50\,(1 - \Gamma_\text{cath}) + 0.30\,r_\text{thrust} - 0.15\,A_\text{osc} - 0.05\,P_\text{coil}$$
 
-Where `thrust_reward = exp(−0.5 × (thrust_error / 3.0)²)` — a Gaussian centred on the target, giving maximum reward when thrust is exactly 12.0 mN and declining smoothly as it deviates.
+Where $r_\text{thrust} = \exp\!\left(-\dfrac{(\Delta T)^2}{2 \times 3.0^2}\right)$ — a Gaussian centred on the 12.0 mN target, giving maximum reward when thrust error $\Delta T = 0$ and declining smoothly as it deviates.
 
 The weight choices encode engineering priorities:
 - **50% on flux reduction** — this is the primary mission objective
@@ -235,58 +228,50 @@ The solution is a **surrogate model**: a fast mathematical approximation of the 
 
 Three coils (inner, outer, trim) produce a magnetic field. We model this as a **reluctance network** — analogous to a resistor network in electronics, but for magnetic flux. Each coil contributes to the field at the channel exit (`B_exit`) and cathode plane (`B_cathode`) according to fixed coupling coefficients calibrated to reproduce measured HET fields (~200 G at channel exit at nominal currents, consistent with Boeuf 2017 Table 1):
 
-```python
-B_exit    = (K_exit · [N_inner·I_inner, N_outer·I_outer, N_trim·I_trim]) / R_gap
-B_cathode = (K_cath · [...]) / R_gap
-dBdz      = (K_grad · [...]) / (R_gap × L_channel)
-```
+$$B_\text{exit} = \frac{\mathbf{K}_\text{exit} \cdot [N_i I_i,\; N_o I_o,\; N_t I_t]}{R_\text{gap}}, \qquad B_\text{cathode} = \frac{\mathbf{K}_\text{cath} \cdot [\cdots]}{R_\text{gap}}, \qquad \frac{\partial B}{\partial z} = \frac{\mathbf{K}_\text{grad} \cdot [\cdots]}{R_\text{gap}\,L_\text{ch}}$$
 
-The trim coil has the highest coupling to `B_cathode` (0.80) and moderate coupling to `B_exit` (0.50), making it the primary shielding actuator.
+The trim coil has the highest coupling to $B_\text{cathode}$ (0.80) and moderate coupling to $B_\text{exit}$ (0.50), making it the primary shielding actuator.
 
 ### Sub-model 2: Hall parameter and ionisation efficiency
 
-The **Hall parameter** Ωe = ωce × τeff is the key dimensionless number controlling ionisation:
-- ωce = eB/mₑ — electron cyclotron frequency (proportional to B)
-- τeff — effective electron-neutral collision time (~5 ns, set by anomalous cross-field transport)
+The **Hall parameter** $\Omega_e = \omega_{ce} \times \tau_\text{eff}$ is the key dimensionless number controlling ionisation:
+- $\omega_{ce} = eB/m_e$ — electron cyclotron frequency (proportional to $B$)
+- $\tau_\text{eff}$ — effective electron-neutral collision time (~5 ns, set by anomalous cross-field transport)
 
-At nominal conditions this gives Ωe ≈ 18 for Krypton — in the range 15–20 that Boeuf (2017) identifies as optimal for Kr ionisation.
+At nominal conditions this gives $\Omega_e \approx 18$ for Krypton — in the range 15–20 that Boeuf (2017) identifies as optimal for Kr ionisation.
 
-Ionisation efficiency is modelled as a Gaussian peak in Ωe:
+Ionisation efficiency is modelled as a Gaussian peak in $\Omega_e$:
 
-```python
-eta_ion = 0.90 × exp(−0.5 × ((Omega − 18.0) / 10.0)²)
-```
+$$\eta_\text{ion} = 0.90 \exp\!\left(-\frac{(\Omega_e - 18.0)^2}{2 \times 10.0^2}\right)$$
 
 This captures the physical intuition that both too-weak and too-strong electron trapping reduce ionisation efficiency.
 
 ### Sub-model 3: Thrust
 
-Morozov scaling: `T = ṁ × η_ion × v_exhaust × cos²(θ_plume)`
+Morozov scaling:
+
+$$T = \dot{m}\,\eta_\text{ion}\,v_\text{ex}\cos^2\!\theta_\text{plume}$$
 
 Where:
-- `v_exhaust = sqrt(2eVd/m_Kr) ≈ 24,000 m/s` at 250 V discharge
-- `θ_plume` — plume divergence angle, which decreases as B_exit increases (stronger field collimates the ion beam)
-- `ṁ` — mass flow rate, calibrated so nominal conditions give 12.5 mN
+- $v_\text{ex} = \sqrt{2eV_d/m_{Kr}} \approx 24{,}000$ m/s at 250 V discharge
+- $\theta_\text{plume}$ — plume divergence angle, which decreases as $B_\text{exit}$ increases (stronger field collimates the ion beam)
+- $\dot{m}$ — mass flow rate, calibrated so nominal conditions give 12.5 mN
 
 ### Sub-model 4: Cathode ion flux (the shielding model)
 
 From Mikellides et al. (2014):
 
-```python
-flux = exp(−k_shield × |dBdz| / B_cathode)
-```
+$$\Gamma = \exp\!\left(-k_\text{shield} \cdot \frac{|\partial B/\partial z|}{B_\text{cathode}}\right)$$
 
-where k_shield = 0.015 m is calibrated so that an optimally shielded configuration gives flux ≈ 0.05. This is the central sub-model — the quantity the RL agent is trained to minimise.
+where $k_\text{shield} = 0.015$ m is calibrated so that an optimally shielded configuration gives $\Gamma \approx 0.05$. This is the central sub-model — the quantity the RL agent is trained to minimise.
 
 ### Sub-model 5: Breathing mode oscillation
 
 The breathing mode is a 10–20 kHz ionisation instability (analogous to a relaxation oscillator) where the ionisation zone periodically depletes and refills. Its amplitude is modelled as a proxy function of how far B_exit deviates from nominal and how steep the axial gradient is:
 
-```python
-amp = 0.3 × |B_exit − B_opt|/B_opt + 0.4 × max(grad_norm − 0.3, 0) + noise
-```
+$$A_\text{osc} = 0.3 \cdot \frac{|B_\text{exit} - B_\text{opt}|}{B_\text{opt}} + 0.4 \cdot \max(\bar{g} - 0.3,\;0) + \epsilon$$
 
-A steep gradient (high |dBdz|) stabilises shielding but can narrow the ionisation zone and excite oscillations — this is the fundamental physical tension the agent must navigate.
+where $\bar{g}$ is the normalised field gradient and $\epsilon$ is stochastic noise. A steep gradient (high $|\partial B/\partial z|$) stabilises shielding but can narrow the ionisation zone and excite oscillations — this is the fundamental physical tension the agent must navigate.
 
 ### What the surrogate gets right and what it doesn't
 
@@ -319,7 +304,7 @@ Training ran for **200,000 environment steps** using SAC on a laptop CPU (22 min
 
 ### What the coil configuration the agent converged to looks like
 
-The trim coil is the primary actuator the agent exploits. It adjusts the trim coil current to maximise `|dBdz| / B_cathode` — the shielding ratio — while using the inner and outer coils to maintain `B_exit` at the level needed for optimal ionisation (Ωe ≈ 18) and therefore target thrust.
+The trim coil is the primary actuator the agent exploits. It adjusts the trim coil current to maximise $|\partial B/\partial z| / B_\text{cathode}$ — the shielding ratio — while using the inner and outer coils to maintain $B_\text{exit}$ at the level needed for optimal ionisation ($\Omega_e \approx 18$) and therefore target thrust.
 
 The agent discovered the physical insight that the **trim coil decouples shielding from thrust** — it can increase the cathode-plane field gradient without substantially changing the exit-plane field that drives ionisation. This is the same physical reasoning that led human engineers to include the trim coil in the first place, but the agent found the optimal current combination automatically.
 
@@ -395,17 +380,17 @@ Coil currents → Magnetic field topology → |dBdz|/B_cathode ratio
 
 The RL agent controls the first step. The sixth step (actual erosion) is what we care about. The connection between steps three and six is:
 
-**Erosion rate ∝ Γᵢ × Y(Eᵢ)**
+$$\text{Erosion rate} \propto \Gamma_i \cdot Y(E_i)$$
 
 Where:
-- `Γᵢ` — ion flux (ions/m²/s) at the cathode keeper face
-- `Y(Eᵢ)` — sputtering yield (atoms removed per incoming ion), which is a steep function of ion energy `Eᵢ`. Below the threshold energy (~25–30 eV for boron nitride, the common cathode material), Y = 0 — no sputtering at all.
+- $\Gamma_i$ — ion flux (ions/m²/s) at the cathode keeper face
+- $Y(E_i)$ — sputtering yield (atoms removed per incoming ion), a steep function of ion energy $E_i$. Below the threshold energy (~25–30 eV for boron nitride, the common cathode material), $Y = 0$ — no sputtering at all.
 
 ### The two effects of magnetic shielding
 
-1. **Flux reduction** (what we directly measure): the RL agent reduces `Γᵢ` by 76%. At constant ion energy, lifetime scales as `1 / (1 − 0.76) = 4.2×`. If the BHT-200 has a baseline cathode lifetime of ~12,000 hours, this projects to ~50,000 hours.
+1. **Flux reduction** (what we directly measure): the RL agent reduces $\Gamma_i$ by 76%. At constant ion energy, lifetime scales as $1/(1-0.76) = 4.2\times$. If the BHT-200 has a baseline cathode lifetime of ~12,000 hours, this projects to ~50,000 hours.
 
-2. **Energy reduction** (not yet modelled explicitly): proper magnetic shielding also reduces the near-cathode plasma potential, which drops the energy of ions hitting the cathode. If ion energy drops below the sputtering threshold, `Y(Eᵢ) → 0` and sputtering effectively stops regardless of flux. This is the mechanism behind the factor-of-1000 erosion reduction seen in the H6MS channel wall experiments. It is not yet captured in our surrogate model — our sputtering yield is implicitly held constant — so **our 4.2× lifetime estimate is a conservative lower bound**.
+2. **Energy reduction** (not yet modelled explicitly): proper magnetic shielding also reduces the near-cathode plasma potential, which drops the energy of ions hitting the cathode. If ion energy drops below the sputtering threshold, $Y(E_i) \to 0$ and sputtering effectively stops regardless of flux. This is the mechanism behind the factor-of-1000 erosion reduction seen in the H6MS channel wall experiments. It is not yet captured in our surrogate model — our sputtering yield is implicitly held constant — so **our 4.2× lifetime estimate is a conservative lower bound**.
 
 ### The lifetime projection in context
 
@@ -449,7 +434,7 @@ Xenon is the industry standard HET propellant. Krypton has traditionally been se
 - Lower atomic mass → lower thrust per unit flow rate
 - Efficiency penalty: 9–18% lower anode efficiency in equal-power comparisons (Su & Jorns, JAP 2021)
 
-But Krypton is **3–5× cheaper** than Xenon and has a better European supply chain. For VLEO missions requiring continuous propulsion over years, propellant cost is a mission-level budget item, not a footnote. The magnetic optimisation that RL provides can partially recover the efficiency gap by finding the B-field configuration that maximises ionisation for Kr's higher-Ωe optimum (Ωe ≈ 18 vs. ≈ 13 for Xe). This is an additional advantage of the RL approach that has not been fully exploited in the current work.
+But Krypton is **3–5× cheaper** than Xenon and has a better European supply chain. For VLEO missions requiring continuous propulsion over years, propellant cost is a mission-level budget item, not a footnote. The magnetic optimisation that RL provides can partially recover the efficiency gap by finding the B-field configuration that maximises ionisation for Kr's higher Hall parameter optimum ($\Omega_e \approx 18$ vs. $\approx 13$ for Xe). This is an additional advantage of the RL approach that has not been fully exploited in the current work.
 
 ---
 
@@ -459,9 +444,9 @@ But Krypton is **3–5× cheaper** than Xenon and has a better European supply c
 |---|---|---|
 | Thruster class | 200 W, VLEO | Krypton propellant, 250 V discharge |
 | Target thrust | 12.0 mN | Achieved within 0.05 mN by RL agent |
-| Exhaust velocity | ~24,000 m/s | √(2eVd/m_Kr) at 250 V |
+| Exhaust velocity | ~24,000 m/s | $\sqrt{2eV_d/m_{Kr}}$ at 250 V |
 | Nominal B at exit | ~206 G (0.0206 T) | From 3A inner, 2.5A outer, 0A trim |
-| Hall parameter at nominal | ~18 | Target 15–20 for Kr (Boeuf 2017) |
+| $\Omega_e$ at nominal | ~18 | Target 15–20 for Kr (Boeuf 2017) |
 | Cathode flux (baseline) | 0.631 | Static nominal coil currents |
 | Cathode flux (RL agent) | 0.151 | SAC policy, 200k steps training |
 | Flux reduction | **76.1%** | Factor 4.2× |
