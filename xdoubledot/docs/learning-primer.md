@@ -3,7 +3,7 @@ layout: xdoubledot
 title: Learning Primer
 ---
 
-# ẍ xdoubledot — Learning Primer
+# ẍ — Learning Primer
 ## Everything you need to understand this project, from scratch
 
 *For: technically literate people (comfortable with maths, coding, engineering) with no prior knowledge of plasma physics or RL.*
@@ -332,4 +332,4 @@ If you just need the minimum to follow a conversation:
 
 ---
 
-*ẍ xdoubledot OÜ — Tallinn, Estonia*
+*ẍ OÜ — Tallinn, Estonia*

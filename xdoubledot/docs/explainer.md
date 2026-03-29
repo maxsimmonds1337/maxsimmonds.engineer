@@ -3,7 +3,7 @@ layout: xdoubledot
 title: Technical Explainer
 ---
 
-# ẍ xdoubledot — Technical Explainer
+# ẍ — Technical Explainer
 ## Dynamic Magnetic Shielding via Reinforcement Learning for Hall Effect Thruster Cathode Erosion Minimisation
 
 *Written for: technically literate readers with no prior knowledge of Hall thrusters or reinforcement learning.*
@@ -365,7 +365,7 @@ The RL agent has a higher oscillation amplitude (0.034) than the baseline (0.002
 
 | Work | Year | Method | Action space | Objective |
 |---|---|---|---|---|
-| **ẍ xdoubledot (this)** | 2025–26 | **RL (SAC)** | **Coil currents ΔI × 3** | **Cathode flux + thrust** |
+| **ẍ (this)** | 2025–26 | **RL (SAC)** | **Coil currents ΔI × 3** | **Cathode flux + thrust** |
 | Krishnan et al. (Georgia Tech) | IEPC 2025 | ESN + NMPC | Anode voltage | Breathing mode suppression |
 | Slimane et al. (CNRS) | JAP 2024 | ANN + PID | Anode voltage + flow | Setpoint maintenance |
 | Thoreau et al. (ACME) | JEP 2025 | Derivative-free optimisation | Coil currents + voltage + flow | Efficiency maximisation |
@@ -416,7 +416,7 @@ Where:
 | BHT-200 (Xe, unshielded) | Static nominal currents | ~1,300 hours (measured) |
 | SPT-100 (Xe) | Nominal | 4,000–7,500 hours |
 | MaSMi (magnetically shielded) | Passive shielding | 8,187 hours (no failure) |
-| **ẍ xdoubledot projection** | RL-optimised dynamic shielding, flux only | **~4× baseline lifetime** |
+| **ẍ projection** | RL-optimised dynamic shielding, flux only | **~4× baseline lifetime** |
 | Full shielding (energy + flux) | If energy dropped below threshold | Potentially 100× or more |
 
 The MaSMi 8,187-hour result with no measurable degradation is the most directly comparable benchmark — it is a 200–1500 W class magnetically shielded thruster. Our RL agent targets the same physics on a similar-class device and achieves a flux reduction consistent with or exceeding what passive shielding provides.
@@ -490,5 +490,5 @@ But Krypton is **3–5× cheaper** than Xenon and has a better European supply c
 
 ---
 
-*ẍ xdoubledot OÜ — Tallinn, Estonia*
+*ẍ OÜ — Tallinn, Estonia*
 *ESA BIC Estonia incubatee (pending)*
