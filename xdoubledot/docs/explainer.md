@@ -3,7 +3,7 @@ layout: xdoubledot
 title: Technical Explainer
 ---
 
-# ẍ — Technical Explainer
+# Technical Explainer
 ## Dynamic Magnetic Shielding via Reinforcement Learning for Hall Effect Thruster Cathode Erosion Minimisation
 
 *Written for: technically literate readers with no prior knowledge of Hall thrusters or reinforcement learning.*
