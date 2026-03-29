@@ -668,7 +668,7 @@
     <div class="grid-2" style="margin-top: 40px;">
         <div>
             <p style="margin-bottom: 30px;">
-                Very Low Earth Orbit (below 300km) offers <span class="highlight">10x better imaging resolution</span> and <span class="highlight">5x lower latency</span>. But atmospheric drag makes it nearly impossible with current propulsion.
+                Very Low Earth Orbit (below 300km) offers <span class="highlight">10x better imaging resolution</span> vs GEO and <span class="highlight">5x lower latency</span>. But atmospheric drag makes it nearly impossible with current propulsion.
             </p>
             <div class="problem-stat">
                 <span class="problem-number">85%</span>
@@ -743,8 +743,8 @@
                     <span class="problem-number" style="font-size: 1.8rem;">+40%</span>
                 </div>
                 <div class="problem-stat" style="justify-content: space-between; border-color: rgba(255, 107, 107, 0.3);">
-                    <span>Replacement Cost per Satellite</span>
-                    <span class="problem-number" style="font-size: 1.8rem;">$500K+</span>
+                    <span>Cost Impact of Early Mission Failure</span>
+                    <span class="problem-number" style="font-size: 1.8rem;">Mission Loss</span>
                 </div>
             </div>
         </div>
@@ -762,12 +762,12 @@
             <div>
                 <h4>The <span class="xdd-logo">x</span> Innovation</h4>
                 <p style="font-size: 1.15rem; color: var(--text); line-height: 1.8;">
-                    We use <span class="highlight">AI-optimised magnetic field geometry</span> to redirect ion trajectories away from the cathode surface. The optimal field configuration is derived through physics simulation and machine learning — to be implemented in hardware during incubation. Our simulation results project cathode life extended by <span class="highlight">5-10x</span>.
+                    We use <span class="highlight">AI-optimised magnetic field geometry</span> to redirect ion trajectories away from the cathode surface. The optimal field configuration is derived through physics simulation and machine learning — to be implemented in hardware during incubation. Our simulation shows <span class="highlight">76% cathode ion flux reduction</span>, projecting a conservative <span class="highlight">4× or greater</span> lifetime extension.
                 </p>
             </div>
             <div style="text-align: center;">
-                <div style="font-size: 5rem; color: var(--accent); font-family: 'Space Grotesk', sans-serif; font-weight: 700;">5-10x</div>
-                <div style="color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px;">Longer Cathode Life</div>
+                <div style="font-size: 5rem; color: var(--accent); font-family: 'Space Grotesk', sans-serif; font-weight: 700;">4×+</div>
+                <div style="color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px;">Longer Cathode Life (Simulation)</div>
             </div>
         </div>
     </div>
@@ -800,7 +800,7 @@
                 <div class="ai-icon">1</div>
                 <div>
                     <h4 style="margin-bottom: 8px;">Simulation & Design (Ground)</h4>
-                    <p style="font-size: 1rem;">Our <span class="highlight">Aegis RL platform</span> trains a SAC agent on a physics-informed Gymnasium environment — validated against published flight data (BHT-200, SPT-100). Optimal coil configurations are derived from simulation; higher-fidelity validation on HallThruster.jl and bench hardware is planned for incubation. No exotic space-grade AI compute required in flight.</p>
+                    <p style="font-size: 1rem;">Our <span class="highlight">Aegis RL platform</span> trains a SAC agent on a physics-informed Gymnasium environment — validated against published flight data (BHT-200 TacSat-2). Optimal coil configurations are derived from simulation; higher-fidelity validation on HallThruster.jl and bench hardware is planned for incubation. No exotic space-grade AI compute required in flight.</p>
                 </div>
             </div>
             <div class="ai-feature">
@@ -945,8 +945,8 @@
                     <div class="stat-label">AI in Space by 2030</div>
                 </div>
                 <div class="stat card">
-                    <div class="stat-value">85%</div>
-                    <div class="stat-label">LEO Sats Need AI by 2028</div>
+                    <div class="stat-value">10K+</div>
+                    <div class="stat-label">Hours VLEO Needs Continuous Thrust</div>
                 </div>
                 <div class="stat card">
                     <div class="stat-value">50K+</div>
@@ -977,7 +977,7 @@
         </div>
         <div class="card">
             <h4>Alternative Propellants</h4>
-            <p>Krypton-native design with a roadmap to Argon and air-breathing. <span class="highlight">3-5x propellant cost reduction</span> vs traditional Xenon systems.</p>
+            <p>Krypton-native design with a long-term roadmap to air-breathing. <span class="highlight">3-5x propellant cost reduction</span> vs traditional Xenon systems.</p>
         </div>
         <div class="card">
             <h4>AI Orbit Control</h4>
@@ -1028,7 +1028,7 @@
             <div class="timeline-item">
                 <div class="timeline-date">PHASE 3 - 2028+</div>
                 <div class="timeline-title">ABHEP: Air-Breathing Propulsion</div>
-                <p>The "Holy Grail" of VLEO. Utilizing residual atmosphere as fuel for theoretically infinite mission lifetimes. Proprietary magnetic shielding is critical enabler.</p>
+                <p>The "Holy Grail" of VLEO. Utilising residual atmosphere as fuel for dramatically extended mission lifetimes. Our magnetic shielding addresses the primary life-limiting factor: reactive atmospheric ions accelerate cathode erosion faster than any noble gas.</p>
             </div>
         </div>
         <div>
@@ -1038,7 +1038,7 @@
                     Atmospheric gases (N2, O2) are highly reactive and dramatically accelerate cathode erosion. Traditional HETs fail within hours.
                 </p>
                 <p style="margin-top: 15px;">
-                    Our <span class="highlight">AI-guided magnetic shielding</span> is the breakthrough that makes air-breathing propulsion viable. We're not just building thrusters - we're building the platform that enables permanent VLEO presence.
+                    Our <span class="highlight">AI-guided magnetic shielding</span> directly addresses the hardest problem in air-breathing propulsion: keeping the cathode alive long enough to matter. We're not just building thrusters — we're building the platform that makes persistent VLEO viable.
                 </p>
             </div>
             <div class="grid-2" style="margin-top: 30px; grid-template-columns: 1fr 1fr; gap: 20px;">
@@ -1113,7 +1113,7 @@
             <div>
                 <h4 style="margin-bottom: 10px;"><span class="xdd-logo">x</span> Competitive Advantage</h4>
                 <p style="font-size: 1.1rem; color: var(--text);">
-                    Only <span class="highlight">European, ITAR-free</span> HET designed from the ground up for <span class="highlight">VLEO continuous operation</span> — with <span class="highlight">AI-optimised magnetic shielding</span>, <span class="highlight">krypton-native</span> design, and a <span class="highlight">ground SaaS</span> fleet intelligence layer
+                    Only <span class="highlight">European, ITAR-free</span> HET designed from the ground up for <span class="highlight">VLEO continuous operation</span> — with <span class="highlight">AI-optimised magnetic shielding</span>, <span class="highlight">krypton-native</span> design, and a planned <span class="highlight">ground SaaS</span> fleet intelligence layer
                 </p>
             </div>
             <div class="tag" style="font-size: 1rem; padding: 10px 24px;">Unique Position</div>
@@ -1141,13 +1141,13 @@
                 <td>VLEO Optimized</td>
                 <td><span class="cross">No</span></td>
                 <td><span class="partial">Partial</span></td>
-                <td class="xdd-col"><span class="check">Yes - ABHEP Ready</span></td>
+                <td class="xdd-col"><span class="check">Yes — ABHEP Roadmap</span></td>
             </tr>
             <tr>
                 <td>Propellant Options</td>
                 <td>Xenon primary (Kr compatible)</td>
                 <td>Xenon / Krypton / Iodine</td>
-                <td class="xdd-col">Krypton-native / Argon target</td>
+                <td class="xdd-col">Krypton-native / air-breathing roadmap</td>
             </tr>
             <tr>
                 <td>AI / ML</td>
@@ -1171,13 +1171,13 @@
                 <td>Cost per Unit</td>
                 <td>High (300K+)</td>
                 <td>Medium (150K+)</td>
-                <td class="xdd-col"><span class="check">Low (50K+) - Scalable</span></td>
+                <td class="xdd-col"><span class="check">Target: €50–100K (cost-optimised design)</span></td>
             </tr>
             <tr>
                 <td>Thruster Lifespan</td>
                 <td>10-15K hours</td>
                 <td>10-15K hours</td>
-                <td class="xdd-col"><span class="check">50K+ hours target</span></td>
+                <td class="xdd-col"><span class="check">40K+ hours target (4× via simulation)</span></td>
             </tr>
         </tbody>
     </table>
@@ -1252,7 +1252,7 @@
         </div>
         <div class="card">
             <h4 style="color: var(--accent);">ITAR-Free Supply Chain</h4>
-            <p>100% European-sourced components ensuring mission security and unrestricted global commercialization. No US export dependencies.</p>
+            <p>Targeting a 100% European-sourced supply chain — ensuring mission security, no US export restrictions, and unrestricted commercialisation.</p>
         </div>
         <div class="card">
             <h4 style="color: var(--accent);">Defense Resilience</h4>
@@ -1260,7 +1260,7 @@
         </div>
         <div class="card">
             <h4 style="color: var(--accent);">Sustainability</h4>
-            <p>Reducing space debris through active de-orbiting capabilities and efficient VLEO operations where natural decay handles end-of-life.</p>
+            <p>VLEO orbits naturally deorbit within months — no dedicated disposal manoeuvre required. Efficient Krypton propulsion reduces propellant mass and debris risk across the mission lifecycle.</p>
         </div>
     </div>
 
@@ -1281,8 +1281,8 @@
             <h2 style="font-size: 2.2rem;">Scalable Revenue Across the Propulsion Lifecycle</h2>
 
             <div class="card" style="margin-top: 30px; margin-bottom: 20px;">
-                <h4>Unit Sales | $50K - $300K</h4>
-                <p>Direct sales of modular HET units to satellite OEMs and constellation operators. High-margin hardware with scalable production.</p>
+                <h4>Unit Sales | €50K – €150K target</h4>
+                <p>Direct sales of modular HET units to satellite OEMs and constellation operators. Cost-optimised design targeting high margin at volume.</p>
             </div>
             <div class="card" style="margin-bottom: 20px;">
                 <h4>Subsystems | Propulsion-as-a-Service</h4>
@@ -1328,7 +1328,7 @@
                 </div>
             </div>
             <p style="margin-top: 20px; font-style: italic; color: var(--text-muted);">
-                Supported by advisors from top-tier European VCs, ESA research labs, and aerospace industry veterans.
+                Combined network spans ESA, Safran, Thales Alenia Space, Open Cosmos, and Aalto University.
             </p>
         </div>
     </div>
@@ -1348,7 +1348,7 @@
     <div class="usp-box" style="max-width: 700px; margin: 0 auto 50px; text-align: center;">
         <h4>The Investment Ask</h4>
         <p style="font-size: 1.2rem; color: var(--text); margin-top: 15px;">
-            Seeking <span class="highlight">Seed/Series A funding</span> to accelerate R&D, expand our engineering team, and secure our first in-orbit demonstration.
+            Seeking <span class="highlight">ESA BIC incubation + pre-seed investment</span> to build our bench prototype, complete simulation-to-hardware validation, and reach TRL 4–5.
         </p>
     </div>
 
