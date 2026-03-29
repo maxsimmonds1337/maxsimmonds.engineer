@@ -1,6 +1,6 @@
 ---
 layout: xdoubledot
-title: ẍ xdoubledot — Technical Explainer
+title: Technical Explainer
 ---
 
 # ẍ xdoubledot — Technical Explainer

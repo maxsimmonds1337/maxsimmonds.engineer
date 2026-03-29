@@ -1,6 +1,6 @@
 ---
 layout: xdoubledot
-title: ẍ xdoubledot — Learning Primer
+title: Learning Primer
 ---
 
 # ẍ xdoubledot — Learning Primer
