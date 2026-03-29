@@ -65,7 +65,7 @@
   </a>
   <div class="project-meta">
     <h1><a href="./led_streaming_display___rocket_countdown/">LED Streaming Display - Rocket Countdown</a></h1>
-    <p class="project-dates"><strong>Start Date:</strong> 02/02/26 &nbsp;·&nbsp; <strong>Last Edited:</strong> 25/03/26 &nbsp;·&nbsp; <strong>Status:</strong> <span class="status-ongoing">Ongoing</span></p>
+    <p class="project-dates"><strong>Start Date:</strong> 02/02/26 &nbsp;·&nbsp; <strong>Last Edited:</strong> 29/03/26&nbsp;·&nbsp; <strong>Status:</strong> <span class="status-ongoing">Ongoing</span></p>
     <p class="project-blurb">I really want to have an old school scrolling display in my room. I kinda want it to have the time, temperature outside, etc., but also show me when and who is the next rocket launch. So, this is my design of such a thing.</p>
   </div>
 </div>
