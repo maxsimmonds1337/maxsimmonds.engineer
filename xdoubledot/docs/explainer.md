@@ -88,9 +88,7 @@ Here is the mechanism in detail:
 
 The key physics from Mikellides et al. (2014) is captured in this approximation for cathode ion flux:
 
-```
-flux ∝ exp(−k × |dB/dz| / B_cathode)
-```
+$$\Gamma \propto \exp\!\left(-k \cdot \frac{|\partial B/\partial z|}{B_\text{cathode}}\right)$$
 
 - `B_cathode` — the magnetic field magnitude at the cathode plane
 - `dB/dz` — the axial gradient of the field (how steeply the field changes along the thrust axis)
