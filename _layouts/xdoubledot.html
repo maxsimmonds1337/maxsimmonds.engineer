@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ page.title }} — ẍ xdoubledot</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --accent: #00d4ff;
+            --bg: #000000;
+            --surface: #0a0a0f;
+            --surface-light: #12141a;
+            --text: #ffffff;
+            --text-muted: #8899aa;
+            --border: rgba(255,255,255,0.08);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            line-height: 1.7;
+        }
+        header {
+            padding: 24px 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            background: rgba(0,0,0,0.92);
+            backdrop-filter: blur(12px);
+            z-index: 100;
+        }
+        .logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #00d4ff, #0088ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+        }
+        nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            margin-left: 28px;
+            font-size: 0.875rem;
+            transition: color 0.2s;
+        }
+        nav a:hover { color: var(--accent); }
+        .container {
+            max-width: 780px;
+            margin: 0 auto;
+            padding: 60px 40px 100px;
+        }
+        /* Markdown content styling */
+        .content h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.4rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            line-height: 1.2;
+        }
+        .content h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-top: 52px;
+            margin-bottom: 16px;
+            color: var(--accent);
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border);
+        }
+        .content h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-top: 32px;
+            margin-bottom: 10px;
+            color: var(--text);
+        }
+        .content h4 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-top: 24px;
+            margin-bottom: 8px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+        .content p { margin-bottom: 16px; color: #ccd6e0; }
+        .content ul, .content ol {
+            margin: 0 0 16px 24px;
+            color: #ccd6e0;
+        }
+        .content li { margin-bottom: 6px; }
+        .content strong { color: var(--text); font-weight: 600; }
+        .content em { color: var(--text-muted); }
+        .content code {
+            font-family: 'Courier New', monospace;
+            font-size: 0.85em;
+            background: var(--surface-light);
+            color: var(--accent);
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+        .content pre {
+            background: var(--surface-light);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 20px 24px;
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+        .content pre code {
+            background: none;
+            padding: 0;
+            color: #e0e8f0;
+        }
+        .content blockquote {
+            border-left: 3px solid var(--accent);
+            margin: 20px 0;
+            padding: 12px 24px;
+            background: rgba(0,212,255,0.05);
+            color: var(--text-muted);
+            font-style: italic;
+        }
+        .content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 24px 0;
+            font-size: 0.9rem;
+        }
+        .content th {
+            background: var(--surface-light);
+            padding: 10px 14px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--accent);
+            border-bottom: 1px solid var(--border);
+        }
+        .content td {
+            padding: 10px 14px;
+            border-bottom: 1px solid var(--border);
+            color: #ccd6e0;
+        }
+        .content tr:last-child td { border-bottom: none; }
+        .content a { color: var(--accent); text-decoration: none; }
+        .content a:hover { text-decoration: underline; }
+        .content hr {
+            border: none;
+            border-top: 1px solid var(--border);
+            margin: 40px 0;
+        }
+        .draft-banner {
+            background: rgba(255,200,0,0.08);
+            border: 1px solid rgba(255,200,0,0.2);
+            border-radius: 6px;
+            padding: 12px 20px;
+            margin-bottom: 40px;
+            font-size: 0.85rem;
+            color: #ffd080;
+        }
+        footer {
+            padding: 32px 60px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+        footer a { color: var(--text-muted); text-decoration: none; }
+        footer a:hover { color: var(--accent); }
+    </style>
+</head>
+<body>
+<header>
+    <a href="/xdoubledot/" class="logo">ẍ xdoubledot</a>
+    <nav>
+        <a href="/xdoubledot/pitch-deck.html">Pitch Deck</a>
+        <a href="/xdoubledot/docs/explainer.html">Explainer</a>
+        <a href="/xdoubledot/docs/learning-primer.html">Primer</a>
+        <a href="mailto:info@x-double-dot.space">Contact</a>
+    </nav>
+</header>
+
+<div class="container">
+    {% if page.draft %}<div class="draft-banner">⚠ Draft — internal use only. Not for distribution.</div>{% endif %}
+    <div class="content">
+        {{ content }}
+    </div>
+</div>
+
+<footer>
+    <div>ẍ xdoubledot OÜ · <a href="mailto:info@x-double-dot.space">info@x-double-dot.space</a></div>
+    <div><a href="/xdoubledot/">← Back to xdoubledot</a></div>
+</footer>
+</body>
+</html>
