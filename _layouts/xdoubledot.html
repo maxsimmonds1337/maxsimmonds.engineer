@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ page.title }} — ẍ xdoubledot</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@1,600&display=swap" rel="stylesheet">
     <!-- MathJax for $$ ... $$ and $ ... $ rendering -->
     <script>
     MathJax = {
@@ -47,24 +47,31 @@
             backdrop-filter: blur(12px);
             z-index: 100;
         }
-        /* Logo: solid accent colour — gradient clip breaks ẍ character */
+        /* Logo: Cormorant Garamond italic x with CSS-positioned diaeresis */
         .logo {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: var(--accent);
             text-decoration: none;
-            display: flex;
-            align-items: baseline;
-            gap: 6px;
+            display: inline-block;
         }
         .logo .mark {
-            font-size: 1.5rem;
+            display: inline-block;
+            position: relative;
+            font-family: 'Cormorant Garamond', 'Times New Roman', serif;
+            font-style: italic;
+            font-weight: 600;
+            font-size: 2.6rem;
             line-height: 1;
+            color: var(--accent);
         }
-        .logo .wordmark {
-            color: #ffffff;
-            font-weight: 500;
+        .logo .mark::before {
+            content: '¨';
+            position: absolute;
+            top: 0.08em;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.65em;
+            font-style: normal;
+            font-family: 'Times New Roman', serif;
+            color: var(--accent);
         }
         nav a {
             color: var(--text-muted);
@@ -200,13 +207,14 @@
         footer a { color: var(--text-muted); text-decoration: none; }
         footer a:hover { color: var(--accent); }
         .footer-brand { display: flex; align-items: center; gap: 6px; }
-        .footer-brand .mark { color: var(--accent); font-size: 1rem; font-family: 'Space Grotesk', sans-serif; font-weight: 700; }
+        .footer-brand .mark { display: inline-block; position: relative; color: var(--accent); font-size: 1.1rem; font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 600; line-height: 1; }
+        .footer-brand .mark::before { content: '¨'; position: absolute; top: 0.08em; left: 50%; transform: translateX(-50%); font-size: 0.65em; font-style: normal; font-family: 'Times New Roman', serif; color: var(--accent); }
     </style>
 </head>
 <body>
 <header>
     <a href="/xdoubledot/" class="logo">
-        <span class="mark" style="font-size:2.2rem;">ẍ</span>
+        <span class="mark">x</span>
     </a>
     <nav>
         <a href="/xdoubledot/pitch-deck.html">Pitch Deck</a>
@@ -225,7 +233,7 @@
 
 <footer>
     <div class="footer-brand">
-        <span class="mark">ẍ</span> xdoubledot OÜ · Tallinn, Estonia · <a href="mailto:maxsimmonds1337@gmail.com">maxsimmonds1337@gmail.com</a>
+        <span class="mark">x</span> xdoubledot OÜ · Tallinn, Estonia · <a href="mailto:maxsimmonds1337@gmail.com">maxsimmonds1337@gmail.com</a>
     </div>
     <div><a href="/xdoubledot/">← Back to xdoubledot</a></div>
 </footer>
