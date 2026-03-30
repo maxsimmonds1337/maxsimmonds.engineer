@@ -1,20 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ page.title }} — ẍ</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@1,600&display=swap" rel="stylesheet">
+    <link rel="icon"
+        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cstyle%3E text %7B fill: %2300f2ff; font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 600; %7D @media (prefers-color-scheme: light) %7B text %7B fill: %23008080; %7D %7D %3C/style%3E%3Ctext y='0.8em' x='50%25' text-anchor='middle' font-size='90'%3Eẍ%3C/text%3E%3C/svg%3E">
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@1,600&display=swap"
+    rel="stylesheet">
     <!-- MathJax for $$ ... $$ and $ ... $ rendering -->
     <script>
-    MathJax = {
-        tex: {
-            inlineMath: [['$', '$'], ['\\(', '\\)']],
-            displayMath: [['$$', '$$'], ['\\[', '\\]']],
-            processEscapes: true
-        },
-        options: { skipHtmlTags: ['script','noscript','style','textarea','pre'] }
-    };
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            options: {skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']}
+        };
     </script>
     <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
     <style>
@@ -25,9 +29,15 @@
             --surface-light: #12141a;
             --text: #ffffff;
             --text-muted: #8899aa;
-            --border: rgba(255,255,255,0.08);
+            --border: rgba(255, 255, 255, 0.08);
         }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
             font-family: 'Inter', sans-serif;
             background: var(--bg);
@@ -35,6 +45,7 @@
             min-height: 100vh;
             line-height: 1.7;
         }
+
         header {
             padding: 24px 60px;
             display: flex;
@@ -43,15 +54,17 @@
             border-bottom: 1px solid var(--border);
             position: sticky;
             top: 0;
-            background: rgba(0,0,0,0.92);
+            background: rgba(0, 0, 0, 0.92);
             backdrop-filter: blur(12px);
             z-index: 100;
         }
+
         /* Logo: Cormorant Garamond italic x with CSS-positioned diaeresis */
         .logo {
             text-decoration: none;
             display: inline-block;
         }
+
         .logo .mark {
             display: inline-block;
             position: relative;
@@ -62,6 +75,7 @@
             line-height: 1;
             color: var(--accent);
         }
+
         .logo .mark::before {
             content: '¨';
             position: absolute;
@@ -73,6 +87,7 @@
             font-family: 'Times New Roman', serif;
             color: var(--accent);
         }
+
         nav a {
             color: var(--text-muted);
             text-decoration: none;
@@ -80,12 +95,17 @@
             font-size: 0.875rem;
             transition: color 0.2s;
         }
-        nav a:hover { color: var(--accent); }
+
+        nav a:hover {
+            color: var(--accent);
+        }
+
         .container {
             max-width: 780px;
             margin: 0 auto;
             padding: 60px 40px 100px;
         }
+
         /* Markdown content styling */
         .content h1 {
             font-family: 'Space Grotesk', sans-serif;
@@ -94,6 +114,7 @@
             margin-bottom: 12px;
             line-height: 1.2;
         }
+
         .content h2 {
             font-family: 'Space Grotesk', sans-serif;
             font-size: 1.4rem;
@@ -104,6 +125,7 @@
             padding-bottom: 8px;
             border-bottom: 1px solid var(--border);
         }
+
         .content h3 {
             font-size: 1.1rem;
             font-weight: 600;
@@ -111,6 +133,7 @@
             margin-bottom: 10px;
             color: var(--text);
         }
+
         .content h4 {
             font-size: 0.95rem;
             font-weight: 600;
@@ -120,14 +143,31 @@
             text-transform: uppercase;
             letter-spacing: 0.06em;
         }
-        .content p { margin-bottom: 16px; color: #ccd6e0; }
-        .content ul, .content ol {
+
+        .content p {
+            margin-bottom: 16px;
+            color: #ccd6e0;
+        }
+
+        .content ul,
+        .content ol {
             margin: 0 0 16px 24px;
             color: #ccd6e0;
         }
-        .content li { margin-bottom: 6px; }
-        .content strong { color: var(--text); font-weight: 600; }
-        .content em { color: var(--text-muted); }
+
+        .content li {
+            margin-bottom: 6px;
+        }
+
+        .content strong {
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        .content em {
+            color: var(--text-muted);
+        }
+
         .content code {
             font-family: 'Courier New', monospace;
             font-size: 0.85em;
@@ -136,6 +176,7 @@
             padding: 2px 6px;
             border-radius: 3px;
         }
+
         .content pre {
             background: var(--surface-light);
             border: 1px solid var(--border);
@@ -144,25 +185,29 @@
             overflow-x: auto;
             margin: 20px 0;
         }
+
         .content pre code {
             background: none;
             padding: 0;
             color: #e0e8f0;
         }
+
         .content blockquote {
             border-left: 3px solid var(--accent);
             margin: 20px 0;
             padding: 12px 24px;
-            background: rgba(0,212,255,0.05);
+            background: rgba(0, 212, 255, 0.05);
             color: var(--text-muted);
             font-style: italic;
         }
+
         .content table {
             width: 100%;
             border-collapse: collapse;
             margin: 24px 0;
             font-size: 0.9rem;
         }
+
         .content th {
             background: var(--surface-light);
             padding: 10px 14px;
@@ -171,30 +216,47 @@
             color: var(--accent);
             border-bottom: 1px solid var(--border);
         }
+
         .content td {
             padding: 10px 14px;
             border-bottom: 1px solid var(--border);
             color: #ccd6e0;
         }
-        .content tr:last-child td { border-bottom: none; }
-        .content a { color: var(--accent); text-decoration: none; }
-        .content a:hover { text-decoration: underline; }
+
+        .content tr:last-child td {
+            border-bottom: none;
+        }
+
+        .content a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .content a:hover {
+            text-decoration: underline;
+        }
+
         .content hr {
             border: none;
             border-top: 1px solid var(--border);
             margin: 40px 0;
         }
+
         /* MathJax output colour fix for dark background */
-        .MathJax { color: #e0e8f0 !important; }
+        .MathJax {
+            color: #e0e8f0 !important;
+        }
+
         .draft-banner {
-            background: rgba(255,200,0,0.08);
-            border: 1px solid rgba(255,200,0,0.2);
+            background: rgba(255, 200, 0, 0.08);
+            border: 1px solid rgba(255, 200, 0, 0.2);
             border-radius: 6px;
             padding: 12px 20px;
             margin-bottom: 40px;
             font-size: 0.85rem;
             color: #ffd080;
         }
+
         footer {
             padding: 32px 60px;
             border-top: 1px solid var(--border);
@@ -204,38 +266,74 @@
             color: var(--text-muted);
             font-size: 0.8rem;
         }
-        footer a { color: var(--text-muted); text-decoration: none; }
-        footer a:hover { color: var(--accent); }
-        .footer-brand { display: flex; align-items: center; gap: 6px; }
-        .footer-brand .mark { display: inline-block; position: relative; color: var(--accent); font-size: 1.1rem; font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 600; line-height: 1; }
-        .footer-brand .mark::before { content: '¨'; position: absolute; top: 0.08em; left: 50%; transform: translateX(-50%); font-size: 0.65em; font-style: normal; font-family: 'Times New Roman', serif; color: var(--accent); }
+
+        footer a {
+            color: var(--text-muted);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            color: var(--accent);
+        }
+
+        .footer-brand {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .footer-brand .mark {
+            display: inline-block;
+            position: relative;
+            color: var(--accent);
+            font-size: 1.1rem;
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-weight: 600;
+            line-height: 1;
+        }
+
+        .footer-brand .mark::before {
+            content: '¨';
+            position: absolute;
+            top: 0.08em;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.65em;
+            font-style: normal;
+            font-family: 'Times New Roman', serif;
+            color: var(--accent);
+        }
     </style>
 </head>
+
 <body>
-<header>
-    <a href="/xdoubledot/" class="logo">
-        <span class="mark">x</span>
-    </a>
-    <nav>
-        <a href="/xdoubledot/pitch-deck.html">Pitch Deck</a>
-        <a href="/xdoubledot/docs/explainer.html">Explainer</a>
-        <a href="/xdoubledot/docs/learning-primer.html">Primer</a>
-        <a href="mailto:maxsimmonds1337@gmail.com">Contact</a>
-    </nav>
-</header>
+    <header>
+        <a href="/xdoubledot/" class="logo">
+            <span class="mark">x</span>
+        </a>
+        <nav>
+            <a href="/xdoubledot/pitch-deck.html">Pitch Deck</a>
+            <a href="/xdoubledot/docs/explainer.html">Explainer</a>
+            <a href="/xdoubledot/docs/learning-primer.html">Primer</a>
+            <a href="mailto:maxsimmonds1337@gmail.com">Contact</a>
+        </nav>
+    </header>
 
-<div class="container">
-    {% if page.draft %}<div class="draft-banner">⚠ Draft — internal use only. Not for distribution.</div>{% endif %}
-    <div class="content">
-        {{ content }}
+    <div class="container">
+        {% if page.draft %}<div class="draft-banner">⚠ Draft — internal use only. Not for distribution.</div>{% endif %}
+        <div class="content">
+            {{ content }}
+        </div>
     </div>
-</div>
 
-<footer>
-    <div class="footer-brand">
-        <span class="mark">x</span> OÜ · Tallinn, Estonia · <a href="mailto:maxsimmonds1337@gmail.com">maxsimmonds1337@gmail.com</a>
-    </div>
-    <div><a href="/xdoubledot/">← Back</a></div>
-</footer>
+    <footer>
+        <div class="footer-brand">
+            <span class="mark">x</span> OÜ · Tallinn, Estonia · <a
+                href="mailto:maxsimmonds1337@gmail.com">maxsimmonds1337@gmail.com</a>
+        </div>
+        <div><a href="/xdoubledot/">← Back</a></div>
+    </footer>
 </body>
+
 </html>
