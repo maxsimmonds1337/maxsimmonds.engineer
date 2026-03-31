@@ -460,6 +460,14 @@ close to being able to get something ready for the launch that I want to try.
 
 I don't think I'll get all 30 boards made, but I could get like 5 or something
 just for the count down. I also had a cool idea, taking inspiration from The
-Everyday Astronaut's [video]() where he had this cool image:
+Everyday Astronaut's [video](https://www.youtube.com/watch?v=o593JmtLyMU) where he had this cool image:
 
+![image](./images/EDA_TLI.png)
 
+I was looking at this and I was like damn, that would be a super cool way to
+display what's going on with the rocket clock. It looks like it would map well
+to the LEDs (maybe) and then I can flash one of the LEDs to indicate where it is
+on the orbit.
+
+This would be reasonably simple to implement, I think. Since I can only do one
+colour, I need an intensity coloured image, 
