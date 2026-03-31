@@ -442,3 +442,24 @@ actually having the hardware!
 
 ## 29/03/26
 
+   ![image](./images/barePCBs.png)
+
+PCBs came! Super early, in fact, which is great. Although, I still don't have
+the components, they're still due to arrive on the 31st, so I can't do too much
+(well, really, anything) until they're here.
+
+## 31/03/26
+
+I spent about 2 hours yesterday trying to import these damn components. I've
+done this before with DPD and it was a breeze, not sure what was different. But
+now? Man, I didn't get anywhere. Even with Gemini (claude was sadly at it's
+weekly limit) I couldn't get anywhere. In the end, I wrote to FedEx and just
+said I would pay them to do it for me. I think it costs like 15€ but I'm so
+close to being able to get something ready for the launch that I want to try. 
+
+
+I don't think I'll get all 30 boards made, but I could get like 5 or something
+just for the count down. I also had a cool idea, taking inspiration from The
+Everyday Astronaut's [video]() where he had this cool image:
+
+
