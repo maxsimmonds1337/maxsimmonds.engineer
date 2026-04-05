@@ -442,32 +442,95 @@ actually having the hardware!
 
 ## 29/03/26
 
-   ![image](./images/barePCBs.png)
+![image](./images/barePCBs.png)
 
-PCBs came! Super early, in fact, which is great. Although, I still don't have
-the components, they're still due to arrive on the 31st, so I can't do too much
-(well, really, anything) until they're here.
+PCBs!!! I got them, check it out. They came several days early, which is
+awesome. I don't have the parts yet (they arrived into France this morning from China, so a few days to get over to Estonia).
 
-## 31/03/26
+## 03/04/2026
 
-I spent about 2 hours yesterday trying to import these damn components. I've
-done this before with DPD and it was a breeze, not sure what was different. But
-now? Man, I didn't get anywhere. Even with Gemini (claude was sadly at it's
-weekly limit) I couldn't get anywhere. In the end, I wrote to FedEx and just
-said I would pay them to do it for me. I think it costs like 15€ but I'm so
-close to being able to get something ready for the launch that I want to try. 
+I've actually done a bunch of stuff here since the last post. I haven't been
+able to update here, though. So I'll do a quick data dump and maybe will write
+up more in the future.
 
+On the night / morning of the launch, I cracked open a monster energy (launch
+window started at 0130 on the 2nd of April), my daughter went to bed at about
+8/9, and I started soldering up my first board:
 
-I don't think I'll get all 30 boards made, but I could get like 5 or something
-just for the count down. I also had a cool idea, taking inspiration from The
-Everyday Astronaut's [video](https://www.youtube.com/watch?v=o593JmtLyMU) where he had this cool image:
+![image](./images/begBoard.png)
 
-![image](./images/EDA_TLI.png)
+I used the IBOM of the board, a super nice plugin that allows a view of the BOM
+(which helpful tick boxes), then the cross selection of item to location on
+front or back of board (and vice versa)).
 
-I was looking at this and I was like damn, that would be a super cool way to
-display what's going on with the rocket clock. It looks like it would map well
-to the LEDs (maybe) and then I can flash one of the LEDs to indicate where it is
-on the orbit.
+![image](./images/tempIC.png)
 
-This would be reasonably simple to implement, I think. Since I can only do one
-colour, I need an intensity coloured image, 
+I populated the LEDs first, it was pretty easy to do them, actually. The most
+difficult part was the temp IC - small footprint to paste without a stencil.
+
+![image](./images/solderPaste.png)
+
+The solder paste was a little messy, I just squeezed it with the syringed paste.
+It worked, though. I did touch up all LEDs after, just incase. I also had one
+LED (you'll see in photos later) that didn't solder, and one that fell off when
+I dropped the board 🤦🏻‍♂️).
+
+![image](./images/popLEDs.png)
+
+That's the LEDs populated before I used a hotair gun to solder.
+
+![image](./images/poorReflow.png)
+
+It didn't reflow well. That could be because of a few reasons, I think:
+
+- solder paste was left too long (approx 1 hour after application)
+- too hot, or somehow I evaporated all the flux before the solder melted (not
+hot enough?)
+
+![image](./images/frontDone.png)
+
+In any case, I touched up all the LEDs and temperature IC, all looked a lot
+better after that, and I tested most lines using a DMM (using diode function)
+and the pads from the MAX7219 IC.
+
+![image](./images/backPaste.png)
+
+The back was basically the same as the front side of the board, though, it took
+a lot longer. Obviously a bunch of different components, and a lot of 0402
+passives which take a little longer. 
+
+![image](./images/0402Tweezers.png)
+![image](./images/0402Far.png)
+![image](./images/backPop.png)
+
+A little messy, again, but okay. I touched up each part again with the soldering
+iron and sometimes with liquid flux to get nice clean solder joints. 
+
+![image](./images/FinishPCBLaunch.png)
+
+At this point it was about L - 15 on the clock for the launch. I thought, maybe,
+if the board worked first time I might be able to get a simple 10s count down
+going in sync with the launch - but there was an issue. Spoiler, I didn't find
+it until the next day, but look was sleep Max placed instead of the USB to UART
+IC:
+
+![image](./images/wrongIC.JPG)
+
+That's not the `CH430`!.
+
+![images](./images/firstLightUp.png)
+
+Anyway, the board did light up all LEDs (just USB wasn't being detected,
+obviously).
+
+https://youtube.com/shorts/8IFnWLreycE?si=TLuFFuXFJKIlkUf4
+
+I took a super short video of it working (rotating smiley face that I got claude
+to do).
+
+Currently, I'm working on converting an image into something that can be
+displayed on the board/s. I have only one board at the moment, so i'm converting
+images to greyscale, then I will run a kernal over that (sized correctly such
+that the kernal will run 64 times over an image) and then calc the average
+greyscale value in that kernal - and threshold it. Anything over 127 will be on,
+and anything less will be off.
