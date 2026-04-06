@@ -716,15 +716,15 @@
 <section class="slide" id="slide-3">
     <span class="slide-number">04 / 18</span>
     <h3>The Technical Challenge</h3>
-    <h2>Cathode Erosion: The Silent Killer of Hall Thrusters</h2>
+    <h2>Channel Erosion: The Life-Limiting Failure of Hall Thrusters</h2>
     <div class="grid-2" style="margin-top: 40px;">
         <div>
             <p style="margin-bottom: 30px;">
-                Every Hall Effect Thruster depends on a cathode to generate electrons for plasma ionization. But high-energy ion bombardment causes <span class="highlight">progressive cathode erosion</span>, limiting thruster lifespan to 10,000-15,000 hours.
+                The primary life-limiting failure mode of a Hall thruster is erosion of the ceramic discharge channel walls. High-energy ions sputter material from the boron nitride channel until erosion reaches the magnetic circuit — at which point the thruster fails. This limits operational life to 10,000–15,000 hours.
             </p>
             <div class="card" style="margin-bottom: 20px;">
                 <h4>The Erosion Cycle</h4>
-                <p>Ion bombardment strips material from the cathode surface. As geometry changes, plasma becomes unstable. Efficiency drops. The thruster fails.</p>
+                <p>Ion bombardment progressively deepens the channel wall profile. Once erosion exposes the magnetic circuit, the field topology is disrupted and the thruster fails. The hollow cathode is a secondary erosion site — but magnetic shielding addresses both.</p>
             </div>
             <div class="card">
                 <h4>Industry Standard: Accept & Replace</h4>
@@ -759,7 +759,7 @@
 <section class="slide" id="slide-4">
     <span class="slide-number">05 / 18</span>
     <h3>Our Breakthrough</h3>
-    <h2>AI-Guided Magnetic Shielding: Eliminating Cathode Erosion</h2>
+    <h2>AI-Guided Magnetic Shielding: Managing Channel and Cathode Erosion</h2>
 
     <div class="usp-box">
         <div class="grid-2">
@@ -941,13 +941,13 @@
                 </div>
                 <div class="stat card" style="padding:16px;">
                     <div class="stat-value" style="font-size:2rem; color:var(--accent);">3×</div>
-                    <div class="stat-label">Lower discharge oscillation<br><span style="font-size:0.75rem; color:var(--text-muted);">external more stable (0.027 vs 0.090)</span></div>
+                    <div class="stat-label">Lower PPU current-ripple stress<br><span style="font-size:0.75rem; color:var(--text-muted);">discharge oscillation 0.027 vs 0.090 — reduces power supply derating</span></div>
                 </div>
             </div>
 
             <div class="card" style="border-color:rgba(79,195,247,0.3); padding:14px 18px;">
                 <h4 style="font-size:0.9rem; margin-bottom:8px;">Reading the charts</h4>
-                <p style="font-size:0.85rem;"><span class="highlight">Top-left:</span> reward converges to 351 (external, blue) vs 248 (center, red). <span class="highlight">Top-right:</span> cathode flux Γ from 1.0 baseline to 0.15 external vs 0.37 center — lower is better. <span class="highlight">Bottom-left:</span> external holds 12 mN target throughout; center trades thrust for shielding. <span class="highlight">Bottom-right:</span> 3× lower discharge oscillation — critical for long-duration VLEO operations.</p>
+                <p style="font-size:0.85rem;"><span class="highlight">Top-left:</span> reward converges to 351 (external, blue) vs 248 (center, red). <span class="highlight">Top-right:</span> cathode flux Γ from 1.0 baseline to 0.15 external vs 0.37 center — lower is better. <span class="highlight">Bottom-left:</span> external holds 12 mN target throughout; center trades thrust for shielding. <span class="highlight">Bottom-right:</span> 3× lower discharge current oscillation amplitude — reduces peak current demand on the PPU (breathing mode oscillations are normal in high-performance HETs; what matters is the power supply derating margin).</p>
             </div>
         </div>
     </div>
@@ -1053,7 +1053,7 @@
         </div>
         <div class="card">
             <h4>Alternative Propellants</h4>
-            <p>Krypton-native design with a long-term roadmap to air-breathing. <span class="highlight">3-5x propellant cost reduction</span> vs traditional Xenon systems.</p>
+            <p>Krypton-native design. <span class="highlight">3-5x propellant cost reduction</span> vs Xenon. Air-breathing VLEO on the long-term roadmap — contingent on progress in atmospheric ionisation (active research area).</p>
         </div>
         <div class="card">
             <h4>AI Orbit Control</h4>
@@ -1109,12 +1109,12 @@
         </div>
         <div>
             <div class="card" style="background: linear-gradient(135deg, rgba(0, 212, 255, 0.15) 0%, rgba(0, 212, 255, 0.03) 100%); border-color: var(--accent);">
-                <h4 style="color: var(--accent);">Why Air-Breathing Needs Our Tech</h4>
+                <h4 style="color: var(--accent);">The Air-Breathing Challenge</h4>
                 <p style="margin-top: 15px;">
-                    Atmospheric gases (N2, O2) are highly reactive and dramatically accelerate cathode erosion. Traditional HETs fail within hours.
+                    Air-breathing HET is technically challenging. The primary unsolved problem is not erosion but ionisation: hollow cathodes require noble gas propellant (Xe, Kr) to operate — they do not function on atmospheric N₂/O₂. Dedicated ABEP thruster architectures (e.g. with RF ionisation sources) are an active area of research.
                 </p>
                 <p style="margin-top: 15px;">
-                    Our <span class="highlight">AI-guided magnetic shielding</span> directly addresses the hardest problem in air-breathing propulsion: keeping the cathode alive long enough to matter. We're not just building thrusters — we're building the platform that makes persistent VLEO viable.
+                    Our channel erosion management and dynamic magnetic shielding are directly transferable to any ABEP architecture that achieves stable ionisation. <span class="highlight">Roadmap item — not a near-term product claim.</span>
                 </p>
             </div>
             <div class="grid-2" style="margin-top: 30px; grid-template-columns: 1fr 1fr; gap: 20px;">
