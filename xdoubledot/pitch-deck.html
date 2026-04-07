@@ -766,7 +766,7 @@
             <div>
                 <h4>The <span class="xdd-logo">x</span> Innovation</h4>
                 <p style="font-size: 1.15rem; color: var(--text); line-height: 1.8;">
-                    We use <span class="highlight">AI-optimised magnetic field geometry</span> to redirect ion trajectories away from the cathode surface. The optimal field configuration is derived through physics simulation and machine learning — to be implemented in hardware during incubation. Our simulation shows <span class="highlight">85% cathode ion flux reduction</span> with external cathode geometry, projecting a conservative <span class="highlight">4× or greater</span> lifetime extension.
+                    We use <span class="highlight">AI-optimised magnetic field geometry</span> to redirect ion trajectories away from the cathode surface. The optimal field configuration is derived through physics simulation and machine learning — to be implemented in hardware during incubation. RL firmware alone delivers <span class="highlight">27% cathode ion flux reduction</span>; combined with AM-optimised pole geometry, simulation shows <span class="highlight">76% reduction</span>, projecting a conservative <span class="highlight">4× or greater</span> lifetime extension.
                 </p>
             </div>
             <div style="text-align: center;">
@@ -893,8 +893,8 @@
 
         <div class="grid-2" style="grid-template-columns: 1fr 1fr; gap: 16px;">
             <div class="stat card">
-                <div class="stat-value" style="font-size: 2.4rem; color: var(--accent);">85%</div>
-                <div class="stat-label">Cathode Flux Reduction<br><span style="font-size: 0.75rem; color: var(--text-muted);">external cathode config · vs 58% JPL H6MS passive</span></div>
+                <div class="stat-value" style="font-size: 2.4rem; color: var(--accent);">76%</div>
+                <div class="stat-label">Cathode Flux Reduction<br><span style="font-size: 0.75rem; color: var(--text-muted);">AM-optimised hardware + RL firmware · 27% from firmware alone</span></div>
             </div>
             <div class="stat card">
                 <div class="stat-value" style="font-size: 2.4rem; color: var(--accent);">4×</div>
@@ -905,8 +905,8 @@
                 <div class="stat-label">Thrust Error<br><span style="font-size: 0.75rem; color: var(--text-muted);">0.05 mN at 12 mN target</span></div>
             </div>
             <div class="stat card">
-                <div class="stat-value" style="font-size: 2.4rem; color: var(--accent);">52/52</div>
-                <div class="stat-label">Validation Tests<br><span style="font-size: 0.75rem; color: var(--text-muted);">vs published flight data</span></div>
+                <div class="stat-value" style="font-size: 2.4rem; color: var(--accent);">41/41</div>
+                <div class="stat-label">Validation Tests<br><span style="font-size: 0.75rem; color: var(--text-muted);">vs published flight data &amp; HallThruster.jl</span></div>
             </div>
         </div>
     </div>
@@ -916,7 +916,7 @@
 <section class="slide" id="slide-5c">
     <span class="slide-number">08 / 18</span>
     <h3>Simulation Results</h3>
-    <h2>External Cathode Wins: 85% Flux Reduction vs 63% Center-Mounted</h2>
+    <h2>External Cathode Wins: Higher Magnetic Leverage for Shielding</h2>
 
     <div class="grid-2" style="margin-top: 28px; gap: 40px; align-items: start;">
         <div>
@@ -932,8 +932,8 @@
                     <div class="stat-label">External — final reward<br><span style="font-size:0.75rem; color:var(--text-muted);">vs 248 center (+41%)</span></div>
                 </div>
                 <div class="stat card" style="padding:16px;">
-                    <div class="stat-value" style="font-size:2rem; color:var(--accent);">85%</div>
-                    <div class="stat-label">External flux reduction<br><span style="font-size:0.75rem; color:var(--text-muted);">vs 63% center-mounted</span></div>
+                    <div class="stat-value" style="font-size:2rem; color:var(--accent);">27%</div>
+                    <div class="stat-label">Flux reduction (RL firmware alone)<br><span style="font-size:0.75rem; color:var(--text-muted);">external cathode config · 76% with AM-optimised hardware</span></div>
                 </div>
                 <div class="stat card" style="padding:16px;">
                     <div class="stat-value" style="font-size:2rem; color:var(--accent);">12.2 mN</div>
