@@ -4,6 +4,7 @@ title: HET Hardware Design
 ---
 
 
+
 # Hall Effect Thruster — Hardware Design Reference
 ## 200W Krypton, Magnetically Shielded, External Cathode
 

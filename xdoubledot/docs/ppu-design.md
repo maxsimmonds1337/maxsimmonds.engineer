@@ -3,6 +3,7 @@ layout: xdoubledot
 title: PPU Design
 ---
 
+
 # Power Processing Unit — Design Reference
 ## 200W Hall Effect Thruster (Krypton, 250V Discharge)
 ### Aegis RL Platform — Hardware Subsystem

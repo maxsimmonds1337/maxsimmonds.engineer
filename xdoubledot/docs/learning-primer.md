@@ -3,6 +3,7 @@ layout: xdoubledot
 title: Learning Primer
 ---
 
+
 # Learning Primer
 ## Everything you need to understand this project, from scratch
 
