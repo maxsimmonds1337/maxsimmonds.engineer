@@ -268,7 +268,7 @@ The surrogate models oscillation amplitude as a function of how far the current 
 
 ### 3.5 State Space (What the Agent Observes)
 
-The agent observes 9 numbers at each timestep --- the observation vector:
+The agent observes 10 numbers at each timestep --- the observation vector:
 
   ----------------------------------------------------------------------------------------------------------------------------------------------------
   **Index**   **Variable**   **Range**    **Units**   **Description**
@@ -287,9 +287,11 @@ The agent observes 9 numbers at each timestep --- the observation vector:
 
   6           thrust_mN      0 -- 50      mN          Current thrust output. Agent is rewarded for keeping this near the target.
 
-  7           cathode_flux   0 -- 1       ---         Normalised ion flux at cathode. The primary erosion proxy --- lower is better.
+  7           wall_flux      0 -- 1       ---         Normalised ion flux to BN channel walls. PRIMARY erosion proxy --- dominant life limiter, lower is better.
 
-  8           osc_amp        0 -- 1       ---         Breathing mode oscillation amplitude. Should be kept low.
+  8           cathode_flux   0 -- 1       ---         Normalised ion flux at cathode (back-streaming). Secondary erosion proxy --- lower is better.
+
+  9           osc_amp        0 -- 1       ---         Breathing mode oscillation amplitude. Should be kept low.
   ----------------------------------------------------------------------------------------------------------------------------------------------------
 
 ### 3.6 Action Space (What the Agent Controls)
@@ -314,23 +316,25 @@ The delta formulation (rather than absolute current commands) is important for t
 
 ### 3.7 Reward Function
 
-The reward at each timestep is a weighted sum of four components:
+The reward at each timestep is a weighted sum of five components:
 
   -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
   **Component**         **Weight**   **Formula**                          **Goal**
   --------------------- ------------ ------------------------------------ -------------------------------------------------------------------------------------------------------------------------
-  Cathode shielding     0.50         1 − cathode_flux                     Primary objective. Maximise shielding by minimising flux. Range 0--1.
+  Wall shielding        0.35         1 − wall_flux                        PRIMARY objective. BN channel wall erosion is the dominant life limiter. Maximise shielding.
 
   Thrust maintenance    0.30         exp(−0.5 × ((thrust − target)/3)²)   Keep thrust within ±3 mN of target. Gaussian penalty for deviation --- agent is not harshly penalised for small errors.
+
+  Cathode shielding     0.15         1 − cathode_flux                     Secondary erosion objective. Reduce back-streaming ion flux to cathode.
 
   Oscillation penalty   −0.15        osc_amp                              Penalise strong breathing mode oscillations. Deducted from reward.
 
   Coil power cost       −0.05        ΣI² / (3 × Imax²)                    Small penalty for running coils at high current unnecessarily. Encourages efficient solutions.
   -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-The weights reflect the priority hierarchy: erosion reduction is the primary goal (50%), thrust is important but secondary (30%), stability is monitored but has some tolerance (15%), and efficiency is a minor consideration (5%).
+The weights reflect the priority hierarchy: channel wall erosion is the primary goal (35%), thrust is critical (30%), cathode shielding is the secondary erosion objective (15%), oscillation stability matters but has tolerance (15%), and power efficiency is minor (5%).
 
-These weights are configurable --- editing W_FLUX, W_THRUST, W_OSC, W_POWER in HETEnv allows you to explore different objective trade-offs.
+These weights are configurable --- editing W_WALL, W_THRUST, W_CATH, W_OSC, W_POWER in HETEnv allows you to explore different objective trade-offs.
 
 > **4. Training the Agent (train.py)**
 

@@ -40,7 +40,7 @@ Satellites in Very Low Earth Orbit (VLEO, ~150–350 km altitude) fly through th
 
 Hall Effect Thrusters (HETs) are the best technology for this: they are efficient, compact, and can run on Krypton (cheap, available). The problem is they wear out. The industry standard lifetime for a HET is **10,000–15,000 hours** before the thruster fails due to component erosion.
 
-The primary failure mechanism is **cathode erosion** — high-energy ions bombarding and sputtering away the hollow cathode, which is a small but critical component that injects electrons into the thruster discharge. When the cathode fails, the thruster stops.
+HETs fail from two erosion mechanisms. The **primary** failure mechanism is **channel wall erosion** — ion bombardment of the boron nitride (BN) discharge channel walls, which are sputtered away over time. This is the dominant source of mass loss and the main life limiter. The **secondary** mechanism is **cathode erosion** — high-energy ions from the plume back-streaming along field lines and bombarding the hollow cathode orifice. Both must be controlled.
 
 Closing this gap from ~12,000 hours to ~40,000 hours is the core engineering challenge we are solving.
 
@@ -173,7 +173,7 @@ SAC maintains two networks: an **actor** (the policy, which maps states to actio
 
 ### State space (what the agent observes)
 
-At each timestep, the agent sees a 9-dimensional vector:
+At each timestep, the agent sees a 10-dimensional vector:
 
 | Dimension | Variable | Range | What it represents |
 |---|---|---|---|
@@ -184,8 +184,9 @@ At each timestep, the agent sees a 9-dimensional vector:
 | 5 | `B_cathode` | 0–0.15 T | B-field at cathode plane |
 | 6 | `eta_ion` | 0–1 | Ionisation efficiency |
 | 7 | `thrust_mN` | 0–50 mN | Instantaneous thrust |
-| 8 | `cathode_flux` | 0–1 | Normalised cathode ion flux (0 = shielded) |
-| 9 | `osc_amp` | 0–1 | Breathing mode oscillation amplitude |
+| 8 | `wall_flux` | 0–1 | Normalised BN channel wall ion flux (PRIMARY erosion — 0 = shielded) |
+| 9 | `cathode_flux` | 0–1 | Normalised cathode back-streaming ion flux (0 = shielded) |
+| 10 | `osc_amp` | 0–1 | Breathing mode oscillation amplitude |
 
 ### Action space (what the agent controls)
 
@@ -199,14 +200,15 @@ These are **deltas** — incremental adjustments to the current coil currents. T
 
 At each timestep, the environment returns:
 
-$$r = 0.50\,(1 - \Gamma_\text{cath}) + 0.30\,r_\text{thrust} - 0.15\,A_\text{osc} - 0.05\,P_\text{coil}$$
+$$r = 0.35\,(1 - \Gamma_\text{wall}) + 0.30\,r_\text{thrust} + 0.15\,(1 - \Gamma_\text{cath}) - 0.15\,A_\text{osc} - 0.05\,P_\text{coil}$$
 
 Where $r_\text{thrust} = \exp\!\left(-\dfrac{(\Delta T)^2}{2 \times 3.0^2}\right)$ — a Gaussian centred on the 12.0 mN target, giving maximum reward when thrust error $\Delta T = 0$ and declining smoothly as it deviates.
 
 The weight choices encode engineering priorities:
-- **50% on flux reduction** — this is the primary mission objective
-- **30% on thrust** — thrust must be maintained; a thruster that shields the cathode but produces no thrust is useless
-- **15% on oscillations** — breathing mode instability can damage the thruster and makes the discharge inefficient; it is penalised but is a secondary concern
+- **35% on channel wall shielding** — BN wall erosion is the primary life limiter; this is the dominant objective
+- **30% on thrust** — thrust must be maintained; a thruster that shields the walls but produces no thrust is useless
+- **15% on cathode shielding** — back-streaming cathode erosion is the secondary erosion mechanism; important but less dominant than wall erosion
+- **15% on oscillations** — breathing mode instability stresses the PPU and reduces efficiency; penalised
 - **5% on coil power** — encourages efficiency; a solution that requires enormous coil currents costs more power from the satellite's power bus
 
 ### Why this framing is novel
@@ -214,7 +216,7 @@ The weight choices encode engineering priorities:
 No prior published work combines all four elements:
 1. RL (as opposed to PID, MPC, or derivative-free search)
 2. Coil currents as the multi-axis continuous action space
-3. Cathode ion flux as the primary reward signal
+3. Channel wall and cathode ion flux as a dual erosion objective
 4. A multi-objective formulation balancing erosion, thrust, stability, and power
 
 The closest prior work (IEPC-2025-515, Georgia Tech, 2025) uses Echo State Networks + nonlinear MPC to suppress breathing oscillations via anode voltage modulation — entirely different objective, architecture, and action space. The ACME rapid-optimisation work (Journal of Electric Propulsion, 2025) adjusts coil currents but uses derivative-free search to maximise efficiency, not a learned policy and not targeting erosion.
