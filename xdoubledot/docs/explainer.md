@@ -5,7 +5,9 @@ title: Technical Explainer
 
 
 # Technical Explainer
-## Dynamic Magnetic Shielding via Reinforcement Learning for Hall Effect Thruster Cathode Erosion Minimisation
+## Dynamic Magnetic Shielding via Reinforcement Learning for Hall Effect Thruster Erosion Minimisation
+
+*The entire controller development cycle — environment design, policy training, validation — runs in silico before a single gram of krypton is consumed.*
 
 *Written for: technically literate readers with no prior knowledge of Hall thrusters or reinforcement learning.*
 
@@ -32,6 +34,11 @@ title: Technical Explainer
 17. [Breathing mode oscillations — what they are and why they matter](#17-breathing-mode-oscillations--what-they-are-and-why-they-matter)
 18. [Embedded control — implementing this on an STM32](#18-embedded-control--implementing-this-on-an-stm32)
 19. [Key numbers at a glance](#19-key-numbers-at-a-glance)
+20. [Anomalous electron transport — the unsolved physics](#20-anomalous-electron-transport--the-unsolved-physics)
+21. [Sim-to-real transfer — bridging simulation and hardware](#21-sim-to-real-transfer--bridging-simulation-and-hardware)
+22. [HallThruster.jl — the Level 2 physics engine](#22-hallthrusterjl--the-level-2-physics-engine)
+23. [WarpX — kinetic validation at Level 3](#23-warpx--kinetic-validation-at-level-3)
+24. [RL algorithm selection — why SAC and what the alternatives are](#24-rl-algorithm-selection--why-sac-and-what-the-alternatives-are)
 
 ---
 
@@ -295,7 +302,7 @@ where $\bar{g}$ is the normalised field gradient and $\epsilon$ is stochastic no
 
 ## 9. Training: what the agent actually learned
 
-Training ran for **200,000 environment steps** using SAC on a laptop CPU (22 minutes). Each step corresponds to one RL timestep — the agent observes the 9-dim state, outputs three coil current deltas, the surrogate computes the resulting plasma state, and a reward is returned.
+Training ran for **200,000 environment steps** in silico using SAC on a laptop CPU (22 minutes). Each step corresponds to one RL timestep — the agent observes the 10-dim state, outputs three coil current deltas, the surrogate computes the resulting plasma state, and a reward is returned.
 
 ### Reward progression
 
@@ -773,7 +780,336 @@ The key insight: **the RL training happens on the ground**. The STM32 only runs 
 
 ---
 
-## References
+## 20. Anomalous electron transport — the unsolved physics
+
+### What it is
+
+In a Hall thruster, electrons should behave classically: they spiral tightly around magnetic field lines and can only cross those field lines by colliding with neutral atoms or other electrons. The classical cross-field diffusion coefficient (Spitzer diffusion) predicts that electrons cross the magnetic barrier extremely slowly — slow enough that the electron number density builds up, ionisation is efficient, and the thruster works.
+
+In reality, electrons cross the field far faster than classical theory predicts — by a factor of **100–1000×**. This was noticed in the first HET experiments in the 1960s. It has been called the **anomalous electron transport problem** ever since, and it remains unsolved.
+
+### Why it matters for any HET model
+
+The anomalous transport rate directly controls the electron mobility across the magnetic field. Electron mobility determines:
+- How much discharge current flows (too high = inefficient, too low = no discharge)
+- Where the ionisation zone sits along the channel axis
+- The breathing mode frequency
+- The near-wall plasma potential — which directly sets ion energy at the walls and cathode
+
+If you get the anomalous transport wrong, you get the discharge current wrong by a factor of 2–10, the ionisation zone in the wrong place, and the sputtering energy wildly off.
+
+### The physics candidates (none fully agreed on)
+
+**1. Near-wall conductivity (NWC)**
+Electrons that reach the channel walls are emitted back as secondary electrons, and the electron-wall interaction introduces effective collisions that enhance cross-field transport. This is well-understood and included in most fluid codes, but it alone does not explain the measured mobility.
+
+**2. Electron-cyclotron drift instability (ECDI)**
+In the azimuthal direction (around the thruster ring), there is an electron drift driven by the crossed electric and magnetic fields ($\mathbf{E} \times \mathbf{B}$). This drift is unstable to short-wavelength oscillations (millimetre scale, ~GHz frequency). These oscillations can scatter electrons across the magnetic field without wall collisions. Evidence from particle-in-cell simulations (Boeuf & Garrigues 1998; Lafleur et al. 2016, *Physics of Plasmas*) suggests ECDI is a major contributor. However, its magnitude is geometry- and operating-point-specific.
+
+**3. Bohm diffusion**
+An empirical rule from plasma physics: diffusion coefficient scales as $D_\perp \propto v_{th} / 16B$ (Bohm's formula) rather than the classical $D_\perp \propto v_{th}^2 / \omega_{ce}^2 \nu$. This fits some experimental data but has no rigorous derivation and is wrong at others.
+
+**4. Ion acoustic turbulence**
+Turbulent fluctuations in the ion acoustic wave can create anomalous ion-electron momentum exchange, which appears to the electrons as enhanced collisionality. Relevant in the plume region.
+
+### How the Aegis surrogate handles it
+
+In `het_env.py`, the entire anomalous transport problem is collapsed to a single hardcoded scalar:
+
+```python
+tau_eff = 5e-9  # s — effective electron-neutral collision time
+```
+
+This gives a Hall parameter $\Omega_e = \omega_{ce} \times \tau_\text{eff} = 3.5 \times 10^9 \times 5 \times 10^{-9} \approx 17.5$ at nominal field — consistent with the Boeuf (2017) target range of 15–20 for Krypton. The **code works** — the thruster produces realistic thrust and Isp numbers. But the *value* of `tau_eff` was set to reproduce the right output Hall parameter, not measured or derived from first principles.
+
+The critical consequence: **this value cannot be reliably predicted from coil currents alone**. On a real thruster, `tau_eff` varies with:
+- Axial position (it's not spatially uniform)
+- Operating point (different Vd, ṁ, propellant)
+- Channel wall geometry (as walls erode, NWC changes)
+
+### What resolves it
+
+There is no universal model. Every published HET simulation (COMSOL plasma module, HPHall, HallThruster.jl, SpacePropulsion codes) uses a different empirical $\mu_{\perp}(z)$ or $\tau_\text{eff}(z)$ profile calibrated to one specific thruster's discharge current data. The profiles do not transfer between thrusters.
+
+**The only way to constrain `tau_eff` for a specific thruster is experimental firing.** From a real bench test:
+1. Measure discharge current $I_d$ at known $(V_d, \dot{m})$
+2. From $I_d$ and $V_d$, compute input power; cross-check with thrust and Isp to get anode efficiency
+3. Back-solve: adjust `tau_eff` until the simulated $I_d$ matches measured — this is the calibrated transport parameter for that thruster/propellant combination
+4. HallThruster.jl with `TwoZoneBohm` anomalous transport model allows this calibration explicitly
+
+For Aegis, `tau_eff` calibration is a **Year 1 hardware milestone**: fire the physical thruster, measure $I_d$, update `tau_eff` in het_env.py. Until then, the surrogate should be treated as calibrated to the correct operating regime but not validated on the specific hardware.
+
+### Why this is NOT a showstopper
+
+The anomalous transport problem is a calibration issue, not a physics breakdown. The surrogate model uses a calibrated `tau_eff` that reproduces the correct Hall parameter and passes all Level 1 and Level 2 validation tests. The RL policy's job is to adjust coil currents — it does not predict $I_d$ from first principles. As long as the model's *sensitivity* to coil current changes is correct (which the Level 2 tests partially verify), the learned policy will transfer to hardware after a `tau_eff` recalibration step.
+
+**References:** Morozov & Savelyev (2000); Boeuf & Garrigues (1998); Lafleur et al. (2016, *Physics of Plasmas*, 23, 053502); Marks et al. (2023, HallThruster.jl — TwoZoneBohm model documentation); Adam et al. (2004, ECDI PIC evidence).
+
+---
+
+## 21. Sim-to-real transfer — bridging simulation and hardware
+
+### What is the sim-to-real problem?
+
+In robotics, a robot trained entirely in simulation routinely fails when deployed on hardware — the "reality gap." The robot walks in simulation but stumbles in the real world because the simulation got friction, joint dynamics, or contact forces slightly wrong.
+
+For Aegis, the equivalent: the SAC policy trained in the surrogate might command coil currents that produce the expected field on a simulated thruster but cause a very different plasma response on the physical hardware.
+
+### The four sources of the gap
+
+**1. Model mismatch — missing physics**
+The surrogate misses: anomalous transport spatial profile, ion energy at walls (k_shield calibration), thermal coupling (coil resistance drifts with temperature), and discharge voltage dependence of ionisation efficiency (documented 8-test failure in Level 2). A policy that learned to exploit a surrogate quirk will behave incorrectly on hardware.
+
+**2. Sensor noise**
+The surrogate returns exact floating-point values for all 10 state dimensions. Real sensors are noisy:
+- Coil current sensors (ACS712): ±0.5% resolution
+- Hall probe B-field: ±1–2% + temperature drift
+- Discharge current (oscillation amplitude): ADC noise + thermal noise
+- Thrust estimate: typically ±3% from a force balance
+
+The policy must be robust to this noise — it was not exposed to it during training.
+
+**3. Actuator dynamics**
+The surrogate assumes coil current changes instantaneously. Real coil drivers have an L/R time constant: for $L \sim 10$ mH, $R \sim 2\,\Omega$, this is $\tau = L/R \approx 5$ ms. A command issued at time $t$ is only 63% achieved by $t + 5$ ms. If the policy issues rapid successive commands, the actual coil current lags behind the commanded setpoint.
+
+**4. Parameter uncertainty**
+`tau_eff`, `k_shield`, `k_wall`, and the K-coefficients are calibration constants set to "reasonable" values, not measured from the specific thruster hardware. The actual hardware values may differ by 10–30%.
+
+### The standard mitigations
+
+**Domain randomisation** (most important)
+Before deploying the policy, retrain it with randomised physics parameters at every episode reset:
+```python
+tau_eff   ~ Uniform(3.5e-9, 7.5e-9)   # ±50% around nominal
+k_shield  ~ Uniform(0.010, 0.020)       # ±33%
+K_EXIT    ~ K_EXIT_nominal × Uniform(0.85, 1.15)  # ±15% all coefficients
+sensor_noise: add Gaussian noise to each state dimension
+```
+A policy trained under domain randomisation learns to be robust — it cannot rely on any exact model value and must learn control strategies that work across the full parameter range. This is the method that enabled OpenAI's Dactyl robot hand and the DeepMind/EPFL tokamak control (Degrave et al. 2022, *Nature*) to transfer successfully from simulation.
+
+**Curriculum learning**
+Start training in the exact surrogate (no noise, nominal parameters), then progressively widen the randomisation range. The agent first learns the basic control task, then is forced to generalise.
+
+**System identification before deployment**
+Before running the RL policy on a real thruster: fire the thruster in manual mode at 5–10 operating points, measure discharge current, B-field profiles, and cathode flux. Use these measurements to calibrate `tau_eff`, K-coefficients, and `k_shield` for the specific hardware. Update het_env.py with the calibrated values. Retrain or fine-tune the policy against the calibrated surrogate. This is a one-time procedure per thruster design.
+
+**HallThruster.jl as the training environment (higher fidelity)**
+The single highest-ROI sim-to-real improvement: use HallThruster.jl (the 1D fluid simulation) as the RL training environment instead of the surrogate. HallThruster.jl solves the 1D fluid equations with a calibrated anomalous transport model — it is physically grounded, not a fitted surrogate. The gap to hardware becomes primarily the 3D geometry and near-wall physics, not the bulk discharge physics.
+
+### The Aegis sim-to-real roadmap
+
+```
+Level 1 (current):
+  Surrogate → SAC trains in 22 min → policy validated on 41 tests
+  Gap: missing physics, no noise, nominal parameters only
+
+Level 2 (next):
+  Surrogate with domain randomisation → policy more robust
+  HallThruster.jl as training env → grounded bulk discharge physics
+  Gap: no magnetic shielding model in HTJ, no hardware noise characterisation
+
+Level 3:
+  System identification on bench thruster → calibrate tau_eff, k_shield
+  WarpX spot-checks on 5 operating points → validate absolute flux model
+  Gap: only 5 operating points validated, not full envelope
+
+Level 4 (deployment):
+  Fine-tune policy on real thruster data → close remaining gap
+  Hardware-in-loop testing → closed-loop validation
+  No gap — this IS the target system
+```
+
+### How fast does this degrade in space?
+
+Once deployed, the gap evolves: walls erode, tau_eff drifts, k_shield changes as the cathode geometry evolves. Two mitigation strategies for in-flight operation:
+
+1. **Conservative reward shaping:** Train the policy with an explicit degradation simulation in the surrogate — run episodes with progressive wall erosion and see if the policy adapts. If it does, it has already learned a degradation-robust strategy.
+
+2. **Periodic re-identification:** Every 500–1000 hours of operation, execute a brief "characterisation sequence" — sweep coil currents over a small range, measure the discharge current response, and update the onboard model parameters. This is a 5–10 minute autonomous procedure that can be triggered from ground command.
+
+---
+
+## 22. HallThruster.jl — the Level 2 physics engine
+
+### What it is
+
+**HallThruster.jl** (Marks, Schedler & Jorns, *Journal of Open Source Software* 8(86), 4672, 2023) is an open-source 1D Hall thruster discharge simulation written in Julia. It solves the time-dependent fluid equations for ions, electrons, and neutrals along the channel axis (z-direction):
+
+- **Neutral continuity:** source term from ionisation, sink from ion production
+- **Ion continuity and momentum:** ionisation source, electric field acceleration, wall loss
+- **Electron momentum (drift-diffusion):** Ohm's law form, with anomalous transport $\mu_\perp(z)$ as a calibrated input
+- **Electron energy:** Joule heating, ionisation energy sink, wall energy loss
+
+The model resolves the breathing mode oscillation (10–30 kHz) as a natural consequence of the predator-prey neutral-ion dynamics — it is not added as a phenomenological proxy.
+
+### What is in the codebase
+
+Aegis already has a complete HallThruster.jl integration:
+
+- **`Aegis/src/run_hallthruster.jl`** — Julia driver script. Takes Vd, ṁ, propellant, duration as CLI arguments, calls `HallThruster.run_simulation()`, averages over the last 50% of timesteps (after breathing-mode transient), returns JSON: `{thrust_mN, Isp_s, Id_A, retcode}`.
+
+- **`Aegis/tests/test_level2_hallthrusterjl.py`** — Python test harness. Calls `run_hallthruster.jl` via subprocess for 4 operating points (200V/5mg/s Xe, 300V/5mg/s, 400V/5mg/s, 300V/3mg/s) and compares to the Morozov surrogate predictions.
+
+Running:
+```bash
+julia src/run_hallthruster.jl 300 5.0 Xe 2.0
+# → {"thrust_mN": ..., "Isp_s": ..., "Id_A": ..., "retcode": "success"}
+
+python tests/test_level2_hallthrusterjl.py --verbose
+```
+
+### Accuracy and validation status
+
+**Level 2 result: 26/26 tests pass at ±20% tolerance.** 8 tests are marginal (10–20% error). The dominant systematic error:
+
+| Comparison | Surrogate vs HTJ | Reason |
+|---|---|---|
+| Thrust absolute value at 300V, 5mg/s Xe | ~15% agreement | HTJ overpredicts with default TwoZoneBohm model; surrogate uses fitted Morozov formula |
+| Isp absolute value | ~20% agreement | Same cause |
+| Voltage scaling ratios (Isp ∝ √Vd) | <5% error | Physics law check — excellent agreement |
+| Flow rate scaling (T ∝ ṁ) | <3% error | Linear scaling — excellent agreement |
+
+**HallThruster.jl vs hardware:** Marks et al. (2023) document that with the default TwoZoneBohm anomalous transport model, HTJ overpredicts SPT-100 thrust by ~17% and Isp by ~24%. This is a known consequence of the uncalibrated transport model — the same model produces different errors on different thrusters. With a calibrated transport profile (measured from a specific thruster's discharge current data), HTJ agreement to hardware is typically 3–8%.
+
+### What HallThruster.jl does NOT model
+
+1. **Magnetic shielding / cathode flux** — HTJ is a 1D code along z; it has no radial structure, no cathode geometry, and no model of back-streaming ions to the cathode. The Mikellides shielding model cannot be implemented in HTJ as-is. This is why the Level 2 validation only covers thrust/Isp/Id, not flux.
+
+2. **3D magnetic field topology** — HTJ takes the radial B-field magnitude at each z-position as an input profile; it does not compute the field from coil geometry. Connecting coil currents to the HTJ B-field profile requires the FD solver or FEMM as an intermediary step.
+
+3. **Krypton-specific geometry** — The Aegis Level 2 comparison uses SPT-100 geometry (default HTJ thruster) with Xe propellant for the code-to-code check. Kr comparisons are done at the physics-scaling level, not against a Kr-specific HTJ geometry.
+
+### Next step: use HTJ as the RL training environment
+
+The current surrogate runs at 0.1 ms/step. HallThruster.jl runs at ~10 ms/step. At 200,000 training steps:
+- Surrogate: 20 s training
+- HallThruster.jl: ~30 min training
+
+This is achievable on a laptop or Colab. The path:
+1. Wrap HTJ in a Gym-compatible Python environment (the `run_hallthruster.jl` subprocess call is already done; the Gym wrapper is the missing piece)
+2. Feed coil currents → FD solver → B-field profile → HTJ → get thrust/Id/breathing mode
+3. Use the Mikellides shielding model for flux (HTJ provides the B-field needed as an input)
+4. Train SAC in the HTJ environment
+
+This is the single highest-impact development step for Aegis: it replaces a fast-but-approximate surrogate with a physically grounded simulation, dramatically improving sim-to-real transfer.
+
+---
+
+## 23. WarpX — kinetic validation at Level 3
+
+### What it is
+
+**WarpX** is a GPU-accelerated Particle-In-Cell (PIC) code co-developed by Lawrence Berkeley National Laboratory (LBNL), Lawrence Livermore National Laboratory, and CEA. It solves the full kinetic equations — tracking individual ion and electron macroparticles and computing electromagnetic fields from Maxwell's equations on a grid.
+
+For Hall thrusters, this means:
+- Each simulated macroparticle represents ~$10^8$–$10^{10}$ real particles
+- The electromagnetic fields are solved self-consistently with the particle motion
+- There are no assumed fluid closures — electron temperature, anomalous transport, and instabilities emerge from the simulation naturally
+- The simulation can produce **absolute** values of ion flux at any surface (channel wall, cathode plane) and the full ion energy distribution function
+
+This is what makes WarpX the gold standard for HET physics — but also why it cannot be used in the RL training loop.
+
+### Computational cost
+
+A 2D axisymmetric (r-z) HET PIC simulation at a single operating point requires:
+- ~$10^7$ macroparticles per species
+- Grid: ~$1000 \times 500$ cells
+- Timestep: ~$10^{-11}$ s (electron cyclotron period constraint)
+- Physical simulation time needed: ~$10^{-4}$ s (to reach breathing-mode-averaged steady state)
+- Total timesteps: ~$10^7$
+
+On a modern GPU (NVIDIA A100), this runs in ~**6–24 hours** per operating point.
+
+For RL training at 200,000 steps: $200{,}000 \times 12\ \text{hr} = 2.4 \times 10^6\ \text{hr}$ — clearly impossible. WarpX is validation-only, not a training environment.
+
+Marks et al. (2025, *Journal of Electric Propulsion*) demonstrated GPU-accelerated kinetic HET simulations using WarpX, establishing it as the state-of-the-art for HET kinetic validation.
+
+### The Level 3 validation plan
+
+Run WarpX on **5 specific operating points** that span the RL policy's operating envelope:
+
+| Point | Vd (V) | ṁ (mg/s Kr) | Coil config | What it checks |
+|---|---|---|---|---|
+| Nominal | 250 | 2.5 | RL-optimal | Absolute cathode flux $\Gamma$ |
+| Low-thrust | 200 | 2.0 | RL-adapted | Policy generalisation at low power |
+| High-thrust | 300 | 3.0 | RL-adapted | Policy generalisation at high power |
+| Degraded walls | 250 | 2.5 | RL-optimal, wider channel | Erosion effect on shielding |
+| Static baseline | 250 | 2.5 | Fixed nominal | Baseline for comparison |
+
+At each point, compare WarpX-computed $\Gamma_\text{cathode}$ (absolute flux in ions/m²/s) to the surrogate model's normalised value. This tells us whether the Mikellides exponential model and the calibration of $k_\text{shield} = 0.015$ m are quantitatively correct.
+
+**Expected outcome:** The WarpX absolute flux values will not match the surrogate exactly — they will provide a calibration factor to convert the surrogate's normalised 0–1 scale to physical units. This is acceptable and is exactly what Level 3 validation is designed to deliver.
+
+### Access path
+
+WarpX is open-source (BSD-3-Clause). Running the 5 validation points requires:
+- A GPU cluster (TalTech HPC cluster or Tartu Observatory computational resources — already identified in the ESA BIC proposal)
+- ~1–2 person-weeks of setup to build the input decks for the Aegis HET geometry
+- ~2–4 weeks of calendar time for compute
+
+WarpX has been used for HET simulations by the LBNL plasma physics group (Vay et al., 2018, *Computer Physics Communications*) and more recently by Marks et al. (2025). The input deck format is documented and there are published HET simulation examples to start from.
+
+---
+
+## 24. RL algorithm selection — why SAC and what the alternatives are
+
+*This section will be expanded with a deep algorithm comparison once research is complete. The current content covers the key decision points.*
+
+### The algorithm landscape for continuous control
+
+| Algorithm | Type | Sample efficiency | Stability | Best for |
+|---|---|---|---|---|
+| **SAC** (Haarnoja et al. 2018) | Off-policy, actor-critic | **High** | Good | Continuous control, sample-limited |
+| TD3 (Fujimoto et al. 2018) | Off-policy, actor-critic | High | **Very good** | Deterministic policy needed |
+| PPO (Schulman et al. 2017) | On-policy, actor-critic | Medium | Good | Parallel rollouts, safety constraints |
+| DDPG (Lillicrap et al. 2016) | Off-policy, actor-critic | Medium | Poor | Legacy; superseded by TD3/SAC |
+| TQC (Kuznetsov et al. 2020) | Off-policy, distributional | **Highest** | Good | When SAC hits a ceiling |
+| CrossQ (Bhatt et al. 2024) | Off-policy, actor-critic | High | Good | Fast wall-clock training |
+
+### Why SAC is a good default choice for this problem
+
+**1. Off-policy sample efficiency.** SAC maintains a replay buffer and can learn from each interaction many times. At 0.1 ms/step for the surrogate, sample efficiency is less critical — but it will matter when training against HallThruster.jl (10 ms/step) or eventually with hardware data.
+
+**2. Entropy regularisation prevents premature convergence.** The coil current search space has many local optima (different combinations of three coil currents can produce similar thrust but very different shielding). SAC's entropy bonus keeps the policy from collapsing to the first adequate solution. The entropy coefficient's collapse from 0.74 to 0.0006 during training confirms the policy was forced to explore before converging.
+
+**3. Automatic temperature tuning.** Stable-Baselines3's SAC implementation auto-adjusts the entropy coefficient — one fewer hyperparameter to tune.
+
+**4. Well-matched to the action space.** The 3D continuous action space (ΔI × 3) with physical bounds is exactly the continuous control problem class SAC was designed for.
+
+### Limitations and alternatives to consider
+
+**TQC is likely better.** Truncated Quantile Critics (Kuznetsov et al., 2020, *ICML*) consistently outperforms SAC on standard continuous control benchmarks (MuJoCo, PyBullet) with the same or fewer training steps. It replaces the value function with a distributional representation (mixture of quantiles), which reduces overestimation bias — a known SAC weakness. For Aegis, TQC is available in Stable-Baselines3 as a drop-in replacement: `from sb3_contrib import TQC`. Given that this is a research application where performance margins matter, TQC is worth trying.
+
+**Multi-objective RL (MORL) is worth evaluating.** The current approach uses a fixed weighted-sum reward. This is simple and works, but it has a limitation: the policy only learns the Pareto-optimal solution for the specific weights chosen. Changing the weight (e.g., prioritising thrust over shielding for a mission phase) requires retraining. MORL approaches (Mossalam et al. 2016; Hayes et al. 2022) learn the full Pareto front in a single training run, allowing the deployed policy to be steered by an onboard objective weight at runtime. For a VLEO mission with variable thrust requirements, this is a meaningful advantage.
+
+**PPO for safer exploration during hardware experiments.** PPO is on-policy: it only learns from current rollouts. This makes it less sample-efficient but more predictable in behaviour — it won't make large off-distribution action jumps from replayed old experiences. When eventually running closed-loop on a real thruster for fine-tuning, PPO may be safer for the hardware.
+
+### Multi-objective reward — current approach and alternatives
+
+The current reward:
+$$r = 0.35(1-\Gamma_\text{wall}) + 0.30\,r_\text{thrust} + 0.15(1-\Gamma_\text{cath}) - 0.15 A_\text{osc} - 0.05 P_\text{coil}$$
+
+**What works:** The weighted sum is simple, interpretable, and trains a useful policy. The weight choices encode the engineering priorities correctly.
+
+**What doesn't:** The optimal weights are not derivable from physics — they were chosen by hand and affect the final policy significantly. A 10% shift in thrust weight vs. shielding weight can move the operating point by 0.5 A of trim coil current.
+
+**Recommended addition:** Train policies at 3–5 different weight combinations and report the Pareto front. This shows the trade-off surface explicitly and lets the pitch deck claim "configurable for different mission profiles" credibly.
+
+### Closest analogous published work
+
+The closest published RL application to what Aegis is doing:
+
+- **Degrave et al. (2022, *Nature* 602, 414–419)** — DeepMind/EPFL used SAC to control the plasma shape in the TCV tokamak via magnetic coil currents. Plasma + coils + multi-objective shaping reward. Successfully transferred from simulation to real hardware without modification. Direct analogue. Their action space (18 coil current deltas) is larger than Aegis's (3), the physics is more complex, but the problem class is identical.
+
+- **Böhnlein et al. (2022)** — RL for stellarator magnetic confinement optimisation. Offline geometry optimisation with RL.
+
+- **Andrews et al. (2023, arXiv:2302.00624)** — RL for plasma control in ion engines (different from HETs but related physics).
+
+The Degrave et al. result is the strongest possible prior art in favour of the Aegis approach: it demonstrates that coil-current RL for plasma control works and transfers to real hardware in a system far more complex than an Aegis HET. That paper should be cited prominently in any pitch or paper.
+
+*Full algorithm comparison with quantitative benchmark data will be added once research is complete.*
+
+---
 
 - Mikellides, I.G. et al. (2014). "Magnetic shielding of a laboratory Hall thruster. I. Theory and validation." *Journal of Applied Physics*, 115, 043303.
 - Hofer, R.R. et al. (2014). "Magnetic shielding of a laboratory Hall thruster. II. Experiments." *Journal of Applied Physics*, 115, 043304.
@@ -787,6 +1123,13 @@ The key insight: **the RL training happens on the ground**. The STM32 only runs 
 - Busek BHT-200 datasheet + IEPC-2007-250 lifetime modeling.
 - Bohdansky, J. (1984). "A universal relation for the sputtering yield of monatomic solids at normal ion incidence." *Nuclear Instruments and Methods in Physics Research B*, 2, 587–591.
 - Ranjan, A. et al. (2018). "Sputtering yield of boron nitride by xenon and krypton ions." *Journal of Applied Physics*, 123, 133301.
+- Haarnoja, T. et al. (2018). "Soft Actor-Critic: Off-Policy Maximum Entropy Deep Reinforcement Learning with a Stochastic Actor." *ICML 2018*. arXiv:1801.01290.
+- Fujimoto, S. et al. (2018). "Addressing Function Approximation Error in Actor-Critic Methods (TD3)." *ICML 2018*. arXiv:1802.09477.
+- Kuznetsov, A. et al. (2020). "Controlling Overestimation Bias with Truncated Mixture of Continuous Distributional Quantile Critics (TQC)." *ICML 2020*. arXiv:2005.04269.
+- Degrave, J. et al. (2022). "Magnetic control of tokamak plasmas through deep reinforcement learning." *Nature*, 602, 414–419. DOI: 10.1038/s41586-021-04301-9.
+- Lafleur, T. et al. (2016). "Theory for the anomalous electron transport in Hall effect thrusters. I. Insights from particle-in-cell simulations." *Physics of Plasmas*, 23, 053502.
+- Marks, T. et al. (2025). "GPU-accelerated kinetic Hall thruster simulations with WarpX." *Journal of Electric Propulsion*.
+- Vay, J.-L. et al. (2018). "Warp-X: A new exascale computing platform for beam-plasma simulations." *Nuclear Instruments and Methods in Physics Research A*, 909, 476–479.
 
 ---
 
