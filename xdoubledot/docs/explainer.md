@@ -1057,57 +1057,98 @@ WarpX has been used for HET simulations by the LBNL plasma physics group (Vay et
 
 ### The algorithm landscape for continuous control
 
-| Algorithm | Type | Sample efficiency | Stability | Best for |
+| Algorithm | Type | Sample efficiency | Stability | Recommendation |
 |---|---|---|---|---|
-| **SAC** (Haarnoja et al. 2018) | Off-policy, actor-critic | **High** | Good | Continuous control, sample-limited |
-| TD3 (Fujimoto et al. 2018) | Off-policy, actor-critic | High | **Very good** | Deterministic policy needed |
-| PPO (Schulman et al. 2017) | On-policy, actor-critic | Medium | Good | Parallel rollouts, safety constraints |
-| DDPG (Lillicrap et al. 2016) | Off-policy, actor-critic | Medium | Poor | Legacy; superseded by TD3/SAC |
-| TQC (Kuznetsov et al. 2020) | Off-policy, distributional | **Highest** | Good | When SAC hits a ceiling |
-| CrossQ (Bhatt et al. 2024) | Off-policy, actor-critic | High | Good | Fast wall-clock training |
+| **SAC** (Haarnoja et al. 2018) | Off-policy, stochastic | High | Very good | **Primary — use this** |
+| **TQC** (Kuznetsov et al. 2020) | Off-policy, distributional | Highest | Very good | **Preferred upgrade if compute allows** |
+| **CrossQ** (Bhatt et al. 2024) | Off-policy, stochastic | Very high | Good | **Use at HallThruster.jl fine-tuning stage** |
+| TD3 (Fujimoto et al. 2018) | Off-policy, deterministic | High | Very good | Fallback if determinism required |
+| PPO (Schulman et al. 2017) | On-policy, stochastic | Medium | Good | Hardware safety baseline only |
+| DDPG (Lillicrap et al. 2016) | Off-policy, deterministic | Medium | Poor | **Avoid — superseded by TD3/SAC** |
 
-### Why SAC is a good default choice for this problem
+### Why SAC is correct for this problem
 
-**1. Off-policy sample efficiency.** SAC maintains a replay buffer and can learn from each interaction many times. At 0.1 ms/step for the surrogate, sample efficiency is less critical — but it will matter when training against HallThruster.jl (10 ms/step) or eventually with hardware data.
+**1. Off-policy sample efficiency.** SAC uses a replay buffer — every transition is reused for multiple gradient updates. This matters most when transitioning to HallThruster.jl (10 ms/step) or hardware data where simulator calls are expensive.
 
-**2. Entropy regularisation prevents premature convergence.** The coil current search space has many local optima (different combinations of three coil currents can produce similar thrust but very different shielding). SAC's entropy bonus keeps the policy from collapsing to the first adequate solution. The entropy coefficient's collapse from 0.74 to 0.0006 during training confirms the policy was forced to explore before converging.
+**2. Entropy regularisation prevents premature convergence.** The coil current space has many operating points with similar thrust but very different shielding. SAC's entropy bonus forces exploration; the entropy coefficient collapse from 0.74 → 0.0006 during Aegis training confirms the policy was forced to explore before converging to its final operating point.
 
-**3. Automatic temperature tuning.** Stable-Baselines3's SAC implementation auto-adjusts the entropy coefficient — one fewer hyperparameter to tune.
+**3. Stochastic policy = robustness to sensor noise.** Empirically, stochastic policies (SAC) outperform deterministic ones (TD3, DDPG) when hardware produces noisy state estimates. The coil current measurement noise and B-field sensor uncertainty in this application directly benefit from this. At deployment, use the **mean action** μ(s) — set `deterministic=True` in Stable-Baselines3 — for deterministic embedded inference.
 
-**4. Well-matched to the action space.** The 3D continuous action space (ΔI × 3) with physical bounds is exactly the continuous control problem class SAC was designed for.
+**4. Automatic temperature tuning.** No manual hyperparameter for exploration-exploitation balance.
 
-### Limitations and alternatives to consider
+**5. Track record in analogous physical systems.** See Section on prior work below.
 
-**TQC is likely better.** Truncated Quantile Critics (Kuznetsov et al., 2020, *ICML*) consistently outperforms SAC on standard continuous control benchmarks (MuJoCo, PyBullet) with the same or fewer training steps. It replaces the value function with a distributional representation (mixture of quantiles), which reduces overestimation bias — a known SAC weakness. For Aegis, TQC is available in Stable-Baselines3 as a drop-in replacement: `from sb3_contrib import TQC`. Given that this is a research application where performance margins matter, TQC is worth trying.
+### TQC — the recommended upgrade
 
-**Multi-objective RL (MORL) is worth evaluating.** The current approach uses a fixed weighted-sum reward. This is simple and works, but it has a limitation: the policy only learns the Pareto-optimal solution for the specific weights chosen. Changing the weight (e.g., prioritising thrust over shielding for a mission phase) requires retraining. MORL approaches (Mossalam et al. 2016; Hayes et al. 2022) learn the full Pareto front in a single training run, allowing the deployed policy to be steered by an onboard objective weight at runtime. For a VLEO mission with variable thrust requirements, this is a meaningful advantage.
+**Truncated Quantile Critics** (Kuznetsov et al., 2020, *ICML*) consistently outperforms SAC on hard continuous control benchmarks. It replaces scalar Q-values with distributional representations (quantile mixtures) and truncates the most optimistic estimates, directly controlling overestimation bias. Overestimation is a known SAC weakness that manifests when the Q-function is complex — exactly the case here with a 5-term nonlinear multi-objective reward.
 
-**PPO for safer exploration during hardware experiments.** PPO is on-policy: it only learns from current rollouts. This makes it less sample-efficient but more predictable in behaviour — it won't make large off-distribution action jumps from replayed old experiences. When eventually running closed-loop on a real thruster for fine-tuning, PPO may be safer for the hardware.
+Available in Stable-Baselines3 as a drop-in replacement:
+```python
+from sb3_contrib import TQC
+model = TQC("MlpPolicy", env, verbose=1)
+```
+Default hyperparameters (5 critics, 25 quantile atoms, 2 truncated) work well out of the box.
 
-### Multi-objective reward — current approach and alternatives
+### CrossQ — for HallThruster.jl fine-tuning
 
-The current reward:
+CrossQ (Bhatt et al., ICLR 2024) achieves SAC-level performance with 4–8× fewer environment interactions by using batch normalisation in critics instead of target networks. At HallThruster.jl's ~10 ms/step, this reduces fine-tuning from ~30 min to ~5 min for the same policy quality. Use CrossQ to initialise from the SAC-trained weights during the HallThruster.jl fine-tuning stage.
+
+### Multi-objective reward — current approach and action items
+
+The weighted linear scalarisation:
 $$r = 0.35(1-\Gamma_\text{wall}) + 0.30\,r_\text{thrust} + 0.15(1-\Gamma_\text{cath}) - 0.15 A_\text{osc} - 0.05 P_\text{coil}$$
 
-**What works:** The weighted sum is simple, interpretable, and trains a useful policy. The weight choices encode the engineering priorities correctly.
+**This works but has three risks:**
 
-**What doesn't:** The optimal weights are not derivable from physics — they were chosen by hand and affect the final policy significantly. A 10% shift in thrust weight vs. shielding weight can move the operating point by 0.5 A of trim coil current.
+1. **Reward scale mismatch.** If sub-rewards have different numerical ranges, the 35/30/15 weights are effectively wrong regardless of their stated values. Each sub-reward must be normalised to [0,1] before applying the weights. This is currently done by design (all terms are already 0–1) but should be verified empirically.
 
-**Recommended addition:** Train policies at 3–5 different weight combinations and report the Pareto front. This shows the trade-off surface explicitly and lets the pitch deck claim "configurable for different mission profiles" credibly.
+2. **Weight sensitivity.** A 10% shift in the wall flux vs. thrust weight moves the converged coil operating point by ~0.5 A. Train 3–5 policies with different weight combinations and plot the Pareto front of thrust vs. erosion. This shows the trade-off surface explicitly and supports the pitch claim "configurable for different mission profiles."
+
+3. **Optimal weights are not derivable from physics.** The current 35/30/15/15/5 split was engineered by judgement. Consider a **constrained RL formulation** for mature development: optimise thrust as the primary objective subject to a hard erosion rate constraint. This is physically more natural — erosion is a safety limit, not an objective. SAC-Lagrangian implements this.
+
+### The recommended training pipeline
+
+```
+Stage 1: Fast Surrogate (current)
+├── Algorithm: SAC
+├── Actor architecture: 2×128 MLP (STM32-sized; validate against 2×256)
+├── Domain randomisation: Vd ±5%, ṁ ±3%, K-coefficients ±10%, sensor noise
+├── Steps: 500k–1M (wall time: ~2 min at 0.1ms/step)
+└── Output: Baseline policy π₀
+
+Stage 2: HallThruster.jl Fine-Tuning (next)
+├── Algorithm: TQC or CrossQ, initialised from π₀
+├── Domain randomisation: add geometry ±3% and cathode coupling ±2V
+├── Steps: 50k–200k (wall time: ~30 min)
+└── Output: Physics-grounded policy π₁
+
+Stage 3: Hardware-in-the-Loop (Year 1)
+├── System ID: measure τ_eff, K-coefficients, k_shield from bench firing
+├── Retrain surrogate with calibrated parameters
+├── Fine-tune π₁ on calibrated surrogate
+├── Deploy via STM32Cube.AI with Int8 quantisation (20kB for 2×128 network)
+└── Hardware limits: coil current clamps independent of RL output
+```
 
 ### Closest analogous published work
 
-The closest published RL application to what Aegis is doing:
+**Degrave et al. (2022, *Nature* 602, 414–419) — DeepMind/EPFL tokamak.** The canonical prior art. Used model-free RL to control plasma shape in the TCV tokamak via 19 electromagnetic coil current deltas. Multi-objective reward (plasma shape, current, stability). Trained entirely in simulation on a physics surrogate (LIUQE equilibrium code). Transferred to real hardware without modification on first attempt. Their problem is structurally identical to Aegis: coil currents → magnetic field topology → plasma behaviour → multi-objective physical outcome. Their action space (19 coil deltas) is larger than Aegis's (3). Their physics (MHD equilibrium) is more complex. The fact that this transferred to hardware is the strongest possible evidence that the Aegis approach is sound.
 
-- **Degrave et al. (2022, *Nature* 602, 414–419)** — DeepMind/EPFL used SAC to control the plasma shape in the TCV tokamak via magnetic coil currents. Plasma + coils + multi-objective shaping reward. Successfully transferred from simulation to real hardware without modification. Direct analogue. Their action space (18 coil current deltas) is larger than Aegis's (3), the physics is more complex, but the problem class is identical.
+**Seo et al. (2024, *Nature* 626, 746–751) — DIII-D tokamak tearing mode avoidance.** RL used a fast surrogate model of tearing stability (exactly analogous to the Aegis surrogate for cathode flux) to train a controller, then transferred to the real DIII-D tokamak. Directly analogous pipeline: physics surrogate → RL training → hardware transfer. Both papers should be cited prominently in any Aegis paper or pitch.
 
-- **Böhnlein et al. (2022)** — RL for stellarator magnetic confinement optimisation. Offline geometry optimisation with RL.
+**For HETs specifically:** No prior work has used RL with cathode or channel-wall ion flux as the reward signal for in-flight coil current control. Georgia Tech IEPC-2025-515 (Echo State Networks for oscillation suppression via voltage modulation) and Ben Slimane JAP 2024 (ANN+OES coil current prediction) are the closest, but neither targets erosion. **The Aegis framing — RL + coil currents + erosion objective — is genuinely novel.**
 
-- **Andrews et al. (2023, arXiv:2302.00624)** — RL for plasma control in ion engines (different from HETs but related physics).
+### STM32 deployment: network size constraint
 
-The Degrave et al. result is the strongest possible prior art in favour of the Aegis approach: it demonstrates that coil-current RL for plasma control works and transfers to real hardware in a system far more complex than an Aegis HET. That paper should be cited prominently in any pitch or paper.
+A 2×256 MLP (standard SAC default) exceeds STM32 RAM budget: ~280 kB FP32. Two options:
+- **2×128 MLP:** ~80 kB FP32; fits comfortably; run ablation to verify performance gap vs. 2×256 is <10%
+- **Int8 quantisation via STM32Cube.AI:** 4× size reduction; ~20 kB for 2×128; typical accuracy loss <5% for MLP inference
 
-*Full algorithm comparison with quantitative benchmark data will be added once research is complete.*
+Train with the 2×128 architecture from the start to avoid a post-training compression step.
+
+### References
+
+Haarnoja et al. (2018a, 2018b) SAC; Fujimoto et al. (2018) TD3; Kuznetsov et al. (2020) TQC (ICML); Bhatt et al. (2024) CrossQ (ICLR); Degrave et al. (2022) *Nature* 602:414; Seo et al. (2024) *Nature* 626:746; Hayes et al. (2022) MORL guide; Krishnan et al. (2025) IEPC-2025-515; Thoreau et al. (2025) J. Elec. Propulsion.
 
 ---
 
