@@ -20,7 +20,7 @@
   </a>
   <div class="project-meta">
     <h1><a href="./linear_regression_deep_dive">Linear Regression Deep Dive</a></h1>
-    <p class="project-dates"><strong>Start Date:</strong> 22/03/26 &nbsp;·&nbsp; <strong>Last Edited:</strong> 31/03/26&nbsp;·&nbsp; <strong>Status:</strong> <span class="status-ongoing">Ongoing</span></p>
+    <p class="project-dates"><strong>Start Date:</strong> 22/03/26 &nbsp;·&nbsp; <strong>Last Edited:</strong> 13/04/26&nbsp;·&nbsp; <strong>Status:</strong> <span class="status-ongoing">Ongoing</span></p>
     <p class="project-blurb">I recently utilised a linear regression machine learning algorithm at work. It was incredibly affective, and I wanted to get an intuative understanding of how it worked.</p>
   </div>
 </div>

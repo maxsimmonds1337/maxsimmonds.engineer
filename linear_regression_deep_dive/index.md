@@ -40,3 +40,42 @@ Interestingly, the function we mentioned ($$ f(x) = 1 + x$$) is an __affine__
 transform, which we actually use in linear regression! So it's not strictly a
 linear transform, rather an affine transform, but they still call it so. An
 affine transform is a linear transform with some shifting origin.
+
+## 13/04/26
+
+Been a while since I've picked this up, so let's continue.
+
+### Homegenity
+
+Formally, this is written as:
+
+$$ f(cx) = c \cdot f(x) $$
+
+A scaled input yields a scaled output. Let's say we have the function in our
+previous example, $$ f(x) = x + 1 $$.
+
+Let's see if it's also homogenious:
+
+$$ f(10 \cdot x) $$
+
+This means, multiply $$x$$ by 10, then put it into our function:
+
+$$ f(10 \cdot x) = 1 + 10 \cdot x $$
+
+That's scaling the input. Scaling the output:
+
+$$ c \cdot f(x) = 10 * (1 + x) = 10 + 10 \cdot x $$
+
+Since $$ 1 + 10 \cdot x \neq 10 + 10 \cdot x $$ then this function in (again)
+not linear.
+
+### Exploring linear transformations in vectors
+
+Linear transforms can be done quite well and compactly with vectors. A 2D matrix 
+$$ A $$ can be used to detail what happens to the basis vectors of the orignal
+vector, to transform it to the space of the new space. Let's first consider a 2D
+"world". Often, it's easier to see said world by viewing the grid lines:
+
+![image](./images/Grid.png)
+
+
