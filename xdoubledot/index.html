@@ -262,6 +262,110 @@
         footer a:hover {
             color: var(--accent);
         }
+
+        /* ── Visual section ────────────────────────────── */
+        .visual-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 80px;
+        }
+
+        .visual-block {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .visual-block img {
+            width: 100%;
+            display: block;
+        }
+
+        .visual-block .caption {
+            padding: 16px 20px;
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            border-top: 1px solid var(--border);
+        }
+
+        .visual-block .caption strong {
+            color: var(--text);
+        }
+
+        /* ── AURORA section ─────────────────────────────── */
+        .aurora-section {
+            padding: 0 80px 80px;
+        }
+
+        .aurora-section h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+        }
+
+        .aurora-name {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 6px;
+        }
+
+        .aurora-backronym {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            letter-spacing: 0.04em;
+            margin-bottom: 24px;
+        }
+
+        .aurora-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 1px;
+            background: var(--border);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .aurora-card {
+            background: var(--surface);
+            padding: 28px 24px;
+        }
+
+        .aurora-card .version {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 8px;
+        }
+
+        .aurora-card h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .aurora-card p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.65;
+        }
+
+        .aurora-card.current {
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.08) 0%, rgba(0, 212, 255, 0.02) 100%);
+            border-right: 1px solid rgba(0, 212, 255, 0.2);
+        }
     </style>
 </head>
 
@@ -303,6 +407,59 @@
         <div class="stat">
             <div class="stat-value">TRL 2–3</div>
             <div class="stat-label">Current maturity — simulation validated</div>
+        </div>
+    </div>
+
+    <!-- ── AURORA AI Control System ── -->
+    <div class="aurora-section">
+        <h2>AI Control System</h2>
+        <div class="aurora-name">AURORA</div>
+        <div class="aurora-backronym">Adaptive Unified Real-time Operation and Regulation Algorithm</div>
+        <p style="font-size:0.95rem; color:var(--text-muted); max-width:680px; line-height:1.8; margin-bottom:28px;">
+            AURORA is the neural PPU controller that sits alongside the Aegis hardware — named for the Aurora Borealis, the visual signature of charged particles being guided by a magnetic field.
+            It replaces conventional PID loops with a reinforcement-learning agent trained in simulation,
+            learning optimal coil current policies that keep field lines grazing the BN channel walls rather than plunging into them.
+        </p>
+        <div class="aurora-grid">
+            <div class="aurora-card current">
+                <div class="version">Now — v1</div>
+                <h3>Magnetic Shielding Control</h3>
+                <p>11-dimensional observation space. SAC agent learns coil currents (I<sub>inner</sub>, I<sub>outer</sub>, I<sub>trim</sub>) to maximise wall shielding, cathode protection, and stray field reduction simultaneously.</p>
+            </div>
+            <div class="aurora-card">
+                <div class="version">Post hardware v1 — v2</div>
+                <h3>Breathing Mode Suppression</h3>
+                <p>Adds discharge voltage V<sub>d</sub> and mass flow ṁ as control outputs. Modulates V<sub>d</sub> at 10–30 kHz to actively suppress ionisation oscillations. Anomalous electron transport black-boxed — surrogate learns the empirical mapping.</p>
+            </div>
+            <div class="aurora-card">
+                <div class="version">Future — v3</div>
+                <h3>Full PPU Control</h3>
+                <p>Adds cathode heater I<sub>heater</sub> and keeper I<sub>keeper</sub>. Closes the loop on cathode lifetime. Every actuator in the PPU under unified neural control.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── Visual Gallery ── -->
+    <div class="section" style="padding-bottom:0;">
+        <h2>Simulation Outputs</h2>
+    </div>
+    <div class="section visual-grid" style="padding-top:20px;">
+        <div class="visual-block">
+            <img src="assets/het_3d_render.png" alt="3D Render of xdoubledot HET" loading="lazy">
+            <div class="caption">
+                <strong>Aegis HET — 3D Render.</strong>
+                200W Krypton Hall Effect Thruster. Iron magnetic circuit with inner solenoid (80 turns), outer solenoid (60 turns), and trim coil (40 turns).
+                BN discharge channel with flux-surface-matched pole exit faces for magnetic shielding.
+            </div>
+        </div>
+        <div class="visual-block">
+            <img src="assets/het_bfield_channel_exit.png" alt="Magnetic field simulation — channel exit zoom" loading="lazy">
+            <div class="caption">
+                <strong>Magnetic Field — Channel Exit Zoom.</strong>
+                Finite-difference magnetostatic solver with nonlinear Picard iteration (M19 B-H curve).
+                Yellow streamlines show field lines crossing the N→S gap at the exit plane — the magnetic shielding condition.
+                The field lines graze the BN walls rather than plunging into them, redirecting ions away from the ceramic surface.
+            </div>
         </div>
     </div>
 
