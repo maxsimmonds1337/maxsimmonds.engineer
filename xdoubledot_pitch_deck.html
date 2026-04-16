@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ẍ — The Engine of Sovereign Space Infrastructure</title>
+    <link rel="icon"
+        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cstyle%3E text %7B fill: %2300f2ff; font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 600; %7D @media (prefers-color-scheme: light) %7B text %7B fill: %23008080; %7D %7D %3C/style%3E%3Ctext y='0.8em' x='50%25' text-anchor='middle' font-size='90'%3Eẍ%3C/text%3E%3C/svg%3E">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@1,600&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -714,15 +716,15 @@
 <section class="slide" id="slide-3">
     <span class="slide-number">04 / 18</span>
     <h3>The Technical Challenge</h3>
-    <h2>Cathode Erosion: The Silent Killer of Hall Thrusters</h2>
+    <h2>Channel Erosion: The Life-Limiting Failure of Hall Thrusters</h2>
     <div class="grid-2" style="margin-top: 40px;">
         <div>
             <p style="margin-bottom: 30px;">
-                Every Hall Effect Thruster depends on a cathode to generate electrons for plasma ionization. But high-energy ion bombardment causes <span class="highlight">progressive cathode erosion</span>, limiting thruster lifespan to 10,000-15,000 hours.
+                The primary life-limiting failure mode of a Hall thruster is erosion of the ceramic discharge channel walls. High-energy ions sputter material from the boron nitride channel until erosion reaches the magnetic circuit — at which point the thruster fails. This limits operational life to 10,000–15,000 hours.
             </p>
             <div class="card" style="margin-bottom: 20px;">
                 <h4>The Erosion Cycle</h4>
-                <p>Ion bombardment strips material from the cathode surface. As geometry changes, plasma becomes unstable. Efficiency drops. The thruster fails.</p>
+                <p>Ion bombardment progressively deepens the channel wall profile. Once erosion exposes the magnetic circuit, the field topology is disrupted and the thruster fails. The hollow cathode is a secondary erosion site — but magnetic shielding addresses both.</p>
             </div>
             <div class="card">
                 <h4>Industry Standard: Accept & Replace</h4>
@@ -757,14 +759,14 @@
 <section class="slide" id="slide-4">
     <span class="slide-number">05 / 18</span>
     <h3>Our Breakthrough</h3>
-    <h2>AI-Guided Magnetic Shielding: Eliminating Cathode Erosion</h2>
+    <h2>AI-Guided Magnetic Shielding: Managing Channel and Cathode Erosion</h2>
 
     <div class="usp-box">
         <div class="grid-2">
             <div>
                 <h4>The <span class="xdd-logo">x</span> Innovation</h4>
                 <p style="font-size: 1.15rem; color: var(--text); line-height: 1.8;">
-                    We use <span class="highlight">AI-optimised magnetic field geometry</span> to redirect ion trajectories away from the cathode surface. The optimal field configuration is derived through physics simulation and machine learning — to be implemented in hardware during incubation. Our simulation shows <span class="highlight">85% cathode ion flux reduction</span> with external cathode geometry, projecting a conservative <span class="highlight">4× or greater</span> lifetime extension.
+                    We use <span class="highlight">AI-optimised magnetic field geometry</span> to redirect ion trajectories away from the cathode surface. The optimal field configuration is derived through physics simulation and machine learning — to be implemented in hardware during incubation. RL firmware alone delivers <span class="highlight">27% cathode ion flux reduction</span>. Combined with 3D-printed pole pieces optimised for the shielding geometry, simulation shows <span class="highlight">up to 97% reduction</span> — projecting a conservative <span class="highlight">4× or greater</span> lifetime extension.
                 </p>
             </div>
             <div style="text-align: center;">
@@ -793,52 +795,52 @@
 <!-- Slide 6: How the AI Works -->
 <section class="slide" id="slide-5">
     <span class="slide-number">06 / 18</span>
-    <h3>AI-Powered Propulsion</h3>
-    <h2>Intelligence Where It Matters: Design, Ground, and Firmware</h2>
+    <h3>Aegis + AURORA</h3>
+    <h2>Two Systems: Design Intelligence and Flight Intelligence</h2>
 
     <div class="grid-2" style="margin-top: 40px;">
         <div>
             <div class="ai-feature">
                 <div class="ai-icon">1</div>
                 <div>
-                    <h4 style="margin-bottom: 8px;">Simulation & Design (Ground)</h4>
-                    <p style="font-size: 1rem;">Our <span class="highlight">Aegis RL platform</span> trains a SAC agent on a physics-informed Gymnasium environment — validated against published flight data (BHT-200 TacSat-2). Optimal coil configurations are derived from simulation; higher-fidelity validation on HallThruster.jl and bench hardware is planned for incubation. No exotic space-grade AI compute required in flight.</p>
+                    <h4 style="margin-bottom: 8px;">Aegis — Simulation & Design Platform (Ground)</h4>
+                    <p style="font-size: 1rem;">The <span class="highlight">Aegis RL platform</span> trains a SAC agent on a physics-informed Gymnasium environment — validated against published flight data (BHT-200 TacSat-2). Derives optimal coil configurations, magnetic shielding geometry, and operating points before hardware is built. Higher-fidelity validation on HallThruster.jl and bench hardware planned for incubation.</p>
                 </div>
             </div>
             <div class="ai-feature">
                 <div class="ai-icon">2</div>
                 <div>
-                    <h4 style="margin-bottom: 8px;">Plasma State Estimation (Firmware)</h4>
-                    <p style="font-size: 1rem;">A compact neural network — to be trained on bench test data and deployed as microcontroller firmware — will infer plasma state from electrical measurements, enabling closed-loop efficiency control without intrusive probes.</p>
+                    <h4 style="margin-bottom: 8px;">AURORA — Neural PPU Controller (Firmware)</h4>
+                    <p style="font-size: 1rem;"><span class="highlight">AURORA</span> (Adaptive Unified Real-time Operation and Regulation Algorithm) is the on-board AI — a compact neural network trained on Aegis and bench data, deployed as STM32 firmware. Infers plasma state from PPU electrical measurements and adjusts coil currents in real time. No exotic space-grade compute. Named for the Aurora Borealis — charged particles guided by a magnetic field.</p>
                 </div>
             </div>
             <div class="ai-feature">
                 <div class="ai-icon">3</div>
                 <div>
                     <h4 style="margin-bottom: 8px;">Fleet Intelligence (Ground SaaS)</h4>
-                    <p style="font-size: 1rem;">Planned ground SaaS: AI will monitor telemetry across all satellites — cathode degradation, efficiency drift, anomaly detection — with updated operating parameters uplinked as thrusters age.</p>
+                    <p style="font-size: 1rem;">Planned ground SaaS: AURORA fleet analytics monitors telemetry across all satellites — cathode degradation, efficiency drift, anomaly detection — with updated operating parameters uplinked as thrusters age.</p>
                 </div>
             </div>
             <div class="ai-feature">
                 <div class="ai-icon">4</div>
                 <div>
                     <h4 style="margin-bottom: 8px;">Autonomous Drag Compensation</h4>
-                    <p style="font-size: 1rem;">AI-derived control parameters — uploaded to the satellite — will enable autonomous VLEO station-keeping without continuous ground intervention. Critical for persistent low-altitude operations.</p>
+                    <p style="font-size: 1rem;">AURORA-derived control parameters enable autonomous VLEO station-keeping without continuous ground intervention. Critical for persistent low-altitude operations.</p>
                 </div>
             </div>
         </div>
         <div class="tech-diagram">
-            <h4 style="margin-bottom: 20px;">Where the AI Lives</h4>
+            <h4 style="margin-bottom: 20px;">The Aegis + AURORA Stack</h4>
             <div class="tech-flow" style="flex-direction: column; gap: 12px;">
-                <div class="tech-node highlight-node">Ground: RL Simulation → Optimal Geometry</div>
+                <div class="tech-node highlight-node">Aegis: RL Simulation → Optimal Geometry &amp; Coil Config</div>
                 <div class="arrow">&#8595;</div>
                 <div class="tech-node">Hardware: Optimised Field Baked In</div>
                 <div class="arrow">&#8595;</div>
-                <div class="tech-node highlight-node">Firmware: Plasma State NN</div>
+                <div class="tech-node highlight-node">AURORA: Neural PPU → Real-Time Coil Control</div>
                 <div class="arrow">&#8595;</div>
-                <div class="tech-node">Closed-Loop Thrust Control</div>
+                <div class="tech-node">Closed-Loop Thrust, Lifetime &amp; Efficiency</div>
                 <div class="arrow">&#8595;</div>
-                <div class="tech-node highlight-node">Ground: Fleet Telemetry AI → Parameter Uplink</div>
+                <div class="tech-node highlight-node">AURORA Fleet Analytics → Parameter Uplink</div>
             </div>
         </div>
     </div>
@@ -848,8 +850,8 @@
 <section class="slide" id="slide-5b">
     <span class="slide-number">07 / 18</span>
     <h3>The Software</h3>
-    <h2>Aegis: RL Training Platform — Running Today</h2>
-    <p style="margin-top: 10px; margin-bottom: 24px; color: var(--text-muted); font-size: 1rem;">Physics-informed SAC agent controls three electromagnetic coils — minimising cathode erosion while holding target thrust. <span class="highlight">Validated. Running on a laptop.</span></p>
+    <h2>Aegis + AURORA: Simulation Platform & Neural Controller — Running Today</h2>
+    <p style="margin-top: 10px; margin-bottom: 24px; color: var(--text-muted); font-size: 1rem;">Aegis: physics-informed SAC agent controls three electromagnetic coils — minimising cathode erosion while holding target thrust. AURORA: the same intelligence, packaged as STM32 firmware. <span class="highlight">Validated. Running on a laptop.</span></p>
 
     <div class="grid-2" style="gap: 40px; align-items: start;">
         <div>
@@ -870,15 +872,15 @@
             <div class="ai-feature">
                 <div class="ai-icon">3</div>
                 <div>
-                    <h4 style="margin-bottom: 4px;">Accelerates Hardware</h4>
-                    <p style="font-size: 0.9rem;">Replaces months of bench iteration with days of simulation — optimal coil configs before touching hardware.</p>
+                    <h4 style="margin-bottom: 4px;">Accelerates Hardware R&D</h4>
+                    <p style="font-size: 0.9rem;">Additive manufacturing lets us iterate channel and magnetic circuit prototypes in hours rather than weeks — no machine shop needed. Enables rapid test cycles during incubation and, longer-term, mission-specific thruster variants at low volume.</p>
                 </div>
             </div>
 
             <div class="card" style="margin-top: 20px; padding: 16px 20px;">
                 <h4 style="margin-bottom: 10px; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted);">Path to Hardware</h4>
                 <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 0.85rem;">
-                    <span class="tech-node highlight-node" style="padding: 5px 10px;">✓ Aegis</span>
+                    <span class="tech-node highlight-node" style="padding: 5px 10px;">✓ Aegis RL + AURORA</span>
                     <span style="color: var(--accent);">→</span>
                     <span class="tech-node" style="padding: 5px 10px;">HallThruster.jl</span>
                     <span style="color: var(--accent);">→</span>
@@ -891,8 +893,8 @@
 
         <div class="grid-2" style="grid-template-columns: 1fr 1fr; gap: 16px;">
             <div class="stat card">
-                <div class="stat-value" style="font-size: 2.4rem; color: var(--accent);">85%</div>
-                <div class="stat-label">Cathode Flux Reduction<br><span style="font-size: 0.75rem; color: var(--text-muted);">external cathode config · vs 58% JPL H6MS passive</span></div>
+                <div class="stat-value" style="font-size: 2.4rem; color: var(--accent);">97%</div>
+                <div class="stat-label">Cathode Flux Reduction<br><span style="font-size: 0.75rem; color: var(--text-muted);">5-param AM geometry + RL firmware · 27% from firmware alone</span></div>
             </div>
             <div class="stat card">
                 <div class="stat-value" style="font-size: 2.4rem; color: var(--accent);">4×</div>
@@ -903,8 +905,8 @@
                 <div class="stat-label">Thrust Error<br><span style="font-size: 0.75rem; color: var(--text-muted);">0.05 mN at 12 mN target</span></div>
             </div>
             <div class="stat card">
-                <div class="stat-value" style="font-size: 2.4rem; color: var(--accent);">52/52</div>
-                <div class="stat-label">Validation Tests<br><span style="font-size: 0.75rem; color: var(--text-muted);">vs published flight data</span></div>
+                <div class="stat-value" style="font-size: 2.4rem; color: var(--accent);">41/41</div>
+                <div class="stat-label">Validation Tests<br><span style="font-size: 0.75rem; color: var(--text-muted);">vs published flight data &amp; HallThruster.jl</span></div>
             </div>
         </div>
     </div>
@@ -914,7 +916,7 @@
 <section class="slide" id="slide-5c">
     <span class="slide-number">08 / 18</span>
     <h3>Simulation Results</h3>
-    <h2>External Cathode Wins: 85% Flux Reduction vs 63% Center-Mounted</h2>
+    <h2>External Cathode Wins: Higher Magnetic Leverage for Shielding</h2>
 
     <div class="grid-2" style="margin-top: 28px; gap: 40px; align-items: start;">
         <div>
@@ -930,8 +932,8 @@
                     <div class="stat-label">External — final reward<br><span style="font-size:0.75rem; color:var(--text-muted);">vs 248 center (+41%)</span></div>
                 </div>
                 <div class="stat card" style="padding:16px;">
-                    <div class="stat-value" style="font-size:2rem; color:var(--accent);">85%</div>
-                    <div class="stat-label">External flux reduction<br><span style="font-size:0.75rem; color:var(--text-muted);">vs 63% center-mounted</span></div>
+                    <div class="stat-value" style="font-size:2rem; color:var(--accent);">27%</div>
+                    <div class="stat-label">Flux reduction (RL firmware alone)<br><span style="font-size:0.75rem; color:var(--text-muted);">external cathode config · 76% with optimised pole geometry</span></div>
                 </div>
                 <div class="stat card" style="padding:16px;">
                     <div class="stat-value" style="font-size:2rem; color:var(--accent);">12.2 mN</div>
@@ -939,13 +941,13 @@
                 </div>
                 <div class="stat card" style="padding:16px;">
                     <div class="stat-value" style="font-size:2rem; color:var(--accent);">3×</div>
-                    <div class="stat-label">Lower discharge oscillation<br><span style="font-size:0.75rem; color:var(--text-muted);">external more stable (0.027 vs 0.090)</span></div>
+                    <div class="stat-label">Lower PPU current-ripple stress<br><span style="font-size:0.75rem; color:var(--text-muted);">discharge oscillation 0.027 vs 0.090 — reduces power supply derating</span></div>
                 </div>
             </div>
 
             <div class="card" style="border-color:rgba(79,195,247,0.3); padding:14px 18px;">
                 <h4 style="font-size:0.9rem; margin-bottom:8px;">Reading the charts</h4>
-                <p style="font-size:0.85rem;"><span class="highlight">Top-left:</span> reward converges to 351 (external, blue) vs 248 (center, red). <span class="highlight">Top-right:</span> cathode flux Γ from 1.0 baseline to 0.15 external vs 0.37 center — lower is better. <span class="highlight">Bottom-left:</span> external holds 12 mN target throughout; center trades thrust for shielding. <span class="highlight">Bottom-right:</span> 3× lower discharge oscillation — critical for long-duration VLEO operations.</p>
+                <p style="font-size:0.85rem;"><span class="highlight">Top-left:</span> reward converges to 351 (external, blue) vs 248 (center, red). <span class="highlight">Top-right:</span> cathode flux Γ from 1.0 baseline to 0.15 external vs 0.37 center — lower is better. <span class="highlight">Bottom-left:</span> external holds 12 mN target throughout; center trades thrust for shielding. <span class="highlight">Bottom-right:</span> 3× lower discharge current oscillation amplitude — reduces peak current demand on the PPU (breathing mode oscillations are normal in high-performance HETs; what matters is the power supply derating margin).</p>
             </div>
         </div>
     </div>
@@ -1044,14 +1046,14 @@
     <h3>The Solution</h3>
     <h2>High-Efficiency, AI-Powered, Propellant-Agnostic Propulsion</h2>
 
-    <div class="grid-4" style="margin-top: 50px;">
+    <div class="grid-4" style="margin-top: 50px; grid-template-columns: repeat(5, 1fr);">
         <div class="card">
             <h4>Modular Design</h4>
             <p>Designed for plug-and-play compatibility with any satellite bus, from CubeSats to 500kg platforms. Standard interfaces, custom performance.</p>
         </div>
         <div class="card">
             <h4>Alternative Propellants</h4>
-            <p>Krypton-native design with a long-term roadmap to air-breathing. <span class="highlight">3-5x propellant cost reduction</span> vs traditional Xenon systems.</p>
+            <p>Krypton-native design. <span class="highlight">3-5x propellant cost reduction</span> vs Xenon. Air-breathing VLEO on the long-term roadmap — contingent on progress in atmospheric ionisation (active research area).</p>
         </div>
         <div class="card">
             <h4>AI Orbit Control</h4>
@@ -1060,6 +1062,10 @@
         <div class="card">
             <h4>Dual-Use Ready</h4>
             <p>Designed for commercial scalability and high-resilience defence requirements. Targeting a 100% ITAR-free European supply chain.</p>
+        </div>
+        <div class="card">
+            <h4>Constellation-Optimised</h4>
+            <p>Qualified platform in 2–3 power classes. RL firmware tuned per constellation — orbit, power budget, lifetime — <span class="highlight">no re-qualification needed.</span> Safran sells one product to everyone. We optimise for your fleet.</p>
         </div>
     </div>
 
@@ -1107,12 +1113,12 @@
         </div>
         <div>
             <div class="card" style="background: linear-gradient(135deg, rgba(0, 212, 255, 0.15) 0%, rgba(0, 212, 255, 0.03) 100%); border-color: var(--accent);">
-                <h4 style="color: var(--accent);">Why Air-Breathing Needs Our Tech</h4>
+                <h4 style="color: var(--accent);">The Air-Breathing Challenge</h4>
                 <p style="margin-top: 15px;">
-                    Atmospheric gases (N2, O2) are highly reactive and dramatically accelerate cathode erosion. Traditional HETs fail within hours.
+                    Air-breathing HET is technically challenging. The primary unsolved problem is not erosion but ionisation: hollow cathodes require noble gas propellant (Xe, Kr) to operate — they do not function on atmospheric N₂/O₂. Dedicated ABEP thruster architectures (e.g. with RF ionisation sources) are an active area of research.
                 </p>
                 <p style="margin-top: 15px;">
-                    Our <span class="highlight">AI-guided magnetic shielding</span> directly addresses the hardest problem in air-breathing propulsion: keeping the cathode alive long enough to matter. We're not just building thrusters — we're building the platform that makes persistent VLEO viable.
+                    Our channel erosion management and dynamic magnetic shielding are directly transferable to any ABEP architecture that achieves stable ionisation. <span class="highlight">Roadmap item — not a near-term product claim.</span>
                 </p>
             </div>
             <div class="grid-2" style="margin-top: 30px; grid-template-columns: 1fr 1fr; gap: 20px;">
@@ -1355,16 +1361,20 @@
             <h2 style="font-size: 2.2rem;">Scalable Revenue Across the Propulsion Lifecycle</h2>
 
             <div class="card" style="margin-top: 30px; margin-bottom: 20px;">
-                <h4>Unit Sales | €50K – €150K target</h4>
-                <p>Direct sales of modular HET units to satellite OEMs and constellation operators. Cost-optimised design targeting high margin at volume.</p>
+                <h4>Platform Unit Sales | €50K – €200K</h4>
+                <p>2–3 qualified power classes (~100W, ~300W, ~600W). RL firmware tuned per constellation at no extra qualification cost — one platform serves the full market.</p>
             </div>
             <div class="card" style="margin-bottom: 20px;">
-                <h4>Subsystems | Propulsion-as-a-Service</h4>
-                <p>Full-stack integration including PPU, feed systems, and structural mounting. Turnkey solutions for rapid mission deployment.</p>
+                <h4>Constellation Co-Development | €200K–€500K</h4>
+                <p>For operators ordering 20+ units: co-develop hardware and RL firmware optimised for their exact orbit, propellant, and lifetime. Recoverable against unit orders. Builds lock-in and flight heritage simultaneously.</p>
+            </div>
+            <div class="card" style="margin-bottom: 20px;">
+                <h4>Full Subsystem Integration</h4>
+                <p>Turnkey PPU + feed system + RL firmware. 1.5–2× unit price multiplier.</p>
             </div>
             <div class="card">
-                <h4>Software | SaaS Licensing</h4>
-                <p>Recurring revenue from AI-driven orbit control, autonomous drag compensation, and collision avoidance software layers.</p>
+                <h4>Fleet Intelligence SaaS</h4>
+                <p>Per-satellite recurring licence for autonomous drag compensation, degradation monitoring, and uplinked parameter updates as thrusters age.</p>
             </div>
         </div>
         <div>
@@ -1429,11 +1439,11 @@
     <div class="grid-3" style="max-width: 600px; margin: 0 auto; grid-template-columns: repeat(3, 1fr); text-align: center;">
         <div>
             <div style="color: var(--text-muted); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px;">Email</div>
-            <div style="color: var(--text);">info@x-double-dot.space</div>
+            <div style="color: var(--text);">info@xdoubledot.space</div>
         </div>
         <div>
             <div style="color: var(--text-muted); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px;">Web</div>
-            <div style="color: var(--text);">www.x-double-dot.space</div>
+            <div style="color: var(--text);">www.xdoubledot.space</div>
         </div>
         <div>
             <div style="color: var(--text-muted); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px;">Location</div>

@@ -795,52 +795,52 @@
 <!-- Slide 6: How the AI Works -->
 <section class="slide" id="slide-5">
     <span class="slide-number">06 / 18</span>
-    <h3>AI-Powered Propulsion</h3>
-    <h2>Intelligence Where It Matters: Design, Ground, and Firmware</h2>
+    <h3>Aegis + AURORA</h3>
+    <h2>Two Systems: Design Intelligence and Flight Intelligence</h2>
 
     <div class="grid-2" style="margin-top: 40px;">
         <div>
             <div class="ai-feature">
                 <div class="ai-icon">1</div>
                 <div>
-                    <h4 style="margin-bottom: 8px;">Simulation & Design (Ground)</h4>
-                    <p style="font-size: 1rem;">Our <span class="highlight">Aegis RL platform</span> trains a SAC agent on a physics-informed Gymnasium environment — validated against published flight data (BHT-200 TacSat-2). Optimal coil configurations are derived from simulation; higher-fidelity validation on HallThruster.jl and bench hardware is planned for incubation. No exotic space-grade AI compute required in flight.</p>
+                    <h4 style="margin-bottom: 8px;">Aegis — Simulation & Design Platform (Ground)</h4>
+                    <p style="font-size: 1rem;">The <span class="highlight">Aegis RL platform</span> trains a SAC agent on a physics-informed Gymnasium environment — validated against published flight data (BHT-200 TacSat-2). Derives optimal coil configurations, magnetic shielding geometry, and operating points before hardware is built. Higher-fidelity validation on HallThruster.jl and bench hardware planned for incubation.</p>
                 </div>
             </div>
             <div class="ai-feature">
                 <div class="ai-icon">2</div>
                 <div>
-                    <h4 style="margin-bottom: 8px;">Plasma State Estimation (Firmware)</h4>
-                    <p style="font-size: 1rem;">A compact neural network — to be trained on bench test data and deployed as microcontroller firmware — will infer plasma state from electrical measurements, enabling closed-loop efficiency control without intrusive probes.</p>
+                    <h4 style="margin-bottom: 8px;">AURORA — Neural PPU Controller (Firmware)</h4>
+                    <p style="font-size: 1rem;"><span class="highlight">AURORA</span> (Adaptive Unified Real-time Operation and Regulation Algorithm) is the on-board AI — a compact neural network trained on Aegis and bench data, deployed as STM32 firmware. Infers plasma state from PPU electrical measurements and adjusts coil currents in real time. No exotic space-grade compute. Named for the Aurora Borealis — charged particles guided by a magnetic field.</p>
                 </div>
             </div>
             <div class="ai-feature">
                 <div class="ai-icon">3</div>
                 <div>
                     <h4 style="margin-bottom: 8px;">Fleet Intelligence (Ground SaaS)</h4>
-                    <p style="font-size: 1rem;">Planned ground SaaS: AI will monitor telemetry across all satellites — cathode degradation, efficiency drift, anomaly detection — with updated operating parameters uplinked as thrusters age.</p>
+                    <p style="font-size: 1rem;">Planned ground SaaS: AURORA fleet analytics monitors telemetry across all satellites — cathode degradation, efficiency drift, anomaly detection — with updated operating parameters uplinked as thrusters age.</p>
                 </div>
             </div>
             <div class="ai-feature">
                 <div class="ai-icon">4</div>
                 <div>
                     <h4 style="margin-bottom: 8px;">Autonomous Drag Compensation</h4>
-                    <p style="font-size: 1rem;">AI-derived control parameters — uploaded to the satellite — will enable autonomous VLEO station-keeping without continuous ground intervention. Critical for persistent low-altitude operations.</p>
+                    <p style="font-size: 1rem;">AURORA-derived control parameters enable autonomous VLEO station-keeping without continuous ground intervention. Critical for persistent low-altitude operations.</p>
                 </div>
             </div>
         </div>
         <div class="tech-diagram">
-            <h4 style="margin-bottom: 20px;">Where the AI Lives</h4>
+            <h4 style="margin-bottom: 20px;">The Aegis + AURORA Stack</h4>
             <div class="tech-flow" style="flex-direction: column; gap: 12px;">
-                <div class="tech-node highlight-node">Ground: RL Simulation → Optimal Geometry</div>
+                <div class="tech-node highlight-node">Aegis: RL Simulation → Optimal Geometry &amp; Coil Config</div>
                 <div class="arrow">&#8595;</div>
                 <div class="tech-node">Hardware: Optimised Field Baked In</div>
                 <div class="arrow">&#8595;</div>
-                <div class="tech-node highlight-node">Firmware: Plasma State NN</div>
+                <div class="tech-node highlight-node">AURORA: Neural PPU → Real-Time Coil Control</div>
                 <div class="arrow">&#8595;</div>
-                <div class="tech-node">Closed-Loop Thrust Control</div>
+                <div class="tech-node">Closed-Loop Thrust, Lifetime &amp; Efficiency</div>
                 <div class="arrow">&#8595;</div>
-                <div class="tech-node highlight-node">Ground: Fleet Telemetry AI → Parameter Uplink</div>
+                <div class="tech-node highlight-node">AURORA Fleet Analytics → Parameter Uplink</div>
             </div>
         </div>
     </div>
@@ -850,8 +850,8 @@
 <section class="slide" id="slide-5b">
     <span class="slide-number">07 / 18</span>
     <h3>The Software</h3>
-    <h2>Aegis: RL Training Platform — Running Today</h2>
-    <p style="margin-top: 10px; margin-bottom: 24px; color: var(--text-muted); font-size: 1rem;">Physics-informed SAC agent controls three electromagnetic coils — minimising cathode erosion while holding target thrust. <span class="highlight">Validated. Running on a laptop.</span></p>
+    <h2>Aegis + AURORA: Simulation Platform & Neural Controller — Running Today</h2>
+    <p style="margin-top: 10px; margin-bottom: 24px; color: var(--text-muted); font-size: 1rem;">Aegis: physics-informed SAC agent controls three electromagnetic coils — minimising cathode erosion while holding target thrust. AURORA: the same intelligence, packaged as STM32 firmware. <span class="highlight">Validated. Running on a laptop.</span></p>
 
     <div class="grid-2" style="gap: 40px; align-items: start;">
         <div>
@@ -880,7 +880,7 @@
             <div class="card" style="margin-top: 20px; padding: 16px 20px;">
                 <h4 style="margin-bottom: 10px; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted);">Path to Hardware</h4>
                 <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 0.85rem;">
-                    <span class="tech-node highlight-node" style="padding: 5px 10px;">✓ Aegis RL</span>
+                    <span class="tech-node highlight-node" style="padding: 5px 10px;">✓ Aegis RL + AURORA</span>
                     <span style="color: var(--accent);">→</span>
                     <span class="tech-node" style="padding: 5px 10px;">HallThruster.jl</span>
                     <span style="color: var(--accent);">→</span>
