@@ -20,7 +20,7 @@
   </a>
   <div class="project-meta">
     <h1><a href="./linear_regression_deep_dive">Linear Regression Deep Dive</a></h1>
-    <p class="project-dates"><strong>Start Date:</strong> 22/03/26 &nbsp;·&nbsp; <strong>Last Edited:</strong> 13/04/26&nbsp;·&nbsp; <strong>Status:</strong> <span class="status-ongoing">Ongoing</span></p>
+    <p class="project-dates"><strong>Start Date:</strong> 22/03/26 &nbsp;·&nbsp; <strong>Last Edited:</strong> 04/05/26&nbsp;·&nbsp; <strong>Status:</strong> <span class="status-ongoing">Ongoing</span></p>
     <p class="project-blurb">I recently utilised a linear regression machine learning algorithm at work. It was incredibly affective, and I wanted to get an intuative understanding of how it worked.</p>
   </div>
 </div>
@@ -42,7 +42,7 @@
   </a>
   <div class="project-meta">
     <h1><a href="./robot_dog_butler">Robot Dog Butler</a></h1>
-    <p class="project-dates"><strong>Start Date:</strong> 28/02/26 &nbsp;·&nbsp; <strong>Last Edited:</strong> 28/02/26 &nbsp;·&nbsp; <strong>Status:</strong> <span class="status-ongoing">Ongoing</span></p>
+    <p class="project-dates"><strong>Start Date:</strong> 28/02/26 &nbsp;·&nbsp; <strong>Last Edited:</strong> 05/05/26&nbsp;·&nbsp; <strong>Status:</strong> <span class="status-ongoing">Ongoing</span></p>
     <p class="project-blurb">My daughter really wants a dog, so we settled on a robot dog (called Cedric, named by my daughter). I thought it would be cool to make it useful, so we'll attached a steward platform to the top, and make it carry drinks.</p>
   </div>
 </div>
