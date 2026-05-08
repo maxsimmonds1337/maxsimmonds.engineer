@@ -38,6 +38,10 @@ A 3-phase brushless motor produces torque when current flows through its winding
 
 **Maximum torque occurs at θ = 90°.**
 
+![Motor cross-section showing torque ∝ sin(θ)](assets/foc_gifs/00_torque_sin_theta.gif)
+
+*Left: motor cross-section — rotor flux (red) is fixed, stator MMF (yellow) sweeps around. Green arrows show force on conductors. Right: the resulting sin(θ) torque curve with current operating point marked.*
+
 Naive trapezoidal (six-step) commutation switches the stator field in discrete 60° steps, meaning θ wanders between 60° and 120° throughout each electrical cycle. At low speeds this produces torque ripple — the motor stutters, vibrates, and runs inefficiently.
 
 **FOC continuously rotates the stator field so θ is always exactly 90°**, regardless of rotor position or speed. The result:
