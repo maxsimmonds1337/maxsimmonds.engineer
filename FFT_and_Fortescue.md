@@ -7,24 +7,154 @@ title: FFT and Fourier — Intuition, Derivation, and the Link to Fortescue
 
 # FFT and Fourier — Intuition, Derivation, and the Link to Fortescue
 
-This builds from first principles: what a frequency is, why sine waves are special, how the DFT detects them, why the FFT is fast, and how Fortescue's symmetrical components are just a 3-point DFT applied to motor phases.
+This builds from first principles: eigenvalues, eigenfunctions, what a frequency is, why sine waves are special, how the DFT detects them, why the FFT is fast, and how Fortescue's symmetrical components are just a 3-point DFT applied to motor phases.
 
 ---
 
 ## Contents
 
-1. [What is a frequency, really?](#1-what-is-a-frequency-really)
-2. [Fourier's claim](#2-fouriers-claim)
-3. [Euler's formula — the rotating arrow](#3-eulers-formula--the-rotating-arrow)
-4. [The DFT — detecting a frequency by correlation](#4-the-dft--detecting-a-frequency-by-correlation)
-5. [The DFT matrix — it's just matrix multiplication](#5-the-dft-matrix--its-just-matrix-multiplication)
-6. [The FFT — why it's fast](#6-the-fft--why-its-fast)
-7. [Fortescue = 3-point DFT](#7-fortescue--3-point-dft)
-8. [The unified picture](#8-the-unified-picture)
+1. [Eigenvalues and eigenvectors](#1-eigenvalues-and-eigenvectors)
+2. [Eigenfunctions — the same idea for functions](#2-eigenfunctions--the-same-idea-for-functions)
+3. [What is a frequency, really?](#3-what-is-a-frequency-really)
+4. [Fourier's claim](#4-fouriers-claim)
+5. [Euler's formula — the rotating arrow](#5-eulers-formula--the-rotating-arrow)
+6. [The DFT — detecting a frequency by correlation](#6-the-dft--detecting-a-frequency-by-correlation)
+7. [The DFT matrix — it's just matrix multiplication](#7-the-dft-matrix--its-just-matrix-multiplication)
+8. [The FFT — why it's fast](#8-the-fft--why-its-fast)
+9. [Fortescue = 3-point DFT](#9-fortescue--3-point-dft)
+10. [The unified picture](#10-the-unified-picture)
 
 ---
 
-## 1. What is a frequency, really?
+## 1. Eigenvalues and eigenvectors
+
+### The problem eigenvectors solve
+
+A matrix transforms vectors — it rotates them, stretches them, shears them. In general, if you multiply a vector **v** by a matrix **A**, the output **Av** points in a completely different direction.
+
+But for every matrix there exist a few **special directions** where this isn't true. Vectors pointing in these directions get **stretched or shrunk, but never rotated**. These are the **eigenvectors**.
+
+The equation:
+
+```
+A·v = λ·v
+```
+
+Says: applying matrix A to vector v gives back the same vector v, just scaled by the number λ. That number is the **eigenvalue** — it tells you how much the eigenvector gets stretched (λ > 1), shrunk (0 < λ < 1), flipped (λ < 0), or unchanged (λ = 1).
+
+![Eigenvectors and eigenfunctions](assets/foc_gifs/fft_00_eigenvectors.gif)
+
+*Left: a general vector gets rotated AND stretched by matrix A — direction changes. Middle: eigenvectors v₁ and v₂ only get stretched — direction is preserved, Av = λv exactly. Right: a sine wave through a filter — same frequency out, only amplitude and phase change. Sine waves are eigenfunctions.*
+
+### Finding eigenvalues
+
+Rearrange `Av = λv` as `(A - λI)v = 0`. For this to have a non-trivial solution (v ≠ 0), the matrix `(A - λI)` must be singular — its determinant must be zero:
+
+```
+det(A - λI) = 0
+```
+
+This is the **characteristic equation**. Solving it gives you the eigenvalues λ. Plug each λ back into `(A - λI)v = 0` to find the corresponding eigenvector.
+
+### Example — 2×2 matrix
+
+```
+A = [3  1]
+    [0  2]
+
+det(A - λI) = det([3-λ   1 ]) = (3-λ)(2-λ) - 0 = 0
+                  [0    2-λ])
+
+→ λ₁ = 3,  λ₂ = 2
+```
+
+For λ₁ = 3:  `(A - 3I)v = 0`  →  v₁ = [1, 0]  (x-axis, stretched 3×)
+For λ₂ = 2:  `(A - 2I)v = 0`  →  v₂ = [1, -1] (diagonal, stretched 2×)
+
+### Why eigenvalues matter
+
+Eigenvectors are the **natural coordinate system** of a matrix. If you express everything in eigenvector coordinates, the matrix becomes diagonal — each component just scales independently, no mixing. This makes computation trivial.
+
+This is why eigendecomposition is everywhere: PCA (data science), vibration modes (mechanical engineering), quantum states (physics), and — as we're about to see — frequency analysis.
+
+---
+
+## 2. Eigenfunctions — the same idea for functions
+
+### Operators, not matrices
+
+In signal processing and physics, you often apply **operators** to functions rather than matrices to vectors. An operator takes a function in and spits a function out. Examples:
+
+- **Differentiation:** `L[f] = df/dt`
+- **Integration:** `L[f] = ∫f dt`
+- **Convolution:** `L[f] = f * h`  (filtering)
+
+An **eigenfunction** of operator L is a function f where:
+
+```
+L[f] = λ·f
+```
+
+The operator produces the same function back, just scaled by λ. Exact same idea as eigenvectors, just for functions instead of vectors.
+
+### Sine waves as eigenfunctions of differentiation
+
+Take the derivative operator `d/dt` and apply it to `e^(jωt)`:
+
+```
+d/dt [e^(jωt)] = jω · e^(jωt)
+```
+
+The output is the same function `e^(jωt)`, scaled by `jω`. So `e^(jωt)` is an **eigenfunction of d/dt** with eigenvalue `jω`.
+
+Since `e^(jωt) = cos(ωt) + j·sin(ωt)`, this means sine and cosine are eigenfunctions of differentiation.
+
+### Sine waves as eigenfunctions of any LTI system
+
+An **LTI system** (Linear Time-Invariant) is any system where:
+- Scaling the input scales the output (linear)
+- Shifting the input shifts the output in time (time-invariant)
+
+Motor windings, filters, amplifiers, transmission lines — all LTI.
+
+**Proof that sine waves are eigenfunctions of any LTI system:**
+
+An LTI system is fully described by its impulse response h(t). Its output for any input x(t) is convolution:
+
+```
+y(t) = (h * x)(t) = ∫ h(τ) · x(t-τ) dτ
+```
+
+Put in `x(t) = e^(jωt)`:
+
+```
+y(t) = ∫ h(τ) · e^(jω(t-τ)) dτ
+     = e^(jωt) · ∫ h(τ) · e^(-jωτ) dτ
+     = e^(jωt) · H(jω)
+```
+
+Where `H(jω) = ∫ h(τ) e^(-jωτ) dτ` is just a complex number — the **frequency response** at frequency ω.
+
+So:
+
+```
+y(t) = H(jω) · e^(jωt) = λ · x(t)
+```
+
+The output is the same frequency, scaled by complex number H(jω). **Eigenfunction confirmed.** The eigenvalue is H(jω) — it tells you how much the system amplifies (|H|) and phase-shifts (∠H) at that frequency.
+
+### Why this makes Fourier transforms work
+
+Because sine waves are eigenfunctions of LTI systems, they're the natural basis to analyse them in. If you decompose your input into sine waves (Fourier transform), each component passes through the system independently — scaled by its eigenvalue H(jω). The output is just the sum of scaled components.
+
+This is why:
+- You can design a filter by shaping H(jω) in the frequency domain
+- Motor control is done in the dq frame (which isolates the positive-sequence eigenfunction)
+- FOC gives clean torque control — you're working directly with the eigenfunction of the motor system
+
+---
+
+## 3. What is a frequency, really?
 
 A frequency is just a sine wave repeating at a particular rate. That's it.
 
@@ -39,7 +169,7 @@ This is why frequency analysis is so powerful: it's the natural language of line
 
 ---
 
-## 2. Fourier's claim
+## 4. Fourier's claim
 
 Jean-Baptiste Fourier (1822) made a claim that seemed absurd at the time:
 
@@ -55,7 +185,7 @@ Same information, different perspective. Like describing a location as (x, y, z)
 
 ---
 
-## 3. Euler's formula — the rotating arrow
+## 5. Euler's formula — the rotating arrow
 
 Before the DFT, you need to understand Euler's formula:
 
@@ -92,7 +222,7 @@ This is the entire mechanism of the Park transform and the DFT.
 
 ---
 
-## 4. The DFT — detecting a frequency by correlation
+## 6. The DFT — detecting a frequency by correlation
 
 ### The problem
 
@@ -134,7 +264,7 @@ This is why the DFT is called a matched filter — the template `e^(-j2πkn/N)` 
 
 ---
 
-## 5. The DFT matrix — it's just matrix multiplication
+## 7. The DFT matrix — it's just matrix multiplication
 
 Write all N DFT outputs at once:
 
@@ -184,7 +314,7 @@ This is **exactly** the Fortescue transform. The sequences are just DFT frequenc
 
 ---
 
-## 6. The FFT — why it's fast
+## 8. The FFT — why it's fast
 
 ### The problem with the DFT
 
@@ -253,7 +383,7 @@ Cooley-Tukey FFT requires N = 2^m (power of 2). This is why FFT sizes are always
 
 ---
 
-## 7. Fortescue = 3-point DFT
+## 9. Fortescue = 3-point DFT
 
 Now put it all together.
 
@@ -299,7 +429,7 @@ For a 3-phase motor, 3 samples (one per phase) is exactly the right number to re
 
 ---
 
-## 8. The unified picture
+## 10. The unified picture
 
 Every transform in this chain is doing the same thing:
 
