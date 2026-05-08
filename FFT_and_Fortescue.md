@@ -187,6 +187,8 @@ Same information, different perspective. Like describing a location as (x, y, z)
 
 ## 5. Euler's formula — the rotating arrow
 
+*(Based on 3Blue1Brown's "What is Euler's formula actually saying?" — Lockdown Live Math ep. 4, and "Euler's formula via group theory")*
+
 Before the DFT, you need to understand Euler's formula:
 
 ```
@@ -199,6 +201,91 @@ This connects the exponential function to rotation. A complex exponential is jus
 
 *Left: the phasor e^(jθ) rotating on the unit circle. Middle: its real part traces a cosine. Right: its imaginary part traces a sine. They're the same thing viewed from different angles.*
 
+### The problem with the notation
+
+`e^2` makes sense — multiply e by itself twice. `e^(jπ)`? You can't multiply something by itself an imaginary number of times. The standard notation seems broken.
+
+The fix: **stop thinking about what exponentiation *is* and think about what it *does*.**
+
+---
+
+### The group theory view — two worlds of number actions
+
+Numbers can act on the world in two fundamentally different ways:
+
+**World 1 — Sliding (additive group)**
+Numbers as movements along a line. 3 means "slide right by 3". -2 means "slide left by 2". Combining two slides adds the distances. On the complex plane, imaginary numbers slide *vertically* — j means "slide up by 1".
+
+**World 2 — Stretching and rotating (multiplicative group)**
+Numbers as transformations of the plane. 3 means "stretch by factor 3". j means "rotate 90°". Combining two transformations *multiplies* them — rotating 90° twice gives 180°.
+
+These are two completely separate worlds with different arithmetic. But there's a bridge.
+
+---
+
+### The bridge — exponentials as homomorphisms
+
+A **homomorphism** is a function that converts the arithmetic of one world into the arithmetic of another while preserving structure.
+
+Exponentials do exactly this:
+
+```
+e^(a+b) = e^a · e^b
+```
+
+Adding in the sliding world = multiplying in the stretching/rotating world. The exponential function *translates* between them. This is why it appears everywhere in physics — anything involving growth, oscillation, or rotation has addition and multiplication secretly connected underneath.
+
+Specifically:
+
+- **Real inputs** (horizontal slides) → **stretching/shrinking** outputs
+- **Imaginary inputs** (vertical slides) → **pure rotation** outputs
+
+A vertical slide of θ units maps to a rotation of θ radians. That's what `e^(jθ)` means — not a strange power, but a *translation* of the sliding action jθ into the rotating action "rotate by θ".
+
+---
+
+### Why e specifically — the unit speed argument
+
+For a general base b, a vertical slide of 1 unit maps to a rotation of `ln(b)` radians. Different bases rotate at different speeds.
+
+**e is the unique base where a vertical slide of 1 unit maps to exactly 1 radian of rotation** — unit speed, no scaling factor.
+
+```
+Base 2:   vertical slide of 1  →  rotation of ln(2) ≈ 0.693 rad
+Base 3:   vertical slide of 1  →  rotation of ln(3) ≈ 1.099 rad
+Base e:   vertical slide of 1  →  rotation of ln(e) = 1.000 rad  ✓
+```
+
+Any other base introduces a constant everywhere. e is the one where the map is "natural" — identity speed between the two worlds.
+
+---
+
+### What e^(jπ) = -1 actually says
+
+Start at position 1 on the complex plane (the point (1, 0)).
+Apply the action `e^(jπ)`: a vertical slide of π units, translated into a rotation of π radians.
+Rotating 1 by π radians (180°) lands you at -1.
+
+```
+e^(jπ) = -1    means:    "rotate 180° and you end up at the opposite point"
+```
+
+No magic. Just geometry. The famous formula is just saying: half a turn takes you to the other side.
+
+---
+
+### What this means for motors and FOC
+
+Every rotating phasor in this entire document is `e^(jωt)` — the sliding action jωt (imaginary, so vertical, so a rotation) translated into a multiplicative rotation at rate ω.
+
+The Park transform `× e^(-jθ)` means: apply the action of rotating by -θ. Undo the rotor's rotation. The minus sign isn't arbitrary — it's the inverse in the multiplicative group, which corresponds to a negative slide in the additive group.
+
+Fortescue's `a = e^(j2π/3)` is a vertical slide of 2π/3, translated to a rotation of exactly 120°.
+
+The whole machinery — Clarke, Park, Fortescue, DFT — is the exponential homomorphism being used to move between the additive world (angles that add) and the multiplicative world (rotations that compose).
+
+---
+
 ### Why j (imaginary unit)?
 
 j = √(-1). Multiplying by j rotates a complex number by 90°:
@@ -210,13 +297,13 @@ j   × j = -1       (90° → 180°)
 -j  × j = 1        (270° → 360° = 0°)
 ```
 
-Repeated multiplication by j is rotation. The exponential `e^(jθ)` generalises this to any angle.
+Repeated multiplication by j is rotation. The exponential `e^(jθ)` generalises this to any angle — it's the smooth version of repeatedly multiplying by j.
 
 ### Negative frequency
 
-`e^(-jθ)` rotates in the opposite direction — clockwise. This is negative frequency. It's not mysterious — it's just rotation the other way.
+`e^(-jθ)` rotates in the opposite direction — clockwise. This is negative frequency. It's not mysterious — it's the inverse rotation action in the multiplicative group, which the homomorphism maps to a negative slide in the additive group.
 
-When you multiply a signal by `e^(-jωt)` you are **subtracting** the rotation ω from whatever is in the signal. If the signal contains a component at ω, that component's rotation cancels to zero — it becomes DC.
+When you multiply a signal by `e^(-jωt)` you are applying the inverse of rotation ω — if the signal contains a component rotating at ω, the two rotations cancel to zero. It becomes DC.
 
 This is the entire mechanism of the Park transform and the DFT.
 
