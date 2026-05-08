@@ -38,6 +38,10 @@ A 3-phase brushless motor produces torque when current flows through its winding
 
 **Maximum torque occurs at θ = 90°.**
 
+![PM and EM field line interactions](assets/foc_gifs/06_field_lines.gif)
+
+*Left: fields aligned — lines go straight through, no sideways force. Centre: 90° — lines are most bent, maximum force (rubber band trying to straighten). Right: angle sweeping live — torque tracks sin(θ).*
+
 ![Inrunner vs Outrunner comparison](assets/foc_gifs/05_inrunner_vs_outrunner.gif)
 
 *Your X4114 is an outrunner — coils fixed in the centre, magnet bell spins around the outside.*
