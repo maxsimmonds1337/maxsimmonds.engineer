@@ -42,6 +42,8 @@ Naive trapezoidal (six-step) commutation switches the stator field in discrete 6
 
 **FOC continuously rotates the stator field so θ is always exactly 90°**, regardless of rotor position or speed. The result:
 
+![FOC vs Trapezoidal torque ripple](assets/foc_gifs/04_foc_vs_trapezoidal.gif)
+
 - Smooth torque at any speed including zero
 - Maximum torque per amp (no wasted current)
 - Direct torque control (command torque, not just speed)
@@ -201,6 +203,10 @@ The (α, β) vector traces a circle as the motor spins. Its magnitude is constan
 
 At this stage the signal is still AC — it rotates continuously. We haven't yet made it DC-controllable.
 
+### Animation: 3-phase abc → αβ plane
+
+![Clarke transform animation](assets/foc_gifs/01_clarke_transform.gif)
+
 ### Visual: 3-phase abc → αβ plane
 
 <svg viewBox="0 0 420 260" xmlns="http://www.w3.org/2000/svg" style="max-width:420px;background:#1a1a2e;border-radius:8px;padding:8px;">
@@ -282,6 +288,14 @@ Torque is produced only by the component of stator MMF that is perpendicular to 
 ```
 
 Where p = number of pole pairs.
+
+### Animation: αβ rotating frame vs dq stationary frame
+
+![Park transform animation](assets/foc_gifs/02_park_transform.gif)
+
+### Animation: Rotor spinning — stator MMF locked 90° ahead
+
+![FOC stator lock animation](assets/foc_gifs/03_foc_stator_lock.gif)
 
 ### Visual: dq rotating frame and why Iq = torque
 
