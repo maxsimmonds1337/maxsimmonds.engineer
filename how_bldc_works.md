@@ -64,6 +64,79 @@ The stator is fixed, so by Newton's third law: the **bell** gets pushed in the o
 
 ---
 
+## 3a. Where Does F = IL×B Come From?
+
+The formula isn't magic — it falls out of one more fundamental law: the **Lorentz force** on a moving charge.
+
+### Step 1 — Force on a single charge
+
+A charge $$q$$ moving with velocity $$\vec{v}$$ through a magnetic field $$\vec{B}$$ experiences:
+
+$$\vec{F} = q\vec{v} \times \vec{B}$$
+
+This is experimental fact — it's how magnetic fields are defined. The force is perpendicular to both the velocity and the field.
+
+### Step 2 — Current is just moving charges
+
+In a wire carrying current $$I$$:
+- There are $$n$$ charge carriers per unit volume
+- Each has charge $$q$$ and drifts at velocity $$\vec{v}_d$$ (the drift velocity)
+- The current is: $$I = nqv_d A$$ where $$A$$ is the wire's cross-sectional area
+
+In a small element of wire with length $$dL$$:
+- Number of charges in that element: $$dN = nA \cdot dL$$
+- Force on each charge: $$d\vec{F}_{per\ charge} = q\vec{v}_d \times \vec{B}$$
+- Total force on the element:
+
+$$d\vec{F} = dN \cdot q(\vec{v}_d \times \vec{B}) = nAq \cdot dL\ (\hat{L} \times \vec{B})$$
+
+Since $$nqv_d A = I$$, we can substitute:
+
+$$d\vec{F} = I\ (d\vec{L} \times \vec{B})$$
+
+Integrate along the whole wire in a uniform field:
+
+$$\boxed{\vec{F} = I\vec{L} \times \vec{B}}$$
+
+That's it. F = IL×B is just the Lorentz force on all the drifting charges in the wire, summed up.
+
+---
+
+### Step 3 — Why does the field superposition picture give the same answer?
+
+The wire carries current → it creates its own circular B field (by Biot-Savart):
+
+$$B_{wire} = \frac{\mu_0 I}{2\pi r}$$
+
+This field superimposes with the PM field. The total stored magnetic energy density at any point is:
+
+$$u = \frac{B_{total}^2}{2\mu_0} = \frac{(\vec{B}_{PM} + \vec{B}_{wire})^2}{2\mu_0}$$
+
+Expanding:
+
+$$u = \frac{B_{PM}^2 + 2\vec{B}_{PM}\cdot\vec{B}_{wire} + B_{wire}^2}{2\mu_0}$$
+
+The $$B_{PM}^2$$ and $$B_{wire}^2$$ terms are fixed. Only the **cross term** $$\vec{B}_{PM} \cdot \vec{B}_{wire}$$ changes with position:
+
+```
+Left of wire:  B_PM and B_wire point same way  →  dot product > 0  →  high energy density
+Right of wire: B_PM and B_wire point opposite  →  dot product < 0  →  low energy density
+```
+
+A system always moves to minimise its energy. The wire is pushed **from the high-energy side to the low-energy side** — i.e., rightward.
+
+The force is the gradient of the interaction energy:
+
+$$\vec{F} = -\nabla U_{interaction} = -\nabla \int \frac{\vec{B}_{PM} \cdot \vec{B}_{wire}}{\mu_0}\ dV$$
+
+When you work through this integral (it becomes the Maxwell stress tensor), you recover exactly:
+
+$$\vec{F} = I\vec{L} \times \vec{B}$$
+
+**Both derivations are the same physics.** The Lorentz route is faster. The field energy route shows you *why* the weak-field side pulls — the system is literally moving downhill in energy.
+
+---
+
 ## 4. The Problem: Force Reverses
 
 The bell rotates. Eventually the N pole that was sitting over your `×` conductor moves on, and an S pole arrives instead. The B field at that conductor has **reversed direction**.
