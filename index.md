@@ -42,7 +42,7 @@
   </a>
   <div class="project-meta">
     <h1><a href="./robot_dog_butler">Robot Dog Butler</a></h1>
-    <p class="project-dates"><strong>Start Date:</strong> 28/02/26 &nbsp;·&nbsp; <strong>Last Edited:</strong> 05/05/26&nbsp;·&nbsp; <strong>Status:</strong> <span class="status-ongoing">Ongoing</span></p>
+    <p class="project-dates"><strong>Start Date:</strong> 28/02/26 &nbsp;·&nbsp; <strong>Last Edited:</strong> 07/05/26&nbsp;·&nbsp; <strong>Status:</strong> <span class="status-ongoing">Ongoing</span></p>
     <p class="project-blurb">My daughter really wants a dog, so we settled on a robot dog (called Cedric, named by my daughter). I thought it would be cool to make it useful, so we'll attached a steward platform to the top, and make it carry drinks.</p>
   </div>
 </div>
