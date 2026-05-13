@@ -164,3 +164,38 @@ the fudge factor that's sometimes added.
 $$ KV = \frac{\frac{177}{11}*60}{2.4} \approx 400$$
 
 Pretty close to the stated 370 KV.
+
+## 13/05/26
+
+I've been spending some time looking through various cycloidal drives, trying to
+understand how they work. As well as that, I was deep diving into how BLDC
+motors work, how field orientated control works, Fortesque transforms, Clarke
+transforms, etc. There's a lot to learn and I don't have much time, but I think
+it's important to get a good grasp on these concepts, as they come up over and
+over and over in other areas.
+
+Anyway, I'm not in a place to update about that yet, but I can with the
+cycloidal drive.
+
+![image](./images/3dCycloidaldrive.png)
+
+Here's were I am so far. I settled on taking [James Bruton's v3 cycloidal drive](https://github.com/XRobots/CycloidalDrive/tree/main/V3). Mainly, it was simple enough to quickly understand what I needed to print, and a pretty similar motor to what I had. I scaled the design down based on the ratio of motor diameters, I needed to make it almost half the size. 
+
+There's a bunch of things that need to be changed, which is why I'm writing this
+update, I want to formalise them so I can understand what I need.
+
+1. The screw holes didn't scale down well. They ended up being 1mm or something.
+   Smallest screws I have are M2s, I'll redo the designs to account for this. 
+2. The cover isn't the right size, needs to be redesigned.
+3. The cycloidal gears might need to be made smaller ever so slightly, they
+   pinch a bit. This might be because the roller bearings that sit on the
+   outside of the cycloidal gears aren't well dimensioned, 3D printing small
+   tubes is never great. I can either make these part of the body of the gear, I
+   don't think they really need to roll, or, replace with Teflon tubes that I
+   buy.
+4. The eccentric gear needs some consideration, it's very thing, I thin it'll
+   snap pretty quickly. I reckon I can make it thicker, and maybe change how the
+   two are connected.
+5. Need a better solution for the small bearings and spacers - in fact, all
+   bearings need some thought. If I do use metal bearings (and probably I will
+   need too) then they need to be a standard size, so I'll need to account that.
