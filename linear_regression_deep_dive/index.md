@@ -199,3 +199,41 @@ $$\lambda$$ in this case, is some scaler, if we use $$\lambda \in \[ 0,
 1\]$$ then we can take a percentage of the target and add it to the start. If
 $$\lambda$$ is scale nicely from 0 -> 1 -> 0 then we can nicely LERP between our start (identity matrix) and target, our desired final transform. We than have a slightly warped transform, which we can now use to warp our grid lines by. We do this over and over, and we get the view from above!
 
+
+## 24/05/26
+
+Been a while since I worked on this - focusing on some other projects, but I'd
+like to get this to at least a state where I no longer have to protect some
+random pieces of paper that I've had on my desk for ages, with my notes on what
+I was working on. Mostly, it was on a quick derivation of a rotation matrix,
+that generalises the rotation some more.
+
+What we want is a 2D matrix that transforms a point to a new basis, $$ \hat{i_{new_{x}}} \text{ and } \hat{j_{new_{x}}} $$, and it's y counterpart - $$ \hat{i_{new_{y}}} \text{ and } \hat{j_{new_{y}}} $$
+
+That is:
+
+$$
+
+\begin{bmatrix} 
+x_{new} \\
+y_{new} \\
+\end{bmatrix}
+
+=
+
+\begin{bmatrix} 
+\hat{i_{new_{x}}} && \hat{i_{new_{y}}} \\
+\hat{j_{new_{x}}} && \hat{j_{new_{y}}} \\
+\end{bmatrix}
+
+\cdot 
+
+
+\begin{bmatrix} 
+x \\
+y \\
+\end{bmatrix}
+$$ 
+
+
+

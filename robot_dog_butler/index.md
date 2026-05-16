@@ -199,3 +199,47 @@ update, I want to formalise them so I can understand what I need.
 5. Need a better solution for the small bearings and spacers - in fact, all
    bearings need some thought. If I do use metal bearings (and probably I will
    need too) then they need to be a standard size, so I'll need to account that.
+
+## 23/05/26
+
+Okay, it's been a while since I posted, but I've actually been working a lot on
+this. I'd be splitting my efforts between designing the cycloidal drive,
+arguably the most important part of the dog bot, and understand _how_ BLDC
+outrunners work. Specifically, I've been looking at:
+
+- What causes the motor to turn?
+- What are the stator winding patterns?
+- Why do they have seemingly random pole / slot ratios? (22/24, for example)
+- Trapezoidal vs Field Oriented Control
+- Fortesque and Clarke / PQ transforms
+- Forces on conductors in magnetic fields
+- Lorentz forces
+- Back EMF (BEMF) and modelling this in LTSpice
+
+### Cycloidal Gearbox Development
+
+![images](./images/CycloidCutout.png)
+![images](./images/CycloidSide.png)
+![images](./images/CycloidFront.png.png)
+![images](./images/CycloidBack.png)
+
+Gearbox development is going well. I have printed these components now, and
+tested using a drill, all seems to be working!
+
+![videos](https://www.youtube.com/embeds/vzxHffrBaAA)
+
+The outstanding parts are the top output drive cup (? can't think of a better
+name!) and the plate that caps the gear ring holder (again, no idea what's a
+good name for that). I need to make a few mods to the current design, just for
+"assembability", but I'm happy with the progress!
+
+### BLDCs - How They Work?
+
+Let's start off with the physics at play in BLDCs, before we jump into stator
+windings, poles, slots, etc.
+
+It all starts with _how_ a force is generated, and that comes from:
+
+$$ F = IL \cross B $$
+
+That is, the force 
