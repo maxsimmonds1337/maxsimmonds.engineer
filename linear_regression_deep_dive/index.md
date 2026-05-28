@@ -235,5 +235,7 @@ y \\
 \end{bmatrix}
 $$ 
 
+Let's take a look at the unit circle:
 
+![images](./images/unitCircle.png)
 
