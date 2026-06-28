@@ -183,6 +183,20 @@ Then ingest the digest as normal. The wiki page for that project gets updated wi
 
 ---
 
+## What's Still Pending
+
+This setup works, but there are a few things left to wire in:
+
+- **MCP + Obsidian REST API** — right now Claude accesses the vault via the filesystem directly. Wiring in the `mcp-obsidian` plugin and Local REST API would let Claude interact with Obsidian's own search index, making queries richer and faster across a large vault.
+
+- **Automated ingestion** — a 7am scheduled Claude Code task that scans `raw/` for new files, ingests them, runs a lint pass, and writes an overnight summary to `log.md`. Currently ingestion is manual (you tell Claude to do it). The schedule tab in Claude Code makes this hands-free.
+
+- **Local LLM** — the whole system runs on Claude Pro ($20/month). Swapping in a local model (Ollama + a capable open-weights model) would make it free to run and fully air-gapped. The vault is plain markdown so it's model-agnostic — point a different model at the folder and it works. Quality of wiki maintenance will vary by model.
+
+- **Local backups** — the wiki is currently backed up to iCloud. A self-hosted git server (Gitea on a Raspberry Pi or home server) would give full version history, no cloud dependency, and a browsable web interface on the local network. Raw sources stay in iCloud; compiled wiki goes to the local server.
+
+---
+
 ## What You End Up With
 
 Run it for a week and it is a notes app. Run it for a month and it is a reference system. Run it for six months and it is a knowledge engine no amount of Googling replaces — because every new note connects to everything already there.
