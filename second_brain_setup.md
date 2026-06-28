@@ -92,7 +92,7 @@ git add .
 git commit -m "init second brain"
 ```
 
-For phone access, move the vault folder into iCloud Drive. The git repo works fine from inside iCloud Drive.
+For phone access, see the iPhone section below. The git repo works fine from inside iCloud Drive.
 
 ---
 
@@ -180,6 +180,49 @@ Run it whenever a repo changes significantly:
 ```
 
 Then ingest the digest as normal. The wiki page for that project gets updated with current context.
+
+---
+
+## Accessing the Wiki on iPhone
+
+Obsidian on iOS syncs via a specific iCloud folder it creates — not just anywhere in iCloud Drive. The vault must live inside that folder or the mobile app won't see it.
+
+### One-time setup
+
+**1. Install Obsidian on iPhone**
+
+Download from the App Store (free).
+
+**2. Create a throwaway vault with iCloud enabled**
+
+On first launch, tap **Create new vault**, give it any name, and make sure **Store in iCloud** is toggled on. This makes Obsidian create its iCloud folder on both your iPhone and Mac. You can delete the throwaway vault immediately after.
+
+**3. Move the vault on Mac**
+
+In terminal:
+
+```bash
+mv "/Users/max/Library/Mobile Documents/com~apple~CloudDocs/second-brain" \
+   "/Users/max/Library/Mobile Documents/iCloud~md~obsidian/Documents/second-brain"
+```
+
+This moves it from general iCloud Drive into the Obsidian-specific iCloud folder. Git works fine from the new location — the remote URL doesn't change.
+
+**4. Open it in Obsidian on iPhone**
+
+In Obsidian mobile → **Open vault** → it should appear in the list automatically once iCloud syncs (usually under a minute). Tap it and you're in.
+
+### What you get on iPhone
+
+- All wiki pages readable and searchable
+- Wikilinks navigate between pages
+- Graph view available
+- Changes made on iPhone sync back to Mac via iCloud automatically
+
+### What stays Mac-only
+
+- `raw/` — source files (PDFs, zips) are too large and there's no reason to browse them on phone
+- Running Claude Code to ingest or lint — that stays on the desktop
 
 ---
 
