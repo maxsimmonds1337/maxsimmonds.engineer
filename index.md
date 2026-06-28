@@ -4,6 +4,17 @@
 <div class="content-layout">
 <div class="projects-column">
 <div class="project-card">
+  <a href="./second_brain_setup" class="project-image-wrap">
+    <img src="./second_brain_setup/images/listImage.png" alt="Building a Self-Maintaining Second Brain" onerror="this.closest('.project-image-wrap').style.display='none'">
+  </a>
+  <div class="project-meta">
+    <h1><a href="./second_brain_setup">Building a Self-Maintaining Second Brain</a></h1>
+    <p class="project-dates"><strong>Start Date:</strong> 28/06/26 &nbsp;·&nbsp; <strong>Last Edited:</strong> 28/06/26 &nbsp;·&nbsp; <strong>Status:</strong> <span class="status-finished">Finished</span></p>
+    <p class="project-blurb">How I set up an Obsidian vault that files itself using Karpathy's LLM-Wiki pattern and Claude Code. One evening of setup — a knowledge base that compounds rather than piles.</p>
+  </div>
+</div>
+
+<div class="project-card">
   <a href="./stl_stacker" class="project-image-wrap">
     <img src="./stl_stacker/images/listImage.png" alt="STL Stacker" onerror="this.closest('.project-image-wrap').style.display='none'">
   </a>
@@ -94,12 +105,7 @@
 </div>
 
 <div class="project-card">
-  <a href="./DIY_One_Wheel/" class="project-image-wrap">
-    <img src="./DIY_One_Wheel/images/listImage.png" alt="DIY One Wheel" onerror="this.closest('.project-image-wrap').style.display='none'">
-  </a>
-  <div class="project-meta">
-    <h1><a href="./DIY_One_Wheel/">DIY One Wheel</a></h1>
-    <p class="project-dates"><strong>Start Date:</strong> 31/07/2022 &nbsp;·&nbsp; <strong>Last Edited:</strong> 25/03/26 &nbsp;·&nbsp; <strong>Status:</strong> <span class="status-abandoned">Abandoned</span></p>
+  <a <span class="status-ongoing">Ongoing</span></p>
     <p class="project-blurb">A self balancing electric skateboard. Superseded by the Robot Dog Butler — which requires a custom BLDC driver with torque control that the VESC doesn't support, making a custom motor driver necessary anyway.</p>
   </div>
 </div>

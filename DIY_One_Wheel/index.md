@@ -70,3 +70,6 @@ And so what we have left to do:
 
 And that's it, so actually, not a lot! I'll need to go through the whole BOM and see if there's any issues (like the EOL BLE module) and maybe some hard to source components. When I started this project, it was during the huge issues with part shortages, I'm hoping things have calmed down now.
 
+
+## 24/06/26
+
