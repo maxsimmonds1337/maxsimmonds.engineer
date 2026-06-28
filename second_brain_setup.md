@@ -181,6 +181,30 @@ Run it whenever a repo changes significantly:
 
 Then ingest the digest as normal. The wiki page for that project gets updated with current context.
 
+### Ingesting all repos at once
+
+To bulk-ingest every repo in one Claude session, use this prompt:
+
+---
+
+You are maintaining my second brain wiki vault at this path: /Users/max/Library/Mobile Documents/iCloud~md~obsidian/Documents/second-brain
+
+First read CLAUDE.md and index.md to understand the wiki rules and current state.
+
+I want you to generate repo digests for all my projects and ingest them. Here is how to do it:
+
+For each folder in /Users/max/repos, run the digest-repo.sh script that lives in the vault root:
+
+bash "/Users/max/Library/Mobile Documents/iCloud~md~obsidian/Documents/second-brain/digest-repo.sh" "/Users/max/repos/<repo-name>"
+
+Do this one repo at a time. After generating each digest, immediately ingest it into the wiki before moving to the next repo. That means: read the digest file, write or update the matching wiki pages, update index.md, cross-link related pages, and append to log.md.
+
+Skip any folder that is not a git repo and has no README. Also skip folders that are clearly junk or temp files.
+
+When you are done, run a lint pass on the wiki to check for orphans and broken links, and give me a summary of what was created or updated.
+
+---
+
 ---
 
 ## Accessing the Wiki on iPhone
