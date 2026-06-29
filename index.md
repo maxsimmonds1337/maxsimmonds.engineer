@@ -105,7 +105,12 @@
 </div>
 
 <div class="project-card">
-  <a <span class="status-ongoing">Ongoing</span></p>
+  <a href="./DIY_One_Wheel/" class="project-image-wrap">
+    <img src="./DIY_One_Wheel/images/listImage.png" alt="DIY One Wheel" onerror="this.closest('.project-image-wrap').style.display='none'">
+  </a>
+  <div class="project-meta">
+    <h1><a href="./DIY_One_Wheel/">DIY One Wheel</a></h1>
+    <p class="project-dates"><strong>Start Date:</strong> 31/07/2022 &nbsp;·&nbsp; <strong>Last Edited:</strong> 24/06/26 &nbsp;·&nbsp; <strong>Status:</strong> <span class="status-ongoing">Ongoing</span></p>
     <p class="project-blurb">A self balancing electric skateboard. Superseded by the Robot Dog Butler — which requires a custom BLDC driver with torque control that the VESC doesn't support, making a custom motor driver necessary anyway.</p>
   </div>
 </div>
