@@ -15,6 +15,17 @@
 </div>
 
 <div class="project-card">
+  <a href="./kicad_with_claude/" class="project-image-wrap">
+    <img src="./kicad_with_claude/images/listImage.png" alt="KiCad with Claude" onerror="this.closest('.project-image-wrap').style.display='none'">
+  </a>
+  <div class="project-meta">
+    <h1><a href="./kicad_with_claude/">KiCad with Claude</a></h1>
+    <p class="project-dates"><strong>Start Date:</strong> 29/06/26 &nbsp;·&nbsp; <strong>Last Edited:</strong> 29/06/26 &nbsp;·&nbsp; <strong>Status:</strong> <span class="status-finished">Finished</span></p>
+    <p class="project-blurb">A practical workflow for hardware design with Claude Code — LCSC part numbers, manufacturing folder structure, design calcs, and issue tracking, packaged as a KiCad project template.</p>
+  </div>
+</div>
+
+<div class="project-card">
   <a href="./stl_stacker" class="project-image-wrap">
     <img src="./stl_stacker/images/listImage.png" alt="STL Stacker" onerror="this.closest('.project-image-wrap').style.display='none'">
   </a>
