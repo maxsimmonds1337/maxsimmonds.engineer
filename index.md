@@ -7,7 +7,7 @@
   </a>
   <div class="project-meta">
     <h1><a href="./moskva_8m_typewriter_manual">Moskva 8M Typewriter Manual</a></h1>
-    <p class="project-dates"><strong>Start Date:</strong> 22/07/26 &nbsp;·&nbsp; <strong>Last Edited:</strong> 22/07/26 &nbsp;·&nbsp; <strong>Status:</strong> <span class="status-finished">Finished</span></p>
+    <p class="project-dates"><strong>Start Date:</strong> 22/07/26 &nbsp;·&nbsp; <strong>Last Edited:</strong> 22/07/26&nbsp;·&nbsp; <strong>Status:</strong> <span class="status-finished">Finished</span></p>
     <p class="project-blurb">I bought a 1979 Soviet "Moskva" PP-215-8M portable typewriter. Its manual only exists in Russian, so I translated it to English.</p>
   </div>
 </div>

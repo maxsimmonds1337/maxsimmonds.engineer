@@ -204,3 +204,43 @@ The original manual includes two tear-off warranty repair coupons (Талон �
 ---
 
 *Translated from the original Russian "Руководство по эксплуатации портативной пишущей машины «Москва» ПП‑215‑8М" (1979, МПО «Оргтехника», Ржевская типография 17‑10000‑80). Scan courtesy of [typewriterbook.ru](https://typewriterbook.ru).*
+
+## 22/07/26
+
+### The Latin alphabet, typed on a Cyrillic machine
+
+This machine has no Latin keys at all — it's a standard Soviet ЙЦУКЕН layout: Cyrillic letters, digits, and punctuation only. As a side project, I worked out how to render the full Latin alphabet anyway, using nothing but what's on the keyboard, leaning on two features the manual itself documents: the **carriage back-space key (17)**, which lets you strike a second character in exactly the same spot as the first (section 6.7), and fine manual rotation of the **platen knob (1)**, which lets you nudge a character slightly above or below the normal line before striking it.
+
+A handful of Cyrillic capitals are drawn identically to Latin letters already — no trick needed. The rest are built by overstriking a base character with a modifier, in the same spirit as the F/I/R/S/T set I started with.
+
+| Letter | Keys | Method |
+|---|---|---|
+| A | `А` | Direct — Cyrillic А is drawn identically to Latin A. |
+| B | `В` | Direct — Cyrillic Ve is drawn identically to Latin B. |
+| C | `С` | Direct — Cyrillic Es is drawn identically to Latin C. |
+| D | `1` ⌫ `)` | Numeral stem plus a right parenthesis overstruck for the bowl. |
+| E | `Е` | Direct — Cyrillic Ye is drawn identically to Latin E. |
+| F | `Г` ⌫ `-` | Cyrillic Ge gives the top bar and stem; overstrike a hyphen for the missing middle bar. |
+| G | `С` ⌫ `-` | C-shape plus an overstruck hyphen for the crossbar. |
+| H | `Н` | Direct — Cyrillic En is drawn identically to Latin H. |
+| I | `1` | Numeral one stands in for the plain vertical stroke. |
+| J | `1` ⌫ `,` | Stem plus a comma overstruck at the foot for the hook — nudge the platen down slightly first for a cleaner hook. |
+| K | `К` | Direct — Cyrillic Ka is drawn identically to Latin K. |
+| L | `1` ⌫ `_` | Stem plus an underscore overstruck at the very bottom of the cell for the foot. |
+| M | `М` | Direct — Cyrillic Em is drawn identically to Latin M. |
+| N | `И` | Closest available stand-in — Cyrillic I is a mirror image of N (diagonal runs the other way), but it reads fine at a glance. |
+| O | `О` | Direct — Cyrillic O is drawn identically to Latin O. |
+| P | `Р` | Direct — Cyrillic Er is drawn identically to Latin P. |
+| Q | `О` ⌫ `,` | O-shape plus a comma overstruck at the bottom right for the tail. |
+| R | `Р` ⌫ `/` | P-shape plus an overstruck forward slash for the diagonal leg. |
+| S | `5` | Numeral stand-in — no Cyrillic letter has an S-curve. |
+| T | `Т` | Direct — Cyrillic Te is drawn identically to Latin T. |
+| U | `Ц` | Closest available — Cyrillic Tse is a U-shape with a small extra tail at bottom right, but it's recognisable. |
+| V | `Л` | Closest available stand-in — Cyrillic El is the same two-diagonal shape, just upside down (peak at the top instead of the bottom). |
+| W | `Ш` | Closest available stand-in — Cyrillic Sha is three prongs on a base bar, blockier than a true W but reads the same way. |
+| X | `Х` | Direct — Cyrillic Ha is drawn identically to Latin X. |
+| Y | `У` | Direct — Cyrillic U is drawn identically to Latin Y. |
+| Z | `-` ⌫ `/` ⌫ `_` | Three characters overstruck in the same spot: a hyphen nudged up slightly for the top bar, a slash for the diagonal, and an underscore at the baseline for the bottom bar. |
+
+Twelve letters (A B C E H K M O P T X Y) are free — they're just the well-known Cyrillic/Latin lookalikes. The rest need one or two overstrikes each. Z is the hardest one on the whole keyboard: three separate strikes, one of them needing a manual platen nudge to land the top bar in the right place.
+
