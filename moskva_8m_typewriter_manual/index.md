@@ -84,7 +84,7 @@ The delivery set includes:
 16. Top cover
 17. Carriage back-space key
 18. Shift key (upper case)
-19. Carriage-return pedal
+19. Carriage-space (skip) pedal
 20. Ribbon guide
 21. Segment
 22. Type-guide (letter guide)
