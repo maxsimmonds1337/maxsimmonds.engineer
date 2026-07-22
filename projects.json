@@ -1,5 +1,13 @@
 [
   {
+    "name": "Moskva 8M Typewriter Manual",
+    "folder": "moskva_8m_typewriter_manual",
+    "startDate": "22/07/26",
+    "lastEdited": "22/07/26",
+    "status": "finished",
+    "blurb": "I bought a 1979 Soviet \"Moskva\" PP-215-8M portable typewriter. Its manual only exists in Russian, so I translated it to English."
+  },
+  {
     "name": "STL Stacker",
     "folder": "stl_stacker",
     "startDate": "22/03/26",
