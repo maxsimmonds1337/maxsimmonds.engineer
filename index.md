@@ -13,6 +13,18 @@
 </div>
 
 
+<div class="project-card">
+  <a href="./reading_list" class="project-image-wrap">
+    <img src="./reading_list/images/listImage.png" alt="Reading List" onerror="this.closest('.project-image-wrap').style.display='none'">
+  </a>
+  <div class="project-meta">
+    <h1><a href="./reading_list">Reading List</a></h1>
+    <p class="project-dates"><strong>Start Date:</strong> 29/06/26 &nbsp;·&nbsp; <strong>Last Edited:</strong> 29/06/26 &nbsp;·&nbsp; <strong>Status:</strong> <span class="status-ongoing">Ongoing</span></p>
+    <p class="project-blurb">Books, papers, and ideas across physical AI, space propulsion, energy, and biotech — the fields I think matter most.</p>
+  </div>
+</div>
+
+
 <div class="content-layout">
 <div class="projects-column">
 <div class="project-card">
@@ -43,7 +55,7 @@
   </a>
   <div class="project-meta">
     <h1><a href="./stl_stacker">STL Stacker</a></h1>
-    <p class="project-dates"><strong>Start Date:</strong> 22/03/26 &nbsp;·&nbsp; <strong>Last Edited:</strong> 22/03/26 &nbsp;·&nbsp; <strong>Status:</strong> <span class="status-ongoing">Ongoing</span></p>
+    <p class="project-dates"><strong>Start Date:</strong> 22/03/26 &nbsp;·&nbsp; <strong>Last Edited:</strong> 22/03/26 &nbsp;·&nbsp; <strong>Status:</strong> <span class="status-abandoned">Abandoned</span></p>
     <p class="project-blurb">For my Rocket Clock project I need many face plates. I realised, I could stack them, but there's no convenient tool do so - so I built one.</p>
   </div>
 </div>
@@ -65,7 +77,7 @@
   </a>
   <div class="project-meta">
     <h1><a href="./aurora_sign">Aurora Sign</a></h1>
-    <p class="project-dates"><strong>Start Date:</strong> 08/03/26 &nbsp;·&nbsp; <strong>Last Edited:</strong> 26/03/26&nbsp;·&nbsp; <strong>Status:</strong> <span class="status-ongoing">Ongoing</span></p>
+    <p class="project-dates"><strong>Start Date:</strong> 08/03/26 &nbsp;·&nbsp; <strong>Last Edited:</strong> 26/03/26&nbsp;·&nbsp; <strong>Status:</strong> <span class="status-abandoned">Abandoned</span></p>
     <p class="project-blurb">Needed a sign that said "Aurora" -- added cool RGB LEDs. All 3D printed.</p>
   </div>
 </div>
@@ -87,7 +99,7 @@
   </a>
   <div class="project-meta">
     <h1><a href="./inductive_charger_from_scratch">Inductive Charger from Scratch</a></h1>
-    <p class="project-dates"><strong>Start Date:</strong> 26/02/26 &nbsp;·&nbsp; <strong>Last Edited:</strong> 26/02/26 &nbsp;·&nbsp; <strong>Status:</strong> <span class="status-ongoing">Ongoing</span></p>
+    <p class="project-dates"><strong>Start Date:</strong> 26/02/26 &nbsp;·&nbsp; <strong>Last Edited:</strong> 26/02/26 &nbsp;·&nbsp; <strong>Status:</strong> <span class="status-abandoned">Abandoned</span></p>
     <p class="project-blurb">A recent project of mine required some custom, non standard coil, inductive charging. I want to document my development of this custom wireless/inductive charger.</p>
   </div>
 </div>
@@ -110,7 +122,7 @@
   </a>
   <div class="project-meta">
     <h1><a href="./making_an_enclosure_for_3d_printer/">Making an Enclosure for 3D Printer</a></h1>
-    <p class="project-dates"><strong>Start Date:</strong> 02/02/26 &nbsp;·&nbsp; <strong>Last Edited:</strong> 20/03/26 &nbsp;·&nbsp; <strong>Status:</strong> <span class="status-ongoing">Ongoing</span></p>
+    <p class="project-dates"><strong>Start Date:</strong> 02/02/26 &nbsp;·&nbsp; <strong>Last Edited:</strong> 20/03/26 &nbsp;·&nbsp; <strong>Status:</strong> <span class="status-finished">Finished</span></p>
     <p class="project-blurb">I recently bought a new 3D printer (retiring my old homemade one!). I wanted an enclosure to stop accidental touches (from 3 year old hands!) and also extract fumes from plastics like PETG. This is my build process, documented.</p>
   </div>
 </div>

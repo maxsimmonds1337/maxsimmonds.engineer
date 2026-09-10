@@ -8,11 +8,19 @@
     "blurb": "I bought a 1979 Soviet \"Moskva\" PP-215-8M portable typewriter. Its manual only exists in Russian, so I translated it to English."
   },
   {
+    "name": "Reading List",
+    "folder": "reading_list",
+    "startDate": "29/06/26",
+    "lastEdited": "29/06/26",
+    "status": "ongoing",
+    "blurb": "Books, papers, and ideas across physical AI, space propulsion, energy, and biotech \u2014 the fields I think matter most."
+  },
+  {
     "name": "STL Stacker",
     "folder": "stl_stacker",
     "startDate": "22/03/26",
     "lastEdited": "22/03/26",
-    "status": "ongoing",
+    "status": "abandoned",
     "blurb": "For my Rocket Clock project I need many face plates. I realised, I could stack them, but there's no convenient tool do so - so I built one."
   },
   {
@@ -28,7 +36,7 @@
     "folder": "aurora_sign",
     "startDate": "08/03/26",
     "lastEdited": "26/03/26",
-    "status": "ongoing",
+    "status": "abandoned",
     "blurb": "Needed a sign that said Aurora -- added cool RGB LEDs. All 3D printed."
   },
   {
@@ -44,7 +52,7 @@
     "folder": "inductive_charger_from_scratch",
     "startDate": "26/02/26",
     "lastEdited": "26/02/26",
-    "status": "ongoing",
+    "status": "abandoned",
     "blurb": "A recent project of mine required some custom, non standard coil, inductive charging. I want to document my development of this custom wireless/inductive charger."
   },
   {
@@ -60,7 +68,7 @@
     "folder": "making_an_enclosure_for_3d_printer",
     "startDate": "02/02/26",
     "lastEdited": "20/03/26",
-    "status": "ongoing",
+    "status": "finished",
     "blurb": "Enclosure for my new 3D printer to stop accidental touches and extract fumes."
   },
   {
