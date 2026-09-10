@@ -33,7 +33,7 @@ An outrunner BLDC motor has two parts:
 
 The magnets on the bell alternate N–S–N–S around the circumference. The coils on the stator sit in the air gap between bell and stator.
 
-![Inrunner vs Outrunner](./assets/foc_gifs/05_inrunner_vs_outrunner.gif)
+![Inrunner vs Outrunner](./../assets/foc_gifs/05_inrunner_vs_outrunner.gif)
 
 Outrunners have higher torque for the same motor volume because the force acts at a larger radius (the bell), giving a longer moment arm.
 
@@ -60,7 +60,7 @@ Stator:  [× current in]  [● current out]
 
 The stator is fixed, so by Newton's third law: the **bell** gets pushed in the opposite direction and rotates.
 
-![Unwrapped air gap — A high / B low](./assets/foc_gifs/13_unwrapped_teeth.png)
+![Unwrapped air gap — A high / B low](./../assets/foc_gifs/13_unwrapped_teeth.png)
 
 ---
 
@@ -145,7 +145,7 @@ Same current + reversed B = **reversed force** — now opposing rotation.
 
 You have to **reverse the current** at exactly the right moment to keep the force in the same direction. This is **commutation**.
 
-![Force reversal — bell rotates, force flips](./assets/foc_gifs/14_force_reversal.gif)
+![Force reversal — bell rotates, force flips](./../assets/foc_gifs/14_force_reversal.gif)
 
 ---
 
@@ -172,7 +172,7 @@ With three phases you have six valid on/off combinations. You cycle through them
 
 Each step, all the currents in all the active slots produce a combined magnetic field — the **MMF vector** — pointing in one fixed direction. The rotor chases that vector. When it gets close, you switch to the next step and it chases again.
 
-![6-step trapezoidal commutation](./assets/foc_gifs/15_trap_commutation.gif)
+![6-step trapezoidal commutation](./../assets/foc_gifs/15_trap_commutation.gif)
 
 ---
 
@@ -182,7 +182,7 @@ All the currents in all the active slots add up as vectors to produce one net ma
 
 For A high, B low — you can work out the contribution of each coil side, sum them geometrically, and get one arrow pointing in a specific direction. That arrow is what the rotor is chasing.
 
-![Star of slots — 24N22P](./assets/foc_gifs/09_star_of_slots.gif)
+![Star of slots — 24N22P](./../assets/foc_gifs/09_star_of_slots.gif)
 
 The torque depends on the **angle δ** between this MMF vector and the rotor's own magnetic field (from the PMs):
 
@@ -228,7 +228,7 @@ Results:
 
 The **d/q axis** framing you see in FOC literature is just a coordinate system that rotates with the rotor. Saying "keep q-axis current high, d-axis current zero" is mathematically identical to "keep the MMF 90° ahead of the rotor flux at all times."
 
-![FOC stator lock — MMF held 90° ahead of rotor](./assets/foc_gifs/03_foc_stator_lock.gif)
+![FOC stator lock — MMF held 90° ahead of rotor](./../assets/foc_gifs/03_foc_stator_lock.gif)
 
 ---
 
@@ -246,7 +246,7 @@ $$V = -N \frac{d\Phi}{dt}$$
 
 Faster spin → faster flux change → higher induced voltage.
 
-![Back EMF — spinning bell induces voltage](./assets/foc_gifs/16_bemf.gif)
+![Back EMF — spinning bell induces voltage](./../assets/foc_gifs/16_bemf.gif)
 
 This induced voltage is the **back EMF (BEMF)**. It's proportional to speed, and the proportionality constant is the **motor velocity constant**:
 

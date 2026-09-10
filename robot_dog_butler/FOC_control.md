@@ -38,15 +38,15 @@ A 3-phase brushless motor produces torque when current flows through its winding
 
 **Maximum torque occurs at θ = 90°.**
 
-![PM and EM field line interactions](assets/foc_gifs/06_field_lines.gif)
+![PM and EM field line interactions](../assets/foc_gifs/06_field_lines.gif)
 
 *Left: fields aligned — lines go straight through, no sideways force. Centre: 90° — lines are most bent, maximum force (rubber band trying to straighten). Right: angle sweeping live — torque tracks sin(θ).*
 
-![Inrunner vs Outrunner comparison](assets/foc_gifs/05_inrunner_vs_outrunner.gif)
+![Inrunner vs Outrunner comparison](../assets/foc_gifs/05_inrunner_vs_outrunner.gif)
 
 *Your X4114 is an outrunner — coils fixed in the centre, magnet bell spins around the outside.*
 
-![Motor cross-section showing torque ∝ sin(θ)](assets/foc_gifs/00_torque_sin_theta.gif)
+![Motor cross-section showing torque ∝ sin(θ)](../assets/foc_gifs/00_torque_sin_theta.gif)
 
 *Left: motor cross-section — rotor flux (red) is fixed, stator MMF (yellow) sweeps around. Green arrows show force on conductors. Right: the resulting sin(θ) torque curve with current operating point marked.*
 
@@ -54,7 +54,7 @@ Naive trapezoidal (six-step) commutation switches the stator field in discrete 6
 
 **FOC continuously rotates the stator field so θ is always exactly 90°**, regardless of rotor position or speed. The result:
 
-![FOC vs Trapezoidal torque ripple](assets/foc_gifs/04_foc_vs_trapezoidal.gif)
+![FOC vs Trapezoidal torque ripple](../assets/foc_gifs/04_foc_vs_trapezoidal.gif)
 
 - Smooth torque at any speed including zero
 - Maximum torque per amp (no wasted current)
@@ -217,7 +217,7 @@ At this stage the signal is still AC — it rotates continuously. We haven't yet
 
 ### Animation: 3-phase abc → αβ plane
 
-![Clarke transform animation](assets/foc_gifs/01_clarke_transform.gif)
+![Clarke transform animation](../assets/foc_gifs/01_clarke_transform.gif)
 
 ### Visual: 3-phase abc → αβ plane
 
@@ -303,11 +303,11 @@ Where p = number of pole pairs.
 
 ### Animation: αβ rotating frame vs dq stationary frame
 
-![Park transform animation](assets/foc_gifs/02_park_transform.gif)
+![Park transform animation](../assets/foc_gifs/02_park_transform.gif)
 
 ### Animation: Rotor spinning — stator MMF locked 90° ahead
 
-![FOC stator lock animation](assets/foc_gifs/03_foc_stator_lock.gif)
+![FOC stator lock animation](../assets/foc_gifs/03_foc_stator_lock.gif)
 
 ### Visual: dq rotating frame and why Iq = torque
 

@@ -42,7 +42,7 @@ A·v = λ·v
 
 Says: applying matrix A to vector v gives back the same vector v, just scaled by the number λ. That number is the **eigenvalue** — it tells you how much the eigenvector gets stretched (λ > 1), shrunk (0 < λ < 1), flipped (λ < 0), or unchanged (λ = 1).
 
-![Eigenvectors and eigenfunctions](assets/foc_gifs/fft_00_eigenvectors.gif)
+![Eigenvectors and eigenfunctions](../assets/foc_gifs/fft_00_eigenvectors.gif)
 
 *Left: a general vector gets rotated AND stretched by matrix A — direction changes. Middle: eigenvectors v₁ and v₂ only get stretched — direction is preserved, Av = λv exactly. Right: a sine wave through a filter — same frequency out, only amplitude and phase change. Sine waves are eigenfunctions.*
 
@@ -175,7 +175,7 @@ Jean-Baptiste Fourier (1822) made a claim that seemed absurd at the time:
 
 > **Any periodic signal, no matter how complicated, can be written as a sum of sine waves.**
 
-![Building a signal from sine waves](assets/foc_gifs/fft_01_sine_sum.gif)
+![Building a signal from sine waves](../assets/foc_gifs/fft_01_sine_sum.gif)
 
 *A square wave being built up from odd harmonics: f, 3f, 5f, 7f... Each frame adds one more sine wave. More components = sharper corners.*
 
@@ -197,7 +197,7 @@ e^(jθ) = cos(θ) + j·sin(θ)
 
 This connects the exponential function to rotation. A complex exponential is just an **arrow rotating in the complex plane**.
 
-![Euler's formula — rotating phasor](assets/foc_gifs/fft_03_euler.gif)
+![Euler's formula — rotating phasor](../assets/foc_gifs/fft_03_euler.gif)
 
 *Left: the phasor e^(jθ) rotating on the unit circle. Middle: its real part traces a cosine. Right: its imaginary part traces a sine. They're the same thing viewed from different angles.*
 
@@ -325,7 +325,7 @@ X[k] = Σ x[n] · e^(-j2πkn/N)      for n = 0, 1, ..., N-1
 
 This is the **Discrete Fourier Transform (DFT)**.
 
-![DFT correlation detecting frequencies](assets/foc_gifs/fft_02_correlation.gif)
+![DFT correlation detecting frequencies](../assets/foc_gifs/fft_02_correlation.gif)
 
 *The yellow bar sweeps through frequency bins k=0 to 10. When k matches a frequency in the signal (k=3 and k=7), the products all align and sum to a large value. Everywhere else they cancel.*
 
@@ -437,7 +437,7 @@ X[k + N/2] = E[k]  -  W^k · O[k]
 
 Two outputs from two half-size DFTs plus one multiply. This is the **butterfly** — the basic building block of the FFT.
 
-![FFT butterfly diagram](assets/foc_gifs/fft_05_butterfly.gif)
+![FFT butterfly diagram](../assets/foc_gifs/fft_05_butterfly.gif)
 
 *Left: the even/odd split halves the problem. Right: the butterfly diagram showing how each stage combines two half-size DFTs. Three stages for N=8.*
 
@@ -474,7 +474,7 @@ Cooley-Tukey FFT requires N = 2^m (power of 2). This is why FFT sizes are always
 
 Now put it all together.
 
-![Fortescue as 3-point DFT](assets/foc_gifs/fft_04_fortescue_dft.gif)
+![Fortescue as 3-point DFT](../assets/foc_gifs/fft_04_fortescue_dft.gif)
 
 *Left: raw unbalanced phasors Va, Vb, Vc. Middle: the DFT operation for positive sequence — rotate Vb by 120°, Vc by 240°, then sum. If the system is positive sequence, all three align → big result. Right: the three sequences animated — positive rotates forward, negative rotates backward, zero is static.*
 

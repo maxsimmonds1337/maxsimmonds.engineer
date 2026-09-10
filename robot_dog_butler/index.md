@@ -220,8 +220,8 @@ outrunners work. Specifically, I've been looking at:
 
 ![images](./images/CycloidCutout.png)
 ![images](./images/CycloidSide.png)
-![images](./images/CycloidFront.png.png)
-![images](./images/CycloidBack.png)
+![images](./images/CycloidFront.png)
+![images](./images/cycloidBack.png)
 
 Gearbox development is going well. I have printed these components now, and
 tested using a drill, all seems to be working!
@@ -233,13 +233,27 @@ name!) and the plate that caps the gear ring holder (again, no idea what's a
 good name for that). I need to make a few mods to the current design, just for
 "assembability", but I'm happy with the progress!
 
-### BLDCs - How They Work?
+### BLDCs — Notes and Reference
 
-Let's start off with the physics at play in BLDCs, before we jump into stator
-windings, poles, slots, etc.
+I spent a lot of time going deep on BLDC theory — Lorentz forces, winding patterns, trapezoidal vs FOC, Fortescue and Clarke transforms, BEMF, the lot. There's genuinely a huge amount of material and I have no desire to rewrite it up into a polished article. So instead, the raw working notes are here as standalone pages. They're dense and written for me rather than a reader, but the physics is right.
 
-It all starts with _how_ a force is generated, and that comes from:
+- [How a Brushless Outrunner Motor Works](./how_bldc_works.md)
+- [Field Oriented Control — A Full Tutorial](./FOC_control.md)
+- [FFT, Fourier, and the Link to Fortescue](./FFT_and_Fortescue.md)
 
-$$ F = IL \cross B $$
 
-That is, the force 
+## 10/09/26
+
+### Cycloidal Drive — Redesign and First Failure
+
+Since the last update I've completely redesigned all of the 3D parts. The screw holes are now properly dimensioned for M2s (the scaled-down design had them at ~1mm, which was useless), the cover has been remade, and the overall assembly has been cleaned up for printability.
+
+I got it printed and spinning — genuinely satisfying to see it working for the first time.
+
+![image](./images/backlash.png)
+
+Unfortunately it didn't last. The failure mode is straightforward once you see it: the cycloidal disc and eccentric gear are both plastic, so when they run against each other the friction generates heat. Under sustained load they get hot enough that the disc material softens, and the two parts literally melt and fuse together. Once that happens, rotation stops dead.
+
+The fix is probably a combination of things — either a lubricant (though getting it to stay put on an FDM part is tricky), switching the eccentric gear to metal or a higher-temp filament like PC, or adding enough clearance that the contact pressure drops. I'm leaning toward metal for the eccentric since that's the part generating most of the heat as it spins inside the disc bore.
+
+More on this once I've tried a fix.
