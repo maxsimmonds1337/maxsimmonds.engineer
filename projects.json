@@ -1,5 +1,13 @@
 [
   {
+    "name": "FlyPyBird",
+    "folder": "flypybird",
+    "startDate": "12/09/26",
+    "lastEdited": "12/09/26",
+    "status": "ongoing",
+    "blurb": "Wiring a real fruit-fly connectome into a game of Flappy Bird \u2014 can biology dodge the pipes?"
+  },
+  {
     "name": "Moskva 8M Typewriter Manual",
     "folder": "moskva_8m_typewriter_manual",
     "startDate": "22/07/26",

@@ -2,6 +2,18 @@
 ---
 
 <div class="project-card">
+  <a href="./flypybird" class="project-image-wrap">
+    <img src="./flypybird/images/listImage.png" alt="FlyPyBird" onerror="this.closest('.project-image-wrap').style.display='none'">
+  </a>
+  <div class="project-meta">
+    <h1><a href="./flypybird">FlyPyBird</a></h1>
+    <p class="project-dates"><strong>Start Date:</strong> 12/09/26 &nbsp;·&nbsp; <strong>Last Edited:</strong> 12/09/26 &nbsp;·&nbsp; <strong>Status:</strong> <span class="status-ongoing">Ongoing</span></p>
+    <p class="project-blurb">Wiring a real fruit-fly connectome into a game of Flappy Bird — can biology dodge the pipes?</p>
+  </div>
+</div>
+
+
+<div class="project-card">
   <a href="./moskva_8m_typewriter_manual" class="project-image-wrap">
     <img src="./moskva_8m_typewriter_manual/images/listImage.png" alt="Moskva 8M Typewriter Manual" onerror="this.closest('.project-image-wrap').style.display='none'">
   </a>
