@@ -672,3 +672,125 @@ of surviving all the way down to which way the wings push.
 collision case, plus a clear-eyed look at the one thing it doesn't yet
 solve. Next: M4 — wire FFV into the real circuit properly this time,
 retinotopically, and read a motor neuron out the other end.
+
+---
+
+## M4 — closing the loop, and finding out the circuit can't steer
+
+This is the milestone where the game and the brain actually meet: FFV drives
+real neurons, real neurons drive the flap. It's also the milestone that
+forced the most honesty, because the closed loop kept breaking in ways that
+turned out to be genuinely informative rather than just bugs to paper over.
+
+### First: is there a real steering pathway, or not?
+
+Before wiring anything, I went back to the data to actually resolve the
+question from M3 — is the "top vs bottom" ambiguity fixable by finding a
+*different*, more direction-preserving route through the connectome, rather
+than accepting the Giant Fiber's blindness? Three checks, capped deliberately
+so this didn't turn into an open-ended search:
+
+1. **Direct 1-hop:** does `LC4`/`LPLC2` synapse straight onto any wing
+   motoneuron, bypassing `DNp01` entirely? **Zero edges.**
+2. **A selectivity scan:** split `LC4`/`LPLC2` into upper-field and
+   lower-field halves (by soma position) and compare, for *every* downstream
+   target, how lopsided upper vs. lower input is. Most big targets are
+   near-identical between halves — but one descending neuron, `DNp71`,
+   showed real selectivity (upper-preferring, 0.31 on a -1..1 scale). A
+   genuine lead.
+3. **Traced it:** `DNp71`'s own downstream targets are other descending
+   neurons and unverified VNC interneurons — no path to a wing motoneuron
+   within a hop I could confirm.
+
+So: no. Within what's actually reconstructed and confirmable in this data,
+**there is no directional pathway to the wing muscles.** Every route pools
+through `DNp01`'s two neurons (or its immediate interneurons) before reaching
+any motor output, and that convergence is where "which side is the wall on"
+gets thrown away — for good, not just in my simplified model of it. This
+means the retinotopic input fix from M3 is still necessary (it's really where
+the fly's own eye is looking) but it's **not sufficient** — the circuit
+itself is a panic button, not a steering wheel. I'm building M4 to reflect
+that finding, not to route around it.
+
+### Building the loop: the same LIF sim, now live in the browser
+
+The M1 Python sim gets ported to run directly in-browser (`web/brain.js`) —
+same 360-neuron subgraph, same equations, exported once as a static JSON so
+no server is needed at runtime (a deliberate choice: the eventual goal is a
+site people can just load and watch).
+
+FFV's geometry decides which `LC4`/`LPLC2` neurons get driven: a neuron only
+"sees wall" if the wall is actually within its own assigned patch of visual
+field. But **which neuron corresponds to which patch?** The connectome's
+proper answer — `assignedOlHex1`/`assignedOlHex2`, the real optic-lobe
+hex-lattice coordinates I mentioned in M3 — turned out to be entirely empty
+for `LC4`/`LPLC2` (populated only for a different neuron class). The best
+data actually available per neuron is its **soma's 3D position**, so that's
+the fallback — with a catch: soma x-coordinate isn't a smooth gradient across
+the population, it's **bimodal**, two dense clusters with a dead zone between
+them. A plain linear rescale to a -50°..+50° field of view left the entire
+forward-looking fovea with *zero* assigned neurons — the exact region that
+matters most, empty by construction. The fix: rank each neuron by its soma
+position instead of using the raw value, spreading them uniformly across the
+field regardless of the underlying clustering. Worth being honest about what
+this is: a bigger liberty than picking `TAU` or `SYN_SCALE` — it doesn't just
+choose a number, it reshapes the mapping.
+
+### Two runaway-behavior bugs, both found by actually running it
+
+Getting a stimulus number and a trigger threshold that produce *sensible*
+behavior, rather than a degenerate one, took two rounds of "run it, watch it
+fail in a very specific way, understand why":
+
+**Bug 1 — one neuron can fake convergence.** First pass used a strong drive
+(160, the value M1 needed to force the *entire* 300+ neuron population to a
+full cascade). But feeding that same strength to individual retinotopic
+neurons meant a *single* driven neuron — one, alone — would fire on almost
+every timestep and, through sheer repetition, eventually drag `DNp01` over
+threshold anyway. That defeats the actual point of pooling: the escape
+circuit is supposed to require *real, simultaneous* agreement from many
+looming detectors, not get fooled by one neuron shouting for a while. Fix:
+drop the per-neuron drive down near the ~25–30 M1 identified as the minimum
+for a *single* neuron to spike at all — enough to participate, not enough to
+dominate alone.
+
+**Bug 2 — a throttle disguised as a tap.** Even after fixing that, the bird
+rocketed straight into the ceiling in well under a second, every single time.
+Tracing it: my code called `flap()` on *every frame* the alarm condition held
+true. Since `flap()` **sets** velocity (correctly, from M2 — that's how a
+real tap works), calling it every frame while alarmed doesn't produce a tap,
+it produces *continuous thrust* — and because going up moves the bird further
+into the top wall's angular territory, that's a straight positive-feedback
+line into the ceiling. A spike burst is a discrete event, not a held-down
+key; the fix was to trigger `flap()` only on the alarm's **rising edge** —
+the same distinction between a keypress and a key-hold a human player uses
+without thinking about it.
+
+### The honest result
+
+<img src="./images/m4_gameplay.gif" alt="Brain-controlled Flappy Bird: a short but real closed-loop run" style="max-width:420px; display:block; margin:0 auto; border-radius:6px;">
+
+With both fixes in, I ran 8 brain-controlled trials against 8 "never flap"
+baseline trials:
+
+| | avg. survival | typical cause of death |
+|---|---|---|
+| brain control | ~1250ms | mixed: ground, and occasionally the bottom pipe |
+| no input at all | ~900ms | always the ground (pure gravity fall) |
+
+A real, if modest, improvement — about 39% longer survival than doing
+nothing. That's roughly what I'd predict given everything above: the circuit
+*reacts* — it isn't random, it isn't inert, real spikes from real weights are
+turning into real flaps — but it can't tell "wall above, don't flap" from
+"wall below, flap now." It occasionally still dies flying into a ceiling it
+should have avoided, because the wing motoneurons genuinely don't carry that
+information. This is the finding the whole milestone was actually testing
+for, and it came back a clean, quantified, unglamorous yes: **the Giant
+Fiber pathway is a real, working panic button — and a panic button is not a
+pilot.**
+
+**M4: done.** The loop is closed end-to-end: real visual input, into real
+neurons, through real weights, out to a real motor action, with the ceiling
+on its ambition set honestly by what the anatomy actually supports. Next:
+M5 — visualize the brain itself, live, split-screen next to the game, so the
+"panic button" firing (or not) is something you can actually watch happen.
