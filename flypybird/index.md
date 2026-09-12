@@ -1229,6 +1229,40 @@ game it was never evolved to play, with every limitation along the way
 the mushroom-body dead end) checked against the actual wiring rather than
 assumed.
 
+---
+
+### A visual pass: a real fly instead of a dot, and a brain you can actually read
+
+A few smaller but worthwhile fixes after M7. The bird was still a plain
+white circle, so it's now a small stylised *Drosophila* — tan body, red
+compound eyes, translucent wings — drawn with canvas shapes rather than an
+image file, so it stays crisp at any size.
+
+The brain panel got a more substantial rework. It started as a 3D point
+cloud built from every neuron's real, measured soma position (replacing an
+earlier synthetic left-to-right circuit diagram), auto-rotating slowly.
+That looked nice but made it harder to actually read at a glance, so it's
+now a fixed angle — the one that already happens to separate the two optic
+lobes cleanly left and right, with the VNC cluster legible below. First
+attempt at highlighting activity ghosted resting neurons down to near
+invisibility so only firing ones showed — overcorrected: the point was
+always to see the *whole real population*, with the active ones
+illuminated on top of it, not hidden until they fire. Settled on that:
+every one of the 691 real neurons stays visible at rest, and a firing one
+gets an actual glow (not just a bigger dot) on top of that visible
+backdrop.
+
+Also fixed a genuine layout bug: the three panels were wrapping onto
+multiple rows below a certain window width instead of staying side by
+side, which fought against the point of a split-screen view. They now
+always stay in one row and shrink together to fit, at any window size.
+
+<div style="text-align:center;">
+<img src="./images/m8_fly_sprite.gif" alt="Fly sprite navigating pipes, with the full 691-neuron brain visible and the active pathway lighting up" style="max-width:520px; display:block; margin:0 auto; border-radius:6px;">
+</div>
+
+## 12/09/26
+
 
 ## 12/09/26
 
