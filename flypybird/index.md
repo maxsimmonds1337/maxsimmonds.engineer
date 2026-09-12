@@ -851,3 +851,78 @@ watch happen, live, next to the game it's (trying to) play. That's the last
 of the "make it visible" milestones. What's left is the hard one: M6, real
 learning via mushroom-body dopamine plasticity — and M7, putting this
 somewhere people can watch it for themselves.
+
+---
+
+## M4 revisited — a second pathway, and a correction along the way
+
+Before moving to learning, one loose thread from M4 was worth pulling
+properly: I'd only checked `DNp01`'s own downstream connections and one
+lead (`DNp71`) for a genuine directional route to the wing muscles. That
+wasn't a complete search. Doing it properly meant scoring *every* descending
+neuron downstream of the looming detectors by directional selectivity, not
+just the famous one.
+
+### A real find: `DNp03`
+
+That broader scan turned up `DNp03` — a descending neuron with a **direct,
+substantial, excitatory connection straight to wing and flight
+motoneurons** (`DLMn`: 405 synapses, `ps1 MN`: 220, plus `b3 MN`, `hg1/hg2
+MN`, `i1/i2 MN`, `iii1 MN`, `tpn MN`), bypassing the Giant Fiber's
+two-neuron convergence hub entirely. And its upper/lower selectivity
+measured at **0.27** — meaningfully better than `DNp01`'s 0.056. For a
+moment, this looked like the steering pathway M4 concluded didn't exist.
+
+### The correction: that number was measuring the wrong thing
+
+Before building anything on it, I checked what actually drives `DNp03`.
+`LC4`/`LPLC2` — the two types I'd been using to compute selectivity — turn
+out to supply only **13%** of its total input. The other 58% (once you
+include everything) comes from `LPLC1`, `LPLC4`, `LC22`, and `LC23` — real
+visual-projection neuron types I hadn't included anywhere in the model.
+Recomputing selectivity against `DNp03`'s *actual* full input mix, not just
+the slice I happened to be tracking, dropped it to **0.096** — barely above
+`DNp01`'s. The earlier 0.27 wasn't wrong, exactly, it was measuring 13% of
+the picture and mistaking that for the whole thing. Worth sitting with: this
+is the second time this project's excitement got tempered by finishing the
+measurement instead of stopping at the encouraging number — first the
+directional-pathway search in M4, now this.
+
+### What's still worth building
+
+`DNp03`'s weak selectivity doesn't make it worthless — it's still a real,
+substantial, direct route to the wing muscles that the circuit was missing
+entirely. So: expanded the visual population from 2 types to 6
+(`LC4`, `LPLC2`, `LPLC1`, `LPLC4`, `LC22`, `LC23`), added `DNp03` alongside
+`DNp01` as a second hub, wired its real motor targets in, and expanded the
+motor population from 5 wing-muscle types to 12. The subgraph grew from 360
+neurons to **691**.
+
+### A second runaway bug, caused by success
+
+Batch-testing the bigger circuit immediately regressed — average survival
+dropped to 938ms, statistically indistinguishable from doing nothing at all
+(900ms), down from M4's 1250ms. Tracing it: the wider visual population
+raised the circuit's *ambient* firing rate so much that the trailing 150ms
+alarm window almost never emptied back to zero after the first burst. My
+edge-triggered flap detector — built for a smaller, quieter circuit — fired
+exactly once, right at the start, then sat permanently "alarmed" and
+silent for the rest of the game. Fix: a much shorter window (40ms) and a
+threshold recalibrated to the new baseline (40 spikes, not 2) — the old
+numbers were tuned for a circuit that no longer existed.
+
+### The result
+
+<img src="./images/m4b_gameplay.gif" alt="Expanded circuit gameplay: bird actively resisting gravity, dies to a bottom pipe rather than falling straight into the ground" style="max-width:100%; border-radius:6px;">
+
+With that recalibrated: **~1988ms average survival — roughly 2.2x the
+do-nothing baseline**, up from M4's 1250ms (1.4x). The failure mode shifted
+too: previously a mix of ground and ceiling collisions, now *consistently*
+death by the bottom pipe. That's a meaningfully different, better failure —
+the bird is now actively and fairly effectively resisting gravity the whole
+time, it just still can't tell which direction is actually safe, so it
+eventually flies into the one wall it can't avoid by flapping alone.
+
+**A real, quantified, honest improvement** — from adding a genuine second
+pathway and properly recalibrating for it, not from hand-tuning toward a
+number. Next: M6, the hard one.
