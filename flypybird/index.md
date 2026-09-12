@@ -575,3 +575,100 @@ and score back to a fresh `ready` state.
 the two views. A spectator side-view of the game as normal, plus First-Fly-View
 — the same wall, rendered as the fly would actually see it: looming bars from
 ceiling and floor, closing in.
+
+---
+
+## M3 — First-Fly-View: turning distance into an angle
+
+The spectator view shows a pipe as a green rectangle some number of pixels
+away. A fly doesn't experience "pixels away" — it experiences an *angle*. A
+wall far away takes up a small slice of your field of view; the same wall up
+close fills it. That growth in angular size **is** looming, and it's the thing
+that actually needs to reach the visual neurons — not a rescaled copy of the
+side-view sprite.
+
+So FFV isn't a re-skin, it's a real (if simplified) perspective projection.
+For each edge of the gap, given how far away it is (depth) and how far above
+or below the bird's eye it is (height), compute the elevation angle from the
+bird to that edge, then map that angle onto a row of the FFV canvas:
+
+```js
+function elevationDeg(relY, depth) {
+  return Math.atan2(-relY, depth) * (180 / Math.PI);
+}
+function elevationToPixelY(elevDeg) {
+  const frac = (elevDeg + FFV_FOV_DEG / 2) / FFV_FOV_DEG; // 0=bottom of FOV, 1=top
+  return (1 - frac) * FFV_H;
+}
+```
+
+`FFV_FOV_DEG` (the fly's assumed forward field of view, currently 100°) is
+another one of those honest modelling choices — nothing in the connectome
+tells you a field of view, that's a property of the eye's optics, not the
+wiring.
+
+### Checking it actually looms, not just looks plausible
+
+Three cases, checked by actually flying the game (headlessly, reading real
+pipe/bird state, not just eyeballing a screenshot):
+
+**Far away** — the gap is a thin dark sliver between two green bars. A distant
+wall subtends a small angle, exactly as it should:
+
+<img src="./images/m3_ffv_far.png" alt="FFV: pipe far away, gap is a thin sliver" style="max-width:220px; display:inline-block; border-radius:6px; margin:0 8px;">
+
+**On a clean approach through the gap** — the forward view opens up almost
+entirely, because *if you're aimed at the gap*, more and more of your straight-ahead
+vision is "open sky" as you get closer, and the solid parts of the wall recede
+toward your periphery — genuinely how it should feel to fly through an aperture
+you're lined up on.
+
+**On an actual collision course** — this is the case that matters, and it's
+the one that convinced me the projection is doing something real, not just
+plausible-looking: I deliberately flew the bird onto a collision path with the
+bottom pipe. Side view and FFV at the same instant:
+
+<img src="./images/m3_side_collision.png" alt="Side view: bird about to hit the bottom pipe" style="max-width:220px; display:inline-block; border-radius:6px; margin:0 8px;">
+<img src="./images/m3_ffv_collision.png" alt="FFV: the bottom wall fills most of the forward view" style="max-width:220px; display:inline-block; border-radius:6px; margin:0 8px;">
+
+The bottom wall doesn't just get "bigger" — it comes to dominate almost the
+entire forward view, because that's genuinely what's about to fill the fly's
+eyes. That asymmetry, appearing automatically from the geometry rather than
+being hand-coded as "if about to crash, show more red," is the whole point of
+doing this as a real projection instead of a fake one.
+
+### A question that exposed a real gap in the plan
+
+> It might not understand whether to fly up or down, if there's no way to
+> tell which wall is the ceiling and which is the floor.
+
+This is a genuine hole, not a non-issue — and it's worth being honest about
+exactly where it bites. FFV renders correctly either way, but M1's spike test
+drove *every* `LC4`/`LPLC2` neuron with the *same* pooled current, as one
+undifferentiated "something is looming" signal. Fed that way, the circuit
+really can't tell top from bottom — direction information gets thrown away
+before it even reaches the Giant Fiber.
+
+The fix is real biology, not a patch: the fly's visual system is
+**retinotopic** — `LC4` isn't one neuron, it's ~126 of them, each wired to a
+*different small patch* of the visual field, tiled like pixels. "Up" and
+"down" aren't a property of the signal, they're a property of *which neuron*
+fires. A real fly knows a wall is above it because the LC4 cells whose
+receptive field points upward are the ones spiking — not because there's a
+separate "direction" signal riding alongside.
+
+The genuinely good news: this mapping isn't something to invent, it's sitting
+in the data I already downloaded. The annotation table has
+`assignedOlHex1`/`assignedOlHex2` columns — the actual hexagonal-lattice
+coordinates of each neuron's position in the optic lobe, i.e. its address in
+the retina. M4's real job, then, isn't "drive the looming neurons" (M1 already
+did that, badly) — it's: for each row of the FFV canvas, look up which
+`LC4`/`LPLC2` neurons' hex coordinates correspond to that vertical position,
+and drive *only those*. Top-wall-looming and bottom-wall-looming then
+genuinely activate different populations, and that distinction has a chance
+of surviving all the way down to which way the wings push.
+
+**M3: done** — a real perspective projection, verified against a genuine
+collision case, plus a clear-eyed look at the one thing it doesn't yet
+solve. Next: M4 — wire FFV into the real circuit properly this time,
+retinotopically, and read a motor neuron out the other end.
