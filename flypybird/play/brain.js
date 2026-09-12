@@ -82,78 +82,98 @@ async function loadBrain() {
     dnp01LSpikeTimes: [],
     dnp01RSpikeTimes: [],
     lastSpikeMs: new Float64Array(n).fill(-1e9),
-    layout: null, // [{x,y}] per neuron, computed once against the brainviz canvas
+    pos3d: data.pos3d,               // real measured soma [x,y,z] per neuron, or null
+    region: data.region,             // 'brain' | 'vnc', from real somaNeuromere
+    pos3dNorm: null,                 // centered/scaled once against the population
   };
+  prepare3D();
   console.log(`brain loaded: ${n} neurons`);
 }
 
-// Three columns, laid out left-to-right in the same order the real signal
-// actually flows: eye -> Giant Fiber circuit -> wing/jump muscles. Neurons
-// of the same type are grouped into one box and packed into a square-ish
-// grid inside it -- this is a circuit diagram, not an anatomical map (we
-// don't have 3D positions for most of these types), so position here means
-// "which population this is", not "where in the fly this neuron sits".
-const STAGE_TYPES = [
-  VISUAL_TYPES,
-  ['DNp01', 'DNp03', 'GFC2', 'GFC3', 'GFC4'],
-  WING_MN_TYPES,
-];
+// Real anatomy, not a synthetic layout: centers and scales every neuron's
+// actual measured soma position once, so the viz can rotate a genuine 3D
+// point cloud shaped like the real brain + VNC rather than an artificial
+// left-to-right circuit diagram.
+function prepare3D() {
+  const valid = brain.pos3d.filter(p => p);
+  const n = valid.length;
+  const cx = valid.reduce((a, p) => a + p[0], 0) / n;
+  const cy = valid.reduce((a, p) => a + p[1], 0) / n;
+  const cz = valid.reduce((a, p) => a + p[2], 0) / n;
+  const radii = valid.map(p => {
+    const dx = p[0] - cx, dy = p[1] - cy, dz = p[2] - cz;
+    return Math.sqrt(dx * dx + dy * dy + dz * dz);
+  }).sort((a, b) => a - b);
+  // A handful of real somas sit far outside the main cluster (true outliers,
+  // not a data error) -- normalizing by the true max compresses the other
+  // 90%+ of neurons into a tiny central blob. Scaling by the 90th
+  // percentile instead fills the canvas with the bulk of the population;
+  // the outliers just render past the nominal unit radius, still visible.
+  const scaleR = radii[Math.floor(radii.length * 0.9)] || 1;
+  brain.pos3dNorm = brain.pos3d.map(p => p ? [(p[0] - cx) / scaleR, (p[1] - cy) / scaleR, (p[2] - cz) / scaleR] : null);
+}
 
-function computeLayout(canvasW, canvasH) {
-  const layout = new Array(brain.n);
-  const groupLabels = [];
-  const colW = canvasW / STAGE_TYPES.length;
-  STAGE_TYPES.forEach((typesInStage, col) => {
-    const colX0 = col * colW + 10;
-    const colW2 = colW - 20;
-    const counts = typesInStage.map(t => brain.types.filter(x => x === t).length);
-    const totalRows = counts.reduce((a, b) => a + Math.ceil(Math.sqrt(b)), 0) || 1;
-    let y0 = 10;
-    typesInStage.forEach((t) => {
-      const idxs = [];
-      brain.types.forEach((x, i) => { if (x === t) idxs.push(i); });
-      const count = idxs.length;
-      const cols = Math.max(1, Math.min(count, Math.ceil(Math.sqrt(count))));
-      const rows = Math.ceil(count / cols);
-      const boxH = (canvasH - 20) * (Math.ceil(Math.sqrt(count)) / totalRows);
-      const cellW = colW2 / cols;
-      const cellH = Math.max(4, boxH / rows);
-      groupLabels.push({ text: t, x: colX0, y: y0 });
-      idxs.forEach((i, k) => {
-        const r = Math.floor(k / cols), c = k % cols;
-        layout[i] = { x: colX0 + c * cellW + cellW / 2, y: y0 + 12 + r * cellH + cellH / 2 };
-      });
-      y0 += boxH + 24;
-    });
-  });
-  brain.layout = layout;
-  brain.groupLabels = groupLabels;
+// Slow, continuous rotation around the vertical axis -- degrees per ms.
+// Chosen for legibility (a full turn takes about 25s), not measured.
+const ROT_SPEED_DEG_PER_MS = 360 / 25000;
+
+// Renders every neuron at its own real, measured soma position (see
+// prepare3D), rotated in 3D and projected with simple weak perspective.
+// Brain neurons cluster near the top of the point cloud, VNC neurons
+// (thoracic-neuromere somas -- the real wing motoneurons live here) near
+// the bottom, because that's genuinely where their cell bodies sit -- this
+// replaced an earlier synthetic left-to-right circuit diagram, which was
+// clearer about signal flow but told you nothing about actual anatomy.
+function project3D(p, angleRad, canvasW, canvasH) {
+  const [x, y, z] = p;
+  const cos = Math.cos(angleRad), sin = Math.sin(angleRad);
+  const rx = x * cos - z * sin;
+  const rz = x * sin + z * cos;
+  const focal = 3.2; // world units from camera to origin; bigger = flatter perspective
+  const persp = focal / (focal + rz);
+  const scale = Math.min(canvasW, canvasH) * 0.34;
+  return {
+    x: canvasW / 2 + rx * scale * persp,
+    y: canvasH / 2 + y * scale * persp + canvasH * 0.06, // nudge down: leaves room for the "brain" label
+    depth: rz,
+    persp,
+  };
 }
 
 function drawBrainViz(canvas, ctx, nowMs) {
   ctx.fillStyle = '#0d1117';
   ctx.fillRect(0, 0, canvas.width, canvas.height);
-  if (!brain) return;
-  if (!brain.layout) computeLayout(canvas.width, canvas.height);
+  if (!brain || !brain.pos3dNorm) return;
+
+  const angleRad = (nowMs * ROT_SPEED_DEG_PER_MS) * (Math.PI / 180);
+  const order = [];
+  for (let i = 0; i < brain.n; i++) {
+    const p = brain.pos3dNorm[i];
+    if (!p) continue;
+    order.push({ i, proj: project3D(p, angleRad, canvas.width, canvas.height) });
+  }
+  order.sort((a, b) => b.proj.depth - a.proj.depth); // back-to-front (painter's algorithm)
 
   ctx.fillStyle = '#8b949e';
   ctx.font = '10px monospace';
-  ctx.textAlign = 'left';
-  for (const g of brain.groupLabels) ctx.fillText(g.text, g.x, g.y + 8);
+  ctx.textAlign = 'center';
+  ctx.fillText('brain', canvas.width / 2, 14);
+  ctx.fillText('VNC', canvas.width / 2, canvas.height - 6);
 
-  for (let i = 0; i < brain.n; i++) {
-    const pos = brain.layout[i];
-    if (!pos) continue;
+  for (const { i, proj } of order) {
     const age = nowMs - brain.lastSpikeMs[i];
     const glow = Math.max(0, 1 - age / 300); // fades over 300ms
-    const r = 2 + glow * 2.5;
+    const baseR = (brain.region[i] === 'vnc' ? 2.2 : 1.6) * proj.persp;
+    const r = baseR + glow * 2.5 * proj.persp;
     if (glow > 0.02) {
       ctx.fillStyle = brain.isWingMN[i] ? `rgba(240,246,252,${glow})` : `rgba(63,185,80,${glow})`;
     } else {
-      ctx.fillStyle = '#21262d';
+      // dim, resting tint: a hair bluer for brain somas, warmer for VNC --
+      // real anatomy, not spike state, so it stays visible even when quiet.
+      ctx.fillStyle = brain.region[i] === 'vnc' ? 'rgba(224,155,90,0.35)' : 'rgba(90,140,224,0.3)';
     }
     ctx.beginPath();
-    ctx.arc(pos.x, pos.y, r, 0, 7);
+    ctx.arc(proj.x, proj.y, Math.max(0.6, r), 0, 7);
     ctx.fill();
   }
 }
