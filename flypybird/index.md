@@ -1015,3 +1015,28 @@ been building toward since the very first correction in this post (a
 connectome is fixed wiring; learning is a separate, later mechanism layered
 on top of it). The fly currently *reacts*; M6 is about giving it a reason
 to react differently next time.
+
+### A course correction: keep the game recognizably Flappy Bird
+
+While tuning the continuous throttle in isolation, I'd pushed the game's own
+physics quite far from where it started — gravity down 30%, pipes down to
+thin pickets, spacing tripled to make hovering easy to observe. Good for
+isolating one variable, bad for the actual point of the project: the game
+should stay recognizably Flappy Bird, and the brain has to cope with *that*,
+not with a version softened around its own weaknesses. Reverted `GRAVITY`,
+`PIPE_W`, and `PIPE_SPACING` back to their original M2 values.
+
+The result actually improved: **~1775ms average survival vs ~1000ms doing
+nothing — roughly 77% better**, the best margin yet, with a genuine mix of
+failure causes rather than one dominant type. The continuous-throttle
+mechanism (`BASE_LIFT`/`ALARM_GAIN`/`MAX_THRUST`, all defined relative to
+`GRAVITY` rather than as fixed numbers) carried over cleanly without
+needing to be re-derived from scratch — a small sign the calibration
+approach from earlier was principled rather than accidental.
+
+One idea intentionally parked for later, once M6 exists to make it
+meaningful: a visual attraction target — something like a female fly —
+rendered in the gap, to see whether a genuine courtship-pursuit pathway
+(steering *toward* something, which unlike escape inherently requires
+directional information) could complement the non-directional avoidance
+circuit already wired in. Worth its own investigation, not a quick add-on.
