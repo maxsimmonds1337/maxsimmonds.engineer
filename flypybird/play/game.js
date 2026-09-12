@@ -10,6 +10,9 @@ const FFV_FOV_DEG = 100; // the fly's forward vertical field of view -- a modell
 const brainCanvas = document.getElementById('brainviz');
 const brainCtx = brainCanvas.getContext('2d');
 
+const graphCanvas = document.getElementById('activityGraph');
+const graphCtx = graphCanvas.getContext('2d');
+
 const GROUND_H = 40;
 const GRAVITY = 1400;       // px/s^2 -- back to the original M2 value
 const FLAP_VY = -420;       // px/s, set (not added) on flap
@@ -313,6 +316,7 @@ function frame(now) {
   draw();
   drawFFV();
   drawBrainViz(brainCanvas, brainCtx, simClockMs);
+  drawActivityGraph(graphCanvas, graphCtx, simClockMs);
 
   ffvCtx.fillStyle = brainControl ? '#3fb950' : '#8b949e';
   ffvCtx.font = '12px monospace';

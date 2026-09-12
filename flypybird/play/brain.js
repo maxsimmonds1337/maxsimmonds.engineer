@@ -82,6 +82,7 @@ async function loadBrain() {
     isDNp01R: data.types.map((t, i) => t === 'DNp01' && data.side[i] === 'R'),
     dnp01LSpikeTimes: [],
     dnp01RSpikeTimes: [],
+    activityHistory: [],           // {t, total, l, r} samples for the live graph
     lastSpikeMs: new Float64Array(n).fill(-1e9),
     pos3d: data.pos3d,               // real measured soma [x,y,z] per neuron, or null
     region: data.region,             // 'brain' | 'vnc', from real somaNeuromere
@@ -285,6 +286,7 @@ function resetBrain() {
   brain.prevSpiked.fill(0);
   brain.dnp01LSpikeTimes = [];
   brain.dnp01RSpikeTimes = [];
+  brain.activityHistory = [];
 }
 
 // Run the brain forward by dtMs of simulated time (in 1ms substeps,
@@ -303,10 +305,12 @@ function tickBrain(dtMs, nowMs) {
   const p = nearestPipeAhead();
   const drive = visualDrive(p);
   const steps = Math.max(1, Math.round(dtMs));
+  let frameSpikes = 0;
   for (let s = 0; s < steps; s++) {
     stepBrain(drive);
     for (let i = 0; i < brain.n; i++) {
       if (brain.wasSpike[i]) {
+        frameSpikes++;
         brain.lastSpikeMs[i] = nowMs;
         if (brain.isDNp01L[i]) brain.dnp01LSpikeTimes.push(nowMs);
         if (brain.isDNp01R[i]) brain.dnp01RSpikeTimes.push(nowMs);
@@ -315,5 +319,68 @@ function tickBrain(dtMs, nowMs) {
   }
   brain.dnp01LSpikeTimes = brain.dnp01LSpikeTimes.filter(t => nowMs - t < ALARM_WINDOW_MS);
   brain.dnp01RSpikeTimes = brain.dnp01RSpikeTimes.filter(t => nowMs - t < ALARM_WINDOW_MS);
+
+  brain.activityHistory.push({
+    t: nowMs, total: frameSpikes,
+    l: brain.dnp01LSpikeTimes.length, r: brain.dnp01RSpikeTimes.length,
+  });
+  const HISTORY_MS = 8000;
+  while (brain.activityHistory.length && nowMs - brain.activityHistory[0].t > HISTORY_MS) {
+    brain.activityHistory.shift();
+  }
+
   return brain.dnp01RSpikeTimes.length - brain.dnp01LSpikeTimes.length;
+}
+
+// A real-time strip chart of the live simulation, not a decoration: total
+// population spike count (how much of the whole 691-neuron model is
+// firing right now) and the DNp01 R-minus-L differential that actually
+// drives the bird (see game.js). Scrolls right-to-left like an
+// oscilloscope, last 8 seconds.
+const ACTIVITY_HISTORY_MS = 8000;
+function drawActivityGraph(canvas, ctx, nowMs) {
+  ctx.fillStyle = '#0d1117';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  if (!brain || brain.activityHistory.length < 2) return;
+
+  const w = canvas.width, h = canvas.height;
+  const midY = h * 0.62;
+  const maxTotal = Math.max(5, ...brain.activityHistory.map(s => s.total));
+  const maxDiff = Math.max(2, ...brain.activityHistory.map(s => Math.abs(s.r - s.l)));
+  const xOf = t => w - ((nowMs - t) / ACTIVITY_HISTORY_MS) * w;
+
+  // zero line for the climb differential
+  ctx.strokeStyle = '#21262d';
+  ctx.beginPath();
+  ctx.moveTo(0, midY);
+  ctx.lineTo(w, midY);
+  ctx.stroke();
+
+  // total population spike rate: filled green area along the bottom
+  ctx.beginPath();
+  ctx.moveTo(xOf(brain.activityHistory[0].t), h);
+  for (const s of brain.activityHistory) {
+    ctx.lineTo(xOf(s.t), h - (s.total / maxTotal) * (h * 0.5));
+  }
+  ctx.lineTo(xOf(brain.activityHistory[brain.activityHistory.length - 1].t), h);
+  ctx.closePath();
+  ctx.fillStyle = 'rgba(63,185,80,0.35)';
+  ctx.fill();
+
+  // DNp01 R-L climb differential: signed white line around the mid zero-line
+  ctx.beginPath();
+  brain.activityHistory.forEach((s, i) => {
+    const x = xOf(s.t);
+    const y = midY - ((s.r - s.l) / maxDiff) * (h * 0.3);
+    if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+  });
+  ctx.strokeStyle = '#f0f6fc';
+  ctx.lineWidth = 1.5;
+  ctx.stroke();
+
+  ctx.fillStyle = '#8b949e';
+  ctx.font = '10px monospace';
+  ctx.textAlign = 'left';
+  ctx.fillText('population spikes / frame', 8, h - 6);
+  ctx.fillText('DNp01 R-L (climb signal)', 8, midY - h * 0.32);
 }
