@@ -794,3 +794,60 @@ neurons, through real weights, out to a real motor action, with the ceiling
 on its ambition set honestly by what the anatomy actually supports. Next:
 M5 — visualize the brain itself, live, split-screen next to the game, so the
 "panic button" firing (or not) is something you can actually watch happen.
+
+---
+
+## M5 — watching the panic button
+
+Everything from M4 was already real — real neurons, real weights, real
+spikes — but invisible. The brain was a black box quietly deciding to flap
+or not. M5 is purely about making that visible: a third panel, live,
+showing all 360 neurons as a small circuit diagram, each one flashing the
+instant it spikes and fading over the following 300ms.
+
+<img src="./images/m5_gameplay.gif" alt="Live gameplay with the brain panel lighting up in real time" style="max-width:100%; border-radius:6px;">
+
+### Laying out 360 real neurons so it's actually legible
+
+We don't have 3D positions for most of these neurons (soma coordinates
+exist for `LC4`/`LPLC2`, but not for `DNp01`, `GFC2–4`, or the motoneurons),
+so this isn't an anatomical map — it's a **circuit diagram**, and I laid it
+out that way on purpose: three columns, left to right, in the same order the
+real signal actually flows — visual input (`LC4`, `LPLC2`) → the Giant Fiber
+circuit (`DNp01`, `GFC2/3/4`) → wing and jump motoneurons. Same-type neurons
+group into one labelled box, packed into a small grid. It's honest about
+what it is: this tells you *which population*, not *where in the fly*.
+
+One deliberate color choice: the wing/jump motoneurons — the actual output
+of the whole circuit — render in white when firing, everything else in
+green. That population is the answer to "is it about to flap", so it earns a
+visually distinct identity rather than blending into the crowd.
+
+<img src="./images/m5_brain_closeup.png" alt="Close-up: TTMn caught mid-spike (white), DNp01 and GFC2/3 active (green), wing/flight motoneurons idle (grey)" style="max-width:340px; display:block; margin:0 auto; border-radius:6px;">
+
+This closeup, from testing, is a genuinely nice catch: `TTMn` (the jump
+motoneuron) shows one neuron white — mid-spike — right next to its idle
+partner, while `DNp01` and `GFC2`/`GFC3` show real, live activity upstream,
+and the flight/steering motoneurons on the right sit correctly idle,
+consistent with M4's finding that the full cascade doesn't always complete.
+Nothing here was staged — it's a frame grabbed from an actual running
+session.
+
+### One small but real design change: decoupling watching from driving
+
+While wiring this up, it became obvious the brain should keep running
+*regardless* of whether it's actually driving the flap. Previously the
+`b`-key toggle controlled both "does the brain run" and "does the brain's
+output flap the bird" as one setting. Now the brain ticks every frame the
+game is playing no matter what, and the toggle only gates whether its alarm
+is allowed to trigger `flap()`. Practical effect: you can fly manually and
+still watch the real circuit react underneath you — useful for exactly the
+kind of comparison M4's batch test needed, and just a better way to look at
+this thing.
+
+**M5: done.** The circuit is no longer a black box — every neuron in the
+subgraph, its type, and its exact spike timing is now something you can
+watch happen, live, next to the game it's (trying to) play. That's the last
+of the "make it visible" milestones. What's left is the hard one: M6, real
+learning via mushroom-body dopamine plasticity — and M7, putting this
+somewhere people can watch it for themselves.
