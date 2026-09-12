@@ -521,3 +521,57 @@ not just work.)
 **M1: done.** Real neurons, real weights, real cascade, real-time-capable.
 Next: M2 — an actual, playable, non-neural Flappy Bird, so there's a game for
 the brain to eventually fly.
+
+---
+
+## M2 — a real, playable Flappy Bird (no brain yet)
+
+Deliberately the least interesting milestone, and that's the point: before any
+neuroscience touches the controls, there needs to be an actual game — gravity,
+a scrolling pipe gap, collision, score, death, restart — that a keyboard can
+play correctly. Get the mechanics right and boring first, so that when M4
+swaps the keyboard for a wing motoneuron's firing rate, exactly one thing
+changes and everything else can be trusted.
+
+It's a small canvas + vanilla JS page, live in the repo at `web/`:
+
+<img src="./images/m2_gameplay.gif" alt="Flappy Bird gameplay: bird navigating pipe gaps, dying, and restarting" style="max-width:280px; display:block; margin:0 auto; border-radius:6px;">
+
+Physics is the standard arcade recipe, not a real flight model — gravity pulls
+a velocity down every frame, a flap *sets* (not adds to) that velocity upward,
+position integrates from velocity:
+
+```js
+bird.vy += GRAVITY * dt;
+bird.y += bird.vy * dt;
+// on flap: bird.vy = FLAP_VY;  (a fixed value, not cumulative --
+// otherwise holding flap would let the bird accelerate upward forever)
+```
+
+One structural choice made deliberately, with M4 already in mind: `update()`
+(physics), `flap()` (the single entry point for "go up now"), and `draw()`
+(rendering) are three separate functions, and nothing in `update()` cares
+*where* a call to `flap()` came from. Right now it's a mouse click or a
+spacebar. In M4 it'll be "the wing motoneuron's firing rate crossed a
+threshold this frame." The game doesn't need to know the difference — that
+separation is the whole point of building the game before the brain touches
+it.
+
+### Verifying it for real
+
+Console-error-free isn't the same as *correct* — a page can render its shell
+while the actual mechanics are silently broken. So this got driven headlessly
+with Playwright rather than just eyeballed: launched a local server, clicked
+into the canvas like a player would, and — rather than trust a screenshot's
+rendered score digit — read the game's actual `score`/`state`/`pipes`
+variables directly out of the page after each flap. That caught the thing a
+screenshot alone would have hidden: confirmed score increments at exactly the
+frame a pipe's trailing edge passes the bird's x-position, confirmed a
+collision correctly flips the state to `dead` and freezes physics, and
+confirmed clicking on the death screen correctly resets bird position, pipes,
+and score back to a fresh `ready` state.
+
+**M2: done.** A boring, correct, keyboard-playable Flappy Bird. Next: M3 —
+the two views. A spectator side-view of the game as normal, plus First-Fly-View
+— the same wall, rendered as the fly would actually see it: looming bars from
+ceiling and floor, closing in.
