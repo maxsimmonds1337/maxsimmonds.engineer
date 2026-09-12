@@ -100,3 +100,280 @@ Brian2/NumPy for the simulation.
 - **M7** — deploy to a watchable site.
 
 Next up: M1, the spike. Gifs to follow once there's something moving.
+
+---
+
+### A glossary, and a live toy neuron circuit you can poke at
+
+Before the spike, it's worth nailing down the vocabulary I've been throwing
+around — and, since this is a learning project, actually *building* one of the
+smallest possible pieces of it so it stops being an abstraction.
+
+**[Connectome](https://en.wikipedia.org/wiki/Connectome)** — a complete wiring
+diagram of a nervous system: every neuron, and every synapse connecting it to
+every other neuron, with a strength (synapse count) and a sign. Nothing about
+*time* or *activity* is in it — it's a parts list and a netlist, like a circuit
+schematic with no power connected yet.
+
+**[Neuron](https://en.wikipedia.org/wiki/Neuron)** — the basic signalling cell.
+It receives input from other neurons at synapses, and if that input pushes its
+internal voltage high enough, it fires.
+
+**[Spike / action potential](https://en.wikipedia.org/wiki/Action_potential)**
+— the brief, stereotyped electrical pulse a neuron fires once its voltage
+crosses a threshold. This is the unit of communication in the brain — neurons
+don't send graded voltages to each other, they send spikes (or don't).
+
+**[Chemical synapse](https://en.wikipedia.org/wiki/Chemical_synapse), excitatory
+vs. inhibitory** — the connection between two neurons, and its *sign*.
+Excitatory synapses push the receiving neuron's voltage **up** (more likely to
+spike); inhibitory synapses push it **down** (less likely). The connectome
+records which is which for every connection — this is not something we get to
+choose, it's measured.
+
+**[Descending neuron (DN)](https://en.wikipedia.org/wiki/Efferent_nerve_fiber)**
+— a neuron whose cell body and dendrites sit in the brain, but whose axon runs
+*down* into the ventral nerve cord (VNC) — literally the wire carrying a
+"decision" made in the brain out to the motor circuits that act on it. It's the
+bridge between seeing and doing. The
+[Giant Fiber (`DNp01`)](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10263144/)
+is the most famous example in flies — a single spike in it is enough to trigger
+the entire jump-and-flight escape sequence.
+
+**A "stereotyped" brain** — the surprising fact that makes any of this possible:
+individual neurons in a fly are *anatomically reproducible* across different
+flies of the species. `DNp01` isn't "a Giant-Fiber-like neuron this particular
+fly happened to grow" — it's the same identifiable cell, in the same place,
+doing the same job, in (almost) every fly. That's precisely how neurons in the
+[MANC](https://www.janelia.org/project-team/flyem/manc-connectome) dataset
+(imaged from one fly) can be matched by name to neurons in the male CNS dataset
+(imaged from a *different* fly) — you're not matching serial numbers, you're
+matching recognisable characters.
+
+**The looming detectors** — the actual visual cells this project hinges on:
+[`LC4`](https://www.virtualflybrain.org/term/lc4-fbbt_00003874/) and
+[`LPLC2`](https://www.virtualflybrain.org/term/lplc2-optic-glomerulus-fbbt_00052656/),
+lobula neurons that respond selectively to something expanding in the visual
+field — i.e. an object on a collision course — and synapse directly onto the
+Giant Fiber.
+
+#### A tiny leaky-integrate-and-fire circuit, running live
+
+Here's the smallest circuit that actually demonstrates the ingredients above:
+**leak, integrate, fire, and signed synapses.** Four neurons:
+
+- **N0 (sensory)** — the one you stimulate with the button below.
+- **N1 (fast excitatory relay)** — gets excited by N0, quickly.
+- **N2 (slow inhibitory relay)** — also gets excited by N0, but reacts more
+  sluggishly, and its output is *inhibitory*.
+- **N3 (motor)** — our stand-in for "the wing neuron." It gets excited by N1
+  and inhibited by N2. Its firing rate is the number I'd eventually read out
+  as "how hard to flap."
+
+Watch what happens as you turn the stimulus up: at low strength, nothing
+downstream fires at all. Push past a threshold and N1's *fast* excitation
+reaches N3 before N2's *slow* inhibition has caught up — so N3 gets a real,
+sustained response instead of being cancelled out immediately. This
+"fast-excite / slow-inhibit" motif is a real, common one in real nervous
+systems for exactly this reason: it lets a circuit respond to changes rather
+than just sitting at some cancelled-out steady state — which is the whole game
+when the thing you actually care about is a wall that's *looming*, not a wall
+that's simply *there*.
+
+To be clear about what this toy is **not**: it is not LC4/LPLC2/the Giant Fiber,
+the constants aren't fit to any biological data, and it's simulated with a
+plain fixed-step Euler integrator, not anything resembling Brian2. It exists
+purely so the words "leak," "integrate," "fire," "excitatory," and "inhibitory"
+have a picture attached to them before M1.
+
+<div class="lif-demo">
+  <canvas id="lifCanvas" width="700" height="340"></canvas>
+  <div class="lif-controls">
+    <button id="lifStimBtn">⚡ Stimulate N0</button>
+    <label>Strength
+      <input type="range" id="lifStrength" min="0" max="60" step="1" value="35">
+      <span id="lifStrengthVal">35</span>
+    </label>
+  </div>
+  <div class="lif-readout">
+    N3 (motor) firing rate — the "wing neuron" proxy:
+    <strong id="lifRate">0.0 Hz</strong>
+  </div>
+</div>
+
+<style>
+.lif-demo { border:1px solid #30363d; border-radius:8px; padding:1rem; margin:1.5rem 0; background:#0d1117; }
+.lif-demo canvas { width:100%; max-width:700px; display:block; margin:0 auto; background:#05070a; border-radius:6px; }
+.lif-controls { display:flex; gap:1.25rem; align-items:center; justify-content:center; margin-top:0.75rem; flex-wrap:wrap; color:#c9d1d9; font-size:0.9rem; }
+.lif-controls button { background:#238636; color:#fff; border:none; padding:0.5rem 1rem; border-radius:6px; cursor:pointer; font-size:0.9rem; }
+.lif-controls button:hover { background:#2ea043; }
+.lif-readout { text-align:center; margin-top:0.6rem; color:#c9d1d9; font-size:0.95rem; }
+.lif-readout strong { color:#58a6ff; }
+</style>
+
+<script>
+(function(){
+  const canvas = document.getElementById('lifCanvas');
+  const ctx = canvas.getContext('2d');
+
+  const vRest = -70, vThresh = -50, vReset = -65, vSpike = 10;
+
+  function makeNeuron(name, x, y, tau) {
+    return { name, x, y, tau, v: vRest, Iinj: 0, wasSpike: false, spikedThisStep: false, history: [] };
+  }
+
+  const N0 = makeNeuron('N0 sensory',   110, 170, 12);
+  const N1 = makeNeuron('N1 excitatory', 380, 90,  8);
+  const N2 = makeNeuron('N2 inhibitory', 380, 250, 30);
+  const N3 = makeNeuron('N3 motor',      620, 170, 12);
+  const neurons = [N0, N1, N2, N3];
+
+  // from -> to, weight (mV kick on arrival, sign = excitatory/inhibitory), delay (ms)
+  const synapses = [
+    { from: N0, to: N1, weight: 22,  delay: 4 },
+    { from: N0, to: N2, weight: 12,  delay: 4 },
+    { from: N1, to: N3, weight: 20,  delay: 6 },
+    { from: N2, to: N3, weight: -22, delay: 6 },
+  ];
+
+  let pending = [];   // in-flight synaptic events: { time, synapse }
+  let inFlightDots = []; // for drawing: { synapse, tStart, tArrive }
+  let simTime = 0;
+  let n3SpikeTimes = [];
+  let stimUntil = -1;
+  let strength = 35;
+
+  function stepSim(dt) {
+    simTime += dt;
+    N0.Iinj = (simTime <= stimUntil) ? strength : 0;
+
+    // deliver any synaptic events whose arrival time has passed
+    pending = pending.filter(ev => {
+      if (ev.time <= simTime) { ev.synapse.to.v += ev.synapse.weight; return false; }
+      return true;
+    });
+
+    for (const n of neurons) {
+      if (n.wasSpike) { n.v = vReset; n.wasSpike = false; }
+      // the LIF equation: leak back to rest, plus injected current, scaled by dt/tau
+      n.v += ((vRest - n.v) + n.Iinj) * (dt / n.tau);
+      n.v = Math.max(n.v, -95);
+      n.spikedThisStep = false;
+      if (n.v >= vThresh) { n.v = vSpike; n.spikedThisStep = true; n.wasSpike = true; }
+      n.history.push(n.v);
+      if (n.history.length > 260) n.history.shift();
+    }
+
+    for (const s of synapses) {
+      if (s.from.spikedThisStep) {
+        pending.push({ time: simTime + s.delay, synapse: s });
+        inFlightDots.push({ synapse: s, tStart: simTime, tArrive: simTime + s.delay });
+      }
+    }
+    inFlightDots = inFlightDots.filter(d => d.tArrive > simTime);
+
+    if (N3.spikedThisStep) n3SpikeTimes.push(simTime);
+    n3SpikeTimes = n3SpikeTimes.filter(t => simTime - t < 1000);
+  }
+
+  function colourForV(v) {
+    const f = Math.max(0, Math.min(1, (v - vRest) / (vThresh - vRest)));
+    const r = Math.round(40 + f * 200), g = Math.round(80 + f * 100), b = Math.round(160 - f * 120);
+    return `rgb(${r},${g},${b})`;
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    for (const s of synapses) {
+      ctx.strokeStyle = s.weight > 0 ? '#3fb950' : '#f85149';
+      ctx.lineWidth = Math.max(1, Math.abs(s.weight) / 22 * 3);
+      ctx.beginPath();
+      ctx.moveTo(s.from.x, s.from.y);
+      ctx.lineTo(s.to.x, s.to.y);
+      ctx.stroke();
+    }
+    for (const d of inFlightDots) {
+      const f = (simTime - d.tStart) / (d.tArrive - d.tStart);
+      const x = d.synapse.from.x + (d.synapse.to.x - d.synapse.from.x) * f;
+      const y = d.synapse.from.y + (d.synapse.to.y - d.synapse.from.y) * f;
+      ctx.fillStyle = d.synapse.weight > 0 ? '#3fb950' : '#f85149';
+      ctx.beginPath(); ctx.arc(x, y, 4, 0, 7); ctx.fill();
+    }
+
+    for (const n of neurons) {
+      const spiking = n.v === vSpike;
+      ctx.beginPath();
+      ctx.arc(n.x, n.y, 26, 0, 7);
+      ctx.fillStyle = spiking ? '#f0f6fc' : colourForV(n.v);
+      if (spiking) { ctx.shadowColor = '#f0f6fc'; ctx.shadowBlur = 20; }
+      ctx.fill();
+      ctx.shadowBlur = 0;
+      ctx.strokeStyle = '#30363d'; ctx.lineWidth = 2; ctx.stroke();
+
+      ctx.fillStyle = '#8b949e'; ctx.font = '11px monospace'; ctx.textAlign = 'center';
+      ctx.fillText(n.name, n.x, n.y - 36);
+
+      const hw = 42, hh = 24, hx = n.x - hw / 2, hy = n.y + 40;
+      ctx.strokeStyle = '#21262d'; ctx.strokeRect(hx, hy, hw, hh);
+      ctx.beginPath();
+      n.history.forEach((v, i) => {
+        const x = hx + (i / 260) * hw;
+        const y = hy + hh - ((v - (-95)) / (vSpike - (-95))) * hh;
+        i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+      });
+      ctx.strokeStyle = '#58a6ff'; ctx.lineWidth = 1; ctx.stroke();
+    }
+  }
+
+  let lastT = performance.now();
+  function frame(now) {
+    let elapsed = Math.min(now - lastT, 50);
+    lastT = now;
+    while (elapsed > 0) { stepSim(1); elapsed -= 1; }
+    draw();
+    document.getElementById('lifRate').textContent = n3SpikeTimes.length.toFixed(1) + ' Hz';
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+
+  const slider = document.getElementById('lifStrength');
+  const sliderVal = document.getElementById('lifStrengthVal');
+  slider.addEventListener('input', () => { strength = +slider.value; sliderVal.textContent = slider.value; });
+  document.getElementById('lifStimBtn').addEventListener('click', () => { stimUntil = simTime + 300; });
+})();
+</script>
+
+<details markdown="1">
+<summary>Show the code</summary>
+
+The block above is the entire demo — no libraries, just a canvas and this
+loop. The core of it is the LIF update:
+
+```js
+// the LIF equation: leak back to rest, plus injected current, scaled by dt/tau
+n.v += ((vRest - n.v) + n.Iinj) * (dt / n.tau);
+
+if (n.v >= vThresh) {
+  n.v = vSpike;        // fire
+  n.spikedThisStep = true;
+}
+// ...next step: n.v = vReset
+```
+
+And synapses are just delayed voltage kicks, positive for excitatory, negative
+for inhibitory, queued and delivered after their conduction delay:
+
+```js
+if (s.from.spikedThisStep) {
+  pending.push({ time: simTime + s.delay, synapse: s });
+}
+// later, once time has passed:
+if (ev.time <= simTime) { ev.synapse.to.v += ev.synapse.weight; }
+```
+
+That's it — the whole vocabulary (leak, integrate, fire, excitatory/inhibitory
+synapse, conduction delay) in about 40 lines. M1 is the same idea, scaled up
+to a few thousand real neurons with real weights instead of four made-up ones.
+
+</details>
