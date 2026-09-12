@@ -926,3 +926,92 @@ eventually flies into the one wall it can't avoid by flapping alone.
 **A real, quantified, honest improvement** — from adding a genuine second
 pathway and properly recalibrating for it, not from hand-tuning toward a
 number. Next: M6, the hard one.
+
+---
+
+## From a tap to a throttle
+
+One more mechanics change before M6. A real fly doesn't tap its wings once
+per decision — it holds a sustained wingbeat and modulates it, aiming to
+hold a roughly steady altitude until something actually looms. The game's
+control scheme didn't reflect that: the brain's output was a discrete,
+edge-triggered "flap now" event, closer to a keyboard press than a
+continuous muscle output.
+
+### The change
+
+`tickBrain()` now returns the real wing-motoneuron population's raw recent
+spike count — a graded "how urgent" reading — instead of a yes/no alarm.
+The bird's vertical acceleration becomes:
+
+```js
+brainThrust = Math.min(MAX_THRUST, BASE_LIFT + ALARM_GAIN * urgency);
+bird.vy += (GRAVITY - brainThrust - DRAG * bird.vy) * dt;
+```
+
+`BASE_LIFT` is a hand-set physics constant — like `GRAVITY` itself, not
+something the brain computes — that gives the bird a gentle default sink
+rather than true weightlessness, so a real burst of urgency has something
+to visibly overcome. Pipe spacing widened from 260px to 900px, so there's
+actual open space to watch this happen in, instead of wall-to-wall
+obstacles.
+
+### Measuring before guessing
+
+Rather than pick `BASE_LIFT`/`ALARM_GAIN` by feel, I first measured the
+urgency signal's real distribution during free flight: **~75% of samples
+are exactly 0**, jumping to 250–500+ only near a genuine wall. It's
+bimodal, not a smooth ambient hum — so the baseline needed to sit clearly
+below gravity (matching that quiet majority), with enough gain that a real
+burst visibly overcomes it.
+
+### A worse runaway, and why it's actually informative
+
+First attempt at continuous control was worse than the old discrete tap —
+the bird rocketed into the ceiling almost every single trial. The reason
+is genuinely interesting: climbing toward a wall's silhouette *increases*
+how much of it is in the fovea, and this non-directional circuit can only
+answer more coverage with *more* upward thrust. The old discrete-tap
+version had accidentally avoided this — a single tap decays as the bird
+falls between taps, breaking the loop naturally. A continuous throttle has
+no such built-in interruption, so the same "can't tell which way is safe"
+limitation that was merely inconvenient before became actively
+self-reinforcing here.
+
+Fixed with plain linear velocity drag — `-DRAG * bird.vy`, opposing
+whatever the bird's current velocity is, in either direction. This is a
+standard physical damping term, not a directional patch: it curbs
+momentum build-up symmetrically, it doesn't tell the bird which way is
+correct.
+
+### The result
+
+Batch-tested against doing nothing: **~1550ms average survival vs ~1300ms
+— about 19% better** — with far less run-to-run variance than earlier
+attempts, and a genuine mix of failure causes rather than one dominant
+collision type. A real, if modest, improvement, and one honest side
+effect: drag now also touches manual keyboard play, so taps feel a little
+less snappy than they did back in M2.
+
+---
+
+## The next real problem: the fly has no idea the ground and ceiling are bad
+
+This came up directly from playing it: watching the bird die repeatedly
+into a ceiling it visibly flew straight into raises the obvious question —
+shouldn't it learn not to do that?
+
+It's worth being precise about why it currently can't. Nothing in the
+circuit as built has any notion of *consequence*. Every neuron just
+transforms its input into output the same way, every single time, whether
+that output leads to survival or a wall. There's no signal anywhere that
+says "that last thing you did was bad — do less of it." That signal is
+called a **reward prediction error**, and in real flies it's carried by
+**dopaminergic neurons acting on the mushroom body** — the actual anatomical
+site where punishment and reward reshape synaptic weights based on outcome.
+
+Which is exactly M6. Not a new problem — the one this whole project has
+been building toward since the very first correction in this post (a
+connectome is fixed wiring; learning is a separate, later mechanism layered
+on top of it). The fly currently *reacts*; M6 is about giving it a reason
+to react differently next time.
