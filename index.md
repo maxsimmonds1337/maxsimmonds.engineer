@@ -7,7 +7,7 @@
   </a>
   <div class="project-meta">
     <h1><a href="./flypybird">FlyPyBird</a></h1>
-    <p class="project-dates"><strong>Start Date:</strong> 12/09/26 &nbsp;·&nbsp; <strong>Last Edited:</strong> 12/09/26 &nbsp;·&nbsp; <strong>Status:</strong> <span class="status-ongoing">Ongoing</span></p>
+    <p class="project-dates"><strong>Start Date:</strong> 12/09/26 &nbsp;·&nbsp; <strong>Last Edited:</strong> 12/09/26&nbsp;·&nbsp; <strong>Status:</strong> <span class="status-ongoing">Ongoing</span></p>
     <p class="project-blurb">Wiring a real fruit-fly connectome into a game of Flappy Bird — can biology dodge the pipes?</p>
   </div>
 </div>

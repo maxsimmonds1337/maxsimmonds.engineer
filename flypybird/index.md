@@ -1040,3 +1040,136 @@ rendered in the gap, to see whether a genuine courtship-pursuit pathway
 (steering *toward* something, which unlike escape inherently requires
 directional information) could complement the non-directional avoidance
 circuit already wired in. Worth its own investigation, not a quick add-on.
+
+---
+
+## Reorienting the readout: real left/right wiring, not a proxy
+
+A question came in that cut right to the anatomy: *"can we reorient the
+game so the fly thinks up is left and down is right?"* — because real fly
+steering circuitry is fundamentally *left/right*, not *up/down*. The wings
+are a bilateral pair either side of the body; every actual turn a fly
+makes comes from asymmetric drive to one wing versus the other.
+
+Worth being honest about what that implies: this whole project has been
+asking the visual system an up/down question it was never wired to
+answer. If genuine directional control was ever going to exist in this
+circuit, it was going to be lateral, not vertical.
+
+### Chasing the wrong pathway first
+
+The connectome has a `somaSide` annotation — real, verified L/R identity
+for every neuron, unlike the elevation estimate used since M4 (built from
+soma position, a proxy). First instinct: find a pathway that's ipsilateral
+*all the way to motor output*. There's a real one — `DNa15 → wing
+motoneuron` is 100% ipsilateral, zero cross-talk, no exceptions. But
+tracing what actually feeds DNa15 leads to the fly's central complex — LAL
+and PS-series neurons via the anterior optic tubercle — real navigation
+circuitry, but a different, much bigger piece of the brain than anything
+built so far. Modelling it properly would mean roughly 10-15 new neuron
+types, closer to standing up a new brain region than extending this one.
+
+Asked directly whether reorienting was worth it if it meant that much new
+circuitry, the answer that came back put the decision plainly: *"end goal
+is to be able to play the game — if you think it won't be able to unless
+we reorient, then we have to reorient."* Judgment call delegated, which
+meant it needed an actual answer, not a shrug.
+
+### The pathway that was already there
+
+The DNa15 route wasn't the only option — it was just the first one tried,
+and the fixation on "stays clean all the way to motor output" was itself
+the mistake. `LC4/LPLC2 → DNp01`, the very first hop of the escape circuit
+already in the model, is **100% ipsilateral** — left-eye input drives only
+left DNp01, right-eye input drives only right DNp01, checked with a direct
+Python query against the real weight matrix, zero cross-talk in either
+direction. It only washes out to bilaterally symmetric *after* that first
+hop, on the way to the wing muscles (which is exactly what made the old
+pooled-urgency readout non-directional). The fix isn't to find a pathway
+that survives all the way to motor output — it's to **read the signal one
+stage earlier**, at the descending command neuron itself, before it
+symmetrizes. Checked against all six visual types actually driving DNp01,
+not just the two originally spot-checked — same result, zero cross-talk
+across the board.
+
+So: "wall above" is now rendered as looming in the fly's **left** eye
+(real, `somaSide`-tagged LC4/LPLC2 neurons — simpler and more honest than
+the old elevation proxy, since side is ground truth, not inferred), "wall
+below" as looming in the **right** eye, and the climb decision is
+`DNp01_R` spike count minus `DNp01_L` spike count over a short trailing
+window. Positive means "right eye alarmed → floor threat → climb."
+Negative means "left eye alarmed → ceiling threat → let it sink." This is
+the first time the circuit has had a *sign* — the old readout could only
+ever add thrust, never subtract it, because it had no notion of which way
+was wrong.
+
+Worth flagging exactly as honestly as the elevation proxy always was: this
+is a genuine, verified anatomical asymmetry doing real computational work,
+but it's still a left/right encoding *chosen* for an up/down game — not
+the fly's own natural steering computation, which lives further upstream
+in the central-complex circuitry this project didn't build.
+
+### Two bugs on the way to a working signal
+
+First pass reused the old "is a wall anywhere in a wide ±20° fovea"
+gate to decide when each eye should fire. That gate fires almost
+identically on both sides for any centered, even-distant pipe — so both
+`DNp01_L` and `DNp01_R` fired together most of the time, and the
+"differential" was mostly noise from the two eyes having slightly
+different neuron counts (165 left, 146 right), not a real read of the
+bird's position. Fixed by using the actual *sign* of the geometry: the
+angle to the gap's top edge is positive while the bird is safely below it
+and only crosses toward zero once the bird has genuinely drifted up
+toward the ceiling (and the mirror image for the floor edge) — a small
+margin around that zero-crossing is a real, mutually-exclusive-ish
+early warning, not a wide double-firing band.
+
+Second bug, once the signal was actually directional: the bird kept dying
+by sinking straight into the ground between pipes, nowhere near a wall.
+The tighter, correct gating (a good thing) meant the climb signal now sits
+at exactly 0 for long stretches — the old loose gate had accidentally
+been firing almost continuously, propping the bird up on a low baseline
+lift by accident. With real, infrequent corrections, the baseline itself
+has to hold the bird near an actual hover between them. Raised `BASE_LIFT`
+from half of gravity to 92% of it — closer, in spirit, to the "a fly sets
+a sustained altitude, not a fall-then-tap rhythm" idea from a few
+milestones back — and swept `CLIMB_GAIN` and the edge margin together
+across a batch of trials to find a combination that actually threads gaps
+rather than just hovering or oscillating into a wall.
+
+### Checking it's real, not a hover in disguise
+
+A near-hover baseline is exactly the kind of thing that can produce a
+misleadingly good score with a broken or irrelevant signal riding on top
+of it — so before calling this done, the real brain was compared against
+a control with the *identical* baseline but the climb signal forcibly
+held at zero (buoyancy only, no steering). Thirty trials each:
+
+- **Real brain: average score 2.0, with runs up to 11.**
+- **Buoyancy-only control: average score 0.70, capped at 3.**
+
+The directional signal is doing real, measurable work — not just riding a
+lucky baseline. It's still a modest score by any human standard (this is
+one fly neuron per side, driven through a threshold nonlinearity, giving a
+noisy, low-resolution signal — nothing like the population-scale readout
+earlier milestones used), but the *shape* of the improvement — a real
+right tail the control never reaches — is the signature of a genuine
+directional control, not noise.
+
+<div style="text-align:center;">
+<img src="./images/reorient_gameplay.gif" alt="Gameplay after reorientation: bird using the DNp01 L/R differential to navigate pipe gaps" style="max-width:280px; display:block; margin:0 auto; border-radius:6px;">
+</div>
+
+The First-Fly-View also needed a redesign to stay honest: it still shows
+the real geometric wall shape (top/bottom bars — the fly really does see
+gap edges as looming bars), but that's no longer literally what drives the
+brain, so two side strips were added showing which eye is actually
+being fed a signal on the current frame — the real input, not just the
+picture a human finds intuitive.
+
+<div style="text-align:center;">
+<img src="./images/reorient_ffv.png" alt="Redesigned FFV with left/right eye indicator strips alongside the original wall geometry" style="max-width:420px; display:block; margin:0 auto; border-radius:6px;">
+</div>
+
+## 12/09/26
+
