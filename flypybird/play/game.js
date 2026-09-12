@@ -115,6 +115,55 @@ function update(dt) {
   }
 }
 
+// A stylised Drosophila silhouette (tan body, red compound eyes,
+// translucent wings) rather than a plain dot -- drawn with canvas
+// primitives, not an image asset, so it stays crisp at any size and
+// needs no extra file. Proportions are for legibility at game scale
+// (BIRD_R is 14px), not anatomically exact. Facing +x, since that's
+// "forward" for a bird that stays still while the world scrolls past it.
+function drawFlySprite(ctx, r) {
+  const s = r / 14;
+  ctx.save();
+
+  ctx.fillStyle = 'rgba(225,230,238,0.55)';
+  ctx.strokeStyle = 'rgba(160,170,185,0.7)';
+  ctx.lineWidth = 0.6 * s;
+  for (const sign of [1, -1]) {
+    ctx.save();
+    ctx.rotate(sign * -0.3);
+    ctx.beginPath();
+    ctx.ellipse(4 * s, sign * 5 * s, 9 * s, 3.6 * s, 0, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  ctx.fillStyle = '#c9a876';
+  ctx.beginPath();
+  ctx.ellipse(-4.5 * s, 0, 8.5 * s, 5.8 * s, 0, 0, Math.PI * 2);
+  ctx.fill();
+
+  ctx.fillStyle = '#d8bd8e';
+  ctx.beginPath();
+  ctx.ellipse(3 * s, 0, 5.6 * s, 5 * s, 0, 0, Math.PI * 2);
+  ctx.fill();
+
+  ctx.fillStyle = '#e2c99a';
+  ctx.beginPath();
+  ctx.arc(9 * s, 0, 4 * s, 0, Math.PI * 2);
+  ctx.fill();
+
+  ctx.fillStyle = '#c0392b';
+  ctx.beginPath();
+  ctx.arc(9.6 * s, -2.5 * s, 2.5 * s, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.beginPath();
+  ctx.arc(9.6 * s, 2.5 * s, 2.5 * s, 0, Math.PI * 2);
+  ctx.fill();
+
+  ctx.restore();
+}
+
 function draw() {
   ctx.clearRect(0, 0, W, H);
 
@@ -130,10 +179,7 @@ function draw() {
   ctx.save();
   ctx.translate(BIRD_X, bird.y);
   ctx.rotate(Math.max(-0.5, Math.min(1.0, bird.vy / 600)));
-  ctx.fillStyle = '#f0f6fc';
-  ctx.beginPath();
-  ctx.arc(0, 0, BIRD_R, 0, Math.PI * 2);
-  ctx.fill();
+  drawFlySprite(ctx, BIRD_R);
   ctx.restore();
 
   ctx.fillStyle = '#c9d1d9';

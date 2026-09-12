@@ -8,13 +8,13 @@
   body { display: flex; flex-direction: column; align-items: center; padding: 1.5rem 1rem; box-sizing: border-box; }
   #top { color: #8b949e; font-size: 0.85rem; margin-bottom: 1rem; max-width: 640px; text-align: center; }
   #top a { color: #3fb950; }
-  #wrap { display: flex; gap: 1.5rem; align-items: flex-start; flex-wrap: wrap; justify-content: center; max-width: 100%; }
-  .panel { text-align: center; color: #c9d1d9; max-width: 100%; }
-  .panel h2 { font-size: 0.85rem; font-weight: normal; color: #8b949e; margin: 0 0 0.4rem; text-transform: uppercase; letter-spacing: 0.05em; }
-  canvas { background: #0d1117; border: 2px solid #30363d; border-radius: 8px; display: block; max-width: 100%; height: auto; }
-  #game { width: 480px; }
-  #ffv { width: 320px; }
-  #brainviz { width: 360px; }
+  #wrap { display: flex; gap: 1.5rem; align-items: flex-start; flex-wrap: nowrap; justify-content: center; width: 100%; max-width: 1300px; }
+  .panel { text-align: center; color: #c9d1d9; min-width: 0; flex-shrink: 1; }
+  .panel:nth-child(1) { flex-basis: 480px; }
+  .panel:nth-child(2) { flex-basis: 320px; }
+  .panel:nth-child(3) { flex-basis: 360px; }
+  .panel h2 { font-size: 0.85rem; font-weight: normal; color: #8b949e; margin: 0 0 0.4rem; text-transform: uppercase; letter-spacing: 0.05em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  canvas { background: #0d1117; border: 2px solid #30363d; border-radius: 8px; display: block; width: 100%; height: auto; }
   #hint { margin-top: 0.6rem; font-size: 0.9rem; color: #8b949e; }
 </style>
 </head>

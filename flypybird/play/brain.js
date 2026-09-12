@@ -113,12 +113,16 @@ function prepare3D() {
   brain.pos3dNorm = brain.pos3d.map(p => p ? [(p[0] - cx) / scaleR, (p[1] - cy) / scaleR, (p[2] - cz) / scaleR] : null);
 }
 
-// Slow, continuous rotation around the vertical axis -- degrees per ms.
-// Chosen for legibility (a full turn takes about 25s), not measured.
-const ROT_SPEED_DEG_PER_MS = 360 / 25000;
+// A fixed viewing angle, not a live rotation -- a slow auto-spin looked
+// interesting but made it harder to actually read the anatomy at a
+// glance. 0 radians is the raw x/z orientation the real soma coordinates
+// come in, which already happens to face the point cloud roughly
+// head-on: the two optic lobes separate cleanly left/right and the VNC
+// cluster sits legibly below, so there was no reason to rotate away from it.
+const STATIC_ANGLE_RAD = 0;
 
 // Renders every neuron at its own real, measured soma position (see
-// prepare3D), rotated in 3D and projected with simple weak perspective.
+// prepare3D), projected with simple weak perspective from a fixed angle.
 // Brain neurons cluster near the top of the point cloud, VNC neurons
 // (thoracic-neuromere somas -- the real wing motoneurons live here) near
 // the bottom, because that's genuinely where their cell bodies sit -- this
@@ -145,12 +149,11 @@ function drawBrainViz(canvas, ctx, nowMs) {
   ctx.fillRect(0, 0, canvas.width, canvas.height);
   if (!brain || !brain.pos3dNorm) return;
 
-  const angleRad = (nowMs * ROT_SPEED_DEG_PER_MS) * (Math.PI / 180);
   const order = [];
   for (let i = 0; i < brain.n; i++) {
     const p = brain.pos3dNorm[i];
     if (!p) continue;
-    order.push({ i, proj: project3D(p, angleRad, canvas.width, canvas.height) });
+    order.push({ i, proj: project3D(p, STATIC_ANGLE_RAD, canvas.width, canvas.height) });
   }
   order.sort((a, b) => b.proj.depth - a.proj.depth); // back-to-front (painter's algorithm)
 
@@ -163,14 +166,15 @@ function drawBrainViz(canvas, ctx, nowMs) {
   for (const { i, proj } of order) {
     const age = nowMs - brain.lastSpikeMs[i];
     const glow = Math.max(0, 1 - age / 300); // fades over 300ms
-    const baseR = (brain.region[i] === 'vnc' ? 2.2 : 1.6) * proj.persp;
-    const r = baseR + glow * 2.5 * proj.persp;
+    const baseR = (brain.region[i] === 'vnc' ? 1.8 : 1.3) * proj.persp;
+    const r = baseR + glow * 2.8 * proj.persp;
     if (glow > 0.02) {
       ctx.fillStyle = brain.isWingMN[i] ? `rgba(240,246,252,${glow})` : `rgba(63,185,80,${glow})`;
     } else {
-      // dim, resting tint: a hair bluer for brain somas, warmer for VNC --
-      // real anatomy, not spike state, so it stays visible even when quiet.
-      ctx.fillStyle = brain.region[i] === 'vnc' ? 'rgba(224,155,90,0.35)' : 'rgba(90,140,224,0.3)';
+      // ghosted: quiet neurons fade almost into the background so the ones
+      // actually spiking are what draws the eye, rather than the resting
+      // population reading as "always lit up" and burying the signal.
+      ctx.fillStyle = brain.region[i] === 'vnc' ? 'rgba(224,155,90,0.12)' : 'rgba(90,140,224,0.1)';
     }
     ctx.beginPath();
     ctx.arc(proj.x, proj.y, Math.max(0.6, r), 0, 7);
