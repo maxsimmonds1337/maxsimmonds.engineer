@@ -8,6 +8,9 @@ diagram of a fly's nervous system — and wire it into a game of Flappy Bird. Ga
 on the left, the fly's brain lighting up on the right. Can biology dodge the
 pipes?
 
+**[▶ Play it live](./play/)** — watch the real connectome fly (or press `b` to
+take the wings yourself).
+
 This is a learning project, so I'm writing down what I get *wrong* as much as
 what I get right. Day one already corrected a big misconception of mine.
 
@@ -97,7 +100,7 @@ Brian2/NumPy for the simulation.
 - **M4** — wire the circuit in: fly-view → visual neurons; motor neuron → up/down.
 - **M5** — split-screen brain viz: neurons light up live.
 - **M6** — *later:* learning via mushroom-body/dopamine plasticity.
-- **M7** — deploy to a watchable site.
+- **M7** — deploy to a watchable site. ✅
 
 Next up: M1, the spike. Gifs to follow once there's something moving.
 
@@ -1170,6 +1173,62 @@ picture a human finds intuitive.
 <div style="text-align:center;">
 <img src="./images/reorient_ffv.png" alt="Redesigned FFV with left/right eye indicator strips alongside the original wall geometry" style="max-width:420px; display:block; margin:0 auto; border-radius:6px;">
 </div>
+
+---
+
+### A quick, honest look at M6, and why it's parked
+
+Before deploying, worth checking whether real learning (M6 — dopamine
+acting on the mushroom body, the actual mechanism flies use to reshape
+behavior from outcomes) is close enough to bolt on now. Two real, checkable
+facts settle it:
+
+**Connectivity is thin and indirect.** The connectome has real MBONs
+(mushroom body output neurons, 97 of them) and dopaminergic neurons (340).
+Direct MBON → escape-circuit edges: **zero**. At two hops, MBON output does
+reach `DNp01` (12.7% of its total input) and `DNp03` (5.7%) — but through
+**176 distinct intermediate neuron types**, none of which exist in this
+model. Wiring that in properly would mean modelling a bigger slice of the
+brain than the central-complex route already declined for the steering
+question.
+
+**Even with perfect wiring, the decision doesn't live in a synapse yet.**
+The actual up/down call is hand-written JS — `visualDrive()` assigns
+threats to eyes by geometry, `game.js` computes
+`thrust = BASE_LIFT + CLIMB_GAIN·(DNp01_R − DNp01_L)`. Dopamine could only
+ever rescale how hard a neuron fires; it can't rewrite that rule, because
+the rule isn't part of the wiring. Real M6 means relocating the decision
+into an actual plastic synapse the mushroom body can reach, plus a
+multi-episode training loop with persisted weights — a re-architecture,
+not an addition, and the biggest, riskiest undertaking in the project so
+far for an uncertain payoff.
+
+Parked, honestly, rather than built halfway. A clean negative is still a
+real finding: the looming → escape reflex is anatomically almost
+insulated from the fly's own associative learning machinery, which is
+itself a real, interesting fact about how this circuit is built.
+
+## M7 — putting it somewhere people can actually watch
+
+The project's original goal, stated on day one: get this on a site so
+people can catch it. Done — the game (all three panels: spectator view,
+First-Fly-View, live brain) is now hosted as a static page right next to
+this post, no server required beyond serving files, since the whole
+simulation — LIF sim, connectome weights, everything — runs client-side in
+the browser.
+
+**[▶ Play it live](./play/)** — press `b` to hand control back to yourself
+and see how a page full of real fly neurons stacks up against you.
+
+With M7 done and M6 knowingly parked, this is a natural pause point for
+the project. What's actually running: a real, measured connectome —
+looming detectors, the Giant Fiber escape command neuron, a verified
+ipsilateral pathway repurposed as a steering signal — reacting live to a
+game it was never evolved to play, with every limitation along the way
+(the pooled non-directional escape reflex, the reorientation trade-off,
+the mushroom-body dead end) checked against the actual wiring rather than
+assumed.
+
 
 ## 12/09/26
 

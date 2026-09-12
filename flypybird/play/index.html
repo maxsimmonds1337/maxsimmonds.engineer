@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>FlyPyBird — play it live</title>
+<style>
+  html, body { min-height: 100%; margin: 0; background: #05070a; font-family: monospace; }
+  body { display: flex; flex-direction: column; align-items: center; padding: 1.5rem 1rem; }
+  #top { color: #8b949e; font-size: 0.85rem; margin-bottom: 1rem; }
+  #top a { color: #3fb950; }
+  #wrap { display: flex; gap: 1.5rem; align-items: flex-start; flex-wrap: wrap; justify-content: center; }
+  .panel { text-align: center; color: #c9d1d9; }
+  .panel h2 { font-size: 0.85rem; font-weight: normal; color: #8b949e; margin: 0 0 0.4rem; text-transform: uppercase; letter-spacing: 0.05em; }
+  canvas { background: #0d1117; border: 2px solid #30363d; border-radius: 8px; display: block; max-width: 100%; }
+  #hint { margin-top: 0.6rem; font-size: 0.9rem; color: #8b949e; }
+</style>
+</head>
+<body>
+<div id="top"><a href="../">&larr; back to the write-up</a> &nbsp;·&nbsp; a real male <em>Drosophila</em> CNS connectome flying Flappy Bird &nbsp;·&nbsp; press <strong>b</strong> to toggle brain control (off = you fly)</div>
+<div id="wrap">
+  <div class="panel">
+    <h2>spectator view</h2>
+    <canvas id="game" width="480" height="640"></canvas>
+    <div id="hint">space / click to flap</div>
+  </div>
+  <div class="panel">
+    <h2>first fly view (FFV)</h2>
+    <canvas id="ffv" width="320" height="320"></canvas>
+  </div>
+  <div class="panel">
+    <h2>brain (691 real neurons)</h2>
+    <canvas id="brainviz" width="360" height="640"></canvas>
+  </div>
+</div>
+<script src="brain.js"></script>
+<script src="game.js"></script>
+</body>
+</html>
