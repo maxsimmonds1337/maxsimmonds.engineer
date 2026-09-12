@@ -377,3 +377,147 @@ synapse, conduction delay) in about 40 lines. M1 is the same idea, scaled up
 to a few thousand real neurons with real weights instead of four made-up ones.
 
 </details>
+
+---
+
+## M1 — the spike: real fly neurons, real weights, real cascade
+
+Time to find out if the actual risky idea holds up: can I pull real
+per-neuron wiring out of a published connectome and run a fast-enough
+simulation over it? No game yet, no vision yet — just: inject current into
+real looming-detector neurons, see if it reaches real motoneurons.
+
+### The data was easier to get than expected
+
+The full male CNS connectome — 166k neurons — turns out to be sitting in a
+[public Google Cloud bucket](https://storage.googleapis.com/storage/v1/b/flyem-male-cns/o),
+no login, no API token, just flat files. I only needed three of them:
+`body-annotations` (what type is each neuron?), `body-neurotransmitters`
+(what does each neuron release — tells us excitatory vs. inhibitory), and
+`connectome-weights` (25.5 **million** directed, weighted synaptic edges,
+502MB as a feather file, downloaded in under a minute).
+
+### Finding the real neurons
+
+First sanity check: do the neurons the literature talks about actually exist
+in this dataset, under the names I expect? Searching the annotations by
+`type`:
+
+- **`DNp01`** — 2 neurons (left + right Giant Fiber). ✅
+- **`LC4`** — 126 neurons. **`LPLC2`** — 185 neurons. ✅
+- Searching for wing/flight motoneurons turned up exactly the classic names
+  from decades of fly physiology, verbatim: `b1 MN`, `b2 MN`, `b3 MN`,
+  `i1 MN`, `i2 MN`, `iii1 MN`, `iii3 MN`, `hg1–4 MN`, `tpn MN`, `ps1 MN`
+  (wing steering muscles), `DLMn` (flight power muscle), `TTMn`
+  (tergotrochanteral — the jump muscle).
+
+Real neurons, real names, right where the textbooks say they should be.
+
+### Querying the actual wiring, not assuming it
+
+Next: does `LC4`/`LPLC2` really synapse onto `DNp01`? Querying the weights
+table directly — yes. 126 `LC4` neurons and 185 `LPLC2` neurons each send a
+real, weighted synapse onto the Giant Fiber, exactly matching the published
+circuit.
+
+Then I asked the obvious next question: does `DNp01` synapse directly onto
+any wing motoneuron? **Zero edges.** Not a bug — this matches known biology,
+the Giant Fiber doesn't wire straight to most of the wing muscles. So
+instead of assuming an intermediate neuron from memory, I just asked the data
+what `DNp01` *does* connect to, sorted by total synaptic weight. Top hits:
+`GFC2`, `GFC3`, `GFC4` (literally named "Giant Fiber Circuit" interneurons)
+and `TTMn` directly. Querying `GFC2/3/4`'s own downstream targets turned up
+`TTMn`, `DLMn`, `ps1 MN`, `b2 MN` — the bridge to the wing muscles, discovered
+from the data itself rather than assumed from a paper.
+
+Checking neurotransmitter predictions for the whole pathway — `LC4`, `LPLC2`,
+`DNp01`, `GFC2/3/4` are all acetylcholine, i.e. every synapse here is
+**excitatory**. This particular pathway is a pure, fast, feedforward relay —
+consistent with the Giant Fiber's whole reason for existing, which is speed,
+not computation.
+
+### A bug that taught me something about LIF models
+
+First sim run: `DNp01` fired beautifully, driven by real pooled input from
+`LC4`/`LPLC2` — but nothing downstream ever fired, no matter how hard I drove
+it. Tracing the voltage step by step, I'd folded the synaptic kick into the
+same `dt/tau`-scaled leak equation as the membrane leak:
+
+```python
+v += ((V_REST - v) + i_inj + syn_input) * (DT / TAU)
+```
+
+A 21mV synaptic kick was getting divided down to a ~1.4mV nudge every step,
+because I was treating it like a continuous injected current rather than a
+discrete event. This is exactly the mistake the toy JS demo above *doesn't*
+make — there, synaptic arrivals are direct, un-scaled voltage jumps,
+separate from the leak. Fixing it to match:
+
+```python
+v += ((V_REST - v) + i_inj) * (DT / TAU)   # leak + injected current: continuous
+v += prev_spiked @ W * SYN_SCALE            # synaptic arrival: instantaneous
+```
+
+immediately fixed the cascade. A synapse isn't part of the membrane's leak
+dynamics — it's a discrete event, a burst of neurotransmitter opening
+channels, and it should hit the voltage as a jump, not get smeared through
+the leak's time constant.
+
+### A second surprise: this brain is recurrent, even locally
+
+With the bug fixed, everything fired — and never stopped, long after the
+stimulus ended. Turned out 20,254 of the 21,151 edges I'd pulled between my
+11 neuron types were **lateral connections within `LC4`/`LPLC2` itself** —
+looming detectors talking to each other, not to the Giant Fiber. Real
+biology, and a legitimate thing to model eventually, but it turned my
+"stimulus in, cascade out" test into a self-sustaining loop. For this first
+spike I restricted the graph to the specific feedforward edges the escape
+circuit is known to use — 473 edges instead of 21k — and the runaway
+disappeared.
+
+### The result
+
+<img src="./images/m1_spike_raster.png" alt="Spike raster: looming input propagating through LC4/LPLC2 -> DNp01 -> GFC2/3/4 -> wing/jump motoneurons" style="max-width:100%; border-radius:6px;">
+
+Driving `LC4`/`LPLC2` with a sustained current produces a clean cascade, in
+the correct biological order: looming detectors fire, the Giant Fiber fires
+about a millisecond later, `GFC2/3/4` and the jump muscle (`TTMn`) follow a
+few milliseconds after that, and the flight-power muscles (`DLMn`) and one
+steering muscle (`ps1 MN`) fire last. That ordering — and the few-millisecond
+gaps between each stage — lines up with published Giant-Fiber escape
+latencies, which is a real (if informal) correctness check: I didn't tune
+this to match, it just came out of running real weights through a generic
+LIF equation.
+
+One honest miss: `b2 MN` (a wing steering muscle) never fires, at any
+stimulus strength I tried. Not a bug — its real incoming synaptic weight from
+`GFC2` is far weaker than `ps1 MN`'s or `DLMn`'s in this dataset, so under a
+generic, untuned LIF model it just doesn't get enough drive. A limitation to
+note, not paper over.
+
+### Does it run fast enough for a game?
+
+This was the actual point of M1. Simulating 400ms of activity across all 360
+neurons took **6.1–6.5ms of wall-clock time**, on plain NumPy, one CPU core,
+no GPU, no Brian2. That's roughly **65x faster than real-time** — the sim can
+run comfortably inside a 60fps game loop with room to spare, even before any
+optimisation.
+
+### What's real here vs. what I chose
+
+Worth being precise about this, since it's easy to blur: the connectome gave
+me the **wiring** — which neurons exist, which ones connect to which, how
+many synapses, and (via neurotransmitter) the sign. It did **not** give me
+membrane time constants, firing thresholds, or a physical unit for "synaptic
+weight in millivolts" — `TAU = 15ms` and `SYN_SCALE = 0.3` are modelling
+choices I made, not numbers read out of the data. The realistic-looking
+propagation *order* and *cascade structure* come from the real graph; the
+exact firing rates and thresholds come from generic LIF defaults. (The
+proper way to do this — fitting these constants against real calcium-imaging
+data — is what [Shiu et al. 2024](https://www.nature.com/) actually did for
+their whole-brain model. Worth revisiting once the game needs to feel right,
+not just work.)
+
+**M1: done.** Real neurons, real weights, real cascade, real-time-capable.
+Next: M2 — an actual, playable, non-neural Flappy Bird, so there's a game for
+the brain to eventually fly.
