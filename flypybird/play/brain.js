@@ -166,20 +166,33 @@ function drawBrainViz(canvas, ctx, nowMs) {
   for (const { i, proj } of order) {
     const age = nowMs - brain.lastSpikeMs[i];
     const glow = Math.max(0, 1 - age / 300); // fades over 300ms
-    const baseR = (brain.region[i] === 'vnc' ? 1.8 : 1.3) * proj.persp;
-    const r = baseR + glow * 2.8 * proj.persp;
+    const baseR = (brain.region[i] === 'vnc' ? 2 : 1.5) * proj.persp;
+    const r = baseR + glow * 3 * proj.persp;
     if (glow > 0.02) {
-      ctx.fillStyle = brain.isWingMN[i] ? `rgba(240,246,252,${glow})` : `rgba(63,185,80,${glow})`;
+      // illuminated: a real glow halo (shadowBlur), not just a bigger dot,
+      // so a firing neuron actually reads as "lit up" against the full,
+      // visible population rather than just slightly bigger than its
+      // neighbours.
+      const color = brain.isWingMN[i] ? '#f0f6fc' : '#3fb950';
+      ctx.shadowColor = color;
+      ctx.shadowBlur = 10 * glow;
+      ctx.fillStyle = color;
+      ctx.globalAlpha = Math.min(1, 0.4 + glow);
     } else {
-      // ghosted: quiet neurons fade almost into the background so the ones
-      // actually spiking are what draws the eye, rather than the resting
-      // population reading as "always lit up" and burying the signal.
-      ctx.fillStyle = brain.region[i] === 'vnc' ? 'rgba(224,155,90,0.12)' : 'rgba(90,140,224,0.1)';
+      // Every real neuron in the model stays visible at rest -- a hair
+      // bluer for brain somas, warmer for VNC -- so what you're looking at
+      // is the whole population, not just the parts that happen to be
+      // active right now. Firing neurons are then highlighted on top.
+      ctx.shadowBlur = 0;
+      ctx.globalAlpha = 1;
+      ctx.fillStyle = brain.region[i] === 'vnc' ? 'rgba(224,155,90,0.55)' : 'rgba(90,140,224,0.5)';
     }
     ctx.beginPath();
     ctx.arc(proj.x, proj.y, Math.max(0.6, r), 0, 7);
     ctx.fill();
   }
+  ctx.shadowBlur = 0;
+  ctx.globalAlpha = 1;
 }
 
 // Given the current nearest pipe (or null), decide per-visual-neuron drive.
