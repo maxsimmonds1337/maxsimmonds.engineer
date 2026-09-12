@@ -63,8 +63,9 @@ const EDGE_MARGIN_DEG = 20;
 let brain = null;
 
 async function loadBrain() {
-  const res = await fetch('brain_data.json');
+  const [res, bgRes] = await Promise.all([fetch('brain_data.json'), fetch('brain_bg.json')]);
   const data = await res.json();
+  const bg = await bgRes.json();
   const n = data.bodyIds.length;
   brain = {
     n,
@@ -85,22 +86,27 @@ async function loadBrain() {
     pos3d: data.pos3d,               // real measured soma [x,y,z] per neuron, or null
     region: data.region,             // 'brain' | 'vnc', from real somaNeuromere
     pos3dNorm: null,                 // centered/scaled once against the population
+    bgBrainPos: bg.brainPos,         // real soma positions of every OTHER modeled-CNS neuron
+    bgVncPos: bg.vncPos,             // -- decorative only, never simulated, gives the true shape
+    bgNorm: null,
+    bgCanvas: null,                  // offscreen cache: background is static, drawn once per size
   };
   prepare3D();
-  console.log(`brain loaded: ${n} neurons`);
+  console.log(`brain loaded: ${n} neurons + ${bg.brainPos.length + bg.vncPos.length} background`);
 }
 
 // Real anatomy, not a synthetic layout: centers and scales every neuron's
-// actual measured soma position once, so the viz can rotate a genuine 3D
-// point cloud shaped like the real brain + VNC rather than an artificial
-// left-to-right circuit diagram.
+// actual measured soma position once (using the full background population
+// for the fit, since it's the far larger and more representative sample),
+// so the viz can render a genuine 3D point cloud shaped like the real
+// brain + VNC rather than an artificial left-to-right circuit diagram.
 function prepare3D() {
-  const valid = brain.pos3d.filter(p => p);
-  const n = valid.length;
-  const cx = valid.reduce((a, p) => a + p[0], 0) / n;
-  const cy = valid.reduce((a, p) => a + p[1], 0) / n;
-  const cz = valid.reduce((a, p) => a + p[2], 0) / n;
-  const radii = valid.map(p => {
+  const allPos = brain.pos3d.filter(p => p).concat(brain.bgBrainPos, brain.bgVncPos);
+  const n = allPos.length;
+  const cx = allPos.reduce((a, p) => a + p[0], 0) / n;
+  const cy = allPos.reduce((a, p) => a + p[1], 0) / n;
+  const cz = allPos.reduce((a, p) => a + p[2], 0) / n;
+  const radii = allPos.map(p => {
     const dx = p[0] - cx, dy = p[1] - cy, dz = p[2] - cz;
     return Math.sqrt(dx * dx + dy * dy + dz * dz);
   }).sort((a, b) => a - b);
@@ -110,7 +116,12 @@ function prepare3D() {
   // percentile instead fills the canvas with the bulk of the population;
   // the outliers just render past the nominal unit radius, still visible.
   const scaleR = radii[Math.floor(radii.length * 0.9)] || 1;
-  brain.pos3dNorm = brain.pos3d.map(p => p ? [(p[0] - cx) / scaleR, (p[1] - cy) / scaleR, (p[2] - cz) / scaleR] : null);
+  const norm = p => [(p[0] - cx) / scaleR, (p[1] - cy) / scaleR, (p[2] - cz) / scaleR];
+  brain.pos3dNorm = brain.pos3d.map(p => p ? norm(p) : null);
+  brain.bgNorm = {
+    brain: brain.bgBrainPos.map(norm),
+    vnc: brain.bgVncPos.map(norm),
+  };
 }
 
 // A fixed viewing angle, not a live rotation -- a slow auto-spin looked
@@ -144,10 +155,39 @@ function project3D(p, angleRad, canvasW, canvasH) {
   };
 }
 
+// The ~140k background neurons are real anatomy but never simulated --
+// their positions never change, so they're rendered once to an offscreen
+// canvas and blitted every frame (one drawImage) instead of redrawing tens
+// of thousands of arcs every frame just to show a static shape.
+function buildBgCanvas(canvasW, canvasH) {
+  const off = document.createElement('canvas');
+  off.width = canvasW;
+  off.height = canvasH;
+  const octx = off.getContext('2d');
+  octx.fillStyle = 'rgba(90,140,224,0.13)';
+  for (const p of brain.bgNorm.brain) {
+    const proj = project3D(p, STATIC_ANGLE_RAD, canvasW, canvasH);
+    octx.beginPath();
+    octx.arc(proj.x, proj.y, Math.max(0.5, 0.8 * proj.persp), 0, 7);
+    octx.fill();
+  }
+  octx.fillStyle = 'rgba(224,155,90,0.15)';
+  for (const p of brain.bgNorm.vnc) {
+    const proj = project3D(p, STATIC_ANGLE_RAD, canvasW, canvasH);
+    octx.beginPath();
+    octx.arc(proj.x, proj.y, Math.max(0.5, 0.9 * proj.persp), 0, 7);
+    octx.fill();
+  }
+  return off;
+}
+
 function drawBrainViz(canvas, ctx, nowMs) {
   ctx.fillStyle = '#0d1117';
   ctx.fillRect(0, 0, canvas.width, canvas.height);
   if (!brain || !brain.pos3dNorm) return;
+
+  if (!brain.bgCanvas) brain.bgCanvas = buildBgCanvas(canvas.width, canvas.height);
+  ctx.drawImage(brain.bgCanvas, 0, 0);
 
   const order = [];
   for (let i = 0; i < brain.n; i++) {
