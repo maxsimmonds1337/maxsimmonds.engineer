@@ -1,6 +1,12 @@
 ---
 ---
 
+
+
+<div class="content-layout">
+<div class="projects-column">
+
+
 <div class="project-card">
   <a href="./flypybird" class="project-image-wrap">
     <img src="./flypybird/images/listImage.gif" alt="FlyPyBird" onerror="this.closest('.project-image-wrap').style.display='none'">
@@ -37,8 +43,6 @@
 </div>
 
 
-<div class="content-layout">
-<div class="projects-column">
 <div class="project-card">
   <a href="./second_brain_setup" class="project-image-wrap">
     <img src="./second_brain_setup/images/listImage.png" alt="Building a Self-Maintaining Second Brain" onerror="this.closest('.project-image-wrap').style.display='none'">

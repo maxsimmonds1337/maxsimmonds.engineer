@@ -37,14 +37,14 @@
     "startDate": "22/03/26",
     "lastEdited": "24/05/26",
     "status": "ongoing",
-    "blurb": "I recently utilised a linear regression machine learning algorithm at work. It was incredibly affective, and I wanted to get an intuative understanding of how it worked."
+    "blurb": "I recently utilised a linear regression machine learning algorithm at work. It was incredibly affective, and I wanted to get an intuitive understanding of how it worked."
   },
   {
     "name": "Aurora Sign",
     "folder": "aurora_sign",
     "startDate": "08/03/26",
     "lastEdited": "18/11/26",
-    "status": "abandoned",
+    "status": "ongoing",
     "blurb": "Needed a sign that said Aurora -- added cool RGB LEDs. All 3D printed."
   },
   {
